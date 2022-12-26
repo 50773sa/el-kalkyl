@@ -1,11 +1,8 @@
 import React from 'react'
 import Container from '@mui/material/Container'
-import Home from '../components/Home'
+import Home from '../components/UserHome'
 
-
-
-const Homepage = () => {
-
+const UserHomepage = () => {
 
 	return (
 		<Container>
@@ -16,4 +13,4 @@ const Homepage = () => {
 	)
 }
 
-export default Homepage
+export default UserHomepage
