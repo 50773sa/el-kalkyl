@@ -7,7 +7,7 @@ import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 
 
-const Home = () => {
+const UserHome = () => {
 
     return (
         <div className='wrapper home' id='home'>
@@ -140,4 +140,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default UserHome
