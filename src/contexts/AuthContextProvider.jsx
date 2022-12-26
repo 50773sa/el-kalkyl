@@ -24,7 +24,7 @@ const AuthContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
 
-    const signUp = async (password, email) => {
+    const signUp = async (email, password) => {
 		await createUserWithEmailAndPassword(auth, email, password)
 
 		await reloadUser()
@@ -79,9 +79,6 @@ const AuthContextProvider = ({ children }) => {
             )}
 		</AuthContext.Provider>
 	)
-    
-
-
 }
 
 export {

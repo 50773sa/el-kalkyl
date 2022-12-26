@@ -110,6 +110,9 @@ const SignUp = () => {
 								autoComplete='password'
 							/>
 						</Grid>
+
+						{error && <p>{error}</p>}
+						
 						<Grid item xs={12}>
 							<FormControlLabel
 								control={<Checkbox value="allowExtraEmails" color="primary" />}
