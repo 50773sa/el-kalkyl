@@ -18,13 +18,13 @@ const useAuthContext = () => {
 
 
 const AuthContextProvider = ({ children }) => {
-    const [userName, setUserName] = useState(null)
+	const [userName, setUserName] = useState(null)
     const [userEmail, setUserEmail] = useState(null)
     const [currentUser, setCurrentUser] = useState(null) 
     const [loading, setLoading] = useState(true)
 
 
-    const signUp = async (email, password, name) => {
+    const signUp = async (password, email) => {
 		await createUserWithEmailAndPassword(auth, email, password)
 
 		await reloadUser()
@@ -32,22 +32,17 @@ const AuthContextProvider = ({ children }) => {
 		const docRef = doc(db, 'users', auth.currentUser.uid)
         await setDoc(docRef, {
             email,
-            name,
         })
-
-        console.log('name', name)
-
     }
 
-    const login = (email, password) => {
-        console.log('login', email, password)
+    const signIn = (email, password) => {
+        console.log('signIn', email, password)
 		return signInWithEmailAndPassword(auth, email, password)
 	}
 
     const reloadUser = async () => {
 		await auth.currentUser.reload()
 		setCurrentUser(auth.currentUser)
-		setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
 
 		return true
@@ -57,22 +52,20 @@ const AuthContextProvider = ({ children }) => {
 
         return onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
-            setUserName(user?.displayName)
-            setUserEmail(user?.email)
+            setUserEmail(user?.email.toLowerCase())
             setLoading(false)
-        }), 
-        console.log('currentUser', currentUser)
+            console.log('currentUser', currentUser)
 
+        })
 
     }, [])
 
     const contextValues = {
         signUp,
-        login,
+        signIn,
         setUserEmail,
         currentUser,
 		userEmail,
-        userName,
         reloadUser,
 
 	}

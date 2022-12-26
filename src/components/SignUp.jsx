@@ -23,32 +23,24 @@ const SignUp = () => {
 	const [error, setError] = useState(null)
 
 	const emailRef = useRef()
-	const displayNameRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
-	const firstNameRef = useRef()
-	const lastNameRef = useRef()
 
-	const { signUp, setDisplayNameAndPhoto, reloadUser } = useAuthContext()
+	const { signUp, reloadUser } = useAuthContext()
 	const navigate = useNavigate()
 
-	
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
 
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
-			setError('Lösenorden matchar inte!')
-
-			return 
+			return setError('Lösenorden matchar inte!')
 		}
 		setError(null)
 
 		try {
 			setLoading(true)
 			await signUp(emailRef.current.value, passwordRef.current.value)
-
-			await setDisplayNameAndPhoto(displayNameRef.current.value)
 
 			await reloadUser()
 
@@ -80,29 +72,7 @@ const SignUp = () => {
 
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
-						<Grid item xs={12} sm={6}>
-							<TextField
-								inputRef={firstNameRef}
-								autoComplete="given-name"
-								name="firstName"
-								required
-								fullWidth
-								id="firstName"
-								label="Förnamn"
-								autoFocus
-							/>
-						</Grid>
-						<Grid item xs={12} sm={6}>
-							<TextField
-								inputRef={lastNameRef}
-								required
-								fullWidth
-								id="lastName"
-								label="Efternamn"
-								name="lastName"
-								autoComplete="family-name"
-							/>
-						</Grid>
+				
 						<Grid item xs={12}>
 							<TextField
 								inputRef={emailRef}
