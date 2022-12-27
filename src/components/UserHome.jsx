@@ -1,13 +1,16 @@
-
+import { useNavigate } from 'react-router-dom'
 // mui
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import Typography from '@mui/material/Typography';
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CardContent from '@mui/material/CardContent'
+import Typography from '@mui/material/Typography'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import { useAuthContext } from '../contexts/AuthContextProvider';
 
 
 
 const UserHome = () => {
+    const navigate = useNavigate()
+    const { currentUser } = useAuthContext()
 
     return (
         <div className='wrapper home' id='home'>
@@ -17,7 +20,7 @@ const UserHome = () => {
              */}
 
             <Card 
-                onClick={() => console.log('click')} 
+                onClick={() => navigate(`/settings/${currentUser.uid}`)} 
                 style={{ 
                     height: '50px', 
                     padding: '24px',

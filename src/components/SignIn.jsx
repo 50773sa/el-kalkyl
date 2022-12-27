@@ -32,16 +32,13 @@ const SignIn = () => {
         try {
             setLoading(true)
             await signIn(emailRef.current.value, passwordRef.current.value)
-            console.log('emailref', emailRef)
             navigate(`/user/${currentUser?.uid}`)
-            console.log('hallå')
 
         } catch (err) {
             setError(err.message)
             setLoading(false)
         }
-        console.log('curr', currentUser)
-
+        console.log('User signed in', currentUser)
     }
 
     return (

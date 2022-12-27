@@ -1,6 +1,8 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+
+import LoadingBackdrop from './LoadingBackdrop'
 
 // mui
 import Avatar from '@mui/material/Avatar'
@@ -15,18 +17,13 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 
 
-
-
-
 const SignUp = () => {
-	const [_loading, setLoading] = useState(false)
+	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
-
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
-
-	const { signUp, reloadUser } = useAuthContext()
+	const { signUp, reloadUser, currentUser } = useAuthContext()
 	const navigate = useNavigate()
 
 
@@ -41,19 +38,23 @@ const SignUp = () => {
 		try {
 			setLoading(true)
 			await signUp(emailRef.current.value, passwordRef.current.value)
-
 			await reloadUser()
-
-			navigate('/')
 			
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
+		setLoading(false)
+		navigate(`/user/${currentUser?.uid}`)
 	}
 
-  return (
+
+
+  	return (
 		<div className='wrapper signUp' id='signUp'>
+
+			{loading && <LoadingBackdrop /> }
+			
 			<Box
 				sx={{
 					marginTop: 8,
@@ -131,7 +132,7 @@ const SignUp = () => {
 
 					<Grid container justifyContent="flex-end">
 						<Grid item>
-							<Link href="/sign-in" variant="body2">
+							<Link href="/" variant="body2">
 								Har du redan ett konto? Logga in
 							</Link>
 						</Grid>

@@ -1,9 +1,12 @@
-import React from 'react'
+import Settings from '../components/Settings'
+import Container from '@mui/material/Container'
 
 const SettingsPage = () => {
-  return (
-    <div>SettingsPage</div>
-  )
+ 	return (
+    	<Container>
+			<Settings />
+      	</Container>
+    )
 }
 
 export default SettingsPage
