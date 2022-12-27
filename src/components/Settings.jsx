@@ -1,20 +1,23 @@
 import { useNavigate } from 'react-router-dom'
-import { useForm, Controller } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form"
+import { useAuthContext } from '../contexts/AuthContextProvider'
+
 
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
-import { Typography } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { Typography } from '@mui/material'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import Button from '@mui/material/Button';
 
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useAuthContext } from '../contexts/AuthContextProvider';
+
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import Box from '@mui/material/Box'
+import TextField from '@mui/material/TextField'
 
 
 const Settings = () => {
@@ -78,7 +81,11 @@ const Settings = () => {
 
             </div>
 
-            
+
+            {/**
+             *  User credentials
+             */}
+        
 
             <div className='mySettings mb-2'>
                 <Typography 
@@ -97,79 +104,85 @@ const Settings = () => {
                     autoComplete="off"
                 >
       
+                    <TextField
+                        id="outlined-helperText"
+                        label="Förnamn"
+                        helperText=" "
+                        fullWidth
+                    />        
+                        
                         <TextField
-                            id="outlined-helperText"
-                            label="Förnamn"
-                            helperText=" "
-                            fullWidth
-                        />        
-                            
-                         <TextField
-                            id="outlined-helperText"
-                            label="Efternamn"
-                            helperText=" "
+                        id="outlined-helperText"
+                        label="Efternamn"
+                        helperText=" "
 
-                            fullWidth
-                        />
+                        fullWidth
+                    />
 
-                        <TextField
-                            id="outlined-helperText"
-                            label="E-mail"
-                            defaultValue={userEmail}
-                            helperText=" "
-                            fullWidth
-                        />   
-                    </Box>
-                    <Box>
-
-
-
-
-                <Typography 
-                    variant="h6" 
-                    component="div" 
-                    textAlign='start' 
-                    marginBottom='1rem'
-                >
-                    Ändra lösenord
-                </Typography>     
-
-
-
-                <TextField
-                    required
-                    fullWidth
-                    name="currentPassword"
-                    label="Nuvarande lösenord"
-                    type="password"
-                    id="CurrentPassword"
-                    helperText=" "   
-                />   
-
-                <TextField
-                    required
-                    fullWidth
-                    name="newPassword"
-                    label="Nytt lösenord"
-                    type="password"
-                    id="newPassword"
-                    helperText=" "   
-                /> 
-
-                <TextField
-                    required
-                    fullWidth
-                    name="passwordConfirm"
-                    label="Upprepa nytt lösenord"
-                    type="password"
-                    id="passwordConfirm"
-                    helperText=" "   
-                /> 
+                    <TextField
+                        id="outlined-helperText"
+                        label="E-mail"
+                        defaultValue={userEmail}
+                        helperText=" "
+                        fullWidth
+                    />   
                 </Box>
+
+
+                {/**
+                 *  Password
+                 */}
+
+                <Box
+                    className='mb-2'
+                    component="form"
+                    noValidate
+                    autoComplete="off"
+                >
+                    <Typography 
+                        variant="h6" 
+                        component="div" 
+                        textAlign='start' 
+                        marginBottom='1rem'
+                    >
+                        Ändra lösenord
+                    </Typography>     
+
+                    <TextField
+                        required
+                        fullWidth
+                        name="currentPassword"
+                        label="Nuvarande lösenord"
+                        type="password"
+                        id="CurrentPassword"
+                        helperText=" "   
+                    />   
+
+                    <TextField
+                        required
+                        fullWidth
+                        name="newPassword"
+                        label="Nytt lösenord"
+                        type="password"
+                        id="newPassword"
+                        helperText=" "   
+                    /> 
+
+                    <TextField
+                        required
+                        fullWidth
+                        name="passwordConfirm"
+                        label="Upprepa nytt lösenord"
+                        type="password"
+                        id="passwordConfirm"
+                        helperText=" "   
+                    /> 
+                </Box>
+
+                <Button variant="contained" fullWidth>Spara ändringar</Button>
+
             </div>
-
         </div>
-
     )
 }
 
