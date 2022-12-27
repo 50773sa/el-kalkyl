@@ -7,6 +7,7 @@ import {
     createUserWithEmailAndPassword, 
     signInWithEmailAndPassword,
     updateProfile, 
+    signOut,
 } from 'firebase/auth'
 
 
@@ -46,6 +47,10 @@ const AuthContextProvider = ({ children }) => {
 		return signInWithEmailAndPassword(auth, email, password)
 	}
 
+    const signOut = () => {
+		return signOut(auth)
+	}
+
     const reloadUser = async () => {
 		await auth.currentUser.reload()
 		setCurrentUser(auth.currentUser)
@@ -75,7 +80,7 @@ const AuthContextProvider = ({ children }) => {
 		userEmail,
         userName,
         reloadUser,
-
+        signOut,
 	}
 
     return (

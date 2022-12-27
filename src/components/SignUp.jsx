@@ -30,6 +30,7 @@ const SignUp = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault()
+		setError(null)
 
 		if (passwordRef.current.value !== passwordConfirmRef.current.value) {
 			return setError('Lösenorden matchar inte!')
@@ -40,17 +41,15 @@ const SignUp = () => {
 			setLoading(true)
 			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
-
-			navigate(`/user/${currentUser?.uid}`)
 			
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
+		navigate(`/user/${currentUser?.uid}`)
 		setLoading(false)
+		console.log('id', currentUser.uid)
 	}
-
-
 
   	return (
 		<div className='wrapper signUp' id='signUp'>
@@ -95,7 +94,7 @@ const SignUp = () => {
 								required
 								fullWidth
 								id="email"
-								label="Email Adress"
+								label="Email"
 								name="email"
 								helperText=" "
 							/>

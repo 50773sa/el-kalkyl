@@ -1,14 +1,20 @@
 import React from 'react'
 import Container from '@mui/material/Container'
-import Home from '../components/UserHome'
+import UserHome from '../components/UserHome'
+import { useAuthContext } from '../contexts/AuthContextProvider'
 
 const UserHomepage = () => {
+	const { currentUser } = useAuthContext()
+
+	console.log('curr id', currentUser.uid)
 
 	return (
 		<Container>
 
-			<Home />
-
+			{currentUser && (
+				<UserHome />
+			)}
+			
 		</Container>
 	)
 }
