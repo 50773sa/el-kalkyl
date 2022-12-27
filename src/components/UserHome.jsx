@@ -10,7 +10,9 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 
 const UserHome = () => {
     const navigate = useNavigate()
-    const { currentUser } = useAuthContext()
+    const { currentUser, userName, userCompany } = useAuthContext()
+
+    console.log('usercompany', userCompany)
 
     return (
         <div className='wrapper home' id='home'>
@@ -42,9 +44,9 @@ const UserHome = () => {
                 textAlign='center' 
                 marginBottom='3rem'
             >
-                Ringsjöbadens Elservice AB <br/>
-                <em>Richie</em>
-            </Typography>
+               {userCompany}<br/>
+                <em>{userName}</em>
+                </Typography>
 
             <br/>
 
