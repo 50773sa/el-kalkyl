@@ -3,11 +3,11 @@ import React from 'react'
 import SignUp from '../components/SignUp'
 
 const SignUpPage = () => {
-  return (
-    <Container>
-        <SignUp />
-    </Container>
-  )
+    return (
+        <Container>
+            <SignUp />
+        </Container>
+    )
 }
 
 export default SignUpPage
