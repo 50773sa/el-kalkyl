@@ -20,6 +20,7 @@ import Typography from '@mui/material/Typography'
 const SignUp = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
+	const usernameRef = useRef()
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
@@ -37,15 +38,16 @@ const SignUp = () => {
 
 		try {
 			setLoading(true)
-			await signUp(emailRef.current.value, passwordRef.current.value)
+			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
+
+			navigate(`/user/${currentUser?.uid}`)
 			
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
 		setLoading(false)
-		navigate(`/user/${currentUser?.uid}`)
 	}
 
 
@@ -73,6 +75,19 @@ const SignUp = () => {
 
 				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
 					<Grid container spacing={2}>
+
+						<Grid item xs={12}>
+							<TextField
+								inputRef={usernameRef}
+								required
+								fullWidth
+								id="firstName"
+								label="Förnamn"
+								name="firstName"
+								autoComplete="firstName"
+								helperText=" "
+							/>
+						</Grid>
 				
 						<Grid item xs={12}>
 							<TextField
@@ -82,7 +97,7 @@ const SignUp = () => {
 								id="email"
 								label="Email Adress"
 								name="email"
-								autoComplete="email"
+								helperText=" "
 							/>
 						</Grid>
 
@@ -95,8 +110,8 @@ const SignUp = () => {
 								label="Lösenord"
 								type="password"
 								id="password"
-								autoComplete='password'                
-
+								autoComplete='password'      
+								helperText=" "
 							/>
 						</Grid>
 						<Grid item xs={12}>
@@ -105,7 +120,7 @@ const SignUp = () => {
 								required
 								fullWidth
 								name="passwordConfirm"
-								label="Lösenord"
+								label="Upprepa lösenord"
 								type="password"
 								id="passwordConfirm"
 								autoComplete='password'

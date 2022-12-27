@@ -5,7 +5,8 @@ import LoadingBackdrop from '../components/LoadingBackdrop'
 import { 
     onAuthStateChanged, 
     createUserWithEmailAndPassword, 
-    signInWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    updateProfile, 
 } from 'firebase/auth'
 
 
@@ -24,13 +25,18 @@ const AuthContextProvider = ({ children }) => {
     const [loading, setLoading] = useState(true)
 
 
-    const signUp = async (email, password) => {
+    const signUp = async (name, email, password) => {
 		await createUserWithEmailAndPassword(auth, email, password)
 
+        await updateProfile(auth.currentUser, {
+            displayName: name,
+        })
+        
 		await reloadUser()
 
 		const docRef = doc(db, 'users', auth.currentUser.uid)
         await setDoc(docRef, {
+            name,
             email,
         })
     }
@@ -43,6 +49,7 @@ const AuthContextProvider = ({ children }) => {
     const reloadUser = async () => {
 		await auth.currentUser.reload()
 		setCurrentUser(auth.currentUser)
+        setUserName(auth.currentUser.displayName)
 		setUserEmail(auth.currentUser.email)
 
 		return true
@@ -53,9 +60,9 @@ const AuthContextProvider = ({ children }) => {
         return onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
             setUserEmail(user?.email.toLowerCase())
+            setUserName(user?.displayName)
             setLoading(false)
             console.log('currentUser', currentUser)
-
         })
 
     }, [])
@@ -66,6 +73,7 @@ const AuthContextProvider = ({ children }) => {
         setUserEmail,
         currentUser,
 		userEmail,
+        userName,
         reloadUser,
 
 	}
