@@ -10,9 +10,8 @@ import { useAuthContext } from '../contexts/AuthContextProvider';
 
 const UserHome = () => {
     const navigate = useNavigate()
-    const { currentUser, userName, userCompany } = useAuthContext()
+    const { currentUser, userName } = useAuthContext()
 
-    console.log('usercompany', userCompany)
 
     return (
         <div className='wrapper home' id='home'>
@@ -43,10 +42,10 @@ const UserHome = () => {
                 component="div" 
                 textAlign='center' 
                 marginBottom='3rem'
-            >
-               {userCompany}<br/>
+            > Företag
+                <br/>
                 <em>{userName}</em>
-                </Typography>
+            </Typography>
 
             <br/>
 
