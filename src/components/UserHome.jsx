@@ -42,10 +42,10 @@ const UserHome = () => {
                 component="div" 
                 textAlign='center' 
                 marginBottom='3rem'
-            >
-               Företag<br/>
+            > Företag
+                <br/>
                 <em>{userName}</em>
-                </Typography>
+            </Typography>
 
             <br/>
 

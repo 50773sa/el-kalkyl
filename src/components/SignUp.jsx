@@ -41,15 +41,14 @@ const SignUp = () => {
 			setLoading(true)
 			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
-
-			navigate(`/user/${currentUser?.uid}`)
-			setLoading(false)
-			console.log('id', currentUser.uid)
 			
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
+		navigate(`/user/${currentUser?.uid}`)
+		setLoading(false)
+		console.log('id', currentUser.uid)
 	}
 
   	return (
