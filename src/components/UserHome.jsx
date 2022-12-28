@@ -82,7 +82,8 @@ const UserHome = () => {
                     flexDirection: 'row', 
                     justifyContent: 'space-between', 
                     gap: '1rem', 
-                    marginBottom: '1rem'
+                    marginBottom: '1rem',
+                    cursor: 'pointer'
                 }}
             >
                 <Card 
@@ -121,17 +122,24 @@ const UserHome = () => {
                     display: 'flex', 
                     flexDirection: 'row', 
                     justifyContent: 'space-between', 
-                    gap: '1rem'
+                    gap: '1rem',
+                    cursor: 'pointer'
                 }}
             >
-                <Card onClick={() => console.log('click')} style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center'}}>
+                <Card 
+                    onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`)} 
+                    style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center'}}
+                >
                     <CardContent className='center'>
                         <AddCircleOutlineIcon />
                     </CardContent>
 
                 </Card>
 
-                <Card onClick={() => console.log('click')} style={{ width: '80%', height: '50px', padding: '1.5rem'}}>
+                <Card 
+                    onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
+                    style={{ width: '80%', height: '50px', padding: '1.5rem'}}
+                >
                     <CardContent>
                         <Typography variant="h8" component="div" textAlign='center'>
                             Ny beräkning
