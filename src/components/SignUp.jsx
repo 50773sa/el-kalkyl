@@ -24,7 +24,7 @@ const SignUp = () => {
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
-	const { signUp, reloadUser, currentUser } = useAuthContext()
+	const { signup, reloadUser, currentUser } = useAuthContext()
 	const navigate = useNavigate()
 
 
@@ -39,7 +39,7 @@ const SignUp = () => {
 
 		try {
 			setLoading(true)
-			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
+			await signup(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
 			
 		} catch (err) {

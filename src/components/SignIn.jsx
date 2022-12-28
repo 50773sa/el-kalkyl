@@ -21,7 +21,7 @@ const SignIn = () => {
     const passwordRef = useRef()
     const [_error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const { signIn, currentUser } = useAuthContext()
+    const { signin, currentUser } = useAuthContext()
 
     const navigate = useNavigate()
 
@@ -31,14 +31,15 @@ const SignIn = () => {
 
         try {
             setLoading(true)
-            await signIn(emailRef.current.value, passwordRef.current.value)
-
+            await signin(emailRef.current.value, passwordRef.current.value)
+            setLoading(false)
         } catch (err) {
             setError(err.message)
             setLoading(false)
         }
-        setLoading(false)
         navigate(`/user/${currentUser?.uid}`)
+        setLoading(false)
+
         console.log('User signed in', currentUser)
     }
 
