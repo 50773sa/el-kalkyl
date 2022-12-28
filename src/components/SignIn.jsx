@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRef, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContextProvider';
@@ -21,7 +21,7 @@ const SignIn = () => {
     const passwordRef = useRef()
     const [_error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const { signIn, currentUser } = useAuthContext()
+    const { signin, currentUser } = useAuthContext()
 
     const navigate = useNavigate()
 
@@ -31,13 +31,15 @@ const SignIn = () => {
 
         try {
             setLoading(true)
-            await signIn(emailRef.current.value, passwordRef.current.value)
-            navigate(`/user/${currentUser?.uid}`)
-
+            await signin(emailRef.current.value, passwordRef.current.value)
+            setLoading(false)
         } catch (err) {
             setError(err.message)
             setLoading(false)
         }
+        navigate(`/user/${currentUser?.uid}`)
+        setLoading(false)
+
         console.log('User signed in', currentUser)
     }
 
