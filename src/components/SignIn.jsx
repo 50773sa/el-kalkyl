@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRef, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../contexts/AuthContextProvider';
@@ -32,12 +32,13 @@ const SignIn = () => {
         try {
             setLoading(true)
             await signIn(emailRef.current.value, passwordRef.current.value)
-            navigate(`/user/${currentUser?.uid}`)
 
         } catch (err) {
             setError(err.message)
             setLoading(false)
         }
+        setLoading(false)
+        navigate(`/user/${currentUser?.uid}`)
         console.log('User signed in', currentUser)
     }
 
