@@ -2,6 +2,7 @@
 // Import rules from subsheets
 @import 'UserHomepage';
 @import 'SettingsPage';
+@import 'AddMaterialPage';
 
 
 body {
@@ -45,4 +46,9 @@ body {
 
 .mb-2 {
   margin-bottom: 2rem;
+}
+
+
+svg {
+  cursor: pointer;
 }
