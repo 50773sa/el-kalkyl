@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form"
+import Alert from "./Alert"
 // mui
 import MenuItem from '@mui/material/MenuItem';
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -11,6 +12,9 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2";
 
 
 const AddMaterial = () => {
+    const [open, setOpen] = useState(false)
+
+
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
     const onSubmit = data => console.log(data);
     const [numbers, setNumbers] = useState([])
@@ -21,7 +25,6 @@ const AddMaterial = () => {
     const handleChange = (event) => {
       setFittingsAmount(event.target.value);
     };
-
 
     return (
         <div className='wrapper addMaterial' id='addMaterial'>
@@ -131,12 +134,15 @@ const AddMaterial = () => {
                     </Button>
                     <Button
                         fullWidth
-                        onClick={() => console.log('Avbryt')}
+                        onClick={() => {setOpen( open ? false : true)}}
                     > Avbryt
                     </Button>
                 </div>
-     
             </form>
+
+            
+            <Alert open={open} setOpen={setOpen}/> 
+
         </div>
     )
 }
