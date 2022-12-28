@@ -42,12 +42,12 @@ const AuthContextProvider = ({ children }) => {
         })
     }
 
-    const signIn = (email, password) => {
+    const signin = (email, password) => {
         console.log('signIn', email, password)
 		return signInWithEmailAndPassword(auth, email, password)
 	}
 
-    const signOut = () => {
+    const signout = () => {
 		return signOut(auth)
 	}
 
@@ -74,13 +74,13 @@ const AuthContextProvider = ({ children }) => {
 
     const contextValues = {
         signUp,
-        signIn,
+        signin,
         setUserEmail,
         currentUser,
 		userEmail,
         userName,
         reloadUser,
-        signOut,
+        signout,
 	}
 
     return (

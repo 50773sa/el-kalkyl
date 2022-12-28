@@ -1,5 +1,4 @@
 import { useNavigate } from 'react-router-dom'
-import { useForm, Controller } from "react-hook-form"
 import { useAuthContext } from '../contexts/AuthContextProvider'
 
 
@@ -21,7 +20,8 @@ import TextField from '@mui/material/TextField'
 
 
 const Settings = () => {
-    const { userEmail } = useAuthContext()
+    const { userEmail, currentUser } = useAuthContext()
+    const navigate = useNavigate()
 
 
     return (
@@ -58,7 +58,7 @@ const Settings = () => {
                 </Typography>
 
                 <List>
-                    <ListItem disablePadding>
+                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`) }>
                         <ListItemButton style={{ paddingLeft: '0'}}>
                             <AddCircleIcon />
                             <ListItemText 

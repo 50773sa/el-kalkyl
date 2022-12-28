@@ -21,7 +21,7 @@ const UserHome = () => {
              */}
 
             <Card 
-                onClick={() => navigate(`/settings/${currentUser.uid}`)} 
+                onClick={() => navigate(`/user/${currentUser.uid}/settings`)} 
                 style={{ 
                     height: '50px', 
                     padding: '24px',
