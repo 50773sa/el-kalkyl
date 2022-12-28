@@ -2,29 +2,28 @@ import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form"
 import Alert from "./Alert"
 // mui
-import MenuItem from '@mui/material/MenuItem';
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography'
-import TextField from '@mui/material/TextField'
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-
+import AddMaterialsForm from "./AddMaterialsForm";
 
 
 const AddMaterial = () => {
     const [open, setOpen] = useState(false)
-
-
+    const [form, setForm] = useState([<AddMaterialsForm/>])
+    const [fittingsAmount, setFittingsAmount] = useState()
     const { register, handleSubmit, watch, formState: { errors } } = useForm()
+
     const onSubmit = data => console.log(data);
-    const [numbers, setNumbers] = useState([])
     
-    const [fittingsAmount, setFittingsAmount] = React.useState();
-
-
     const handleChange = (event) => {
-      setFittingsAmount(event.target.value);
-    };
+         setFittingsAmount(event.target.value);
+    }
+
+    const addForm = () => {
+        setForm([...form, form])
+    }
 
     return (
         <div className='wrapper addMaterial' id='addMaterial'>
@@ -41,90 +40,19 @@ const AddMaterial = () => {
 
             <form onSubmit={handleSubmit(onSubmit)  }>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <TextField
-                            // inputRef={}
-                            required
-                            fullWidth
-                            id="productName"
-                            label="Produktnamn"
-                            name="productName"
-                            autoComplete="productName"
-                            helperText=" "
-                        />
-				    </Grid>
 
-                    <Grid item xs={6}>
-                        <TextField
-                            // inputRef={}
-                            required
-                            id="fittings"
-                            label="Tillbehör"
-                            name="fittings"
-                            autoComplete="fittings"
-                            fullWidth
-                            helperText=" "
-                        />
-				    </Grid>
-
-                    <Grid item xs={3}>
-                        <TextField
-                            required
-                            id="select"
-                            value={Number}
-                            label="Antal"
-                            onChange={handleChange}
-                            fullWidth
-                            select
-                            helperText=" "
-                            >
-                                <MenuItem value={10}>10</MenuItem>
-                        </TextField>
-				    </Grid>
-
-                    <Grid item xs={3}>
-                        <TextField
-                            required
-                            id="select"
-                            value={fittingsAmount}
-                            label="m/st"
-                            onChange={handleChange}
-                            fullWidth
-                            select
-                            helperText=" "
-
-                            >
-                                <MenuItem value={'m'}>m</MenuItem>
-                                <MenuItem value={'st'}>st</MenuItem>
-                        </TextField>
-				    </Grid>
-
-                    <Grid item xs={12}>
-                        <TextField
-                            // inputRef={}
-                            required
-                            fullWidth
-                            id="select"
-                            label="Kategori"
-                            onChange={handleChange}
-                            name="category"
-                            autoComplete="category"
-                            select
-                            helperText=" "
-                        >
-                            <MenuItem value={''}>Apparater</MenuItem>
-                            <MenuItem value={''}>Belysning</MenuItem>
-                            <MenuItem value={''}>Tele</MenuItem>
-                        </TextField>
-				    </Grid>
+                    {form && form.map((i) => (
+                        <AddMaterialsForm key={i} handleChange={handleChange} setFittingsAmount={setFittingsAmount}/> 
+                    ))}                    
 
                     <Grid item xs={12} display='flex' alignItems="center" justifyContent="end" paddingBottom="2rem" paddingTop='2rem'>
-                        <AddCircleIcon fontSize="large" onClick={() => {}} />    
-				    </Grid>
-                
+                        <AddCircleIcon fontSize="large" onClick={addForm} />    
+                    </Grid>
+                    
                 </Grid>
+            </form>
 
-                <div className="buttons">
+            <div className="buttons">
                     <Button 	
                         type="submit"
                         fullWidth
@@ -138,9 +66,7 @@ const AddMaterial = () => {
                     > Avbryt
                     </Button>
                 </div>
-            </form>
 
-            
             <Alert open={open} setOpen={setOpen}/> 
 
         </div>
