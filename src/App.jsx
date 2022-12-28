@@ -7,6 +7,7 @@ import SignInPage from './pages/SignInPage'
 import UserHomePage from './pages/UserHomePage'
 
 import './assets/scss/App.scss'
+import AddMaterialPage from './pages/AddMaterialPage'
 
 
 function App() {
@@ -18,7 +19,8 @@ function App() {
 				<Route path="/" element={<SignInPage />} /> {/* Sign in = Homepage */}
 				<Route path="/sign-up" element={<SignUpPage />} />
 				<Route path="/user/:id" element={<UserHomePage />} />
-				<Route path="/settings/:id" element={<SettingsPage />} />
+				<Route path="/user/:id/settings" element={<SettingsPage />} />
+				<Route path="/user/:id/settings/add-material" element={<AddMaterialPage/>} />
 			</Routes>
 		</div>
 	)
