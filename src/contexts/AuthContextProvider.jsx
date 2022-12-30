@@ -8,6 +8,8 @@ import {
     signInWithEmailAndPassword,
     updateProfile, 
     signOut,
+    updatePassword,
+    updateEmail
 } from 'firebase/auth'
 
 
@@ -51,6 +53,21 @@ const AuthContextProvider = ({ children }) => {
 		return signOut(auth)
 	}
 
+    const updateUserEmail = (email) => {
+		return updateEmail(auth.currentUser, email)
+	}
+
+    const updateUserPassword = (newPassword) => {
+        return updatePassword(auth.currentUser, newPassword)
+    }
+
+    const handleUpdateProfile = (displayName) => {
+        return updateProfile(auth.currentUser, {
+            displayName,
+        })
+
+    }
+
     const reloadUser = async () => {
 		await auth.currentUser.reload()
 		setCurrentUser(auth.currentUser)
@@ -64,7 +81,7 @@ const AuthContextProvider = ({ children }) => {
 
         return onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
-            setUserEmail(user?.email.toLowerCase())
+            setUserEmail(user?.email)
             setUserName(user?.displayName)
             setLoading(false)
             console.log('currentUser', currentUser)
@@ -75,12 +92,15 @@ const AuthContextProvider = ({ children }) => {
     const contextValues = {
         signUp,
         signin,
-        setUserEmail,
+        userEmail,
+        updateUserEmail,
         currentUser,
-		userEmail,
         userName,
+        setUserName,
         reloadUser,
         signout,
+        updateUserPassword,
+        handleUpdateProfile
 	}
 
     return (
