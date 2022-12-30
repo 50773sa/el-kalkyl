@@ -1,20 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import UserHome from '../components/UserHome'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import LoadingBackdrop from '../components/LoadingBackdrop'
 
 const UserHomepage = () => {
 	const { currentUser } = useAuthContext()
 
-	console.log('curr id', currentUser.uid)
 
 	return (
 		<Container>
-
-			{currentUser && (
-				<UserHome />
-			)}
-			
+				<UserHome />			
 		</Container>
 	)
 }
