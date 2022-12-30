@@ -9,7 +9,8 @@ import {
     updateProfile, 
     signOut,
     updatePassword,
-    updateEmail
+    updateEmail,
+    sendPasswordResetEmail,
 } from 'firebase/auth'
 
 
@@ -65,7 +66,10 @@ const AuthContextProvider = ({ children }) => {
         return updateProfile(auth.currentUser, {
             displayName,
         })
+    }
 
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email)
     }
 
     const reloadUser = async () => {
@@ -79,15 +83,16 @@ const AuthContextProvider = ({ children }) => {
 
     useEffect(() => {
 
-        return onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
             setUserEmail(user?.email)
             setUserName(user?.displayName)
             setLoading(false)
             console.log('currentUser', currentUser)
         })
+        return unsubscribe()
 
-    }, [])
+    }, [currentUser])
 
     const contextValues = {
         signUp,
@@ -100,7 +105,8 @@ const AuthContextProvider = ({ children }) => {
         reloadUser,
         signout,
         updateUserPassword,
-        handleUpdateProfile
+        handleUpdateProfile,
+        resetPassword,
 	}
 
     return (
