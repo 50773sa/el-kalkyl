@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useRef, useState } from 'react';
 import { useAuthContext } from '../contexts/AuthContextProvider'
 
 
@@ -8,24 +9,93 @@ import CardContent from '@mui/material/CardContent'
 import { Typography } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
-import Button from '@mui/material/Button';
-
-
+import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
+import SuccessAlert from './SuccessAlert';
+import LoadingBackdrop from './LoadingBackdrop';
 
 
 const Settings = () => {
-    const { userEmail, currentUser } = useAuthContext()
+    const [alertMsg, setAlertMsg] = useState('')
+    const [open, setOpen] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState(null)
+    const [msg, setMsg] = useState(null)
+    const userNameRef = useRef()
+    const emailRef = useRef()
+    const passwordRef = useRef()
+    const passwordConfirmRef = useRef()
+
+    const { 
+        userEmail, 
+        currentUser, 
+        userName, 
+        updateUserEmail, 
+        updateUserPassword, 
+        handleUpdateProfile, 
+        reloadUser 
+    } = useAuthContext()
+
     const navigate = useNavigate()
+
+
+
+    const handleUpdate = async (e) => {
+        e.preventDefault()
+
+        if (passwordRef.current.value !== passwordConfirmRef.current.value) {
+            return setError('Lösenorden matchar inte!')
+        }
+        console.log('hallo')
+        setError(null)
+        setMsg(null)
+
+        try {
+            setLoading(true)
+
+            // userName
+            if (userNameRef !== currentUser.displayName) {
+                await handleUpdateProfile(userNameRef.current.value)
+                console.log('username', currentUser.displayName)
+            }
+
+            // email
+            if (emailRef.current.value !== currentUser.email) {
+                await updateUserEmail(emailRef.current.value)
+                console.log('email', currentUser.email)
+
+            }
+
+            // password
+            if (passwordRef.current.value) {
+                await updateUserPassword(passwordRef.current.value)
+                console.log('password', currentUser.password)
+
+            }
+
+            await reloadUser()
+            setMsg('Profile updated')
+            setAlertMsg('Sparat!')
+            setOpen(true)
+            setLoading(false)
+
+        } catch (e) {
+            console.log('error', e)
+            setError(e.message)
+            setLoading(false)
+        }
+    }
 
 
     return (
         <div className='wrapper settings' id='settings'>
+
+            {loading ? <LoadingBackdrop /> : ''}
 
             {/** 
              * Profile button and name
@@ -102,31 +172,36 @@ const Settings = () => {
                     component="form"
                     noValidate
                     autoComplete="off"
+                    onSubmit={handleUpdate}
                 >
       
                     <TextField
+                        inputRef={userNameRef}
                         id="outlined-helperText"
                         label="Förnamn"
+                        defaultValue={userName}
                         helperText=" "
                         fullWidth
                     />        
                         
-                        <TextField
+                    {/* <TextField
+
                         id="outlined-helperText"
                         label="Efternamn"
                         helperText=" "
 
                         fullWidth
-                    />
+                    /> */}
 
                     <TextField
+                        inputRef={emailRef}
                         id="outlined-helperText"
                         label="E-mail"
                         defaultValue={userEmail}
                         helperText=" "
                         fullWidth
                     />   
-                </Box>
+            
 
 
                 {/**
@@ -135,7 +210,7 @@ const Settings = () => {
 
                 <Box
                     className='mb-2'
-                    component="form"
+                    component="div"
                     noValidate
                     autoComplete="off"
                 >
@@ -154,13 +229,14 @@ const Settings = () => {
                         name="currentPassword"
                         label="Nuvarande lösenord"
                         type="password"
-                        id="CurrentPassword"
+                        id="currentPassword"
                         helperText=" "   
                     />   
 
                     <TextField
                         required
                         fullWidth
+                        inputRef={passwordRef}
                         name="newPassword"
                         label="Nytt lösenord"
                         type="password"
@@ -171,6 +247,7 @@ const Settings = () => {
                     <TextField
                         required
                         fullWidth
+                        inputRef={passwordConfirmRef}
                         name="passwordConfirm"
                         label="Upprepa nytt lösenord"
                         type="password"
@@ -179,9 +256,16 @@ const Settings = () => {
                     /> 
                 </Box>
 
-                <Button variant="contained" fullWidth>Spara ändringar</Button>
-
+                    <Button variant="contained" type='submit' fullWidth >Spara ändringar</Button>
+                </Box>
             </div>
+
+            {/**
+             *  Alert
+             */}
+
+            <SuccessAlert alertMsg={alertMsg} open={open} setOpen={setOpen} />
+
         </div>
     )
 }
