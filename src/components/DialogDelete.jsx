@@ -12,7 +12,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const Alert = ({ open, setOpen }) => {
+const DialogDelete = ({ open, setOpen }) => {
     const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
@@ -67,12 +67,12 @@ const Alert = ({ open, setOpen }) => {
                 </div>
                
                 <DialogTitle id="alert-dialog-title">
-                    <strong>Du har inte sparat!</strong>
+                    <strong>Är du säker?</strong>
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Vill du avbryta och fortsätta med ändringarna?
+                        Valet går inte att ändra!
                     </DialogContentText>
                 </DialogContent>
 
@@ -100,4 +100,4 @@ const Alert = ({ open, setOpen }) => {
     )
 }
 
-export default Alert
+export default DialogDelete

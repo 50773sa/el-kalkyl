@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form"
-import Alert from "./Alert"
+import DialogAlert from "./DialogAlert"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button';
@@ -67,7 +67,7 @@ const AddMaterial = () => {
                     </Button>
                 </div>
 
-            <Alert open={open} setOpen={setOpen}/> 
+            <DialogAlert open={open} setOpen={setOpen}/> 
 
         </div>
     )
