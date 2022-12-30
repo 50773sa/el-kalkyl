@@ -1,51 +1,50 @@
 
+
 // Import rules from subsheets
-@import 'UserHomepage';
-@import 'SettingsPage';
 @import 'AddProjectPage';
 
 body {
-  font-family: 'Noto Sans', sans-serif;
-  margin: 0 auto;
-  padding: 0;
-  box-sizing: border-box;
+	font-family: 'Noto Sans', sans-serif;
+	margin: 0 auto;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 
 // outer container
 .container {
-  display: flex;
-  flex-direction: column;
-  width: 100vw;
-  height: 100vh;
-  box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	width: 100vw;
+	height: 100vh;
+	box-sizing: border-box;
 }
 
 // inner container
 .wrapper {
-  display: flex;
-  flex-direction: column;
-  // width: 100%;
-  min-height: 100%;
-  margin-bottom: 4rem;
-  margin-top: 2rem;
-  padding: 1rem;
-  box-sizing: border-box;
+	display: flex;
+	flex-direction: column;
+	// width: 100%;
+	min-height: 100%;
+	margin-bottom: 4rem;
+	margin-top: 2rem;
+	padding: 1rem;
+	box-sizing: border-box;
 }
 
 .center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 0 !important;
-  margin: 0 !important;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 0 !important;
+	margin: 0 !important;
 }
 
 .mb-2 {
-  margin-bottom: 2rem;
+  	margin-bottom: 2rem;
 }
 
 
 svg {
-  cursor: pointer;
+  	cursor: pointer;
 }

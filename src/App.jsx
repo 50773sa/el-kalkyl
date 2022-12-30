@@ -10,6 +10,7 @@ import AddMaterialPage from './pages/AddMaterialPage'
 import ProjectPage from './pages/ProjectPage'
 
 import './assets/scss/App.scss'
+import AllProjectsPage from './pages/AllProjectsPage'
 
 
 function App() {
@@ -25,7 +26,7 @@ function App() {
 				<Route path="/user/:id/settings/add-material" element={<AddMaterialPage/>} />
 				<Route path="/user/:id/create-project" element={<CreateProjectPage />} />
 				<Route path="/user/:id/project" element={<ProjectPage />} />
-			
+				<Route path="/user/:id/projects" element={<AllProjectsPage />} />
 			</Routes>
 		</div>
 	)

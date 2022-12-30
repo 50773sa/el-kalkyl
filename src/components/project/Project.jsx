@@ -2,7 +2,6 @@ import React from 'react'
 import Typography from '@mui/material/Typography'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import Table from './CalculationTable'
 import CalculationTable from './CalculationTable';
 
 const Project = () => {

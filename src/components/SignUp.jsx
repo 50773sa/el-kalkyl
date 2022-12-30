@@ -21,6 +21,7 @@ const SignUp = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
 	const usernameRef = useRef()
+	const companyRef = useRef()
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
@@ -39,7 +40,7 @@ const SignUp = () => {
 
 		try {
 			setLoading(true)
-			await signup(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
+			await signup(usernameRef.current.value, companyRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
 			
 		} catch (err) {
@@ -48,7 +49,7 @@ const SignUp = () => {
 		}
 		navigate(`/user/${currentUser?.uid}`)
 		setLoading(false)
-		console.log('id', currentUser.uid)
+		console.log('id', currentUser?.uid)
 	}
 
   	return (
@@ -84,6 +85,20 @@ const SignUp = () => {
 								label="Förnamn"
 								name="firstName"
 								autoComplete="firstName"
+								helperText=" "
+							/>
+						</Grid>
+
+
+						<Grid item xs={12}>
+							<TextField
+								inputRef={companyRef}
+								required
+								fullWidth
+								id="company"
+								label="Företag"
+								name="company"
+								autoComplete="company"
 								helperText=" "
 							/>
 						</Grid>
