@@ -28,11 +28,11 @@ const SignIn = () => {
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError(null)
+        setLoading(false)
 
         try {
             setLoading(true)
             await signin(emailRef.current.value, passwordRef.current.value)
-            setLoading(false)
         } catch (err) {
             setError(err.message)
             setLoading(false)
@@ -103,7 +103,7 @@ const SignIn = () => {
 
                     <Grid container>
                         <Grid item xs>
-                            <Link href="#" variant="body2">
+                            <Link href="/reset-password" variant="body2">
                                 Glömt lösenord?
                             </Link>
                         </Grid>

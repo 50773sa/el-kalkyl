@@ -24,7 +24,7 @@ const SignUp = () => {
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
-	const { signup, reloadUser, currentUser } = useAuthContext()
+	const { signUp, reloadUser, currentUser } = useAuthContext()
 	const navigate = useNavigate()
 
 
@@ -39,22 +39,28 @@ const SignUp = () => {
 
 		try {
 			setLoading(true)
-			await signup(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
+			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
-			
+		
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
-		navigate(`/user/${currentUser?.uid}`)
-		setLoading(false)
 		console.log('id', currentUser?.uid)
 	}
+
+	useEffect(() => {
+		//! dubbelkolla denna? 
+		if (currentUser?.uid !== undefined) {
+			navigate(`/user/${currentUser?.uid}`)
+			setLoading(false)
+		}
+	}, [currentUser])
 
   	return (
 		<div className='wrapper signUp' id='signUp'>
 
-			{loading && <LoadingBackdrop /> }
+			{loading ? <LoadingBackdrop /> : '' }
 			
 			<Box
 				sx={{

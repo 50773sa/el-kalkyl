@@ -12,7 +12,6 @@ const UserHome = () => {
     const navigate = useNavigate()
     const { currentUser, userName } = useAuthContext()
 
-
     return (
         <div className='wrapper home' id='home'>
 
