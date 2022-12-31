@@ -1,11 +1,12 @@
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../contexts/AuthContextProvider';
+
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { useAuthContext } from '../contexts/AuthContextProvider';
-
+import SettingsIcon from '@mui/icons-material/Settings';
 
 
 const UserHome = () => {
@@ -22,15 +23,17 @@ const UserHome = () => {
             <Card 
                 onClick={() => navigate(`/user/${currentUser.uid}/settings`)} 
                 style={{ 
-                    height: '50px', 
+                    display: 'flex',
                     padding: '24px',
-                    marginBottom: '2rem'
+                    marginBottom: '2rem',
+                    position: 'relative',
                 }}
             >
-                <CardContent>
+                <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
                     <Typography variant="h6" component="div" textAlign='center' >
                         Profile/Settings
                     </Typography>
+                    <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
 
@@ -41,8 +44,7 @@ const UserHome = () => {
                 component="div" 
                 textAlign='center' 
                 marginBottom='3rem'
-            > Företag
-                <br/>
+            > 
                 <em>{userName}</em>
             </Typography>
 
