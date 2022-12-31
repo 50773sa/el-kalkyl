@@ -10,6 +10,7 @@ import AddMaterialPage from './pages/AddMaterialPage'
 import ProjectPage from './pages/ProjectPage'
 import AllProjectsPage from './pages/AllProjectsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
+import ErrorPage from './pages/ErrorPage'
 
 import './assets/scss/App.scss'
 
@@ -30,6 +31,7 @@ function App() {
 				<Route path="/user/:id/create-project" element={<CreateProjectPage />} />
 				<Route path="/user/:id/project" element={<ProjectPage />} />
 				<Route path="/user/:id/projects" element={<AllProjectsPage />} />
+				<Route path="*" element={<ErrorPage/>} />
 			</Routes>
 		</div>
 	)

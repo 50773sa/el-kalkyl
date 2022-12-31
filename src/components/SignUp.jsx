@@ -129,6 +129,7 @@ const SignUp = () => {
 								type="password"
 								id="passwordConfirm"
 								autoComplete='password'
+								helperText=" "
 							/>
 						</Grid>
 

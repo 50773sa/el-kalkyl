@@ -19,29 +19,35 @@ import LoadingBackdrop from './LoadingBackdrop';
 const SignIn = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
-    const [_error, setError] = useState(null)
+    const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
-    const { signin, currentUser } = useAuthContext()
+    const { signin, currentUser, reloadUser } = useAuthContext()
 
     const navigate = useNavigate()
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setError(null)
-        setLoading(false)
 
         try {
             setLoading(true)
             await signin(emailRef.current.value, passwordRef.current.value)
+            await reloadUser()
+
+            if (currentUser !== null) {
+                navigate(`/user/${currentUser?.uid}`)
+                console.log('User signed in', currentUser)
+
+                setLoading(false)
+            }
+        
         } catch (err) {
             setError(err.message)
             setLoading(false)
         }
-        navigate(`/user/${currentUser?.uid}`)
-        setLoading(false)
-
-        console.log('User signed in', currentUser)
     }
+
 
     return (
         <div>
@@ -85,11 +91,13 @@ const SignIn = () => {
                         label="Lösenord"
                         type="password"
                         id="password"
-                        autoComplete="current-password"
+                        autoComplete="off"
                     />
+                    {error ? <p style={{ color: 'red', margin: '0', fontFamily: 'roboto'}}>Fel lösenord eller email!</p> : ''}
+
                     <FormControlLabel
                         control={<Checkbox value="remember" color="primary" />}
-                        label="Remember me"
+                        label="Minns mig!"
                     />
           
 
