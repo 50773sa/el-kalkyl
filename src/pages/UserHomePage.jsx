@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
 import Container from '@mui/material/Container'
 import UserHome from '../components/UserHome'
-import { useAuthContext } from '../contexts/AuthContextProvider'
-import LoadingBackdrop from '../components/LoadingBackdrop'
+import useGetUsers from '../hooks/useGetUsers'
 
 const UserHomepage = () => {
-	const { currentUser } = useAuthContext()
+	const { data } = useGetUsers()
 
+	console.log('usersQuery', data)
 
 	return (
 		<Container>
