@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider';
 
@@ -7,11 +8,25 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings';
+import EnterCompanyModal from './EnterCompanyModal.jsx';
 
 
 const UserHome = () => {
+    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(true)
     const navigate = useNavigate()
     const { currentUser, userName } = useAuthContext()
+    const [userCompany, setUserCompany] = useState(null)
+
+    useEffect(() => {
+        console.log('company',currentUser.company)
+        setLoading(true)
+        if(!currentUser.company === undefined) {
+            setOpen(true)
+            setLoading(false)
+        }
+    }, [currentUser])
+    console.log('userCompany', userCompany)
 
     return (
         <div className='wrapper home' id='home'>
@@ -31,7 +46,8 @@ const UserHome = () => {
             >
                 <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
                     <Typography variant="h6" component="div" textAlign='center' >
-                        Profile/Settings
+                        {/* Profile/Settings */}
+                        {userCompany}
                     </Typography>
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
@@ -148,6 +164,8 @@ const UserHome = () => {
                     </CardContent>
                 </Card>
             </div>
+
+            {loading ? <EnterCompanyModal open={open} setOpen={setOpen} userCompany={userCompany} setUserCompany={setUserCompany} /> : ''}
         </div>
           
     )
