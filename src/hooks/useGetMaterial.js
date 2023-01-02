@@ -14,7 +14,7 @@ const useGetMaterial = (options = {}) => {
 	// get data
 	const projectQuery = useFirestoreQueryData(collRef, queryKey, {
 		idField: 'id',
-		subscribe: true,
+		subscribe: true,			
 	})
 
 	console.log('projectQuery', projectQuery)

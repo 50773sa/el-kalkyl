@@ -5,7 +5,7 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 
 const useGetUser = () => {
 	const { currentUser } = useAuthContext()
-
+	
 	// ref to collection
 	const queryRef = query(collection(db, 'users'), where('id', '==', currentUser.uid))
 
@@ -18,7 +18,7 @@ const useGetUser = () => {
     console.log('queryRef', queryRef)
 	console.log('userQuery', userQuery)
 
-	return userQuery
+	return userQuery.data
 }
 
 export default useGetUser
