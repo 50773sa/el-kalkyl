@@ -20,18 +20,23 @@ const UserHome = () => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(true)
     const { currentUser, userName } = useAuthContext()
-	const { data } = useGetUser()
+	// const { data } = useGetUser()
+    const { id } = useParams()
+
     const navigate = useNavigate()
+    const { data } = useStreamDoc('users', id)
+	console.log('*******',data.company)
 
-    useEffect(() => {
-        setLoading(true)
-        console.log('data', data?.map(user => user.company))
 
-        if(!data) {
-            return
-        }
-        setLoading(false)
-    }, [currentUser, data])
+    // useEffect(() => {
+    //     setLoading(true)
+    //     console.log('data', data?.map(user => user.company))
+
+    //     if(!data) {
+    //         return
+    //     }
+    //     setLoading(false)
+    // }, [currentUser, data])
 
 
     return (
@@ -54,7 +59,8 @@ const UserHome = () => {
                 {loading && <LoadingBackdrop />}
 
                 <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
-                    {data ? 
+                    {data?.company}
+                    {/* {data ? 
                         data?.map((user) => (
                             <Typography key={user.id} variant="h6" component="div" textAlign='center' >
                                 {user.company}
@@ -63,7 +69,7 @@ const UserHome = () => {
                         <Typography variant="h6" component="div" textAlign='center' >
                             Profil
                         </Typography>
-                    }
+                    } */}
              
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
@@ -184,7 +190,7 @@ const UserHome = () => {
                 </Card>
             </div>
 
-            {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''}
+            {/* {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''} */}
         </div>
           
     )
