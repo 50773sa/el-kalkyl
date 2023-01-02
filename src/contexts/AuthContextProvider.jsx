@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect} from 'react'
 import { auth, db } from '../firebase'
-import { doc, setDoc } from 'firebase/firestore'
+import { doc, updateDoc, setDoc } from 'firebase/firestore'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import { 
     onAuthStateChanged, 
@@ -42,7 +42,10 @@ const AuthContextProvider = ({ children }) => {
         await setDoc(docRef, {
             name,
             email,
+            id: auth.currentUser.uid
         })
+
+
     }
 
     const signin = (email, password) => {
