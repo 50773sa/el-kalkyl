@@ -24,19 +24,18 @@ const UserHome = () => {
     const { id } = useParams()
 
     const navigate = useNavigate()
-    const { data } = useStreamDoc('users', id)
+    const { data } = useStreamDoc('users', currentUser.uid)
 	console.log('*******',data.company)
 
 
-    // useEffect(() => {
-    //     setLoading(true)
-    //     console.log('data', data?.map(user => user.company))
+    useEffect(() => {
+        setLoading(true)
 
-    //     if(!data) {
-    //         return
-    //     }
-    //     setLoading(false)
-    // }, [currentUser, data])
+        if(data.company == "" || data.company === undefined) {
+            return
+        }
+        setLoading(false)
+    }, [currentUser, data])
 
 
     return (
@@ -59,18 +58,12 @@ const UserHome = () => {
                 {loading && <LoadingBackdrop />}
 
                 <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
-                    {data?.company}
-                    {/* {data ? 
-                        data?.map((user) => (
-                            <Typography key={user.id} variant="h6" component="div" textAlign='center' >
-                                {user.company}
-                            </Typography>
-                        )): 
+                    {!loading ? (
                         <Typography variant="h6" component="div" textAlign='center' >
-                            Profil
+                            {data?.company}
                         </Typography>
-                    } */}
-             
+
+                    ): ''}
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
@@ -190,7 +183,7 @@ const UserHome = () => {
                 </Card>
             </div>
 
-            {/* {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''} */}
+            {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''}
         </div>
           
     )
