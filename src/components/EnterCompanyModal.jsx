@@ -1,6 +1,9 @@
 import { useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import { db } from '../firebase'
+import { doc, updateDoc } from 'firebase/firestore'
+
+
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -11,34 +14,37 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 
 
-const EnterCompanyModal = ({ open, setOpen, userCompany, setUserCompany }) => {
-    const companyRef = useRef()
+const EnterCompanyModal = ({ open, setOpen }) => {
     const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
+    const companyRef = useRef()
+    const { currentUser, reloadUser } = useAuthContext()
 
-    const navigate = useNavigate()
-    const { currentUser } = useAuthContext()
-
-    const handleClose = () => {
-        setOpen(false)
-    }
-
-    const handleSubmit = async (e) => {
-        e.preventDefault()
+    const onSetUserCompany = async () => {
+        const docRef = doc(db, 'users', currentUser.uid)
+        const data = { company: companyRef.current.value }
+        
         setError(null)
-
-        if (!companyRef) {
-            console.log('no comp', companyRef.length)
-        }
 
         try {
             setLoading(true)
-            setUserCompany(companyRef.current.value)
+            const update = await updateDoc(docRef, data)
             setOpen(false)
+            await reloadUser()
+            console.log('update', update)
 
         } catch (err) {
             setError(err.message)
+            console.log('error', error)
+            setLoading(false)
         }
+        console.log('doc', docRef)
+    }
+
+
+
+    const handleClose = () => {
+        setOpen(false)
     }
 
     return (
@@ -54,14 +60,13 @@ const EnterCompanyModal = ({ open, setOpen, userCompany, setUserCompany }) => {
                 </div>
             </div>
 
-            <div style={{ margin: '1.5rem'}}>
+            <div style={{ margin: '1.5rem'}} >
                 <Typography component="p" mb={1}>
                     Vill du lägga till ditt företagsnamn?
                 </Typography>
             
                     <TextField
                         inputRef={companyRef}
-                        required
                         fullWidth
                         id="company"
                         label="Företag"
@@ -75,7 +80,7 @@ const EnterCompanyModal = ({ open, setOpen, userCompany, setUserCompany }) => {
                 <Button  
                     fullWidth
                     variant="contained"
-                    onClick={handleSubmit}
+                    onClick={onSetUserCompany}
                 > 
                     Spara
                 </Button>

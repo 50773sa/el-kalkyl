@@ -1,15 +1,21 @@
+import { useParams } from 'react-router-dom'
+
 import Container from '@mui/material/Container'
 import UserHome from '../components/UserHome'
-import useGetUsers from '../hooks/useGetUsers'
+import useGetUser from '../hooks/useGetUser'
+import useStreamDoc from '../hooks/useStreamDoc'
+import { useEffect, useState } from 'react'
+import { useAuthContext } from '../contexts/AuthContextProvider'
+
 
 const UserHomepage = () => {
-	const { data } = useGetUsers()
-
-	console.log('usersQuery', data)
+	const { data } = useGetUser()
+	console.log('data', data)
 
 	return (
 		<Container>
-				<UserHome />			
+			<UserHome  />			
+			
 		</Container>
 	)
 }
