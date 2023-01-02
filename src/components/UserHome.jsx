@@ -65,8 +65,6 @@ const UserHome = () => {
                         </Typography>
                     }
              
-
-             
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
