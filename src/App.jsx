@@ -1,4 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
+import { ReactQueryDevtools } from 'react-query/devtools'
+
 // pages
 import Navigation from './components/Navigation'
 import SettingsPage from './pages/SettingsPage'
@@ -33,6 +35,8 @@ function App() {
 				<Route path="/user/:id/projects" element={<AllProjectsPage />} />
 				<Route path="*" element={<ErrorPage/>} />
 			</Routes>
+
+			<ReactQueryDevtools position='bottom-left' />
 		</div>
 	)
 }

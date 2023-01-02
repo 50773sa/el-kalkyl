@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../firebase'
 
 import LoadingBackdrop from './LoadingBackdrop'
 
@@ -21,6 +23,7 @@ const SignUp = () => {
 	const [loading, setLoading] = useState(false)
 	const [error, setError] = useState(null)
 	const usernameRef = useRef()
+	const companyRef = useRef()
 	const emailRef = useRef()
 	const passwordRef = useRef()
 	const passwordConfirmRef = useRef()
@@ -41,11 +44,19 @@ const SignUp = () => {
 			setLoading(true)
 			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
+
+			const docRef = doc(db, 'users', currentUser?.uid)
+			const data = { company: companyRef.current.value }
+
+			const update = await updateDoc(docRef, data)
+            await reloadUser()
+            console.log('update', update)
 		
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
+
 		console.log('id', currentUser?.uid)
 	}
 
@@ -90,6 +101,19 @@ const SignUp = () => {
 								label="Förnamn"
 								name="firstName"
 								autoComplete="firstName"
+								helperText=" "
+							/>
+						</Grid>
+
+						<Grid item xs={12}>
+							<TextField
+								inputRef={companyRef}
+								required
+								fullWidth
+								id="company"
+								label="Företag"
+								name="company"
+								autoComplete="company"
 								helperText=" "
 							/>
 						</Grid>

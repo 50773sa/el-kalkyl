@@ -1,16 +1,38 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../contexts/AuthContextProvider'
+import { db } from '../firebase'
+import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
+import { useParams } from 'react-router-dom'
+import useStreamDoc from '../hooks/useStreamDoc';
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { useAuthContext } from '../contexts/AuthContextProvider';
-
+import SettingsIcon from '@mui/icons-material/Settings'
+import EnterCompanyModal from './EnterCompanyModal.jsx'
+import useGetUser from '../hooks/useGetUser';
+import LoadingBackdrop from './LoadingBackdrop';
 
 
 const UserHome = () => {
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(false)
+    const [open, setOpen] = useState(true)
     const { currentUser, userName } = useAuthContext()
+	const { data } = useGetUser()
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        setLoading(true)
+        console.log('data', data?.map(user => user.company))
+
+        if(!data) {
+            return
+        }
+        setLoading(false)
+    }, [currentUser, data])
+
 
     return (
         <div className='wrapper home' id='home'>
@@ -22,15 +44,28 @@ const UserHome = () => {
             <Card 
                 onClick={() => navigate(`/user/${currentUser.uid}/settings`)} 
                 style={{ 
-                    height: '50px', 
+                    display: 'flex',
                     padding: '24px',
-                    marginBottom: '2rem'
+                    marginBottom: '2rem',
+                    position: 'relative',
+                    backgroundColor: '#7ACFFF'
                 }}
             >
-                <CardContent>
-                    <Typography variant="h6" component="div" textAlign='center' >
-                        Profile/Settings
-                    </Typography>
+                {loading && <LoadingBackdrop />}
+
+                <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
+                    {data ? 
+                        data?.map((user) => (
+                            <Typography key={user.id} variant="h6" component="div" textAlign='center' >
+                                {user.company}
+                            </Typography>
+                        )): 
+                        <Typography variant="h6" component="div" textAlign='center' >
+                            Profil
+                        </Typography>
+                    }
+             
+                    <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
 
@@ -41,8 +76,7 @@ const UserHome = () => {
                 component="div" 
                 textAlign='center' 
                 marginBottom='3rem'
-            > Företag
-                <br/>
+            > 
                 <em>{userName}</em>
             </Typography>
 
@@ -90,7 +124,8 @@ const UserHome = () => {
                     style={{ 
                         width: '80%',
                         height: '50px', 
-                        padding: '1.5rem'
+                        padding: '1.5rem',
+                        backgroundColor: '#DC822F',
                     }}
                 >
                     <CardContent>
@@ -105,7 +140,9 @@ const UserHome = () => {
                     style={{
                         width: '20%',
                         height: '50px', 
-                        padding: '1.5rem'
+                        padding: '1.5rem',
+                        backgroundColor: '#CBC309',
+
                     }}
                 >
                     <CardContent>
@@ -122,12 +159,12 @@ const UserHome = () => {
                     flexDirection: 'row', 
                     justifyContent: 'space-between', 
                     gap: '1rem',
-                    cursor: 'pointer'
+                    cursor: 'pointer',
                 }}
             >
                 <Card 
                     onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`)} 
-                    style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center'}}
+                    style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#68A5EC' }}
                 >
                     <CardContent className='center'>
                         <AddCircleOutlineIcon />
@@ -137,7 +174,7 @@ const UserHome = () => {
 
                 <Card 
                     onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
-                    style={{ width: '80%', height: '50px', padding: '1.5rem'}}
+                    style={{ width: '80%', height: '50px', padding: '1.5rem', backgroundColor: '#68C37C' }}
                 >
                     <CardContent>
                         <Typography variant="h8" component="div" textAlign='center'>
@@ -146,6 +183,8 @@ const UserHome = () => {
                     </CardContent>
                 </Card>
             </div>
+
+            {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''}
         </div>
           
     )

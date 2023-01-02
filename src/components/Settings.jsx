@@ -171,16 +171,16 @@ const Settings = () => {
                     className='mb-2'
                     component="form"
                     noValidate
-                    autoComplete="off"
                     onSubmit={handleUpdate}
                 >
       
                     <TextField
                         inputRef={userNameRef}
-                        id="outlined-helperText"
+                        id="firstName"
                         label="Förnamn"
                         defaultValue={userName}
                         helperText=" "
+                        autoComplete="off"
                         fullWidth
                     />        
                         
@@ -195,10 +195,11 @@ const Settings = () => {
 
                     <TextField
                         inputRef={emailRef}
-                        id="outlined-helperText"
+                        id="email"
                         label="E-mail"
                         defaultValue={userEmail}
                         helperText=" "
+                        autoComplete="off"
                         fullWidth
                     />   
             
@@ -219,6 +220,7 @@ const Settings = () => {
                         component="div" 
                         textAlign='start' 
                         marginBottom='1rem'
+                        autoComplete="off"
                     >
                         Ändra lösenord
                     </Typography>     
@@ -231,6 +233,7 @@ const Settings = () => {
                         type="password"
                         id="currentPassword"
                         helperText=" "   
+                        autoComplete="off"
                     />   
 
                     <TextField
@@ -242,6 +245,7 @@ const Settings = () => {
                         type="password"
                         id="newPassword"
                         helperText=" "   
+                        autoComplete="off"
                     /> 
 
                     <TextField
@@ -252,6 +256,7 @@ const Settings = () => {
                         label="Upprepa nytt lösenord"
                         type="password"
                         id="passwordConfirm"
+                        autoComplete="off"
                         helperText=" "   
                     /> 
                 </Box>
