@@ -1,83 +1,82 @@
+import { useController, useForm } from "react-hook-form";
+
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
 
-const AddMaterialsForm = ({ handleChange, fittingsAmount }) => {
+const AddMaterialsForm = ({ register, amountList, unitsList }) => {
+
     return (
         <>
-            <Grid item xs={12}>
+            <Grid item xs={12} sm={6}>
                 <TextField
-                    // inputRef={}
                     required
-                    fullWidth
-                    id="productName"
-                    label="Produktnamn"
-                    name="productName"
-                    autoComplete="productName"
-                />
-            </Grid>
-
-            <Grid item xs={6}>
-                <TextField
-                    // inputRef={}
-                    required
-                    id="fittings"
+                    id="item"
                     label="Tillbehör"
-                    name="fittings"
-                    autoComplete="fittings"
+                    name="item"
+                    autoComplete="item"
                     fullWidth
+
+                    {...register("item", {
+                        minLength: { value: 1, message: 'Obligatoriskt fält'}
+                    })}
                 />
             </Grid>
 
-            <Grid item xs={3}>
+            {/**
+             *  Amount
+             */}
+
+            <Grid item xs={6} sm={3}>
                 <TextField
+                    select
                     required
-                    id="select"
-                    value={Number}
+                    id="amount"
                     label="Antal"
-                    onChange={handleChange}
                     fullWidth
-                    select
+
+                    {...register("amount", {
+                        minLength: { value: 1, message: 'Obligatoriskt fält'}
+                    })}
+
                 >
-                    <MenuItem value={10}>10</MenuItem>
+                    {amountList.map((val) => (
+                        <MenuItem key={val.amount} value={val.amount}>
+                            {val.value}
+                        </MenuItem>
+
+                    ))}
                 </TextField>
             </Grid>
 
-            <Grid item xs={3}>
+            {/**
+             *  Units
+             */}
+
+            <Grid item xs={6} sm={3}>
                 <TextField
-                    required
-                    id="select"
-                    value={fittingsAmount}
-                    label="m/st"
-                    onChange={handleChange}
-                    fullWidth
                     select
+                    required
+                    label="st/m"
+                    fullWidth
+
+                    {...register("unit", {
+                        minLength: { value: 1, message: 'Obligatoriskt fält'}
+                    })}
                 >
-                    <MenuItem value={'m'}>m</MenuItem>
-                    <MenuItem value={'st'}>st</MenuItem>
+                    
+                    {unitsList.map((option) => (
+                        <MenuItem key={option.unit} value={option.unit}>
+                            {option.value}
+                        </MenuItem>
+                    ))}
+
+                    
                 </TextField>
             </Grid>
 
-                <Grid item xs={12}>
-                    <TextField
-                        // inputRef={}
-                        required
-                        fullWidth
-                        id="select"
-                        label="Kategori"
-                        onChange={handleChange}
-                        name="category"
-                        autoComplete="category"
-                        select
-                        helperText=" "
-                    >
-                        <MenuItem value={''}>Apparater</MenuItem>
-                        <MenuItem value={''}>Belysning</MenuItem>
-                        <MenuItem value={''}>Tele</MenuItem>
-                </TextField>
-            </Grid>
         </>
     )
 }
