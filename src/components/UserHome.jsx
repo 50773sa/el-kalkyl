@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import { db } from '../firebase'
-import { collection, doc, getDoc, updateDoc } from 'firebase/firestore'
-import { useParams } from 'react-router-dom'
 import useStreamDoc from '../hooks/useStreamDoc';
 // mui
 import Card from '@mui/material/Card';
@@ -12,7 +9,6 @@ import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
 import EnterCompanyModal from './EnterCompanyModal.jsx'
-import useGetUser from '../hooks/useGetUser';
 import LoadingBackdrop from './LoadingBackdrop';
 
 
@@ -20,8 +16,6 @@ const UserHome = () => {
     const [loading, setLoading] = useState(false)
     const [open, setOpen] = useState(true)
     const { currentUser, userName } = useAuthContext()
-	// const { data } = useGetUser()
-    const { id } = useParams()
 
     const navigate = useNavigate()
     const { data } = useStreamDoc('users', currentUser.uid)
@@ -67,8 +61,6 @@ const UserHome = () => {
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
-
-            {/*//! Ändra till dynamiska namn */}
 
             <Typography 
                 variant="h7" 
