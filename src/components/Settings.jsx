@@ -130,7 +130,7 @@ const Settings = () => {
                 </Typography>
 
                 <List>
-                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`) }>
+                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`) }>
                         <ListItemButton style={{ paddingLeft: '0'}}>
                             <AddCircleIcon />
                             <ListItemText 
