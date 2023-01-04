@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'

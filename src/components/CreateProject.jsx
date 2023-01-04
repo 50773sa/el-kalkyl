@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import AddMaterialsForm from "./AddMaterialsForm";
+import AddMaterialsForm from "./CreateMaterialForm";
 import TextField from '@mui/material/TextField'
 import PropTypes from 'prop-types';
 import Tabs from '@mui/material/Tabs';
@@ -13,7 +13,7 @@ import {TabContext} from '@mui/lab';
 import TabList from '@mui/lab/Tablist';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { MenuItem } from '@mui/material';
-import DialogAlert from './DialogAlert';
+import LeavePageAlert from './modals/LeavePageAlert';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -25,6 +25,7 @@ import Checkbox from '@mui/material/Checkbox';
 const CreateProject = () => {
     const [value, setValue] = useState('1')
     const [open, setOpen] = useState(false)
+    const [projectName, setProjectName] = useState()
 
 
     const handleChange = (event, newValue) => {
@@ -72,8 +73,6 @@ const CreateProject = () => {
                             autoComplete="projectName"
                         />
                     </Grid>
-
-               
 
                     <TabContext value={value}>
                         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
@@ -166,7 +165,7 @@ const CreateProject = () => {
                 </Button>
             </Grid>
 
-            <DialogAlert open={open} setOpen={setOpen}/> 
+            <LeavePageAlert open={open} setOpen={setOpen}/> 
         
         </div>
     )

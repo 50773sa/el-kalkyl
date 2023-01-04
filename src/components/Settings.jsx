@@ -1,7 +1,9 @@
+import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useRef, useState } from 'react';
 import { useAuthContext } from '../contexts/AuthContextProvider'
-
+import useStreamDoc from '../hooks/useStreamDoc';
+import SuccessAlert from '../components/modals/SuccessAlert'
+import LoadingBackdrop from './LoadingBackdrop'
 
 // mui
 import Card from '@mui/material/Card';
@@ -16,8 +18,6 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
-import SuccessAlert from './SuccessAlert';
-import LoadingBackdrop from './LoadingBackdrop';
 
 
 const Settings = () => {
@@ -30,6 +30,7 @@ const Settings = () => {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
+    const navigate = useNavigate()
 
     const { 
         userEmail, 
@@ -41,7 +42,8 @@ const Settings = () => {
         reloadUser 
     } = useAuthContext()
 
-    const navigate = useNavigate()
+    const { data } = useStreamDoc('users', currentUser.uid)
+	console.log('*******',data.company)
 
 
 
@@ -111,8 +113,8 @@ const Settings = () => {
             >
                 <CardContent>
                     <Typography variant="h7" component="div" textAlign='center' >
-                        Ringsjöbadens Elservice AB <br/>
-                        <em>Richie</em> 
+                        {data?.company}<br/>
+                        <em>{userName}</em>  
                     </Typography>
                 </CardContent>
             </Card>
@@ -128,7 +130,7 @@ const Settings = () => {
                 </Typography>
 
                 <List>
-                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`) }>
+                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`) }>
                         <ListItemButton style={{ paddingLeft: '0'}}>
                             <AddCircleIcon />
                             <ListItemText 
@@ -184,15 +186,6 @@ const Settings = () => {
                         fullWidth
                     />        
                         
-                    {/* <TextField
-
-                        id="outlined-helperText"
-                        label="Efternamn"
-                        helperText=" "
-
-                        fullWidth
-                    /> */}
-
                     <TextField
                         inputRef={emailRef}
                         id="email"
@@ -224,17 +217,6 @@ const Settings = () => {
                     >
                         Ändra lösenord
                     </Typography>     
-
-                    <TextField
-                        required
-                        fullWidth
-                        name="currentPassword"
-                        label="Nuvarande lösenord"
-                        type="password"
-                        id="currentPassword"
-                        helperText=" "   
-                        autoComplete="off"
-                    />   
 
                     <TextField
                         required

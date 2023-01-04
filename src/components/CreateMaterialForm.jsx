@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
 
-const AddMaterialsForm = ({ register, amountList, unitsList, errors }) => {
+const CreateMaterialForm = ({ register, amountList, unitsList, errors }) => {
  
 
     return (
@@ -93,4 +93,4 @@ const AddMaterialsForm = ({ register, amountList, unitsList, errors }) => {
     )
 }
 
-export default AddMaterialsForm
+export default CreateMaterialForm
