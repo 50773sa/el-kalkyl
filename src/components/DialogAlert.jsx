@@ -12,18 +12,18 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DialogAlert = ({ open, setOpen }) => {
+const DialogAlert = ({ openModal, setOpenModal }) => {
     const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
     const handleClose = () => {
-      setOpen(false)
+      setOpenModal(false)
     }
 
     return (
         <div>
             <Dialog
-                open={open}
+                openModal={openModal}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
