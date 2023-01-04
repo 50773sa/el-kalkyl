@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useAuthContext } from "../contexts/AuthContextProvider";
 import { db } from '../firebase';
-import AddMaterialsForm from "./AddMaterialsForm";
-import DialogAlert from "./DialogAlert";
+import AddMaterialsForm from "./CreateMaterialForm";
+import LeavePageAlert from "./modals/LeavePageAlert";
 
 
 // mui
@@ -14,7 +14,7 @@ import MenuItem from '@mui/material/MenuItem';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import SuccessAlert from "./SuccessAlert";
+import SuccessAlert from "./modals/SuccessAlert";
 
 // dropdowns
 const unitsList = [
@@ -31,9 +31,8 @@ const amounts = [...new Array(101)].map((each, index) => ({ amount: index, value
 const hours = [...new Array(12)].map((each, index) => ({ hours: index, value: index }))
 
 
-const AddMaterial = () => {
+const CreateMaterial = () => {
     const [open, setOpen] = useState(false)
-    const [openModal, setOpenModal] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const [successMsg, setSuccessMsg] = useState('')
@@ -297,18 +296,18 @@ const AddMaterial = () => {
                     </Button>
                     <Button
                         fullWidth
-                        onClick={() => {setOpenModal(true)}}
+                        onClick={() => {setOpen(true)}}
                     > Avbryt
                     </Button>
                 </div>
             </form>
 
-            {/* {openModal ? <DialogAlert openModal={openModal} setOpenModal={setOpenModal} /> : ''} */}
+            {open ? <LeavePageAlert open={open} setOpen={setOpen} /> : ''}
 
-            {open ? <SuccessAlert open={open} setOpen={setOpen} /> : ''}
+            {success && open ? <SuccessAlert open={open} setOpen={setOpen} /> : ''}
 
         </div>
     )
 }
 
-export default AddMaterial
+export default CreateMaterial

@@ -1,15 +1,15 @@
 import Container from "@mui/system/Container"
-import AddMaterial from "../components/AddMaterial"
+import CreateMaterial from "../components/CreateMaterial"
 import { useAuthContext } from "../contexts/AuthContextProvider"
 
-const AddMaterialPage = () => {
+const CreateMaterialPage = () => {
     const { currentUser } = useAuthContext()
 
     return (
         <Container>
 
             {currentUser && (
-                <AddMaterial />
+                <CreateMaterial />
             )}
             
         </Container>
@@ -17,4 +17,4 @@ const AddMaterialPage = () => {
     )
 }
 
-export default AddMaterialPage
+export default CreateMaterialPage

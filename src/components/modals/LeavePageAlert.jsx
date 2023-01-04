@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -12,18 +12,18 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DialogAlert = ({ openModal, setOpenModal }) => {
+const LeavePageAlert = ({ open, setOpen }) => {
     const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
     const handleClose = () => {
-      setOpenModal(false)
+      setOpen(false)
     }
 
     return (
         <div>
             <Dialog
-                openModal={openModal}
+                open={open}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -100,4 +100,4 @@ const DialogAlert = ({ openModal, setOpenModal }) => {
     )
 }
 
-export default DialogAlert
+export default LeavePageAlert
