@@ -1,28 +1,30 @@
-import { useController, useForm } from "react-hook-form";
-
+import { uuidv4 } from "@firebase/util"
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
 
-const AddMaterialsForm = ({ register, amountList, unitsList }) => {
+const AddMaterialsForm = ({ register, amountList, unitsList, errors }) => {
+ 
 
     return (
         <>
             <Grid item xs={12} sm={6}>
                 <TextField
-                    required
                     id="item"
                     label="Tillbehör"
                     name="item"
                     autoComplete="item"
                     fullWidth
+                    required
 
                     {...register("item", {
+                        required: true, 
                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                     })}
                 />
+                {errors.product === 'required' && <p>Obligatoriskt fält</p>}
             </Grid>
 
             {/**
@@ -32,12 +34,14 @@ const AddMaterialsForm = ({ register, amountList, unitsList }) => {
             <Grid item xs={6} sm={3}>
                 <TextField
                     select
-                    required
                     id="amount"
+                    name="amount"
                     label="Antal"
                     fullWidth
+                    required
 
                     {...register("amount", {
+                        required: true, 
                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                     })}
 
@@ -49,6 +53,7 @@ const AddMaterialsForm = ({ register, amountList, unitsList }) => {
 
                     ))}
                 </TextField>
+                {errors.amount === 'required' && <p>Obligatoriskt fält</p>}
             </Grid>
 
             {/**
@@ -57,26 +62,33 @@ const AddMaterialsForm = ({ register, amountList, unitsList }) => {
 
             <Grid item xs={6} sm={3}>
                 <TextField
+                    id="unit"
                     select
-                    required
+                    name="unit"
                     label="st/m"
                     fullWidth
+                    required
 
                     {...register("unit", {
+                        required: true, 
                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                     })}
                 >
                     
-                    {unitsList.map((option) => (
-                        <MenuItem key={option.unit} value={option.unit}>
+                    {unitsList.map((option, i) => (
+                        <MenuItem key={i.unit} value={option.unit}>
                             {option.value}
                         </MenuItem>
                     ))}
 
-                    
+                    {errors.unit === 'required' && <p>Obligatoriskt fält</p>}
+
                 </TextField>
             </Grid>
 
+          
+
+        
         </>
     )
 }
