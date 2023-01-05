@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useAuthContext } from "../contexts/AuthContextProvider";
 import { db } from '../firebase';
-import AddMaterialsForm from "./CreateMaterialForm";
+import CreateMaterialsForm from "./CreateMaterialForm";
 import LeavePageAlert from "./modals/LeavePageAlert";
 
 
@@ -36,7 +36,7 @@ const CreateMaterial = () => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const [successMsg, setSuccessMsg] = useState('')
-    const [form, setForm] = useState([<AddMaterialsForm/>])
+    const [form, setForm] = useState([<CreateMaterialsForm/>])
     const [amountList, _setAmountList] = useState(amounts)
     const [hoursList, _setHoursList] = useState(hours)
 
@@ -186,7 +186,7 @@ const CreateMaterial = () => {
                       */}
 
                     {form && form.map((i) => (
-                         <AddMaterialsForm 
+                         <CreateMaterialsForm 
                             key={i}
                             register={register} 
                             unitsList={unitsList} 
