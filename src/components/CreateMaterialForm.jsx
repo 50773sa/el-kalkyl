@@ -85,10 +85,6 @@ const CreateMaterialForm = ({ register, amountList, unitsList, errors }) => {
 
                 </TextField>
             </Grid>
-
-          
-
-        
         </>
     )
 }
