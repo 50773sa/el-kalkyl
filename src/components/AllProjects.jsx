@@ -15,7 +15,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FolderIcon from '@mui/icons-material/Folder';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import DialogDelete from './DialogDelete';
+import DialogDelete from '../components/modals/DialogDelete';
 
 
 

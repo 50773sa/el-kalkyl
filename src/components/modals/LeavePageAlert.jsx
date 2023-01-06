@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -12,7 +12,7 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DialogDelete = ({ open, setOpen }) => {
+const LeavePageAlert = ({ open, setOpen }) => {
     const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
@@ -67,12 +67,12 @@ const DialogDelete = ({ open, setOpen }) => {
                 </div>
                
                 <DialogTitle id="alert-dialog-title">
-                    <strong>Är du säker?</strong>
+                    <strong>Du har inte sparat!</strong>
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Valet går inte att ändra!
+                        Vill du avbryta och fortsätta med ändringarna?
                     </DialogContentText>
                 </DialogContent>
 
@@ -100,4 +100,4 @@ const DialogDelete = ({ open, setOpen }) => {
     )
 }
 
-export default DialogDelete
+export default LeavePageAlert

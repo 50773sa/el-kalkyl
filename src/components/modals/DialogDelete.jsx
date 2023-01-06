@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -12,18 +12,18 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DialogAlert = ({ open, setOpen }) => {
+const DialogDelete = ({ openModal, setOpenModal }) => {
     const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
     const handleClose = () => {
-      setOpen(false)
+      setOpenModal(false)
     }
 
     return (
         <div>
             <Dialog
-                open={open}
+                openModal={openModal}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -67,12 +67,12 @@ const DialogAlert = ({ open, setOpen }) => {
                 </div>
                
                 <DialogTitle id="alert-dialog-title">
-                    <strong>Du har inte sparat!</strong>
+                    <strong>Är du säker?</strong>
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Vill du avbryta och fortsätta med ändringarna?
+                        Valet går inte att ändra!
                     </DialogContentText>
                 </DialogContent>
 
@@ -100,4 +100,4 @@ const DialogAlert = ({ open, setOpen }) => {
     )
 }
 
-export default DialogAlert
+export default DialogDelete
