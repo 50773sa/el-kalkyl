@@ -1,154 +1,228 @@
-import React, { useState } from 'react'
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography'
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import AddMaterialsForm from "./CreateMaterialForm";
-import TextField from '@mui/material/TextField'
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
+import React from 'react';
+import { useEffect, useRef, useState } from 'react'
+import { db } from '../firebase'
+import { addDoc, collection  } from 'firebase/firestore';
+import { useAuthContext } from '../contexts/AuthContextProvider';
+import { useForm } from 'react-hook-form';
+
+import LeavePageAlert from './modals/LeavePageAlert'
+import useStreamCollection from '../hooks/useStreamCollection';
+
+// mui
 import Box from '@mui/material/Box';
-import { TabPanel } from '@mui/lab';
-import {TabContext} from '@mui/lab';
-import TabList from '@mui/lab/Tablist';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { MenuItem } from '@mui/material';
-import LeavePageAlert from './modals/LeavePageAlert';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import MenuItem from '@mui/material/MenuItem'
+import Tab from '@mui/material/Tab';
+import TabContext from '@mui/lab/TabContext';
+import { TabList } from '@mui/lab';
+import TabPanel from '@mui/lab/TabPanel';
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import { InputAdornment } from '@mui/material';
+
 
 
 const CreateProject = () => {
-    const [value, setValue] = useState('1')
+    const [loading, setLoading] = useState(true)
+    const [value, setValue] = useState('Apparater')
+    const [num, setNum] = useState()
+
     const [open, setOpen] = useState(false)
+    const [error, setError] = useState(null)
+    const [success, setSuccess] = useState(false)
     const [projectName, setProjectName] = useState()
+    const [checked, setChecked] = useState([0])
+    const [selectedProduct, setSelectedProduct] = useState([])
+    console.log('selectedProduct', selectedProduct)
+
+
+    const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
+
+    const projectRef = useRef()
+    const { currentUser } = useAuthContext()
+    const { handleSubmit, formState: { errors }, reset, register, control } = useForm()
 
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+      setValue(newValue);
     }
 
-    const [checked, setChecked] = React.useState([0]);
+    const handleDelete = (selectedItem) => () => {
+        setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id));
+    };
 
-    const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
-    
-        if (currentIndex === -1) {
-            newChecked.push(value);
-        } else {
-            newChecked.splice(currentIndex, 1);
+    const onSubmit = async (inputData) => {
+        console.log('inputData', inputData)
+        setError(null)
+        console.log('projectRef', projectRef)
+        setProjectName(projectRef.current.value)
+        console.log('projectName', projectName)
+
+
+        try {
+            await addDoc(collection(db, 'project'), {
+                uid: currentUser.uid,
+                id: projectRef.current.value
+        
+            })
+            setSuccess(true)
+            setOpen(true)
+            // reset()
+
+        } catch (err) {
+            setError(err)
+            console.log('errors.message', errors.message)
+            console.log('err.message', err.message)
         }
-    
-        setChecked(newChecked);
     }
 
     return (
-        <div className='wrapper createProject' id='createProject'>
+        <div className='wrapper createProject' id='createProjectWrapper'>
 
-            <Typography
-                variant="h6" 
-                component="div" 
-                textAlign='start' 
-                marginBottom='2rem'
-            >
-               <strong>Lägg till nytt projekt</strong> 
-            </Typography>
+                <Typography
+                    variant="h6" 
+                    component="div" 
+                    textAlign='start' 
+                    marginBottom='2rem'
+                >
+                <strong>Lägg till nytt projekt</strong> 
+                </Typography>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-            <form onSubmit={() => {}}>
+
                 <Grid container spacing={2}>
-
                     <Grid item xs={12} style={{ marginBottom: '6rem'}} >
                         <TextField
-                            // inputRef={}
+                            inputRef={projectRef}
                             required
                             fullWidth
                             id="projecttName"
                             label="Projekt"
-                            name="projecttName"
+                            name="projectName"
                             autoComplete="projectName"
+
+                            {...register("projectName", { 
+                                required: true, 
+                                minLength: { value: 1, message: 'Obligatoriskt fält'}
+                            })}
                         />
+                        {errors.projectName === 'required' && <p>Obligatoriskt fält</p>}
+
                     </Grid>
 
-                    <TabContext value={value}>
-                        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable" style={{ marginBottom: '1rem' }}>
-                                <Tab className='tab' label="Apparater" value="1" />
-                                <Tab className='tab' label="Belysning" value="2" />
-                                <Tab className='tab' label="Tele" value="3" />
-                            </TabList>
-                        </Box>
+                    {/**
+                     *  Lists
+                     */}
 
-                        <TabPanel value="1">Item One</TabPanel>
-                        <TabPanel value="1">Item two</TabPanel>
-                        <TabPanel value="2">Item Two</TabPanel>
-                        <TabPanel value="3">Item Three</TabPanel>
-                    </TabContext>
+                    <Grid xs={12}>
+                        <TabContext value={value}>
+                            <Grid>
+                                <TabList onChange={handleChange} aria-label="tab list" style={{ marginBottom: '1rem' }}>
+                                    <Tab className='tab' label="Apparater" value="Apparater" />
+                                    <Tab className='tab' label="Belysning" value="Belysning" />
+                                    <Tab className='tab' label="Tele" value="Tele" />
+                                </TabList>
+                            </Grid>
 
-                        <List sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper', mb:'6rem' }}>
-                            {[0, 1, 2, 3].map((value) => {
-                                const labelId = `checkbox-list-label-${value}`;
+                            <Grid xs={12} style={{ border: '1px solid #cacaca'}}>
+                                <TabPanel value="Apparater" style={{ height: '200px'}}>
+                                    <List>
+                                        {material?.filter(list => list.category === "Apparater").map((item, i) => (
+                                            <ListItem 
+                                                key={i} 
+                                                value={i.product}
+                                                onClick={() => (setSelectedProduct(selectedProduct => [...selectedProduct, item]))}
+                                                disableGutters
+                                                {...register("product", {
+                                                    required: true, 
+                                                    minLength: { value: 1, message: 'Obligatoriskt fält'}
+                                                })}
+                                            > {item.product}
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </TabPanel> 
 
-                                return (
-                                    <ListItem
-                                        key={value}
-                                        disablePadding
+                                <TabPanel value="Belysning" style={{ height: '200px'}}>
+                                    <List>
+                                        {material?.filter(list => list.category === "Belysning").map((item, i) => (
+                                            <ListItem 
+                                                key={i} 
+                                                value={i.product}
+                                                onClick={() => (setSelectedProduct(selectedProduct => [...selectedProduct, item]))}
+                                                disableGutters
+                                            > {item.product}
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </TabPanel>
+
+                            
+                                <TabPanel value="Tele" style={{ height: '200px'}}>
+                                    <List>
+                                        {material?.filter(list => list.category === "Tele").map((item, i) => (
+                                            <ListItem 
+                                                key={i} 
+                                                value={i.product}
+                                                onClick={() => (setSelectedProduct(selectedProduct => [...selectedProduct, item]))}
+                                                disableGutters
+                                            > {item.product}
+                                            </ListItem>
+                                        ))}
+                                    </List>
+                                </TabPanel>
+                            </Grid>
+                        </TabContext>
+                    </Grid>
+                </Grid>
+
+                {/**
+                 *  Selected products
+                 */}
+
+                <Grid container spacing={2} xs={12} alignItems='center'>
+                    <Grid item xs={12}>
+                        <List>
+                            {selectedProduct ? selectedProduct?.map((item, i) => (
+                                <ListItem
+                                    value={item}
+                                    key={item.id}
+                                    style={{ display: 'flex', justifyContent: 'space-between'}}
+                                > 
+                                    {item.product}
+
+                                    <TextField
+                                        key={i}
+                                        type="number"
+                                        variant="outlined"
+                                        onChange={(e) => setNum(e.target.value)}
+                                        value={num}
+                                        size='small'
+                                        defaultValue='0'
+                                        style={{ width: '30%'}}
+                                        InputProps={{
+                                            inputMode: 'numeric', pattern: '[0-9]*',
+                                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
+                                        }}
                                     >
-                                        <ListItemButton role={undefined} onClick={handleToggle(value)} dense>
-                                            <ListItemIcon>
-                                                <Checkbox
-                                                edge="start"
-                                                checked={checked.indexOf(value) !== -1}
-                                                tabIndex={-1}
-                                                disableRipple
-                                                inputProps={{ 'aria-labelledby': labelId }}
-                                                />
-                                            </ListItemIcon>
-                                            <ListItemText id={labelId} primary={`Line item ${value + 1}`} />
-                                        </ListItemButton>
-                                    </ListItem>
-                                )
-                            })}
+                                    </TextField>
+                                    <DeleteOutlinedIcon 
+                                        onClick={handleDelete(item)}
+                                    />
+                                </ListItem>
+                            )): ''}
                         </List>
-
-                        {/* <Box>
-                            <TabList onChange={handleChange} aria-label="lab API tabs example" variant="scrollable">
-                                <Tab style={{ fontSize: '0.7rem'}} label="Brytare" value="1" />
-                                <Tab style={{ fontSize: '0.7rem'}} label="Uttag" value="1" />
-                                <Tab style={{ fontSize: '0.7rem'}} label="Lampdon" value="1" />
-                            </TabList>
-                        </Box> */}
-
-                </Grid>
-            </form>
-
-            <Grid container spacing={2} alignItems='center'>
-                <Grid item xs={7}>
-                    <span>Valt material</span>
+                    </Grid>
                 </Grid>
 
-                <Grid item xs={4}>
-                    <TextField
-                        required
-                        id="select"
-                        value={Number}
-                        label="Antal"
-                        onChange={handleChange}
-                        fullWidth
-                        select
-                    >
-                        <MenuItem value={10}>10</MenuItem>
-                    </TextField>
-                </Grid>
-
-                <Grid item xs={1}>
-                    <DeleteOutlinedIcon />
-                </Grid>
-            </Grid>
+            {/**
+             *  Buttons
+             */}
 
             <Grid className="buttonsWrap">
                 <Button 	
@@ -164,6 +238,8 @@ const CreateProject = () => {
                 > Avbryt
                 </Button>
             </Grid>
+        </form>
+
 
             <LeavePageAlert open={open} setOpen={setOpen}/> 
         
