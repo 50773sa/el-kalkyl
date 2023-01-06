@@ -1,20 +1,22 @@
-import { addDoc, collection } from 'firebase/firestore';
-import { useState } from "react";
+import { useState } from "react"
 import { useFieldArray, useForm } from "react-hook-form";
 import { useAuthContext } from "../contexts/AuthContextProvider";
-import { db } from '../firebase';
-import CreateMaterialsForm from "./CreateMaterialForm";
-import LeavePageAlert from "./modals/LeavePageAlert";
+import { db } from '../firebase'
+import { addDoc, collection } from 'firebase/firestore'
+import CreateMaterialsForm from "./CreateMaterialForm"
+import LeavePageAlert from "./modals/LeavePageAlert"
+import { uuidv4 } from "@firebase/util"
+
 
 
 // mui
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import TextField from '@mui/material/TextField';
-import Typography from '@mui/material/Typography';
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import SuccessAlert from "./modals/SuccessAlert";
+import AddCircleIcon from '@mui/icons-material/AddCircle'
+import Button from '@mui/material/Button'
+import MenuItem from '@mui/material/MenuItem'
+import TextField from '@mui/material/TextField'
+import Typography from '@mui/material/Typography'
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import SuccessAlert from "./modals/SuccessAlert"
 
 // dropdowns
 const unitsList = [
@@ -35,7 +37,6 @@ const CreateMaterial = () => {
     const [open, setOpen] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
-    const [successMsg, setSuccessMsg] = useState('')
     const [form, setForm] = useState([<CreateMaterialsForm/>])
     const [amountList, _setAmountList] = useState(amounts)
     const [hoursList, _setHoursList] = useState(hours)
@@ -54,7 +55,7 @@ const CreateMaterial = () => {
 
         try {
             await addDoc(collection(db, 'material'), {
-                id: inputData.product,
+                id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
                 extraItems: [{
@@ -70,8 +71,6 @@ const CreateMaterial = () => {
             })
             setSuccess(true)
             setOpen(true)
-            setSuccessMsg('Sparat!')
-            console.log('successMsg', successMsg)
             // reset()
 
         } catch (err) {
@@ -113,7 +112,7 @@ const CreateMaterial = () => {
                         {errors.product === 'required' && <p>Obligatoriskt fält</p>}
                     </Grid>
 
-                    <Grid item xs={12} sm={6}>
+                    {/* <Grid item xs={12} sm={6}>
                         <TextField
                             required
                             id="item"
@@ -126,13 +125,13 @@ const CreateMaterial = () => {
                                 minLength: { value: 1, message: 'Obligatoriskt fält'}
                             })}
                         />
-                    </Grid>
+                    </Grid> */}
 
                     {/**
                      *  Amount
                      */}
 
-                    <Grid item xs={6} sm={3}>
+                    {/* <Grid item xs={6} sm={3}>
                         <TextField
                             select
                             required
@@ -152,13 +151,13 @@ const CreateMaterial = () => {
 
                             ))}
                         </TextField>
-                    </Grid>
+                    </Grid> */}
 
                     {/**
                      *  Units
                      */}
 
-                    <Grid item xs={6} sm={3}>
+                    {/* <Grid item xs={6} sm={3}>
                         <TextField
                             select
                             required
@@ -179,7 +178,7 @@ const CreateMaterial = () => {
 
                          
                         </TextField>
-                     </Grid>
+                     </Grid> */}
 
                     {/**
                       * Add another field

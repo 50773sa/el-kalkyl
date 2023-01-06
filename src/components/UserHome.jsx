@@ -154,7 +154,7 @@ const UserHome = () => {
                 }}
             >
                 <Card 
-                    onClick={() => navigate(`/user/${currentUser.uid}/settings/add-material`)} 
+                    onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`)} 
                     style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#68A5EC' }}
                 >
                     <CardContent className='center'>
