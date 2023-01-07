@@ -81,8 +81,6 @@ const CreateProject = () => {
 
         try {
             setLoading(true)
-            numberRef
-
             setAddToDocProducts(selectedProduct => [...selectedProduct, item])
 
             console.log('product', addToDocProducts?.map(items => items.product))
@@ -104,7 +102,7 @@ const CreateProject = () => {
         console.log('inputData', inputData)
         setError(null)
 
-        if (!inputData || selectedProduct) {
+        if (!inputData) {
             return
         }
 
@@ -113,10 +111,11 @@ const CreateProject = () => {
                 uid: currentUser.uid,
                 id: uuidv4(),
                 projectName: inputData.projectName,
-                projectMaterial: selectedProduct
+                projectMaterial: addToDocProducts
             })
             setSuccess(true)
             setOpen(true)
+            console.log("Success")
             // reset()
 
         } catch (err) {
