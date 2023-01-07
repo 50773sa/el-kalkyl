@@ -2,7 +2,7 @@ import React from 'react'
 import { useRef, useState } from 'react'
 import { db } from '../firebase'
 import { uuidv4 } from '@firebase/util'
-import { addDoc, collection  } from 'firebase/firestore'
+import { addDoc, arrayRemove, collection  } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
 import LoadingBackdrop from './LoadingBackdrop'
@@ -11,11 +11,13 @@ import LeavePageAlert from './modals/LeavePageAlert'
 import SuccessAlert from './modals/SuccessAlert'
 
 // mui
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import Button from '@mui/material/Button'
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
 import { TabList } from '@mui/lab'
@@ -27,17 +29,23 @@ import { InputAdornment } from '@mui/material'
 
 
 const CreateProject = () => {
-    const [num, setNum] = useState(0)
+    const [num, setNum] = useState([0])
+    const [initialNum, setInitialNum] = useState([])
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
+    const [addToDocProducts, setAddToDocProducts] = useState([])
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
 
+    const numberRef = useRef()
     const { currentUser } = useAuthContext()
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
+
+    
+
 
     const handleChange = (e, newValue) => {
         e.preventDefault()
@@ -60,7 +68,38 @@ const CreateProject = () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
-    
+    console.log('initialNum', initialNum)
+
+    const handleClick = (item) => (e) => {
+        e.preventDefault()
+        setError(null)
+
+        if (num === 0) {
+            return setLoading(false), console.log('No products')
+        }
+        setNum(Number(numberRef.current.value))
+
+        try {
+            setLoading(true)
+            numberRef
+
+            setAddToDocProducts(selectedProduct => [...selectedProduct, item])
+
+            console.log('product', addToDocProducts?.map(items => items.product))
+            setLoading(false)
+
+        } catch(err) {
+            setError(err)
+            console.log('err', err)
+            setLoading(false)
+
+        }
+    }
+
+    console.log('product', addToDocProducts?.map(items => items.product))
+
+    console.log('num', num)
+
     const onSubmit = async (inputData) => {
         console.log('inputData', inputData)
         setError(null)
@@ -86,6 +125,8 @@ const CreateProject = () => {
             console.log('err.message', err.message)
         }
     }
+
+    console.log('addToDocProducts', addToDocProducts)
 
     return (
         <div className='wrapper createProject' id='createProjectWrapper'>
@@ -137,6 +178,7 @@ const CreateProject = () => {
                                         {!isStreaming ? material?.filter(list => list.category === "Apparater").map((item, i) => (
                                             <ListItem 
                                                 key={i} 
+                                                value={"Apparater"}
                                                 name="project"
                                                 onClick={handleAdd(item)}
                                                 disableGutters
@@ -152,6 +194,7 @@ const CreateProject = () => {
                                         {!isStreaming ? material?.filter(list => list.category === "Belysning").map((item, i) => (
                                             <ListItem 
                                                 key={i} 
+                                                value={"Belysning"}
                                                 onClick={handleAdd(item)}
                                                 disableGutters
                                             > 
@@ -167,6 +210,7 @@ const CreateProject = () => {
                                         {!isStreaming ? material?.filter(list => list.category === "Tele").map((item, i) => (
                                             <ListItem 
                                                 key={i} 
+                                                value={"Tele"}
                                                 onClick={handleAdd(item)}
                                                 disableGutters
                                             > 
@@ -187,20 +231,26 @@ const CreateProject = () => {
                 <Grid container spacing={2} style={{ marginBottom: "6rem" }}>
                     {selectedProduct ? selectedProduct?.map((item, i) => (
                         <>
-                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center" >
-                                <ListItem value={item} key={item.id}> 
+                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
+                                <ListItem value={item} key={i}> 
                                     {item.product}
                                 </ListItem>
                             </Grid>
+
                         
                             <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
+
+                                <RemoveCircleOutlineIcon />
+
                                 <TextField
                                     key={i}
                                     type="number"
                                     variant="outlined"
+                                    inputRef={numberRef}
                                     onChange={(e) => setNum(Number(e.target.value))}
-                                    value={item.num}
-                                    defaultValue={0}
+                                    value={num.i}
+                                    placeholder={1}
+                                    onClick={handleClick(item)}
                                     size='small'
                                     InputProps={{
                                         inputProps: {min: 0, max: 100 },
@@ -208,10 +258,12 @@ const CreateProject = () => {
                                         endAdornment: <InputAdornment position="end">st</InputAdornment>,
                                     }}
                                 />
+
+                                <AddCircleOutlineIcon />
                             </Grid>
 
                             <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
-                                <DeleteOutlinedIcon onClick={handleDelete(item)} />
+                                <DeleteForeverIcon  onClick={handleDelete(item)} />
                             </Grid>
 
                         </>
