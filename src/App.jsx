@@ -31,7 +31,7 @@ function App() {
 				<Route path="/user/:id/settings" element={<SettingsPage />} />
 				<Route path="/user/:id/settings/create-material" element={<CreateMaterialPage/>} />
 				<Route path="/user/:id/create-project" element={<CreateProjectPage />} />
-				<Route path="/user/:id/project" element={<ProjectPage />} />
+				<Route path="/user/:id/project/:projectId" element={<ProjectPage />} />
 				<Route path="/user/:id/projects" element={<AllProjectsPage />} />
 				<Route path="*" element={<ErrorPage/>} />
 			</Routes>

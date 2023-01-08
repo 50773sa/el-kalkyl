@@ -21,7 +21,6 @@ import TextField from '@mui/material/TextField'
 
 
 const Settings = () => {
-    const [alertMsg, setAlertMsg] = useState('')
     const [open, setOpen] = useState(false)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
@@ -82,7 +81,6 @@ const Settings = () => {
 
             await reloadUser()
             setMsg('Profile updated')
-            setAlertMsg('Sparat!')
             setOpen(true)
             setLoading(false)
 
@@ -130,7 +128,7 @@ const Settings = () => {
                 </Typography>
 
                 <List>
-                    <ListItem disablePadding  onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`) }>
+                    <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`) }>
                         <ListItemButton style={{ paddingLeft: '0'}}>
                             <AddCircleIcon />
                             <ListItemText 
@@ -140,7 +138,7 @@ const Settings = () => {
                         </ListItemButton>
                     </ListItem>
 
-                    <ListItem disablePadding>
+                    <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/projects`)} >
                         <ListItemButton style={{ paddingLeft: '0'}}>
                             <ModeEditOutlineOutlinedIcon />
                             <ListItemText 
@@ -251,7 +249,7 @@ const Settings = () => {
              *  Alert
              */}
 
-            <SuccessAlert alertMsg={alertMsg} open={open} setOpen={setOpen} />
+            <SuccessAlert open={open} setOpen={setOpen} />
 
         </div>
     )

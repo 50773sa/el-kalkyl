@@ -5,7 +5,9 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import { useAuthContext } from '../../contexts/AuthContextProvider';
+import { useParams } from 'react-router-dom';
+import useGetProject from '../../hooks/useGetProject';
 
 const TAX_RATE = 0.07;
 
@@ -34,6 +36,13 @@ const invoiceTaxes = TAX_RATE * invoiceSubtotal;
 const invoiceTotal = invoiceTaxes + invoiceSubtotal;
 
 const CalculationTable = () => {
+	const { currentUser } = useAuthContext()
+	const { projectId } = useParams()
+	const { data: project} = useGetProject(projectId)
+
+	console.log('project', project)
+
+
 	return (
 		<TableContainer>
 			<Table sx={{ minWidth: 300 }} aria-label="spanning table">
