@@ -1,40 +1,41 @@
 import React from 'react'
+import { useState } from 'react'
+
+
+
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Avatar from '@mui/material/Avatar';
-import IconButton from '@mui/material/IconButton';
-import FormGroup from '@mui/material/FormGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import FolderIcon from '@mui/icons-material/Folder';
-import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import DialogDelete from '../components/modals/DialogDelete';
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import DialogDelete from '../components/modals/DialogDelete'
+import useStreamCollection from '../hooks/useStreamCollection'
+import { useAuthContext } from '../contexts/AuthContextProvider'
+import LoadingBackdrop from './LoadingBackdrop'
+import { useNavigate } from 'react-router-dom'
+import useStreamDoc from '../hooks/useStreamDoc'
+
 
 
 
 const AllProjects = () => {
-    const [dense, setDense] = React.useState(false);
-    const [secondary, setSecondary] = React.useState(false);
+    const navigate = useNavigate()
 
-    function generate(element) {
-        return [0, 1, 2].map((value) =>
-          React.cloneElement(element, {
-            key: value,
-          }),
-        );
-    }
+    const { currentUser } = useAuthContext()
+    const { data: projects, loading} = useStreamCollection('projects')
+
+    // console.log('projects', projects?.map(list => list))
+
+
+
+
     return (
-        <div className='wrapper allProjects' id='allProjects'>
-            
+        <div className='wrapper' id='allProjectsWrapper'>
+
+            {loading ? <LoadingBackdrop /> : ''}
+
 			<Grid container spacing={2}>
-				<Grid item xs={12}>
+				<Grid xs={12}>
 
 					<Typography
 						variant="h6" 
@@ -48,25 +49,19 @@ const AllProjects = () => {
 				 * 	List
 				 */}
 
-				<Grid item xs={12}>
-                    <List dense={dense}>
-                        {generate(
-                            <ListItem
-                                secondaryAction={
-                                    <IconButton edge="end" aria-label="delete">
-                                        <DeleteOutlinedIcon />
-                                    </IconButton>
-                                }
-                            >
-        
-                            <ListItemText
-                                primary="Single-line item"
-                                secondary={secondary ? 'Secondary text' : null}
-                            />
-                            </ListItem>,
-                        )}
-                    </List>
-				</Grid>
+				<>
+                    {!loading && projects ? projects?.map((list) => (
+                            <Grid xs={10}  key={list.id} display="flex" justifyContent="start" alignItems="center" >
+                                <ListItem onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} >
+                                    {list.projectName}
+                                </ListItem>
+                            </Grid>
+
+                         
+                      
+            
+                    )): ''}
+				</>
 
                 <DialogDelete onClick={() => {}}/>
 			</Grid>

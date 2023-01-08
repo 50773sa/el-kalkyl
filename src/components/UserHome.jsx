@@ -111,7 +111,7 @@ const UserHome = () => {
                 }}
             >
                 <Card 
-                    onClick={() => console.log('click')} 
+                    onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
                     style={{ 
                         width: '80%',
                         height: '50px', 
