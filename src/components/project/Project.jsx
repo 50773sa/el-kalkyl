@@ -13,20 +13,21 @@ import useStreamDoc from '../../hooks/useStreamDoc'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useEffect } from 'react'
 import useGetProject from '../../hooks/useGetProject'
+import useGetDocument from '../../hooks/useGetDocument'
+
 
 const Project = () => {
 	const { projectId } = useParams()
 	const { currentUser } = useAuthContext()
-	const { data: project} = useGetProject(projectId)
-
-	console.log('project', project)
-	console.log('project', project[0]?.projectName)
+	const { data: project, loading } = useGetProject(projectId)
+	const navigate = useNavigate()
+	// console.log('project', project)
 
 
     const deleteProject = async () => {
-		const ref = doc(db, 'projects', id)
+		const ref = doc(db, 'projects', project)
         console.log('ref', ref)
-		await deleteDoc(id)
+		await deleteDoc(ref)
 
 		toast.success('Raderat!')
         navigate(`/user/${currentUser.uid}/projects`, { replace: true })
@@ -59,7 +60,7 @@ const Project = () => {
 				 */}
 
 				<Grid item xs={12}>
-					<CalculationTable />
+					<CalculationTable project={project} />
 				</Grid>
 			</Grid>
       	</div>
