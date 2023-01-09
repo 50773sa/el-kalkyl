@@ -5,21 +5,21 @@ import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
 
-const CreateMaterialForm = ({ register, amountList, unitsList, errors }) => {
+const CreateMaterialForm = ({ register, qtyList, unitsList, errors }) => {
  
 
     return (
         <>
-            <Grid item xs={12} sm={6}>
+            <Grid xs={12} sm={6}>
                 <TextField
-                    id="item"
+                    id="fittings"
                     label="Tillbehör"
-                    name="item"
-                    autoComplete="item"
+                    name="fittings"
+                    autoComplete="fittings"
                     fullWidth
                     required
 
-                    {...register("item", {
+                    {...register("fittings", {
                         required: true, 
                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                     })}
@@ -31,36 +31,36 @@ const CreateMaterialForm = ({ register, amountList, unitsList, errors }) => {
              *  Amount
              */}
 
-            <Grid item xs={6} sm={3}>
+            <Grid xs={6} sm={3}>
                 <TextField
                     select
-                    id="amount"
-                    name="amount"
+                    id="qty"
+                    name="qty"
                     label="Antal"
                     fullWidth
                     required
 
-                    {...register("amount", {
+                    {...register("qty", {
                         required: true, 
                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                     })}
 
                 >
-                    {amountList.map((val) => (
-                        <MenuItem key={val.amount} value={val.amount}>
+                    {qtyList.map((val) => (
+                        <MenuItem key={val.qty} value={val.qty}>
                             {val.value}
                         </MenuItem>
 
                     ))}
                 </TextField>
-                {errors.amount === 'required' && <p>Obligatoriskt fält</p>}
+                {errors.qty === 'required' && <p>Obligatoriskt fält</p>}
             </Grid>
 
             {/**
              *  Units
              */}
 
-            <Grid item xs={6} sm={3}>
+            <Grid xs={6} sm={3}>
                 <TextField
                     id="unit"
                     select

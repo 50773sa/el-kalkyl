@@ -29,7 +29,7 @@ const minutesList = [
     {minutes: 0.5, value: 30},
     {minutes: 0.75, value: 45}, 
 ]
-const amounts = [...new Array(101)].map((each, index) => ({ amount: index, value: index }))
+const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hours = [...new Array(12)].map((each, index) => ({ hours: index, value: index }))
 
 
@@ -38,7 +38,7 @@ const CreateMaterial = () => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const [form, setForm] = useState([<CreateMaterialsForm/>])
-    const [amountList, _setAmountList] = useState(amounts)
+    const [qtyList, _setQtyList] = useState(quantity)
     const [hoursList, _setHoursList] = useState(hours)
 
     const { currentUser } = useAuthContext()
@@ -58,9 +58,10 @@ const CreateMaterial = () => {
                 id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
+                quantity: null,
                 extraItems: [{
-                        item: inputData.item,
-                        amount: inputData.amount,
+                        fittings: inputData.fittings,
+                        qty: inputData.qty,
                         unit: inputData.unit,
                 }],
                 estimatedTime: {
@@ -95,7 +96,7 @@ const CreateMaterial = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
+                    <Grid xs={12}>
                         <TextField
                             id="product"
                             label="Produkt"
@@ -112,16 +113,16 @@ const CreateMaterial = () => {
                         {errors.product === 'required' && <p>Obligatoriskt fält</p>}
                     </Grid>
 
-                    {/* <Grid item xs={12} sm={6}>
+                    {/* <Grid fittings xs={12} sm={6}>
                         <TextField
                             required
-                            id="item"
+                            id="fittings"
                             label="Tillbehör"
-                            name="item"
-                            autoComplete="item"
+                            name="fittings"
+                            autoComplete="fittings"
                             fullWidth
 
-                            {...register("item", {
+                            {...register("fittings", {
                                 minLength: { value: 1, message: 'Obligatoriskt fält'}
                             })}
                         />
@@ -131,21 +132,21 @@ const CreateMaterial = () => {
                      *  Amount
                      */}
 
-                    {/* <Grid item xs={6} sm={3}>
+                    {/* <Grid fittings xs={6} sm={3}>
                         <TextField
                             select
                             required
-                            id="amount"
+                            id="qty"
                             label="Antal"
                             fullWidth
 
-                            {...register("amount", {
+                            {...register("qty", {
                                 minLength: { value: 1, message: 'Obligatoriskt fält'}
                             })}
 
                         >
-                            {amounts.map((val) => (
-                                <MenuItem key={val.amount} value={val.amount}>
+                            {quantity.map((val) => (
+                                <MenuItem key={val.qty} value={val.qty}>
                                     {val.value}
                                 </MenuItem>
 
@@ -157,7 +158,7 @@ const CreateMaterial = () => {
                      *  Units
                      */}
 
-                    {/* <Grid item xs={6} sm={3}>
+                    {/* <Grid fittings xs={6} sm={3}>
                         <TextField
                             select
                             required
@@ -189,7 +190,7 @@ const CreateMaterial = () => {
                             key={i}
                             register={register} 
                             unitsList={unitsList} 
-                            amountList={amountList}
+                            qtyList={qtyList}
                             errors={errors}
                         /> 
 
@@ -197,7 +198,7 @@ const CreateMaterial = () => {
               
 
                     <Grid 
-                        item xs={12} 
+                        xs={12} 
                         display='flex' 
                         alignItems="center" 
                         justifyContent="end" 
@@ -211,12 +212,12 @@ const CreateMaterial = () => {
                       *  Estimated time
                       */}
 
-                     <Grid item xs={12}>
+                     <Grid  xs={12}>
                         <Typography variant="h6" component="div">Tidsetimering</Typography>
                     </Grid>
 
 
-                     <Grid item xs={6} sm={3}>
+                     <Grid xs={6} sm={3}>
                         <TextField
                             select
                             label="Tim"
@@ -238,7 +239,7 @@ const CreateMaterial = () => {
                      </Grid>
 
 
-                     <Grid item xs={6} sm={3}>
+                     <Grid xs={6} sm={3}>
                         <TextField
                             select
                             label="Min"
@@ -264,7 +265,7 @@ const CreateMaterial = () => {
                       *  Category
                       */}
 
-                    <Grid item xs={12} >
+                    <Grid xs={12} >
                         <TextField
                             select
                             label="Kategori"
