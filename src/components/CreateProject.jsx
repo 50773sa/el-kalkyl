@@ -30,7 +30,8 @@ import { InputAdornment } from '@mui/material'
 
 const CreateProject = () => {
     const [num, setNum] = useState([0])
-    const [initialNum, setInitialNum] = useState([])
+    const [qty, setQty] = useState(0)
+    
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
     const [addToDocProducts, setAddToDocProducts] = useState([])
@@ -44,8 +45,9 @@ const CreateProject = () => {
     const { currentUser } = useAuthContext()
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
-    
-
+    // const handleQty = (num, item) => {
+	// 	setQty(qty => qty + num)
+	// }
 
     const handleChange = (e, newValue) => {
         e.preventDefault()
@@ -68,7 +70,6 @@ const CreateProject = () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
-    console.log('initialNum', initialNum)
 
     const handleClick = (item) => (e) => {
         e.preventDefault()
@@ -77,8 +78,19 @@ const CreateProject = () => {
         if (num === 0) {
             return setLoading(false), console.log('No products')
         }
-        setNum(Number(numberRef.current.value))
 
+        setNum(Number(numberRef.current.value))
+        item.quantity = num
+
+        if (addToDocProducts.includes(item)) {
+            return(
+                setLoading(false), 
+                console.log('Item already exists')
+
+            ) 
+        }
+
+    
         try {
             setLoading(true)
             setAddToDocProducts(selectedProduct => [...selectedProduct, item])
@@ -95,7 +107,6 @@ const CreateProject = () => {
     }
 
     console.log('product', addToDocProducts?.map(items => items.product))
-
     console.log('num', num)
 
     const onSubmit = async (inputData) => {
@@ -232,23 +243,22 @@ const CreateProject = () => {
                         <>
                             <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
                                 <ListItem value={item} key={i}> 
-                                    {item.product}
+                                    {item.product}, {item.quantity}
                                 </ListItem>
                             </Grid>
 
                         
                             <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
 
-                                <RemoveCircleOutlineIcon />
+                                {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
 
                                 <TextField
                                     key={i}
                                     type="number"
                                     variant="outlined"
                                     inputRef={numberRef}
-                                    onChange={(e) => setNum(Number(e.target.value))}
+                                    onChange={(e) => (setNum(e.target.value))}
                                     value={num.i}
-                                    placeholder={1}
                                     onClick={handleClick(item)}
                                     size='small'
                                     InputProps={{
@@ -256,9 +266,10 @@ const CreateProject = () => {
                                         inputMode: 'numeric', pattern: '[0-9]*',
                                         endAdornment: <InputAdornment position="end">st</InputAdornment>,
                                     }}
+                                
                                 />
 
-                                <AddCircleOutlineIcon />
+                                {/* <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/> */}
                             </Grid>
 
                             <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
