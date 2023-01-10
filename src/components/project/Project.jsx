@@ -14,6 +14,7 @@ import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useEffect } from 'react'
 import useGetProject from '../../hooks/useGetProject'
 import useGetDocument from '../../hooks/useGetDocument'
+import LoadingBackdrop from '../LoadingBackdrop'
 
 
 const Project = () => {
@@ -35,6 +36,8 @@ const Project = () => {
 
     return (
       <div className='wrapper project' id='project'>
+
+			{loading ? <LoadingBackdrop /> : ''}
 
 			<Grid container spacing={2}>
 				<Grid item xs={12} display='flex' alignItems="center" justifyContent="space-between" paddingBottom="2rem" paddingTop='2rem'>
