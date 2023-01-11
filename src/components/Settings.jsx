@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { db } from '../firebase'
+import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamDoc from '../hooks/useStreamDoc';
-import SuccessAlert from '../components/modals/SuccessAlert'
 import LoadingBackdrop from './LoadingBackdrop'
 
 // mui
@@ -18,6 +19,7 @@ import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
+import { toast } from 'react-toastify'
 
 
 const Settings = () => {
@@ -26,6 +28,7 @@ const Settings = () => {
     const [error, setError] = useState(null)
     const [msg, setMsg] = useState(null)
     const userNameRef = useRef()
+    const companyRef = useRef()
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
@@ -44,6 +47,26 @@ const Settings = () => {
     const { data } = useStreamDoc('users', currentUser.uid)
 	console.log('*******',data.company)
 
+    const onSetUserCompany = async () => {
+        const docRef = doc(db, 'users', currentUser.uid)
+        const companyData = { company: companyRef.current.value }
+        
+        setError(null)
+
+        try {
+            setLoading(true)
+            const update = await updateDoc(docRef, companyData)
+            // setOpen(false)
+            await reloadUser()
+            console.log('update', update)
+
+        } catch (err) {
+            setError(err.message)
+            console.log('error', error)
+            setLoading(false)
+        }
+        console.log('doc', docRef)
+    }
 
 
     const handleUpdate = async (e) => {
@@ -58,6 +81,7 @@ const Settings = () => {
 
         try {
             setLoading(true)
+            onSetUserCompany()
 
             // userName
             if (userNameRef !== currentUser.displayName) {
@@ -81,7 +105,8 @@ const Settings = () => {
 
             await reloadUser()
             setMsg('Profile updated')
-            setOpen(true)
+            // setOpen(true)
+            toast.success('Sparat')
             setLoading(false)
 
         } catch (e) {
@@ -111,8 +136,7 @@ const Settings = () => {
             >
                 <CardContent>
                     <Typography variant="h7" component="div" textAlign='center' >
-                        {data?.company}<br/>
-                        <em>{userName}</em>  
+                        {data?.company ? data?.company : <em>{userName}</em> }<br/> 
                     </Typography>
                 </CardContent>
             </Card>
@@ -182,7 +206,17 @@ const Settings = () => {
                         helperText=" "
                         autoComplete="off"
                         fullWidth
-                    />        
+                    />   
+                    {/*//! not working! */}
+                    <TextField
+                        inputRef={companyRef}
+                        id="company"
+                        label="Företag"
+                        defaultValue={data?.company}
+                        helperText=" "
+                        autoComplete="off"
+                        fullWidth
+                    />      
                         
                     <TextField
                         inputRef={emailRef}
@@ -244,13 +278,6 @@ const Settings = () => {
                     <Button variant="contained" type='submit' fullWidth >Spara ändringar</Button>
                 </Box>
             </div>
-
-            {/**
-             *  Alert
-             */}
-
-            <SuccessAlert open={open} setOpen={setOpen} />
-
         </div>
     )
 }

@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamDoc from '../hooks/useStreamDoc';
@@ -8,29 +7,13 @@ import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
-import EnterCompanyModal from './EnterCompanyModal.jsx'
 import LoadingBackdrop from './LoadingBackdrop';
 
 
 const UserHome = () => {
-    const [loading, setLoading] = useState(false)
-    const [open, setOpen] = useState(true)
     const { currentUser, userName } = useAuthContext()
-
+    const { data, loading } = useStreamDoc('users', currentUser.uid)
     const navigate = useNavigate()
-    const { data } = useStreamDoc('users', currentUser.uid)
-	console.log('*******',data.company)
-
-
-    useEffect(() => {
-        setLoading(true)
-
-        if(data.company == "" || data.company === undefined) {
-            return
-        }
-        setLoading(false)
-    }, [currentUser, data])
-
 
     return (
         <div className='wrapper home' id='home'>
@@ -54,7 +37,7 @@ const UserHome = () => {
                 <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
                     {!loading ? (
                         <Typography variant="h6" component="div" textAlign='center' >
-                            {data?.company}
+                            {data?.company ? data?.company : "Profil"}
                         </Typography>
 
                     ): ''}
@@ -172,12 +155,10 @@ const UserHome = () => {
                             Ny beräkning
                         </Typography>
                     </CardContent>
+                    
                 </Card>
             </div>
-
-            {loading ? <EnterCompanyModal open={open} setOpen={setOpen}  /> : ''}
-        </div>
-          
+        </div>     
     )
 }
 
