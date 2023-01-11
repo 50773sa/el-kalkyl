@@ -1,5 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
+import { ToastContainer } from 'react-toastify'
 
 // pages
 import Navigation from './components/Navigation'
@@ -15,6 +16,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage'
 import ErrorPage from './pages/ErrorPage'
 
 import './assets/scss/App.scss'
+import EditProjectPage from './pages/EditProjectPage'
 
 
 
@@ -32,11 +34,13 @@ function App() {
 				<Route path="/user/:id/settings/create-material" element={<CreateMaterialPage/>} />
 				<Route path="/user/:id/create-project" element={<CreateProjectPage />} />
 				<Route path="/user/:id/project/:projectId" element={<ProjectPage />} />
+				<Route path="/user/:id/project/:projectId/edit" element={<EditProjectPage />} />
 				<Route path="/user/:id/projects" element={<AllProjectsPage />} />
 				<Route path="*" element={<ErrorPage/>} />
 			</Routes>
 
 			<ReactQueryDevtools position='bottom-left' />
+			<ToastContainer autoClose={3000} />
 		</div>
 	)
 }

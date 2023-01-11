@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import SuccessAlert from "./modals/SuccessAlert"
+import { toast } from "react-toastify";
 
 // dropdowns
 const unitsList = [
@@ -71,6 +71,7 @@ const CreateMaterial = () => {
                 category: inputData.category,
             })
             setSuccess(true)
+            toast.success('Sparat!')
             setOpen(true)
             // reset()
 
@@ -302,10 +303,7 @@ const CreateMaterial = () => {
                 </div>
             </form>
 
-            {open ? <LeavePageAlert open={open} setOpen={setOpen} /> : ''}
-
-            {success && open ? <SuccessAlert open={open} setOpen={setOpen} /> : ''}
-
+            <LeavePageAlert open={open} setOpen={setOpen} /> 
         </div>
     )
 }
