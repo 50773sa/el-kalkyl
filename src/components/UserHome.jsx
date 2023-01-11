@@ -1,18 +1,21 @@
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamDoc from '../hooks/useStreamDoc';
+import useStreamDoc from '../hooks/useStreamDoc'
+import useStreamCollection from '../hooks/useStreamCollection'
+import LoadingBackdrop from './LoadingBackdrop'
 // mui
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
-import LoadingBackdrop from './LoadingBackdrop';
 
 
 const UserHome = () => {
     const { currentUser, userName } = useAuthContext()
     const { data, loading } = useStreamDoc('users', currentUser.uid)
+    const { data: projects } = useStreamCollection('projects')
+
     const navigate = useNavigate()
 
     return (
@@ -70,7 +73,7 @@ const UserHome = () => {
                 }}
             >
                 <Typography variant="h7" component="span" textAlign='center' marginBottom='2rem'>
-                   <strong>5</strong>  
+                   <strong>{projects?.length ? projects.length : "0"}</strong>  
                    <br/> projekt
                 </Typography>
                 <Typography variant="h7" component="span" textAlign='center'>
@@ -155,7 +158,7 @@ const UserHome = () => {
                             Ny beräkning
                         </Typography>
                     </CardContent>
-                    
+
                 </Card>
             </div>
         </div>     
