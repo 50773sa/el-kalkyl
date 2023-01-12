@@ -1,6 +1,8 @@
 
 // Import rules from subsheets
 @import 'CreateProjectPage';
+@import 'react-toastify/dist/ReactToastify.css';
+
 
 body {
 	font-family: 'Noto Sans', sans-serif;
@@ -46,4 +48,9 @@ body {
 
 svg {
   	cursor: pointer;
+}
+
+// error text
+.error {
+	color: #ff0000 !important;
 }

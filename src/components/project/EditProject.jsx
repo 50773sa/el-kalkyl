@@ -1,13 +1,13 @@
 import React from 'react'
 import { useRef, useState } from 'react'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
-import { addDoc, arrayRemove, collection, serverTimestamp } from 'firebase/firestore'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { addDoc, arrayRemove, collection, updateDoc  } from 'firebase/firestore'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
-import LoadingBackdrop from './LoadingBackdrop'
-import useStreamCollection from '../hooks/useStreamCollection'
-import LeavePageAlert from './modals/LeavePageAlert'
+import LoadingBackdrop from '../LoadingBackdrop'
+import useStreamCollection from '../../hooks/useStreamCollection'
+import LeavePageAlert from '../modals/LeavePageAlert'
 
 // mui
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
@@ -23,12 +23,12 @@ import { TabList } from '@mui/lab'
 import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { InputAdornment } from '@mui/material'
+import { FormGroup, InputAdornment } from '@mui/material'
+import { useEffect } from 'react'
 import { toast } from 'react-toastify'
 
 
-
-const CreateProject = () => {
+const EditProject = ({ project, projectId }) => {
     const [num, setNum] = useState([0])
     const [qty, setQty] = useState(0)
     
@@ -43,11 +43,10 @@ const CreateProject = () => {
 
     const numberRef = useRef()
     const { currentUser } = useAuthContext()
-    const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
-    // const handleQty = (num, item) => {
-	// 	setQty(qty => qty + num)
-	// }
+
+
+    const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
     const handleChange = (e, newValue) => {
         e.preventDefault()
@@ -83,14 +82,12 @@ const CreateProject = () => {
         item.quantity = num
 
         if (addToDocProducts.includes(item)) {
-            return (
+            return(
                 setLoading(false), 
                 console.log('Item already exists')
-
             ) 
         }
 
-    
         try {
             setLoading(true)
             setAddToDocProducts(selectedProduct => [...selectedProduct, item])
@@ -105,11 +102,8 @@ const CreateProject = () => {
 
         }
     }
-
-    console.log('product', addToDocProducts?.map(items => items.product))
-    console.log('num', num)
-
-    const onSubmit = async (inputData) => {
+    
+    const onEditProject = async (inputData) => {
         console.log('inputData', inputData)
         setError(null)
 
@@ -118,17 +112,14 @@ const CreateProject = () => {
         }
 
         try {
-            await addDoc(collection(db, 'projects'), {
-                uid: currentUser.uid,
-                id: uuidv4(),
-                created: serverTimestamp(),
+            await updateDoc(doc(db, 'projects', projectId), {
                 projectName: inputData.projectName,
                 projectMaterial: addToDocProducts
             })
             setSuccess(true)
             toast.success('Sparat!')
             console.log("Success")
-            reset()
+            // reset()
 
         } catch (err) {
             setError(err)
@@ -137,28 +128,24 @@ const CreateProject = () => {
         }
     }
 
-    console.log('addToDocProducts', addToDocProducts)
-
     return (
-        <div className='wrapper createProject' id='createProjectWrapper'>
-
-            {loading ? <LoadingBackdrop /> : ''}
+        <div className='wrapper' id="editProjectWrapper">
+               {loading ? <LoadingBackdrop /> : ''}
 
             <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem'>
                 <strong>Lägg till nytt projekt</strong> 
             </Typography>
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onEditProject={handleSubmit(onEditProject)} noValidate>
                 <Grid container spacing={2}>
-                    <Grid xs={12} style={{ marginBottom: '3rem'}} >
+                    <Grid xs={12} style={{ marginBottom: '3rem'}}>
                         <TextField
                             required
                             fullWidth
                             id="projecttName"
-                            label="Projekt"
                             name="projectName"
-                            autoComplete="off"
-                            defaultValue=""
+                            // autoComplete='off'
+                            defaultValue={project[0]?.projectName}
 
                             {...register("projectName", { 
                                 required: true, 
@@ -166,7 +153,7 @@ const CreateProject = () => {
                             })}
                         >
                         {errors.projectName === 'required' && <p>Obligatoriskt fält</p>}
-                        </TextField>
+                        </TextField>   
 
                     </Grid>
 
@@ -240,17 +227,17 @@ const CreateProject = () => {
                  *  Selected products
                  */}
 
-                <Grid container spacing={2} style={{ marginBottom: "6rem" }}>
+                <Grid container spacing={2} style={{ marginBottom: "6rem"}} >
                     {selectedProduct ? selectedProduct?.map((item, i) => (
                         <>
                             <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
-                                <ListItem value={item} key={i}> 
+                                <ListItem value={item} key={i} defaultValue={''}> 
                                     {item.product}, {item.quantity}
                                 </ListItem>
                             </Grid>
 
                         
-                            <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
+                            <Grid xs={4} display="flex" justifyContent="end" alignItems="center">
 
                                 {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
 
@@ -263,6 +250,7 @@ const CreateProject = () => {
                                     value={num.i}
                                     onClick={handleClick(item)}
                                     size='small'
+                                    
                                     InputProps={{
                                         inputProps: {min: 0, max: 100 },
                                         inputMode: 'numeric', pattern: '[0-9]*',
@@ -305,9 +293,10 @@ const CreateProject = () => {
             </form>
 
 
-            <LeavePageAlert open={open} setOpen={setOpen}/>         
+            <LeavePageAlert open={open} setOpen={setOpen}/> 
+
         </div>
     )
 }
 
-export default CreateProject
+export default EditProject
