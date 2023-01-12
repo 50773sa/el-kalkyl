@@ -2,13 +2,12 @@ import React from 'react'
 import { useRef, useState } from 'react'
 import { db } from '../firebase'
 import { uuidv4 } from '@firebase/util'
-import { addDoc, arrayRemove, collection  } from 'firebase/firestore'
+import { addDoc, arrayRemove, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
 import LoadingBackdrop from './LoadingBackdrop'
 import useStreamCollection from '../hooks/useStreamCollection'
 import LeavePageAlert from './modals/LeavePageAlert'
-import SuccessAlert from './modals/SuccessAlert'
 
 // mui
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
@@ -25,6 +24,7 @@ import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { InputAdornment } from '@mui/material'
+import { toast } from 'react-toastify'
 
 
 
@@ -83,7 +83,7 @@ const CreateProject = () => {
         item.quantity = num
 
         if (addToDocProducts.includes(item)) {
-            return(
+            return (
                 setLoading(false), 
                 console.log('Item already exists')
 
@@ -121,13 +121,14 @@ const CreateProject = () => {
             await addDoc(collection(db, 'projects'), {
                 uid: currentUser.uid,
                 id: uuidv4(),
+                created: serverTimestamp(),
                 projectName: inputData.projectName,
                 projectMaterial: addToDocProducts
             })
             setSuccess(true)
-            setOpen(true)
+            toast.success('Sparat!')
             console.log("Success")
-            // reset()
+            reset()
 
         } catch (err) {
             setError(err)
@@ -156,7 +157,8 @@ const CreateProject = () => {
                             id="projecttName"
                             label="Projekt"
                             name="projectName"
-                            autoComplete="projectName"
+                            autoComplete="off"
+                            defaultValue=""
 
                             {...register("projectName", { 
                                 required: true, 
@@ -303,10 +305,7 @@ const CreateProject = () => {
             </form>
 
 
-            <LeavePageAlert open={open} setOpen={setOpen}/> 
-
-            {success ? <SuccessAlert open={open} setOpen={setOpen}/> : ''}
-        
+            <LeavePageAlert open={open} setOpen={setOpen}/>         
         </div>
     )
 }
