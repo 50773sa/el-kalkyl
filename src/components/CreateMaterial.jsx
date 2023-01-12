@@ -23,13 +23,9 @@ const unitsList = [
     {unit: 'm', value: 'm'}
 ]
 
-const minutesList = [
-    {minutes: 0.25, value: 15},
-    {minutes: 0.5, value: 30},
-    {minutes: 0.75, value: 45}, 
-]
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hours = [...new Array(12)].map((each, index) => ({ hours: index, value: index }))
+const minutes = [...new Array(61)].map((each, index) => ({ minutes: (index/60).toFixed(2) , value: index }))
 
 
 const CreateMaterial = () => {
@@ -62,7 +58,6 @@ const CreateMaterial = () => {
 
         setExtraItems(extraItems => [...extraItems, items])
         setInputError(false)
-        reset()
     }
     console.log('extraItems', extraItems)
 
@@ -89,7 +84,7 @@ const CreateMaterial = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
-            // reset()
+            reset()
 
         } catch (err) {
             setError(err)
@@ -251,10 +246,11 @@ const CreateMaterial = () => {
                             label="Min"
                             fullWidth
                             required
+                            defaultValue="0"
 
                             {...register("minutes", { required: true })}
                         >
-                            {minutesList.map((option) => (
+                            {minutes.map((option) => (
                                 <MenuItem key={option.minutes} value={option.minutes}>
                                     {option.value}
                                 </MenuItem>
