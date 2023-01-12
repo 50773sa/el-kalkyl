@@ -15,14 +15,12 @@ import { useEffect } from 'react'
 import useGetProject from '../../hooks/useGetProject'
 import useGetDocument from '../../hooks/useGetDocument'
 import LoadingBackdrop from '../LoadingBackdrop'
-import useGetProj from '../../hooks/useGetProj';
 import EditProject from './EditProject'
 
 
 const Project = ({ project, loading, projectId  }) => {
 	// const { projectId } = useParams()
 	const { currentUser } = useAuthContext()
-	// const { data: project, loading } = useGetProject(projectId)
 	const navigate = useNavigate()
 	  
     const deleteProject = async () => {

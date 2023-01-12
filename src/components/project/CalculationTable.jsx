@@ -14,7 +14,6 @@ import useGetProject from '../../hooks/useGetProject';
 import { useAuthContext } from '../../contexts/AuthContextProvider';
 import { List, ListItem, Typography } from '@mui/material';
 import { border, borderBottom, margin } from '@mui/system';
-import useGetProj from '../../hooks/useGetProj';
 
 
 
