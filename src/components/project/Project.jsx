@@ -1,5 +1,5 @@
-import React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
@@ -15,16 +15,14 @@ import { useEffect } from 'react'
 import useGetProject from '../../hooks/useGetProject'
 import useGetDocument from '../../hooks/useGetDocument'
 import LoadingBackdrop from '../LoadingBackdrop'
+import EditProject from './EditProject'
 
 
-const Project = () => {
-	const { projectId } = useParams()
+const Project = ({ project, loading, projectId  }) => {
+	// const { projectId } = useParams()
 	const { currentUser } = useAuthContext()
-	const { data: project, loading } = useGetProject(projectId)
 	const navigate = useNavigate()
-	// console.log('project', project)
-
-
+	  
     const deleteProject = async () => {
 		const ref = doc(db, 'projects', project)
         console.log('ref', ref)
@@ -34,25 +32,35 @@ const Project = () => {
         navigate(`/user/${currentUser.uid}/projects`, { replace: true })
 	}
 
+
     return (
       <div className='wrapper project' id='project'>
 
 			{loading ? <LoadingBackdrop /> : ''}
 
 			<Grid container spacing={2}>
-				<Grid item xs={12} display='flex' alignItems="center" justifyContent="space-between" paddingBottom="2rem" paddingTop='2rem'>
+				<Grid 
+					xs={12} 
+					display='flex' 
+					alignItems="center" 
+					justifyContent="space-between" 
+					paddingBottom="2rem" 
+					paddingTop='2rem'
+				>
 
-					<Typography
-						variant="h6" 
-						component="div" 
-					>
+					<Typography variant="h6" component="div">
 						<strong>{project[0]?.projectName}</strong> 
 					</Typography>
 
-					<ModeEditOutlineOutlinedIcon />
+					<ModeEditOutlineOutlinedIcon onClick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} />
 
-
-					<Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red" >
+					<Grid 
+						xs={2} 
+						display="flex" 
+						justifyContent="end" 
+						alignItems="center" 
+						color="red" 
+					>
                     	<DeleteForeverIcon onClick={deleteProject} />
                     </Grid>
 

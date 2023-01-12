@@ -1,22 +1,21 @@
-import { useState } from "react"
-import { useFieldArray, useForm } from "react-hook-form";
-import { useAuthContext } from "../contexts/AuthContextProvider";
+import { useState, useRef } from "react"
+import { useForm } from "react-hook-form"
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
-import CreateMaterialsForm from "./CreateMaterialForm"
-import LeavePageAlert from "./modals/LeavePageAlert"
 import { uuidv4 } from "@firebase/util"
-
-
-
+import { useAuthContext } from "../contexts/AuthContextProvider"
+import LeavePageAlert from "./modals/LeavePageAlert"
+import { toast } from "react-toastify"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import SuccessAlert from "./modals/SuccessAlert"
+import List from "@mui/material/List"
+import ListItem from "@mui/material/ListItem"
 
 // dropdowns
 const unitsList = [
@@ -24,29 +23,46 @@ const unitsList = [
     {unit: 'm', value: 'm'}
 ]
 
-const minutesList = [
-    {minutes: 0.25, value: 15},
-    {minutes: 0.5, value: 30},
-    {minutes: 0.75, value: 45}, 
-]
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hours = [...new Array(12)].map((each, index) => ({ hours: index, value: index }))
+const minutes = [...new Array(61)].map((each, index) => ({ minutes: (index/60).toFixed(2) , value: index }))
 
 
 const CreateMaterial = () => {
     const [open, setOpen] = useState(false)
-    const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
-    const [form, setForm] = useState([<CreateMaterialsForm/>])
-    const [qtyList, _setQtyList] = useState(quantity)
-    const [hoursList, _setHoursList] = useState(hours)
-
+    const [error, setError] = useState(null)
+    const [inputError, setInputError] = useState(false)
+    const [extraItems, setExtraItems] = useState([])
+    const fittingsRef = useRef(null)
+    const qtyRef = useRef(null)
+    const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
-    const { handleSubmit, formState: { errors }, reset, register, control } = useForm()
+    const { handleSubmit, reset, register, formState: { errors } } = useForm()
 
 
-    const addForm = () => {
-       setForm([...form, form])
+    const handleObjectInput = () => {
+
+        if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
+            console.log("Obligatiskt fält")
+            setInputError(true)
+            return 
+        }
+
+        let items = {
+            id: uuidv4(),
+            fittings: fittingsRef.current.value,
+            quantity: qtyRef.current.value,
+            unit: unitRef.current.value,
+        }
+
+        setExtraItems(extraItems => [...extraItems, items])
+        setInputError(false)
+    }
+    console.log('extraItems', extraItems)
+
+    const handleDelete = (selectedItem) => () => {
+        setExtraItems((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
     const onSubmit = async (inputData) => {
@@ -58,12 +74,8 @@ const CreateMaterial = () => {
                 id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
-                quantity: null,
-                extraItems: [{
-                        fittings: inputData.fittings,
-                        qty: inputData.qty,
-                        unit: inputData.unit,
-                }],
+                quantity: 0,
+                extraItems: extraItems,
                 estimatedTime: {
                     hours: inputData.hours,
                     minutes: inputData.minutes,
@@ -71,12 +83,11 @@ const CreateMaterial = () => {
                 category: inputData.category,
             })
             setSuccess(true)
-            setOpen(true)
-            // reset()
+            toast.success('Sparat!')
+            reset()
 
         } catch (err) {
             setError(err)
-            console.log('errors.message', errors.message)
             console.log('err.message', err.message)
         }
     }
@@ -96,6 +107,11 @@ const CreateMaterial = () => {
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate>
                 <Grid container spacing={2}>
+
+                    {/**
+                     *  Product
+                     */}
+
                     <Grid xs={12}>
                         <TextField
                             id="product"
@@ -105,45 +121,37 @@ const CreateMaterial = () => {
                             fullWidth
                             required
 
-                            {...register("product", { 
-                                required: true, 
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
+                            {...register("product", {required: true})}
                         />
-                        {errors.product === 'required' && <p>Obligatoriskt fält</p>}
                     </Grid>
 
-                    {/* <Grid fittings xs={12} sm={6}>
+                    <Grid xs={12} sm={5}>
                         <TextField
                             required
+                            type="text"
                             id="fittings"
                             label="Tillbehör"
                             name="fittings"
                             autoComplete="fittings"
                             fullWidth
-
-                            {...register("fittings", {
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
+                            inputRef={fittingsRef}
+                            defaultValue=''
                         />
-                    </Grid> */}
+                    </Grid> 
 
                     {/**
-                     *  Amount
+                     *  Quantity
                      */}
 
-                    {/* <Grid fittings xs={6} sm={3}>
+                    <Grid xs={5} sm={3} >
                         <TextField
                             select
                             required
                             id="qty"
                             label="Antal"
                             fullWidth
-
-                            {...register("qty", {
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
-
+                            inputRef={qtyRef}
+                            defaultValue=""
                         >
                             {quantity.map((val) => (
                                 <MenuItem key={val.qty} value={val.qty}>
@@ -152,61 +160,58 @@ const CreateMaterial = () => {
 
                             ))}
                         </TextField>
-                    </Grid> */}
+                    </Grid>
 
                     {/**
                      *  Units
                      */}
 
-                    {/* <Grid fittings xs={6} sm={3}>
+                    <Grid xs={5} sm={3}>
                         <TextField
+                            id="unit"
                             select
                             required
                             label="st/m"
                             fullWidth
-
-                            {...register("unit", {
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
+                            inputRef={unitRef}
+                            defaultValue=""
                         >
                                
-
                             {unitsList.map((option) => (
                                 <MenuItem key={option.unit} value={option.unit}>
                                     {option.value}
                                 </MenuItem>
                             ))}
 
-                         
                         </TextField>
-                     </Grid> */}
+                     </Grid>
 
-                    {/**
-                      * Add another field
-                      */}
-
-                    {form && form.map((i) => (
-                         <CreateMaterialsForm 
-                            key={i}
-                            register={register} 
-                            unitsList={unitsList} 
-                            qtyList={qtyList}
-                            errors={errors}
-                        /> 
-
-                    ))}
-              
-
-                    <Grid 
-                        xs={12} 
+                     <Grid 
+                        xs={2} 
+                        sm={1}
                         display='flex' 
                         alignItems="center" 
                         justifyContent="end" 
-                        paddingBottom="2rem" 
-                        paddingTop='2rem'
+                   
                     >
-                        <AddCircleIcon fontSize="large" onClick={addForm} />    
+                        <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
                     </Grid> 
+
+                     {/**
+                      *  List of selected fittings
+                      */}
+
+                    <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
+                            {extraItems?.map((item) => (
+                                <List key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <ListItem>{item.fittings}</ListItem>
+                                    <ListItem>{item.quantity} {item.unit}</ListItem>
+                                    <RemoveCircleOutlineIcon onClick={handleDelete(item)} sx={{ color: "#ff0000"}}/>
+                                </List>
+                            ))}
+                    </Grid>
+                
+          
 
                     {/**
                       *  Estimated time
@@ -224,18 +229,14 @@ const CreateMaterial = () => {
                             fullWidth
                             required
 
-                            {...register("hours", {
-                                required: true, 
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
+                            {...register("hours", { required: true })}
                         >
-                            {hoursList.map((option) => (
+                            {hours.map((option) => (
                                 <MenuItem key={option.hours} value={option.hours}>
                                     {option.value}
                                 </MenuItem>
                             ))}
                         </TextField>
-                        {errors.hours === 'required' && <p>Obligatoriskt fält</p>}
                      </Grid>
 
 
@@ -245,19 +246,16 @@ const CreateMaterial = () => {
                             label="Min"
                             fullWidth
                             required
+                            defaultValue="0"
 
-                            {...register("minutes", {
-                                required: true, 
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
+                            {...register("minutes", { required: true })}
                         >
-                            {minutesList.map((option) => (
+                            {minutes.map((option) => (
                                 <MenuItem key={option.minutes} value={option.minutes}>
                                     {option.value}
                                 </MenuItem>
                             ))}
                         </TextField>
-                        {errors.minutes === 'required' && <p>Obligatoriskt fält</p>}
                      </Grid>
                      <br/>
 
@@ -273,18 +271,16 @@ const CreateMaterial = () => {
                             required
                             style={{ marginBottom: '6rem'}}
 
-                            {...register("category", {
-                                required: true, 
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
-                        >
+                            {...register("category", { required: true })}>
+
                             <MenuItem value={'Apparater'}>Apparater</MenuItem>
                             <MenuItem value={'Belysning'}>Belysning</MenuItem>
                             <MenuItem value={'Tele'}>Tele</MenuItem>
                         </TextField>
-                        {errors.category === 'required' && <p>Obligatoriskt fält</p>}
                     </Grid>        
                 </Grid>
+
+                {inputError ? <p className="error">Alla fält är obligatoriska!</p> : ''}
 
                 <div className="buttons">
                     <Button 	
@@ -296,16 +292,13 @@ const CreateMaterial = () => {
                     </Button>
                     <Button
                         fullWidth
-                        onClick={() => {setOpen(true)}}
+                        onClick={() => {!success ? setOpen(true) : ''}}
                     > Avbryt
                     </Button>
                 </div>
             </form>
 
-            {open ? <LeavePageAlert open={open} setOpen={setOpen} /> : ''}
-
-            {success && open ? <SuccessAlert open={open} setOpen={setOpen} /> : ''}
-
+            <LeavePageAlert open={open} setOpen={setOpen} /> 
         </div>
     )
 }

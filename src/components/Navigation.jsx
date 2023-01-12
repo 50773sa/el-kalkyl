@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import { useNavigate } from 'react-router-dom';
 // mui
+import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton'
@@ -63,7 +64,7 @@ const Navigation = () => {
                                 color: 'inherit',
                                 textDecoration: 'none',
                             }}
-                        > LOGO
+                        > Kalkyl<KeyboardDoubleArrowUpIcon fontSize='large'/>
                         </Typography>
                     </Tooltip>
                         
