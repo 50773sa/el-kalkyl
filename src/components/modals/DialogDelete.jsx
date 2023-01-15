@@ -1,6 +1,3 @@
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../../contexts/AuthContextProvider'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -12,18 +9,23 @@ import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
 
 
-const DialogDelete = ({ openModal, setOpenModal }) => {
-    const navigate = useNavigate()
-    const { currentUser } = useAuthContext()
+const DialogDelete = ({ open, setOpen, setLoading, confirmDelete, setConfirmDelete }) => {
 
     const handleClose = () => {
-      setOpenModal(false)
+      setOpen(false)
+      setLoading(false)
+    }
+
+    const handleDeleteProject = () => {
+        setConfirmDelete(true)
+        console.log('confirmDelete', confirmDelete)
     }
 
     return (
         <div>
             <Dialog
-                openModal={openModal}
+                open={open}
+                confirmDelete={confirmDelete}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -89,7 +91,7 @@ const DialogDelete = ({ openModal, setOpenModal }) => {
                     <Button 
                         fullWidth
                         variant="outlined"
-                        onClick={() => navigate(`/user/${currentUser.uid}`)}
+                        onClick={handleDeleteProject}
                         style={{ margin: '0'}}
                     >
                         Lämna sidan

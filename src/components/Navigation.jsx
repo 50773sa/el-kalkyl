@@ -92,7 +92,7 @@ const Navigation = () => {
                                 transformOrigin={{ vertical: 'top', horizontal: 'right' }}
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
-                                >
+                            >
                                     <MenuItem onClick={() => navigate(`/user/${currentUser.uid}/settings`) && handleCloseUserMenu} >
                                         <Typography textAlign="center">Profil</Typography>
                                     </MenuItem>

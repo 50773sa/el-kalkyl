@@ -121,6 +121,7 @@ const CreateProject = () => {
             await addDoc(collection(db, 'projects'), {
                 uid: currentUser.uid,
                 id: uuidv4(),
+                completed: false,
                 created: serverTimestamp(),
                 projectName: inputData.projectName,
                 projectMaterial: addToDocProducts
@@ -241,7 +242,7 @@ const CreateProject = () => {
                  */}
 
                 <Grid container spacing={2} style={{ marginBottom: "6rem" }}>
-                    {selectedProduct ? selectedProduct?.map((item, i) => (
+                    {selectedProduct?.map((item, i) => (
                         <>
                             <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
                                 <ListItem value={item} key={i}> 
@@ -259,7 +260,7 @@ const CreateProject = () => {
                                     type="number"
                                     variant="outlined"
                                     inputRef={numberRef}
-                                    onChange={(e) => (setNum(e.target.value))}
+                                    onChange={(e) => (setNum(Number(e.target.value)))}
                                     value={num.i}
                                     onClick={handleClick(item)}
                                     size='small'
@@ -280,7 +281,7 @@ const CreateProject = () => {
 
                         </>
                     
-                    )): ''}
+                    ))}
                 </Grid>
 
                 {/**

@@ -100,7 +100,7 @@ const UserHome = () => {
                     onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
                     style={{ 
                         width: '80%',
-                        height: '50px', 
+                        height: '100px', 
                         padding: '1.5rem',
                         backgroundColor: '#DC822F',
                     }}
@@ -116,7 +116,7 @@ const UserHome = () => {
                     onClick={() => console.log('click')} 
                     style={{
                         width: '20%',
-                        height: '50px', 
+                        height: '100px', 
                         padding: '1.5rem',
                         backgroundColor: '#CBC309',
 
@@ -141,7 +141,15 @@ const UserHome = () => {
             >
                 <Card 
                     onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`)} 
-                    style={{ width: '20%', height: '50px', padding: '1.5rem', display:' flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#68A5EC' }}
+                    style={{ 
+                        width: '20%', 
+                        height: '100px', 
+                        padding: '1.5rem', 
+                        display:' flex', 
+                        justifyContent: 'center', 
+                        alignItems: 'center', 
+                        backgroundColor: '#68A5EC' 
+                    }}
                 >
                     <CardContent className='center'>
                         <AddCircleOutlineIcon />
@@ -151,7 +159,7 @@ const UserHome = () => {
 
                 <Card 
                     onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
-                    style={{ width: '80%', height: '50px', padding: '1.5rem', backgroundColor: '#68C37C' }}
+                    style={{ width: '80%', height: '100px', padding: '1.5rem', backgroundColor: '#68C37C' }}
                 >
                     <CardContent>
                         <Typography variant="h8" component="div" textAlign='center'>
