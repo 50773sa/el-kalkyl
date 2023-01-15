@@ -72,7 +72,6 @@ const CreateMaterial = () => {
         try {
             await addDoc(collection(db, 'material'), {
                 id: uuidv4(),
-                completed: false,
                 uid: currentUser.uid,
                 product: inputData.product,
                 quantity: 0,
