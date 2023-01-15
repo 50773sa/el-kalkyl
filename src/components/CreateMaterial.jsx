@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useMemo } from "react"
 import { useForm } from "react-hook-form"
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
@@ -16,6 +16,7 @@ import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
+import { useEffect } from "react"
 
 // dropdowns
 const unitsList = [
@@ -24,8 +25,8 @@ const unitsList = [
 ]
 
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
-const hours = [...new Array(12)].map((each, index) => ({ hours: index, value: index }))
-const minutes = [...new Array(61)].map((each, index) => ({ minutes: (index/60).toFixed(2) , value: index }))
+const hours = [...new Array(13)].map((each, index) => ({ hours: index, value: index }))
+const minutes = [...new Array(61)].map((each, index) => ({ minutes: (index/60).toFixed(2), value: index }))
 
 
 const CreateMaterial = () => {
@@ -59,7 +60,6 @@ const CreateMaterial = () => {
         setExtraItems(extraItems => [...extraItems, items])
         setInputError(false)
     }
-    console.log('extraItems', extraItems)
 
     const handleDelete = (selectedItem) => () => {
         setExtraItems((items) => items.filter((item) => item.id !== selectedItem.id))
@@ -84,7 +84,7 @@ const CreateMaterial = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
-            reset()
+            // reset()
 
         } catch (err) {
             setError(err)
@@ -92,9 +92,9 @@ const CreateMaterial = () => {
         }
     }
 
+
     return (
         <div className='wrapper addMaterial' id='addMaterial'>
-
             <Typography
                 variant="h6" 
                 component="div" 
@@ -135,7 +135,7 @@ const CreateMaterial = () => {
                             autoComplete="fittings"
                             fullWidth
                             inputRef={fittingsRef}
-                            defaultValue=''
+                            defaultValue=""
                         />
                     </Grid> 
 
@@ -194,7 +194,8 @@ const CreateMaterial = () => {
                         justifyContent="end" 
                    
                     >
-                        <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
+                        <Button variant="contained" onClick={handleObjectInput}>Lägg till</Button>
+                        {/* <AddCircleIcon fontSize="large" onClick={handleObjectInput} />     */}
                     </Grid> 
 
                      {/**
@@ -246,12 +247,11 @@ const CreateMaterial = () => {
                             label="Min"
                             fullWidth
                             required
-                            defaultValue="0"
 
                             {...register("minutes", { required: true })}
                         >
                             {minutes.map((option) => (
-                                <MenuItem key={option.minutes} value={option.minutes}>
+                                <MenuItem key={option.minutes} value={Number(option.minutes)}>
                                     {option.value}
                                 </MenuItem>
                             ))}
@@ -285,6 +285,7 @@ const CreateMaterial = () => {
                 <div className="buttons">
                     <Button 	
                         type="submit"
+                        disabled={extraItems.length === 0 ? true : false}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
