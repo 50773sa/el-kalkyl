@@ -1,23 +1,21 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
-import { toast } from 'react-toastify'
+import { doc, updateDoc } from 'firebase/firestore'
+import useStreamDoc from '../../hooks/useStreamDoc'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
+import CalculationTable from './CalculationTable';
+import DialogDelete from '../modals/DialogDelete'
+import LoadingBackdrop from '../LoadingBackdrop'
+// mui
 import Typography from '@mui/material/Typography'
+import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
-import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import CalculationTable from './CalculationTable';
-import { useAuthContext } from '../../contexts/AuthContextProvider'
-
-import LoadingBackdrop from '../LoadingBackdrop'
 import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
 import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
-import { useEffect, useState } from 'react'
-import useStreamDoc from '../../hooks/useStreamDoc'
-import DialogDelete from '../modals/DialogDelete'
 
 const Project = ({ projectId }) => {
-	const [confirmDelete, setConfirmDelete] = useState(false)
 	const [loading, setLoading] = useState(false)
 	const [open, setOpen] = useState(false)
     const [error, setError] = useState(null)
@@ -25,31 +23,11 @@ const Project = ({ projectId }) => {
 	const { data: project } = useStreamDoc('projects', projectId)
 	const navigate = useNavigate()
 
-	  
+  
     const deleteProject = async () => {
-		const ref = doc(db, 'projects', projectId)
-		setError(null)
 		setLoading(true)
-
 		setOpen(true)
-
-		try {
-			if (confirmDelete === false) {
-				return	
-			}
-			await deleteDoc(ref)
-			toast.success('Raderat!')
-			navigate(`/user/${currentUser.uid}/projects`, { replace: true })
-			setLoading(false)
-
-		} catch(err){
-			setError(err)
-			console.log('error', error)
-			setLoading(false)
-		}
-
 	}
-	console.log('projectId', projectId)
 
 	const toggleProject = async () => {
 		const ref = doc(db, 'projects', projectId)
@@ -66,17 +44,12 @@ const Project = ({ projectId }) => {
 			setError(err)
 			console.log('error', error)
 			setLoading(false)
-		}
-		
+		}	
 	}
-
-	useEffect(() => {
-
-	}, [confirmDelete])
-
 
     return (
       <div className='wrapper' id='projectWrapper'>
+
 			{loading ? <LoadingBackdrop /> : ''}
 
 			<Grid container spacing={2}>
@@ -128,7 +101,7 @@ const Project = ({ projectId }) => {
 					open={open} 
 					setOpen={setOpen} 
 					setLoading={setLoading}
-					setConfirmDelete={setConfirmDelete} 
+					projectId={projectId}
 				/> 
 			)}
       	</div>
