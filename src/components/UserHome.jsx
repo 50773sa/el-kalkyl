@@ -37,13 +37,21 @@ const UserHome = () => {
             >
                 {loading && <LoadingBackdrop />}
 
-                <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', width: '100%'}}>
-                    {!loading ? (
+                <CardContent 
+                    style={{ 
+                        display: 'flex', 
+                        flexDirection: 'column', 
+                        justifyContent: 'center', 
+                        width: '100%', 
+                        cursor: 'pointer'
+                    }}
+                >
+                    {!loading && (
                         <Typography variant="h6" component="div" textAlign='center' >
                             {data?.company ? data?.company : "Profil"}
                         </Typography>
+                    )}
 
-                    ): ''}
                     <SettingsIcon style={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
                 </CardContent>
             </Card>
@@ -59,9 +67,8 @@ const UserHome = () => {
 
             <br/>
 
-
              {/** 
-             *  "Captions"
+             *  Number of projects
              */}
 
             <div 
@@ -81,9 +88,8 @@ const UserHome = () => {
                 </Typography>
             </div>
 
-
             {/** 
-             * Project buttons 
+             *  Navigation buttons 
              */}
 
             <div 
