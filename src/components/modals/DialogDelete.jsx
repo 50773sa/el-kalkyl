@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, deleteDoc } from 'firebase/firestore'
@@ -12,7 +13,6 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
-import { useState } from 'react'
 
 
 const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
@@ -45,8 +45,6 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
 		}
 	}
 
-
-
     return (
         <div>
             <Dialog
@@ -55,10 +53,10 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 maxWidth='500px'
-      
             >
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <div style={{ 
+                    <div 
+                        style={{ 
                             display: 'flex', 
                             flexDirection: 'row',
                             justifyContent: 'center', 
@@ -70,16 +68,17 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                             borderRadius: '50%' 
                         }}
                     >
-                        <div style={{ 
-                            display: 'flex', 
-                            justifyContent: 'center', 
-                            alignItems: 'center', 
-                            backgroundColor: '#ff590147', 
-                            width: '4rem', 
-                            height: '4rem', 
-                            borderRadius: '50%' 
-                        }}
-                    >
+                        <div 
+                            style={{ 
+                                display: 'flex', 
+                                justifyContent: 'center', 
+                                alignItems: 'center', 
+                                backgroundColor: '#ff590147', 
+                                width: '4rem', 
+                                height: '4rem', 
+                                borderRadius: '50%' 
+                            }}
+                        >
                             <SaveOutlinedIcon 
                                 fontSize='large' 
                                 style={{ color: '#ff5901', }}
