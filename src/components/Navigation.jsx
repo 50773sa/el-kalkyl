@@ -63,6 +63,7 @@ const Navigation = () => {
                                 letterSpacing: '.3rem',
                                 color: 'inherit',
                                 textDecoration: 'none',
+                                cursor: 'pointer'
                             }}
                         > Kalkyl<KeyboardDoubleArrowUpIcon fontSize='large'/>
                         </Typography>
