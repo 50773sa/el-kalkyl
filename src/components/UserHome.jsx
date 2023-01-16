@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamDoc from '../hooks/useStreamDoc'
@@ -12,11 +13,18 @@ import SettingsIcon from '@mui/icons-material/Settings'
 
 
 const UserHome = () => {
+    const [completedProjects, setCompletedProjects] = useState(0)
     const { currentUser, userName } = useAuthContext()
     const { data, loading } = useStreamDoc('users', currentUser.uid)
     const { data: projects } = useStreamCollection('projects')
-
     const navigate = useNavigate()
+
+    useEffect(() => {
+        let proj = projects?.filter(project => project.completed === true)
+        setCompletedProjects(proj.length)
+
+    }, [completedProjects, projects])
+
 
     return (
         <div className='wrapper home' id='home'>
@@ -81,10 +89,13 @@ const UserHome = () => {
             >
                 <Typography variant="h7" component="span" textAlign='center' marginBottom='2rem'>
                    <strong>{projects?.length ? projects.length : "0"}</strong>  
-                   <br/> projekt
+                   <br/> Projekt
                 </Typography>
                 <Typography variant="h7" component="span" textAlign='center'>
-                    -------
+
+                        <strong>{completedProjects}</strong>  
+                    
+                    <br/> Aktiva projekt
                 </Typography>
             </div>
 
@@ -130,7 +141,7 @@ const UserHome = () => {
                 >
                     <CardContent>
                         <Typography variant="h8" component="div" textAlign='center'>
-                            ?
+                            ---
                         </Typography>
                     </CardContent>
                 </Card>
