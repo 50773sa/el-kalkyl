@@ -11,7 +11,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import { Typography } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -45,7 +45,6 @@ const Settings = () => {
     } = useAuthContext()
 
     const { data } = useStreamDoc('users', currentUser.uid)
-	console.log('*******',data.company)
 
     const onSetUserCompany = async () => {
         const docRef = doc(db, 'users', currentUser.uid)
@@ -128,7 +127,7 @@ const Settings = () => {
 
             <Card 
                 style={{ 
-                    height: '50px', 
+                    height: '100px', 
                     padding: '24px',
                     paddingBottom: '2rem',
                     marginBottom: '2rem',
@@ -164,7 +163,7 @@ const Settings = () => {
 
                     <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/projects`)} >
                         <ListItemButton style={{ paddingLeft: '0'}}>
-                            <ModeEditOutlineOutlinedIcon />
+                            <FolderOpenOutlinedIcon />
                             <ListItemText 
                                 style={{ paddingLeft: '1rem'}}
                                 primary="Alla projekt" 
