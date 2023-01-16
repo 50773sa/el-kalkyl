@@ -1,3 +1,8 @@
+import { useNavigate } from 'react-router-dom'
+import { db } from '../../firebase'
+import { doc, deleteDoc } from 'firebase/firestore'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
+import { toast } from 'react-toastify'
 // mui
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
@@ -7,25 +12,45 @@ import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import CloseIcon from '@mui/icons-material/Close';
+import { useState } from 'react'
 
 
-const DialogDelete = ({ open, setOpen, setLoading, confirmDelete, setConfirmDelete }) => {
+const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const [error, setError] = useState()
+	const navigate = useNavigate()
+    const { currentUser } = useAuthContext()
 
-    const handleClose = () => {
-      setOpen(false)
-      setLoading(false)
-    }
+	const handleClose = () => {
+		setOpen(false)
+		setLoading(false)
+	}
+  
+    const handleDeleteProject = async () => {
+        const ref = doc(db, 'projects', projectId)
 
-    const handleDeleteProject = () => {
-        setConfirmDelete(true)
-        console.log('confirmDelete', confirmDelete)
-    }
+		setError(null)
+		setConfirmDelete(true)
+
+		try {
+			await deleteDoc(ref)
+			toast.success('Raderat!')
+			navigate(`/user/${currentUser.uid}/projects`, { replace: true })
+			setOpen(false)
+			setLoading(false)
+			
+		} catch(err){
+			setError(err)
+			setLoading(false)
+		}
+	}
+
+
 
     return (
         <div>
             <Dialog
                 open={open}
-                confirmDelete={confirmDelete}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -69,7 +94,7 @@ const DialogDelete = ({ open, setOpen, setLoading, confirmDelete, setConfirmDele
                 </div>
                
                 <DialogTitle id="alert-dialog-title">
-                    <strong>Är du säker?</strong>
+                    <strong>Vill du radera detta projekt?</strong>
                 </DialogTitle>
 
                 <DialogContent>
@@ -94,7 +119,7 @@ const DialogDelete = ({ open, setOpen, setLoading, confirmDelete, setConfirmDele
                         onClick={handleDeleteProject}
                         style={{ margin: '0'}}
                     >
-                        Lämna sidan
+                        Radera projekt
                     </Button>
                 </DialogActions>
             </Dialog>
