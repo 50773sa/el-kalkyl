@@ -12,8 +12,8 @@ import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
-import ToggleOnOutlinedIcon from '@mui/icons-material/ToggleOnOutlined';
-import ToggleOffOutlinedIcon from '@mui/icons-material/ToggleOffOutlined';
+import ToggleOnIcon from '@mui/icons-material/ToggleOn'
+import ToggleOffIcon from '@mui/icons-material/ToggleOff'
 
 const Project = ({ projectId }) => {
 	const [loading, setLoading] = useState(false)
@@ -50,11 +50,11 @@ const Project = ({ projectId }) => {
     return (
       <div className='wrapper' id='projectWrapper'>
 
-			{loading ? <LoadingBackdrop /> : ''}
+			{loading && <LoadingBackdrop /> }
 
 			<Grid container spacing={2}>
 				<Grid 
-					xs={12} 
+					xs={6} 
 					display='flex' 
 					alignItems="center" 
 					justifyContent="space-between" 
@@ -65,28 +65,42 @@ const Project = ({ projectId }) => {
 					<Typography variant="h6" component="div">
 						<strong>{project.projectName}</strong> 
 					</Typography>
-
-					<span onClick={toggleProject}>
-						{project.completed 
-							? 	<ToggleOnOutlinedIcon sx={{ color: '#15a715' }}/>  			
-							:	<ToggleOffOutlinedIcon  sx={{ color: '#808080' }}/>
-						}
-					</span>
-						
-					<ModeEditOutlineOutlinedIcon onClick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} />
-
-					<Grid 
-						xs={2} 
-						display="flex" 
-						justifyContent="end" 
-						alignItems="center" 
-						color="red" 
-					>
-                    	<DeleteForeverIcon onClick={deleteProject} />
-                    </Grid>
-
 				</Grid>
 
+				<Grid 
+					xs={2}
+					display= 'flex'
+					justifyContent='end'
+					alignItems='center'
+				>
+					<span onClick={toggleProject}>
+						{project.completed 
+							? 	<ToggleOnIcon sx={{ color: '#15a715' }}/>  		
+							:	<ToggleOffIcon  sx={{ color: '#808080' }}/>
+						}
+					</span>
+				</Grid>
+
+				<Grid 
+					xs={2}
+					display= 'flex'
+					justifyContent='end'
+					alignItems='center'
+				>
+					<ModeEditOutlineOutlinedIcon onClick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} />
+				</Grid>
+						
+				<Grid 
+					xs={2} 
+					display="flex" 
+					justifyContent="end" 
+					alignItems="center" 
+					color="red" 
+				>
+					<DeleteForeverIcon onClick={deleteProject} />
+				</Grid>
+
+				
 				{/**
 				 * 	Table
 				 */}
