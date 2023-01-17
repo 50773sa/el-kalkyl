@@ -22,6 +22,8 @@ const CalculationTable = ({ project }) => {
 	let qty = []
 	let items = []
 
+	let hours;
+	let minutes;
 
 	const findDuplicates = () => {
 		// Remove items if more than one, but keep the values
@@ -103,14 +105,15 @@ const CalculationTable = ({ project }) => {
 							const workHours = [(item.estimatedTime.hours + item.estimatedTime.minutes) * item.quantity]
 								work = [...work, workHours].flat()
 								work.reduce((a, b) => workingHours = a + b ,0)
+								hours = Math.ceil(workHours/60)
+								minutes = workingHours % 60
 
-
-							return 	(
+							return (
 								<>
 									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: "#cccccc"}}>
 										<TableCell>{item.product}</TableCell>
 										<TableCell align='center'>{item.quantity}</TableCell>
-										<TableCell align='right'>{workHours}</TableCell>
+										<TableCell align='right'>{workHours} min</TableCell>
 									</TableRow>
 
 									{item.extraItems.map((items) => {
@@ -128,11 +131,15 @@ const CalculationTable = ({ project }) => {
 							)
 						})}
 
+						{/**
+						 *	Reduced list of items 
+						 */}
+
 			
 						<TableRow colSpan={2} style={{ borderTop: '2px solid #848484cf', borderBottom: '2px solid #848484cf' }} >
 							<TableCell align='left'><strong>Sammanställning</strong></TableCell>
 							<TableCell align='left'>Arbetstimmar</TableCell>
-							<TableCell align="right">{workingHours}</TableCell>				
+							<TableCell align="right">{hours}tim {minutes} min</TableCell>				
 						</TableRow>
 
 						{products?.map((item) => (
@@ -144,12 +151,11 @@ const CalculationTable = ({ project }) => {
 						))}
 		
 						{!loading && reducedResult?.map((i) => (
-							<TableRow key={i} colSpan={3}>
+							<TableRow key={i.item} colSpan={3}>
 								<TableCell style={{ borderBottom: 'none'}}></TableCell>
 								<TableCell align='left'>{i.item}</TableCell>
 								<TableCell align='right'>{i.value}</TableCell>
-							</TableRow>
-						
+							</TableRow> 
 						))} 
 
 					</TableBody>

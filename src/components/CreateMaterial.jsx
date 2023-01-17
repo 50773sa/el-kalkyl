@@ -25,8 +25,8 @@ const unitsList = [
 ]
 
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
-const hours = [...new Array(13)].map((each, index) => ({ hours: index, value: index }))
-const minutes = [...new Array(61)].map((each, index) => ({ minutes: (index/60).toFixed(2), value: index }))
+const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
+const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
 
 
 const CreateMaterial = () => {
@@ -41,7 +41,8 @@ const CreateMaterial = () => {
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors } } = useForm()
 
-
+console.log('hours', hours)
+console.log('minutes', minutes)
     const handleObjectInput = () => {
 
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
