@@ -104,19 +104,6 @@ const SignUp = () => {
 								helperText=" "
 							/>
 						</Grid>
-
-						<Grid item xs={12}>
-							<TextField
-								inputRef={companyRef}
-								required
-								fullWidth
-								id="company"
-								label="Företag"
-								name="company"
-								autoComplete="company"
-								helperText=" "
-							/>
-						</Grid>
 				
 						<Grid item xs={12}>
 							<TextField
