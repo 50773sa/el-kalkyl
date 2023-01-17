@@ -105,9 +105,9 @@ const CalculationTable = ({ project }) => {
 							const workHours = [(item.estimatedTime.hours + item.estimatedTime.minutes) * item.quantity]
 								work = [...work, workHours].flat()
 								work.reduce((a, b) => workingHours = a + b ,0)
-								hours = Math.ceil(workHours/60)
+								hours = Math.floor([workingHours/60])
 								minutes = workingHours % 60
-
+						
 							return (
 								<>
 									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: "#cccccc"}}>
@@ -119,7 +119,7 @@ const CalculationTable = ({ project }) => {
 									{item.extraItems.map((items) => {
 										qty = [...qty, items.quantity * item.quantity]
 										fittings = [...fittings, items.fittings]
-					
+										
 										return (
 											<TableRow key={i.id} colSpan={3} >
 												<TableCell align='left' style={{ borderBottom: 'none' }}> - {items.fittings}</TableCell> 
