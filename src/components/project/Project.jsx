@@ -23,7 +23,7 @@ const Project = ({ projectId }) => {
 	const { data: project } = useStreamDoc('projects', projectId)
 	const navigate = useNavigate()
 
-  
+	// open delete modal
     const deleteProject = async () => {
 		setLoading(true)
 		setOpen(true)
@@ -34,16 +34,11 @@ const Project = ({ projectId }) => {
 		setError(null)
 
 		try {
-			setLoading(true)
 			await updateDoc(ref, {
 				completed: !project.completed
 			})
-			setLoading(false)
-
 		} catch(err) {
 			setError(err)
-			console.log('error', error)
-			setLoading(false)
 		}	
 	}
 
