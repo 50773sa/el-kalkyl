@@ -9,7 +9,9 @@ import TableRow from '@mui/material/TableRow'
 
 
 const CalculationTable = ({ project }) => {
-	const [objArr, setObjArr] = useState()
+	const [objArr, setObjArr] = useState([])
+	const [reducedResult, setReducedResult] = useState([])
+
 	let work = []
 	let fittings = []
 	let fittingsArr = []
@@ -19,12 +21,24 @@ const CalculationTable = ({ project }) => {
 	let items = []
 
 
-	const findDuplicates = (arr) => {
-		let array = arr.filter((item, index) => arr.indexOf(item) === index)
-		// setObjArr([...array])
-		// console.log('array', array)
-		return array
-	}
+	// const findDuplicates = () => {
+	
+	// 	const groupByItem = objArr?.reduce((acc, curr) => {
+	// 		if (acc[curr.item]) {
+	// 		  acc[curr.item].value += curr.value
+	// 		} else {
+	// 		  acc[curr.item] = { item: curr?.item, value: curr?.value }
+	// 		}
+	// 		return acc
+	// 	}, {})
+	// 	setReducedResult(groupByItem)
+
+		  
+	// 	//   const groupedArray = Object?.values(groupByItem)
+	// 	  console.log('groupedArray', groupByItem)
+	// 	  console.log('reducedResult', reducedResult)
+	// }
+
 
 	const convertToObj = (a, b, arr) => {
 		// Checking if the array lengths are same and none of the array is empty
@@ -38,8 +52,17 @@ const CalculationTable = ({ project }) => {
 			return [ ...arr, {item: element , value: b[index]} ]
 		},'')
 
-		setObjArr(object)
-		// findDuplicates(objArr)
+		const groupByItem = object?.reduce((acc, curr) => {
+			if (acc[curr.item]) {
+			  acc[curr.item].value += curr.value
+			} else {
+			  acc[curr.item] = { item: curr?.item, value: curr?.value }
+			}
+			setObjArr([acc])
+			return acc
+		}, {})
+		console.log('object', groupByItem)
+
 	}
 
 	useEffect(() => {
@@ -47,11 +70,14 @@ const CalculationTable = ({ project }) => {
 			console.log('No fittings')
 			return 
 		}
+
 		convertToObj(fittings, qty)
+		// findDuplicates()
+
 	}, [project])
  
 	console.log('objArr', objArr)
-	console.log('products', products)
+
 
 	return (
 		<TableContainer>
@@ -108,7 +134,7 @@ const CalculationTable = ({ project }) => {
 						<TableCell align="right">{workingHours}</TableCell>				
 					</TableRow>
 
-					{products.map((item) => (
+					{products?.map((item) => (
 						<TableRow key={item.id} colSpan={3}>
 							<TableCell style={{ borderBottom: 'none'}}></TableCell>
 							<TableCell align='left'>{item.product}</TableCell>
@@ -116,11 +142,11 @@ const CalculationTable = ({ project }) => {
 						</TableRow>
 					))}
 	
-					{objArr?.map((item) => (
-						<TableRow key={item.id} colSpan={3}>
+					{objArr?.map((i) => (
+						<TableRow key={i} colSpan={3}>
 							<TableCell style={{ borderBottom: 'none'}}></TableCell>
-							<TableCell align='left'>{item.item}</TableCell>
-							<TableCell align='right'>{item.value}</TableCell>
+							<TableCell align='left'>{i.item}</TableCell>
+							<TableCell align='right'>{i.value}</TableCell>
 						</TableRow>
 					
 					))} 
