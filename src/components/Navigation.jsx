@@ -54,7 +54,7 @@ const Navigation = () => {
                         <Typography
                             variant="h6"
                             noWrap
-                            onClick={() => navigate(`/user/${currentUser?.uid}`)} 
+                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/')} 
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex' },
@@ -94,12 +94,12 @@ const Navigation = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                    <MenuItem onClick={() => navigate(`/user/${currentUser.uid}/settings`) && handleCloseUserMenu} >
-                                        <Typography textAlign="center">Profil</Typography>
-                                    </MenuItem>
-                                    <MenuItem onClick={handleSignOut}>
-                                        <Typography textAlign="center">Logga ut</Typography>
-                                    </MenuItem>
+                                <MenuItem onClick={() => navigate(`/user/${currentUser.uid}/settings`) && handleCloseUserMenu} >
+                                    <Typography textAlign="center">Profil</Typography>
+                                </MenuItem>
+                                <MenuItem onClick={handleSignOut}>
+                                    <Typography textAlign="center">Logga ut</Typography>
+                                </MenuItem>
                             </Menu>
                         </>
                     ): ''}
