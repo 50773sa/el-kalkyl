@@ -91,10 +91,9 @@ const UserHome = () => {
                    <strong>{projects?.length ? projects.length : "0"}</strong>  
                    <br/> Projekt
                 </Typography>
-                <Typography variant="h7" component="span" textAlign='center'>
 
-                        <strong>{completedProjects}</strong>  
-                    
+                <Typography variant="h7" component="span" textAlign='center'>
+                    <strong>{completedProjects}</strong>  
                     <br/> Aktiva projekt
                 </Typography>
             </div>
@@ -141,7 +140,7 @@ const UserHome = () => {
                 >
                     <CardContent>
                         <Typography variant="h8" component="div" textAlign='center'>
-                            ---
+                            -
                         </Typography>
                     </CardContent>
                 </Card>

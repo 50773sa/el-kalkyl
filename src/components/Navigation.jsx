@@ -30,7 +30,7 @@ const Navigation = () => {
     const handleSignOut = async () => {
 
         await signout()
-        navigate('/')
+        navigate('/sign-in')
         handleCloseUserMenu()
     }
 

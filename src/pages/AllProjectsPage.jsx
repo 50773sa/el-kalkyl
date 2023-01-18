@@ -17,14 +17,13 @@ const AllProjectsPage = () => {
         ['projects', { uid: currentUser.uid}], 
         queryRef, {idField: 'id', subscribe: true, }
     )
-
+        console.log('projects', projects)
     return (
         <Container>
-            {isLoading ? <LoadingBackdrop /> : ''}
+            {isLoading && <LoadingBackdrop /> }
 
-            {!isLoading 
-                ? <AllProjects projects={projects}/>
-                : ''
+            {!isLoading &&
+                <AllProjects projects={projects}/>
             }
         </Container>
     )
