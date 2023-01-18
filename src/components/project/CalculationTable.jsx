@@ -85,7 +85,6 @@ const CalculationTable = ({ project }) => {
 
 	return (
 		<>
-			{loading && <LoadingBackdrop />}
 			<TableContainer>
 				<Table sx={{ minWidth: 300 }} aria-label="spanning table">
 					<TableHead>
@@ -139,7 +138,7 @@ const CalculationTable = ({ project }) => {
 						<TableRow colSpan={2} style={{ borderTop: '2px solid #848484cf', borderBottom: '2px solid #848484cf' }} >
 							<TableCell align='left'><strong>Sammanställning</strong></TableCell>
 							<TableCell align='left'>Arbetstimmar</TableCell>
-							<TableCell align="right">{hours}tim {minutes} min</TableCell>				
+							<TableCell align="right">{hours} tim {minutes} min</TableCell>				
 						</TableRow>
 
 						{products?.map((item) => (
