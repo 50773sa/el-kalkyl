@@ -41,8 +41,6 @@ const CreateMaterial = () => {
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors } } = useForm()
 
-console.log('hours', hours)
-console.log('minutes', minutes)
     const handleObjectInput = () => {
 
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -121,6 +119,7 @@ console.log('minutes', minutes)
                             autoComplete="product"
                             fullWidth
                             required
+                            helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
 
                             {...register("product", {required: true})}
                         />
@@ -129,14 +128,17 @@ console.log('minutes', minutes)
                     <Grid xs={12} sm={5}>
                         <TextField
                             required
-                            type="text"
                             id="fittings"
                             label="Tillbehör"
                             name="fittings"
                             autoComplete="fittings"
                             fullWidth
                             inputRef={fittingsRef}
-                            defaultValue=""
+                            helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
+
+                            // keep ...register. Otherwise the helper text will not be visible.
+                            {...register("fittings", {required: true})}
+
                         />
                     </Grid> 
 
@@ -144,15 +146,20 @@ console.log('minutes', minutes)
                      *  Quantity
                      */}
 
-                    <Grid xs={5} sm={3} >
+                    <Grid xs={5} sm={4} >
                         <TextField
                             select
                             required
                             id="qty"
                             label="Antal"
+                            name="qty"
                             fullWidth
                             inputRef={qtyRef}
                             defaultValue=""
+                            helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
+
+                            {...register("qty", {required: true})}
+
                         >
                             {quantity.map((val) => (
                                 <MenuItem key={val.qty} value={val.qty}>
@@ -160,6 +167,7 @@ console.log('minutes', minutes)
                                 </MenuItem>
 
                             ))}
+
                         </TextField>
                     </Grid>
 
@@ -174,8 +182,12 @@ console.log('minutes', minutes)
                             required
                             label="st/m"
                             fullWidth
+                            name="unit"
                             inputRef={unitRef}
                             defaultValue=""
+                            helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
+
+                            {...register("unit", {required: true})}
                         >
                                
                             {unitsList.map((option) => (
@@ -187,16 +199,19 @@ console.log('minutes', minutes)
                         </TextField>
                      </Grid>
 
+
+                     {/**
+                      *   Add button
+                      */}
+
                      <Grid 
                         xs={2} 
-                        sm={1}
                         display='flex' 
                         alignItems="center" 
                         justifyContent="end" 
                    
                     >
-                        <Button variant="contained" onClick={handleObjectInput}>Lägg till</Button>
-                        {/* <AddCircleIcon fontSize="large" onClick={handleObjectInput} />     */}
+                        <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
                     </Grid> 
 
                      {/**
@@ -228,8 +243,10 @@ console.log('minutes', minutes)
                         <TextField
                             select
                             label="Tim"
+                            name="hours"
                             fullWidth
                             required
+                            helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
                             {...register("hours", { required: true })}
                         >
@@ -246,8 +263,10 @@ console.log('minutes', minutes)
                         <TextField
                             select
                             label="Min"
+                            name="minutes"
                             fullWidth
                             required
+                            helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
                             {...register("minutes", { required: true })}
                         >
@@ -269,8 +288,10 @@ console.log('minutes', minutes)
                             select
                             label="Kategori"
                             fullWidth
+                            name="category"
                             required
                             style={{ marginBottom: '6rem'}}
+                            helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
                             {...register("category", { required: true })}>
 
@@ -286,7 +307,7 @@ console.log('minutes', minutes)
                 <div className="buttons">
                     <Button 	
                         type="submit"
-                        disabled={extraItems.length === 0 ? true : false}
+                        // disabled={extraItems.length === 0 ? true : false}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
