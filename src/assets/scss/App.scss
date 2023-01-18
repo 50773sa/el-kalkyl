@@ -26,7 +26,6 @@ body {
 .wrapper {
 	display: flex;
 	flex-direction: column;
-	// width: 100%;
 	min-height: 100%;
 	margin-bottom: 4rem;
 	margin-top: 2rem;
@@ -46,12 +45,15 @@ body {
   	margin-bottom: 2rem;
 }
 
-
 svg {
   	cursor: pointer;
 }
 
 // error text
 .error {
+	color: #ff0000 !important;
+}
+
+.MuiFormHelperText-root {
 	color: #ff0000 !important;
 }
