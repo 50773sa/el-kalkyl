@@ -93,13 +93,16 @@ const SignIn = () => {
                         id="password"
                         autoComplete="off"
                     />
-                    {error ? <p style={{ color: 'red', margin: '0', fontFamily: 'roboto'}}>Fel lösenord eller email!</p> : ''}
-
-                    <FormControlLabel
-                        control={<Checkbox value="remember" color="primary" />}
-                        label="Minns mig!"
-                    />
-          
+                    
+                    {error ? 
+                        <p style={{ 
+                                color: 'red', 
+                                margin: '0', 
+                                fontFamily: 'roboto'
+                            }}
+                            > Fel lösenord eller email!
+                        </p>
+                    : ''}
 
                     <Button
                         type="submit"

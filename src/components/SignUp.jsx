@@ -146,12 +146,6 @@ const SignUp = () => {
 
 						{error && <p>{error}</p>}
 						
-						<Grid item xs={12}>
-							<FormControlLabel
-								control={<Checkbox value="allowExtraEmails" color="primary" />}
-								label="Jag vill ha inspiration och erbjudanden via email."
-							/>
-						</Grid>
 					</Grid>
 
 					<Button
