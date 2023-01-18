@@ -54,7 +54,7 @@ const Navigation = () => {
                         <Typography
                             variant="h6"
                             noWrap
-                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/')} 
+                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/sign-in')} 
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex' },

@@ -44,6 +44,7 @@ const SignIn = () => {
         
         } catch (err) {
             setError(err.message)
+            console.log('err.message', err.message)
             setLoading(false)
         }
     }
@@ -52,7 +53,7 @@ const SignIn = () => {
     return (
         <div>
 
-            {loading ? <LoadingBackdrop /> : ''}
+            {loading && <LoadingBackdrop />}
 
             <Box
                 sx={{
@@ -93,7 +94,7 @@ const SignIn = () => {
                         id="password"
                         autoComplete="off"
                     />
-                    
+
                     {error ? 
                         <p style={{ 
                                 color: 'red', 

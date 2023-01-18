@@ -69,9 +69,9 @@ const SignUp = () => {
 	}, [currentUser])
 
   	return (
-		<div className='wrapper signUp' id='signUp'>
+		<div className='wrapper' id='signUp'>
 
-			{loading ? <LoadingBackdrop /> : '' }
+			{loading && <LoadingBackdrop />}
 			
 			<Box
 				sx={{
@@ -158,7 +158,7 @@ const SignUp = () => {
 
 					<Grid container justifyContent="flex-end">
 						<Grid item>
-							<Link href="/" variant="body2">
+							<Link href="/sign-in" variant="body2">
 								Har du redan ett konto? Logga in
 							</Link>
 						</Grid>
