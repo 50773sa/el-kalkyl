@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
-import getDate from './helpers/getDate'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
+import getDate from '../helpers/getDate'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
