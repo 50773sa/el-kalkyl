@@ -16,7 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 
 const Navigation = () => {
     const [anchorElUser, setAnchorElUser] = useState()
-    const { currentUser, signout }= useAuthContext()
+    const { currentUser, signout } = useAuthContext()
     const navigate = useNavigate()
 
     const handleOpenUserMenu = (event) => {
@@ -30,7 +30,7 @@ const Navigation = () => {
     const handleSignOut = async () => {
 
         await signout()
-        navigate('/sign-in')
+        navigate('/', {replace: true})
         handleCloseUserMenu()
     }
 
@@ -54,7 +54,7 @@ const Navigation = () => {
                         <Typography
                             variant="h6"
                             noWrap
-                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/sign-in')} 
+                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/')} 
                             sx={{
                                 mr: 2,
                                 display: { xs: 'flex' },

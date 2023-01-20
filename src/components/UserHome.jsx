@@ -23,7 +23,7 @@ const UserHome = () => {
         let proj = projects?.filter(project => project.completed === true)
         setCompletedProjects(proj.length)
 
-    }, [completedProjects, projects])
+    }, [completedProjects, projects, currentUser])
 
 
     return (
@@ -129,7 +129,7 @@ const UserHome = () => {
                 </Card>
 
                 <Card 
-                    onClick={() => console.log('click')} 
+                    onClick={() => console.log('Under uppbyggnads')} 
                     style={{
                         width: '20%',
                         height: '100px', 

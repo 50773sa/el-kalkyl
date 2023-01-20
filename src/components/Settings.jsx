@@ -113,7 +113,7 @@ const Settings = () => {
     return (
         <div className='wrapper settings' id='settings'>
 
-            {loading ? <LoadingBackdrop /> : ''}
+            {loading && <LoadingBackdrop />}
 
             {/** 
              * Profile "box" and name
@@ -210,14 +210,13 @@ const Settings = () => {
                         autoComplete="off"
                         fullWidth
                     />   
-                    {/*//! not working! */}
+
                     <TextField
                         inputRef={companyRef}
                         id="company"
                         label="Företag"
-                        defaultValue={data?.company}
                         helperText=" "
-                        // autoComplete="off"
+                        autoComplete="off"
                         fullWidth
                     />      
                         
@@ -233,50 +232,50 @@ const Settings = () => {
             
 
 
-                {/**
-                 *  Password
-                 */}
+                    {/**
+                     *  Password
+                     */}
 
-                <Box
-                    className='mb-2'
-                    component="div"
-                    noValidate
-                    autoComplete="off"
-                >
-                    <Typography 
-                        variant="h6" 
-                        component="div" 
-                        textAlign='start' 
-                        marginBottom='1rem'
+                    <Box
+                        className='mb-2'
+                        component="div"
+                        noValidate
                         autoComplete="off"
                     >
-                        Ändra lösenord
-                    </Typography>     
+                        <Typography 
+                            variant="h6" 
+                            component="div" 
+                            textAlign='start' 
+                            marginBottom='1rem'
+                            autoComplete="off"
+                        >
+                            Ändra lösenord
+                        </Typography>     
 
-                    <TextField
-                        required
-                        fullWidth
-                        inputRef={passwordRef}
-                        name="newPassword"
-                        label="Nytt lösenord"
-                        type="password"
-                        id="newPassword"
-                        helperText=" "   
-                        autoComplete="off"
-                    /> 
+                        <TextField
+                            required
+                            fullWidth
+                            inputRef={passwordRef}
+                            name="newPassword"
+                            label="Nytt lösenord"
+                            type="password"
+                            id="newPassword"
+                            helperText=" "   
+                            autoComplete="off"
+                        /> 
 
-                    <TextField
-                        required
-                        fullWidth
-                        inputRef={passwordConfirmRef}
-                        name="passwordConfirm"
-                        label="Upprepa nytt lösenord"
-                        type="password"
-                        id="passwordConfirm"
-                        autoComplete="off"
-                        helperText=" "   
-                    /> 
-                </Box>
+                        <TextField
+                            required
+                            fullWidth
+                            inputRef={passwordConfirmRef}
+                            name="passwordConfirm"
+                            label="Upprepa nytt lösenord"
+                            type="password"
+                            id="passwordConfirm"
+                            autoComplete="off"
+                            helperText=" "   
+                        /> 
+                    </Box>
 
                     <Button variant="contained" type='submit' fullWidth >Spara ändringar</Button>
                 </Box>
