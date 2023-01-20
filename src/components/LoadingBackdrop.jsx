@@ -1,6 +1,6 @@
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import { useState } from 'react';
+import { useState } from 'react'
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
 
 const LoadingBackdrop = () => {
     const [open, setOpen] = useState(true)
@@ -12,12 +12,6 @@ const LoadingBackdrop = () => {
         >
             <CircularProgress color="inherit" />
         </Backdrop>
-           
-    
-
-      
-
-  
     )
 }
 

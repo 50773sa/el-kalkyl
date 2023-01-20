@@ -27,7 +27,7 @@ function App() {
 			<Navigation />
 
 			<Routes>
-				<Route path="/sign-in" element={<SignInPage />} /> 
+				<Route path="/" element={<SignInPage />} /> 
 				<Route path="/sign-up" element={<SignUpPage />} />
 				<Route path="/reset-password" element={<ForgotPasswordPage />} />
 

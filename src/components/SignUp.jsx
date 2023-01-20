@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
@@ -42,7 +42,6 @@ const SignUp = () => {
 			setError(err.message)
 			setLoading(false)
 		}
-
 	}
 
 	useEffect(() => {
@@ -73,7 +72,7 @@ const SignUp = () => {
 					Registrering
 				</Typography>
 
-				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+				<Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3, minWidth: '350px', maxWidth: '500px' }}>
 					<Grid container spacing={2}>
 
 						<Grid item xs={12}>
@@ -129,8 +128,6 @@ const SignUp = () => {
 							{error && <Typography sx={{ color: '#ff0000' }}>{error}</Typography>}
 
 						</Grid>
-
-						
 					</Grid>
 
 					<Button
@@ -143,7 +140,7 @@ const SignUp = () => {
 
 					<Grid container justifyContent="flex-end">
 						<Grid item>
-							<Link href="/sign-in" variant="body2">
+							<Link href="/" variant="body2">
 								Har du redan ett konto? Logga in
 							</Link>
 						</Grid>

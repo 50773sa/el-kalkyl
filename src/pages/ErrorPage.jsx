@@ -14,7 +14,7 @@ const ErrorPage = () => {
                
                     <Button
                         type="a"
-                        href='/sign-in'
+                        href='/'
                         variant="contained"
                         style={{ width: '300px'}}
                     >

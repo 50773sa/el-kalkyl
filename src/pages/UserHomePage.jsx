@@ -9,13 +9,15 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 
 
 const UserHomepage = () => {
-	// const { data } = useGetUser()
-	// console.log('data', data)
 	const { currentUser } = useAuthContext()
+	const { data } = useGetUser()
+	console.log('data', data)
 
 	return (
 		<Container>
+			
 			<UserHome  />			
+			
 		</Container>
 	)
 }

@@ -125,6 +125,10 @@ const CreateMaterial = () => {
                         />
                     </Grid>
 
+                    {/**
+                     *  Fittings
+                     */}
+
                     <Grid xs={12} sm={5}>
                         <TextField
                             required
@@ -146,7 +150,7 @@ const CreateMaterial = () => {
                      *  Quantity
                      */}
 
-                    <Grid xs={5} sm={4} >
+                    <Grid xs={5} sm={3} >
                         <TextField
                             select
                             required
@@ -199,13 +203,13 @@ const CreateMaterial = () => {
                         </TextField>
                      </Grid>
 
-
                      {/**
                       *   Add button
                       */}
 
                      <Grid 
                         xs={2} 
+                        sm={1}
                         display='flex' 
                         alignItems="center" 
                         justifyContent="end" 
@@ -220,7 +224,7 @@ const CreateMaterial = () => {
 
                     <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
                             {extraItems?.map((item) => (
-                                <List key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                <List key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                                     <ListItem>{item.fittings}</ListItem>
                                     <ListItem>{item.quantity} {item.unit}</ListItem>
                                     <RemoveCircleOutlineIcon onClick={handleDelete(item)} sx={{ color: "#ff0000"}}/>
@@ -229,7 +233,6 @@ const CreateMaterial = () => {
                     </Grid>
                 
           
-
                     {/**
                       *  Estimated time
                       */}
@@ -307,7 +310,7 @@ const CreateMaterial = () => {
                 <div className="buttons">
                     <Button 	
                         type="submit"
-                        // disabled={extraItems.length === 0 ? true : false}
+                        disabled={extraItems.length === 0 ? true : false}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
