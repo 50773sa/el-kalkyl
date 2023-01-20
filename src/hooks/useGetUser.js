@@ -15,10 +15,7 @@ const useGetUser = () => {
 		subscribe: true,
 	})
 
-    console.log('queryRef', queryRef)
-	console.log('userQuery', userQuery)
-
-	return userQuery.data
+	return userQuery
 }
 
 export default useGetUser

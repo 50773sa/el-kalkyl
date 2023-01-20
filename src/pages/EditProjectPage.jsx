@@ -1,11 +1,8 @@
-import Container from '@mui/material/Container'
-import EditProject from '../components/project/EditProject'
-
-import { useNavigate, useParams } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useParams } from 'react-router-dom'
 import useGetProject from '../hooks/useGetProject'
-import { useEffect, useState } from 'react'
+import EditProject from '../components/project/EditProject'
 import LoadingBackdrop from '../components/LoadingBackdrop'
+import Container from '@mui/material/Container'
 
 
 const EditProjectPage = () => {
@@ -16,7 +13,7 @@ const EditProjectPage = () => {
 
     return (
 		<Container>
-			{loading && <LoadingBackdrop />}
+			{loading && <LoadingBackdrop /> }
 
 			{!loading &&
 				<EditProject project={project} projectId={projectId}/>

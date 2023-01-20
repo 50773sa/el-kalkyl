@@ -35,13 +35,9 @@ const SignIn = () => {
             await signin(emailRef.current.value, passwordRef.current.value)
             await reloadUser()
 
-            if (currentUser !== null) {
-                navigate(`/user/${currentUser?.uid}`)
-                console.log('User signed in', currentUser)
-
-                setLoading(false)
-            }
-        
+            navigate(`/user/${currentUser?.uid}`)
+            setLoading(false)
+           
         } catch (err) {
             setError(err.message)
             console.log('err.message', err.message)
@@ -71,7 +67,7 @@ const SignIn = () => {
                     Logga in
                 </Typography>
 
-                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, minWidth:' 350px', maxWidth: '500px'}}>
                     <TextField
                         inputRef={emailRef}
                         margin="normal"

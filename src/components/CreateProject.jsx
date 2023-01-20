@@ -2,7 +2,7 @@ import React from 'react'
 import { useRef, useState } from 'react'
 import { db } from '../firebase'
 import { uuidv4 } from '@firebase/util'
-import { addDoc, arrayRemove, collection, serverTimestamp } from 'firebase/firestore'
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
 import LoadingBackdrop from './LoadingBackdrop'
@@ -83,11 +83,8 @@ const CreateProject = () => {
         item.quantity = num
 
         if (addToDocProducts.includes(item)) {
-            return (
-                setLoading(false), 
-                console.log('Item already exists')
-
-            ) 
+            setLoading(false)
+            return 
         }
 
     
