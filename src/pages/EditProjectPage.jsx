@@ -5,19 +5,23 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useGetProject from '../hooks/useGetProject'
 import { useEffect, useState } from 'react'
+import LoadingBackdrop from '../components/LoadingBackdrop'
 
 
 const EditProjectPage = () => {
 	const { projectId } = useParams()
-	const { currentUser } = useAuthContext()
 	const { data: project, loading } = useGetProject(projectId)
-	const navigate = useNavigate()
-
+	console.log('project editpage', project)
 
 
     return (
 		<Container>
-			<EditProject project={project} projectId={projectId} loading={loading}/>
+			{loading && <LoadingBackdrop />}
+
+			{!loading &&
+				<EditProject project={project} projectId={projectId}/>
+			}
+
 		</Container>
       
     )

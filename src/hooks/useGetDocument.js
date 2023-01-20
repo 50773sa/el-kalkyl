@@ -2,7 +2,6 @@ import { db } from '../firebase'
 import { useFirestoreQueryData } from '@react-query-firebase/firestore'
 import { collection, query, where } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamDoc from './useStreamDoc'
 
 const useGetDocument = (coll) => {
 	const { currentUser } = useAuthContext()

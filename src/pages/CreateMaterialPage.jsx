@@ -8,10 +8,8 @@ const CreateMaterialPage = () => {
     return (
         <Container>
 
-            {currentUser && (
-                <CreateMaterial />
-            )}
-            
+            <CreateMaterial />
+        
         </Container>
         
     )

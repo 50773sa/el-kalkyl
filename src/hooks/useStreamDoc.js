@@ -9,7 +9,7 @@ const useStreamDoc = (coll, id) => {
 	useEffect(() => {
 		const ref = doc(db, coll, id)
 
-		// ge live updates
+		// get live updates
 		const unsubscribe = onSnapshot(ref, (snapshot) => {
 			setData({
 				id: snapshot.id,
