@@ -11,7 +11,7 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
 import { Typography } from '@mui/material'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import FolderOpenOutlinedIcon from '@mui/icons-material/FolderOpenOutlined';
 import Button from '@mui/material/Button'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
@@ -20,6 +20,8 @@ import ListItemText from '@mui/material/ListItemText'
 import Box from '@mui/material/Box'
 import TextField from '@mui/material/TextField'
 import { toast } from 'react-toastify'
+import { useEffect } from 'react'
+import ModeEditOutlineOutlined from '@mui/icons-material/ModeEditOutlineOutlined'
 
 
 const Settings = () => {
@@ -45,7 +47,6 @@ const Settings = () => {
     } = useAuthContext()
 
     const { data } = useStreamDoc('users', currentUser.uid)
-	console.log('*******',data.company)
 
     const onSetUserCompany = async () => {
         const docRef = doc(db, 'users', currentUser.uid)
@@ -56,18 +57,13 @@ const Settings = () => {
         try {
             setLoading(true)
             const update = await updateDoc(docRef, companyData)
-            // setOpen(false)
             await reloadUser()
-            console.log('update', update)
 
         } catch (err) {
             setError(err.message)
-            console.log('error', error)
             setLoading(false)
         }
-        console.log('doc', docRef)
     }
-
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -75,7 +71,6 @@ const Settings = () => {
         if (passwordRef.current.value !== passwordConfirmRef.current.value) {
             return setError('Lösenorden matchar inte!')
         }
-        console.log('hallo')
         setError(null)
         setMsg(null)
 
@@ -105,7 +100,6 @@ const Settings = () => {
 
             await reloadUser()
             setMsg('Profile updated')
-            // setOpen(true)
             toast.success('Sparat')
             setLoading(false)
 
@@ -116,19 +110,18 @@ const Settings = () => {
         }
     }
 
-
     return (
         <div className='wrapper settings' id='settings'>
 
             {loading ? <LoadingBackdrop /> : ''}
 
             {/** 
-             * Profile button and name
+             * Profile "box" and name
              */}
 
             <Card 
                 style={{ 
-                    height: '50px', 
+                    height: '100px', 
                     padding: '24px',
                     paddingBottom: '2rem',
                     marginBottom: '2rem',
@@ -162,9 +155,19 @@ const Settings = () => {
                         </ListItemButton>
                     </ListItem>
 
+                    <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/settings/edit-material`) }>
+                        <ListItemButton style={{ paddingLeft: '0'}}>
+                            <ModeEditOutlineOutlined />
+                            <ListItemText 
+                                style={{ paddingLeft: '1rem'}}
+                                primary="Redigera material" 
+                            />
+                        </ListItemButton>
+                    </ListItem>
+
                     <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/projects`)} >
                         <ListItemButton style={{ paddingLeft: '0'}}>
-                            <ModeEditOutlineOutlinedIcon />
+                            <FolderOpenOutlinedIcon />
                             <ListItemText 
                                 style={{ paddingLeft: '1rem'}}
                                 primary="Alla projekt" 
@@ -214,7 +217,7 @@ const Settings = () => {
                         label="Företag"
                         defaultValue={data?.company}
                         helperText=" "
-                        autoComplete="off"
+                        // autoComplete="off"
                         fullWidth
                     />      
                         

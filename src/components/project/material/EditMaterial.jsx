@@ -1,10 +1,10 @@
-import { useState, useRef, useMemo } from "react"
+import { useState, useRef, useMemo, useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { db } from '../firebase'
-import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../../../firebase'
+import { doc, updateDoc, collection, deleteDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
-import { useAuthContext } from "../contexts/AuthContextProvider"
-import LeavePageAlert from "./modals/LeavePageAlert"
+import { useAuthContext } from "../../../contexts/AuthContextProvider"
+import LeavePageAlert from "./../../modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
-import { useEffect } from "react"
 
 // dropdowns
 const unitsList = [
@@ -28,8 +27,7 @@ const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: 
 const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
 
-
-const CreateMaterial = () => {
+const EditMaterial = ({ material }) => {
     const [open, setOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
@@ -40,6 +38,8 @@ const CreateMaterial = () => {
     const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors } } = useForm()
+    console.log('material***', material)
+
 
     const handleObjectInput = () => {
 
@@ -64,12 +64,20 @@ const CreateMaterial = () => {
         setExtraItems((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
+    const handleDeleteFromFb = (selectedItem) => async () => {
+        const ref = doc(db, 'material', selectedItem.id)
+			await deleteDoc(ref)
+	
+            
+        
+    }
+
     const onSubmit = async (inputData) => {
         console.log('inputData', inputData)
         setError(null)
 
         try {
-            await addDoc(collection(db, 'material'), {
+            await updateDoc(collection(db, 'material'), {
                 id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
@@ -91,16 +99,15 @@ const CreateMaterial = () => {
         }
     }
 
-
     return (
-        <div className='wrapper addMaterial' id='addMaterial'>
+        <div className='wrapper' id='editMaterial'>
             <Typography
                 variant="h6" 
                 component="div" 
                 textAlign='start' 
                 marginBottom='2rem'
             >
-               <strong>Lägg till nytt material</strong> 
+               <strong>Redigera material</strong> 
             </Typography>
     
 
@@ -119,26 +126,22 @@ const CreateMaterial = () => {
                             autoComplete="product"
                             fullWidth
                             required
-                            helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
 
                             {...register("product", {required: true})}
                         />
                     </Grid>
 
-                    <Grid xs={12} sm={5}>
+                    <Grid xs={12} sm={3} md={4}>
                         <TextField
                             required
+                            type="text"
                             id="fittings"
                             label="Tillbehör"
                             name="fittings"
                             autoComplete="fittings"
                             fullWidth
                             inputRef={fittingsRef}
-                            helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
-
-                            // keep ...register. Otherwise the helper text will not be visible.
-                            {...register("fittings", {required: true})}
-
+                            defaultValue=""
                         />
                     </Grid> 
 
@@ -146,20 +149,15 @@ const CreateMaterial = () => {
                      *  Quantity
                      */}
 
-                    <Grid xs={5} sm={4} >
+                    <Grid xs={5} sm={3} md={3}>
                         <TextField
                             select
                             required
                             id="qty"
                             label="Antal"
-                            name="qty"
                             fullWidth
                             inputRef={qtyRef}
                             defaultValue=""
-                            helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
-
-                            {...register("qty", {required: true})}
-
                         >
                             {quantity.map((val) => (
                                 <MenuItem key={val.qty} value={val.qty}>
@@ -167,7 +165,6 @@ const CreateMaterial = () => {
                                 </MenuItem>
 
                             ))}
-
                         </TextField>
                     </Grid>
 
@@ -175,19 +172,15 @@ const CreateMaterial = () => {
                      *  Units
                      */}
 
-                    <Grid xs={5} sm={3}>
+                    <Grid xs={4} sm={3} md={3}>
                         <TextField
                             id="unit"
                             select
                             required
                             label="st/m"
                             fullWidth
-                            name="unit"
                             inputRef={unitRef}
                             defaultValue=""
-                            helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
-
-                            {...register("unit", {required: true})}
                         >
                                
                             {unitsList.map((option) => (
@@ -199,24 +192,31 @@ const CreateMaterial = () => {
                         </TextField>
                      </Grid>
 
-
-                     {/**
-                      *   Add button
-                      */}
-
                      <Grid 
-                        xs={2} 
+                        xs={3} 
+                        sm={3}
+                        md={2}
                         display='flex' 
                         alignItems="center" 
                         justifyContent="end" 
                    
                     >
-                        <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
+                        <Button  variant="contained" onClick={handleObjectInput}>Lägg till</Button>
+                        {/* <AddCircleIcon fontSize="large" onClick={handleObjectInput} />     */}
                     </Grid> 
 
                      {/**
                       *  List of selected fittings
                       */}
+
+                    <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
+                            {material?.map((item) => (
+                                <List key={item.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <ListItem>{item.product}</ListItem>
+                                    <RemoveCircleOutlineIcon onClick={handleDeleteFromFb(item)} sx={{ color: "#ff0000"}}/>
+                                </List>
+                            ))}
+                    </Grid>
 
                     <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
                             {extraItems?.map((item) => (
@@ -243,10 +243,8 @@ const CreateMaterial = () => {
                         <TextField
                             select
                             label="Tim"
-                            name="hours"
                             fullWidth
                             required
-                            helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
                             {...register("hours", { required: true })}
                         >
@@ -263,10 +261,8 @@ const CreateMaterial = () => {
                         <TextField
                             select
                             label="Min"
-                            name="minutes"
                             fullWidth
                             required
-                            helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
                             {...register("minutes", { required: true })}
                         >
@@ -288,10 +284,8 @@ const CreateMaterial = () => {
                             select
                             label="Kategori"
                             fullWidth
-                            name="category"
                             required
                             style={{ marginBottom: '6rem'}}
-                            helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
                             {...register("category", { required: true })}>
 
@@ -307,7 +301,7 @@ const CreateMaterial = () => {
                 <div className="buttons">
                     <Button 	
                         type="submit"
-                        // disabled={extraItems.length === 0 ? true : false}
+                        disabled={extraItems.length === 0 ? true : false}
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
@@ -326,4 +320,4 @@ const CreateMaterial = () => {
     )
 }
 
-export default CreateMaterial
+export default EditMaterial
