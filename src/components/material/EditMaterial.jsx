@@ -1,10 +1,10 @@
 import { useState, useRef, useMemo, useEffect } from "react"
 import { useForm } from "react-hook-form"
-import { db } from '../../../firebase'
+import { db } from '../../firebase/index'
 import { doc, updateDoc, collection, deleteDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
-import { useAuthContext } from "../../../contexts/AuthContextProvider"
-import LeavePageAlert from "./../../modals/LeavePageAlert"
+import { useAuthContext } from "../../contexts/AuthContextProvider"
+import LeavePageAlert from "../modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'

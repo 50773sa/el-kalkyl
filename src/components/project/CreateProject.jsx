@@ -1,13 +1,13 @@
 import React from 'react'
 import { useRef, useState } from 'react'
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
-import { useAuthContext } from '../contexts/AuthContextProvider'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
-import LoadingBackdrop from './LoadingBackdrop'
-import useStreamCollection from '../hooks/useStreamCollection'
-import LeavePageAlert from './modals/LeavePageAlert'
+import LoadingBackdrop from '../LoadingBackdrop'
+import useStreamCollection from '../../hooks/useStreamCollection'
+import LeavePageAlert from '../modals/LeavePageAlert'
 
 // mui
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'

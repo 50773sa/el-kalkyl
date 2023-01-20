@@ -1,10 +1,10 @@
-import { useState, useRef, useMemo } from "react"
+import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
-import { db } from '../firebase'
+import { db } from '../../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
-import { useAuthContext } from "../contexts/AuthContextProvider"
-import LeavePageAlert from "./modals/LeavePageAlert"
+import { useAuthContext } from "../../contexts/AuthContextProvider"
+import LeavePageAlert from "../modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
-import { useEffect } from "react"
 
 // dropdowns
 const unitsList = [

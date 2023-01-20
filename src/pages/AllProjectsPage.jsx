@@ -2,7 +2,7 @@ import { db } from '../firebase'
 import { collection, query, where } from 'firebase/firestore'
 import { useFirestoreQueryData } from '@react-query-firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import AllProjects from '../components/AllProjects'
+import AllProjects from '../components/project/AllProjects'
 import Container from '@mui/material/Container'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 
