@@ -13,7 +13,6 @@ import {
 } from 'firebase/auth'
 
 
-
 const AuthContext = createContext()
 
 const useAuthContext = () => {
@@ -82,7 +81,6 @@ const AuthContextProvider = ({ children }) => {
             setUserEmail(user?.email)
             setUserName(user?.displayName)
             setLoading(false)
-            console.log('currentUser', currentUser)
         })
         return unsubscribe()
 

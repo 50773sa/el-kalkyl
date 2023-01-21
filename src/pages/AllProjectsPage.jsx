@@ -17,7 +17,7 @@ const AllProjectsPage = () => {
         ['projects', { uid: currentUser.uid}], 
         queryRef, {idField: 'id', subscribe: true, }
     )
-        console.log('projects', projects)
+    
     return (
         <Container>
             {isLoading && <LoadingBackdrop /> }
