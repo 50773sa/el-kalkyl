@@ -62,7 +62,7 @@ const UserHomepage = () => {
 					>
 						{!loading && (
 							<Typography variant="h6" component="div" textAlign='center' >
-								{data?.company ? data?.company : "Profil"}
+								{data?.company ? data?.company : "Inställningar"}
 							</Typography>
 						)}
 
