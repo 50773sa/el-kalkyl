@@ -88,9 +88,7 @@ const SignUpPage = () => {
                                     autoComplete="firstName"
                                     helperText=" "
                                 />
-                            </Grid>
                     
-                            <Grid item xs={12}>
                                 <TextField
                                     inputRef={emailRef}
                                     required
@@ -100,9 +98,7 @@ const SignUpPage = () => {
                                     name="email"
                                     helperText=" "
                                 />
-                            </Grid>
 
-                            <Grid item xs={12}>
                                 <TextField
                                     inputRef={passwordRef}
                                     required
@@ -114,8 +110,6 @@ const SignUpPage = () => {
                                     autoComplete='password'      
                                     helperText=" "
                                 />
-                            </Grid>
-                            <Grid item xs={12}>
                                 <TextField
                                     inputRef={passwordConfirmRef}
                                     required
@@ -136,7 +130,7 @@ const SignUpPage = () => {
                             type="submit"
                             fullWidth
                             variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
+                            sx={{ mb: 2 }}
                         > Registrera
                         </Button>
 
@@ -152,7 +146,6 @@ const SignUpPage = () => {
                 </Box>
             </div>
         </Container>
-
 	)
 }
 
