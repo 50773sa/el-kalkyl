@@ -28,7 +28,8 @@ const CreateMaterial = ({
     fittingsRef, 
     qtyRef, 
     unitRef, 
-    extraItems 
+    extraItems,
+    inputError 
 }) => {
    
 
@@ -143,21 +144,31 @@ const CreateMaterial = ({
                 justifyContent="end" 
         
             >
-                    <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
+                <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
+                
             </Grid> 
 
             {/**
              *  List of selected fittings
              */}
 
+
             <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
-                    {extraItems?.map((item) => (
-                        <List key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <ListItem>{item.fittings}</ListItem>
-                            <ListItem>{item.quantity} {item.unit}</ListItem>
-                            <RemoveCircleOutlineIcon onClick={handleDelete(item)} sx={{ color: "#ff0000"}}/>
-                        </List>
-                    ))}
+                <Typography variant="h6">Tillagt material:</Typography>
+
+                {inputError &&
+                    <Typography sx={{ color: "#ff0000" }}>
+                        Glöm inte lägga till materialet i listan!
+                    </Typography>  
+                }
+
+                {extraItems?.map((item) => (
+                    <List key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <ListItem>{item.fittings}</ListItem>
+                        <ListItem>{item.quantity} {item.unit}</ListItem>
+                        <RemoveCircleOutlineIcon onClick={handleDelete(item)} sx={{ color: "#ff0000" }}/>
+                    </List>
+                ))}
             </Grid>
         
     
@@ -177,6 +188,7 @@ const CreateMaterial = ({
                     name="hours"
                     fullWidth
                     required
+                    defaultValue=""
                     helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
                     {...register("hours", { required: true })}
@@ -197,6 +209,7 @@ const CreateMaterial = ({
                     name="minutes"
                     fullWidth
                     required
+                    defaultValue=""
                     helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
                     {...register("minutes", { required: true })}
@@ -222,7 +235,8 @@ const CreateMaterial = ({
                     fullWidth
                     name="category"
                     required
-                    style={{ marginBottom: '6rem'}}
+                    defaultValue=""
+                    sx={{ marginBottom: '6rem'}}
                     helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
                     {...register("category", { required: true })}>

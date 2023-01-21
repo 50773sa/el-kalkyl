@@ -5,12 +5,12 @@ import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 import { useAuthContext } from "../contexts/AuthContextProvider"
 import CreateMaterial from "../components/material/CreateMaterial"
+import LeavePageAlert from "../components/modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
 import Button from '@mui/material/Button'
 import Container from "@mui/system/Container"
 import Typography from '@mui/material/Typography'
-import LeavePageAlert from "../components/modals/LeavePageAlert"
 
 
 const CreateMaterialPage = () => {
@@ -50,8 +50,12 @@ const CreateMaterialPage = () => {
     }
 
     const onSubmit = async (inputData) => {
-        console.log('inputData', inputData)
         setError(null)
+        setInputError(false)
+
+        if (extraItems.length === 0) {
+            return setInputError(true)
+        }
 
         try {
             await addDoc(collection(db, 'material'), {
@@ -68,7 +72,7 @@ const CreateMaterialPage = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
-            // reset()
+            reset()
 
         } catch (err) {
             setError(err)
@@ -76,11 +80,11 @@ const CreateMaterialPage = () => {
         }
     }
 
-
     
     return (
         <Container>
             <div className='wrapper' id='addMaterial'>
+
                 <Typography
                     variant="h6" 
                     component="div" 
@@ -90,11 +94,8 @@ const CreateMaterialPage = () => {
                 <strong>Lägg till nytt material</strong> 
                 </Typography>
         
-
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-
-
-
+                    {/* Component */}
                     <CreateMaterial 
                         handleDelete={handleDelete}
                         handleObjectInput={handleObjectInput}
@@ -104,15 +105,14 @@ const CreateMaterialPage = () => {
                         qtyRef={qtyRef}
                         unitRef={unitRef}
                         extraItems={extraItems}
-
+                        inputError={inputError}
                     />
 
-                    {inputError ? <p className="error">Alla fält är obligatoriska!</p> : ''}
+                    {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
 
                     <div className="buttons">
                         <Button 	
                             type="submit"
-                            disabled={extraItems.length === 0 ? true : false}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
@@ -127,6 +127,7 @@ const CreateMaterialPage = () => {
                 </form>
 
                 <LeavePageAlert open={open} setOpen={setOpen} /> 
+                
             </div>
         </Container>
     )
