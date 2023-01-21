@@ -178,7 +178,7 @@ const SettingsPage = () => {
 								helperText=" "   
 							/> 
 
-						{error && <Typography sx={{ color: '#ff0000' }}>{error}</Typography>}
+							{error && <Typography sx={{ color: '#ff0000' }}>{error}</Typography>}
 
 						</Box>
 

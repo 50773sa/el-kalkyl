@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom'
+import { useAuthContext } from '../contexts/AuthContextProvider'
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Box from '@mui/material/Box'
@@ -12,6 +13,7 @@ import Typography from '@mui/material/Typography'
 
 
 const Settings = () => {
+    const { currentUser } = useAuthContext()
     const navigate = useNavigate()
 
     return (
