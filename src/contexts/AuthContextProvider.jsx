@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect} from 'react'
 import { auth, db } from '../firebase'
-import { doc, updateDoc, setDoc } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import { 
     onAuthStateChanged, 
@@ -9,7 +9,6 @@ import {
     updateProfile, 
     signOut,
     updatePassword,
-    updateEmail,
     sendPasswordResetEmail,
 } from 'firebase/auth'
 
@@ -20,7 +19,6 @@ const AuthContext = createContext()
 const useAuthContext = () => {
 	return useContext(AuthContext)
 }
-
 
 const AuthContextProvider = ({ children }) => {
 	const [userName, setUserName] = useState(null)
@@ -44,12 +42,9 @@ const AuthContextProvider = ({ children }) => {
             email,
             id: auth.currentUser.uid
         })
-
-
     }
 
     const signin = (email, password) => {
-        console.log('signIn', email, password)
 		return signInWithEmailAndPassword(auth, email, password)
 	}
 
@@ -57,8 +52,13 @@ const AuthContextProvider = ({ children }) => {
 		return signOut(auth)
 	}
 
-    const updateUserEmail = (email) => {
-		return updateEmail(auth.currentUser, email)
+    const reloadUser = async () => {
+		await auth.currentUser.reload()
+		setCurrentUser(auth.currentUser)
+        setUserName(auth.currentUser.displayName)
+		setUserEmail(auth.currentUser.email)
+
+		return true
 	}
 
     const updateUserPassword = (newPassword) => {
@@ -74,15 +74,6 @@ const AuthContextProvider = ({ children }) => {
     const resetPassword = (email) => {
         return sendPasswordResetEmail(auth, email)
     }
-
-    const reloadUser = async () => {
-		await auth.currentUser.reload()
-		setCurrentUser(auth.currentUser)
-        setUserName(auth.currentUser.displayName)
-		setUserEmail(auth.currentUser.email)
-
-		return true
-	}
 
     useEffect(() => {
 
@@ -101,7 +92,6 @@ const AuthContextProvider = ({ children }) => {
         signUp,
         signin,
         userEmail,
-        updateUserEmail,
         currentUser,
         userName,
         setUserName,
