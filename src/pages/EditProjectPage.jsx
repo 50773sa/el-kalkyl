@@ -8,7 +8,6 @@ import Container from '@mui/material/Container'
 const EditProjectPage = () => {
 	const { projectId } = useParams()
 	const { data: project, loading } = useGetProject(projectId)
-	console.log('project editpage', project)
 
 
     return (

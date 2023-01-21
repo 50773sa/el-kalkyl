@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import Grid from '@mui/material/Grid'
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
@@ -65,55 +65,62 @@ const SignInPage = () => {
                     </Typography>
 
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, minWidth:' 350px', maxWidth: '500px'}}>
-                        <TextField
-                            inputRef={emailRef}
-                            margin="normal"
-                            required
-                            fullWidth
-                            id="email"
-                            label="Email Adress"
-                            name="email"
-                            autoComplete="email"
-                            autoFocus
-                        />
-                        <TextField
-                            inputRef={passwordRef}
-                            margin="normal"
-                            required
-                            fullWidth
-                            name="password"
-                            label="Lösenord"
-                            type="password"
-                            id="password"
-                            autoComplete="off"
-                        />
+                        <Grid container spacing={2}>
 
-                        {error ? 
-                            <p style={{ 
-                                    color: 'red', 
-                                    margin: '0', 
-                                    fontFamily: 'roboto'
-                                }}
-                                > Fel lösenord eller email!
-                            </p>
-                        : ''}
+                            <Grid item xs={12}>
+                                <TextField
+                                    inputRef={emailRef}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Adress"
+                                    name="email"
+                                    autoComplete="email"
+                                    autoFocus
+                                />
+                                <TextField
+                                    inputRef={passwordRef}
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="password"
+                                    label="Lösenord"
+                                    type="password"
+                                    id="password"
+                                    autoComplete="off"
+                                />
+
+                                {error &&
+                                    <Typography 
+                                        sx={{ 
+                                            color: '#ff0000', 
+                                            margin: '0', 
+                                            fontFamily: 'roboto'
+                                        }}
+                                    > Fel lösenord eller email!
+                                    </Typography>
+                                }
+                            </Grid>
+                        </Grid>
 
                         <Button
                             type="submit"
                             fullWidth
                             variant="contained"
+                            sx={{ mb: 2 }}
                         >
                             Logga in
                         </Button>
 
-                        <Grid container>
-                            <Grid item xs>
+                        <Grid container spacing={2}>
+                            <Grid xs={5} spacing={2} display="flex">
                                 <Link href="/reset-password" variant="body2">
                                     Glömt lösenord?
                                 </Link>
                             </Grid>
-                            <Grid item>
-                                <Link href="/sign-up" variant="body2">
+                            <Grid xs={7} spacing={2}>
+                                <Link href="/sign-up" variant="body2" display="flex" justifyContent="flex-end">
                                     {"Inget konto ännu? Registrera dig"}
                                 </Link>
                             </Grid>
