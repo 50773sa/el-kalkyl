@@ -5,12 +5,12 @@ import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 import { useAuthContext } from "../contexts/AuthContextProvider"
 import CreateMaterial from "../components/material/CreateMaterial"
+import LeavePageAlert from "../components/modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
 import Button from '@mui/material/Button'
 import Container from "@mui/system/Container"
 import Typography from '@mui/material/Typography'
-import LeavePageAlert from "../components/modals/LeavePageAlert"
 
 
 const CreateMaterialPage = () => {
@@ -80,11 +80,11 @@ const CreateMaterialPage = () => {
         }
     }
 
-
     
     return (
         <Container>
             <div className='wrapper' id='addMaterial'>
+
                 <Typography
                     variant="h6" 
                     component="div" 
@@ -95,7 +95,6 @@ const CreateMaterialPage = () => {
                 </Typography>
         
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
-
                     {/* Component */}
                     <CreateMaterial 
                         handleDelete={handleDelete}
@@ -108,6 +107,8 @@ const CreateMaterialPage = () => {
                         extraItems={extraItems}
                         inputError={inputError}
                     />
+
+                    {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
 
                     <div className="buttons">
                         <Button 	
@@ -126,6 +127,7 @@ const CreateMaterialPage = () => {
                 </form>
 
                 <LeavePageAlert open={open} setOpen={setOpen} /> 
+                
             </div>
         </Container>
     )
