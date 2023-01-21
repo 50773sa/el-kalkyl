@@ -50,8 +50,12 @@ const CreateMaterialPage = () => {
     }
 
     const onSubmit = async (inputData) => {
-        console.log('inputData', inputData)
         setError(null)
+        setInputError(false)
+
+        if (extraItems.length === 0) {
+            return setInputError(true)
+        }
 
         try {
             await addDoc(collection(db, 'material'), {
@@ -68,7 +72,7 @@ const CreateMaterialPage = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
-            // reset()
+            reset()
 
         } catch (err) {
             setError(err)
@@ -90,11 +94,9 @@ const CreateMaterialPage = () => {
                 <strong>Lägg till nytt material</strong> 
                 </Typography>
         
-
                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
 
-
-
+                    {/* Component */}
                     <CreateMaterial 
                         handleDelete={handleDelete}
                         handleObjectInput={handleObjectInput}
@@ -104,15 +106,12 @@ const CreateMaterialPage = () => {
                         qtyRef={qtyRef}
                         unitRef={unitRef}
                         extraItems={extraItems}
-
+                        inputError={inputError}
                     />
-
-                    {inputError ? <p className="error">Alla fält är obligatoriska!</p> : ''}
 
                     <div className="buttons">
                         <Button 	
                             type="submit"
-                            disabled={extraItems.length === 0 ? true : false}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
