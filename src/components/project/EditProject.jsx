@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { db } from '../../firebase'
-import { addDoc, doc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form';
 import useStreamDoc from '../../hooks/useStreamUser'
 import useStreamCollection from '../../hooks/useStreamDocument'
@@ -40,6 +40,7 @@ const EditProject = ({ projectId }) => {
     const { data: currentProject } = useStreamDoc('projects', projectId)
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
+    //! Under contruction! 🔨
 
     // Tabs 
     const handleChange = (e, newValue) => {
@@ -64,23 +65,20 @@ const EditProject = ({ projectId }) => {
         setSelectedProduct((items) => items.filter((item) => item?.id !== selectedItem.id))
     }
 
-    //Delete object from fb
+    //Delete object from FS
     const handleDeleteFromFb = (selectedItem) => async () => {
-        console.log('currentProject', currentProject.projectMaterial)
-        console.log('clicked item', selectedItem)
 
         await updateDoc(doc(db, 'projects', projectId), {
             projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== selectedItem.id)
         })
     }
-console.log('currentProject', currentProject)
 
     const handleClick = (item) => (e) => {
         e.preventDefault()
         setError(null)
 
         if (num === 0) {
-            return setLoading(false), console.log('No products')
+            return setLoading(false)
         }
 
         setNum(Number(numberRef.current.value))
@@ -129,8 +127,6 @@ console.log('currentProject', currentProject)
 
         } catch (err) {
             setError(err)
-            console.log('errors.message', errors.message)
-            console.log('err.message', err.message)
         }
             
     }
@@ -138,9 +134,6 @@ console.log('currentProject', currentProject)
     useEffect(() => {
      
     }, [currentProject, selectedProduct, addToDocProducts, num])
-
-console.log('addToDocProducts', addToDocProducts)
-console.log('selectedProduct', selectedProduct)
 
     return (
         <div className='wrapper' id="editProjectWrapper">

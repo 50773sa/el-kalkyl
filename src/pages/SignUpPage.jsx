@@ -39,18 +39,14 @@ const SignUpPage = () => {
 			await signUp(usernameRef.current.value, emailRef.current.value, passwordRef.current.value)
 			await reloadUser()
 
+            navigate(`/user/${currentUser?.uid}`)
+			setLoading(false)
+
 		} catch (err) {
 			setError(err.message)
 			setLoading(false)
 		}
 	}
-
-    useEffect(() => {
-		if (currentUser?.uid !== undefined) {
-			navigate(`/user/${currentUser?.uid}`)
-			setLoading(false)
-		}
-	}, [currentUser])
 
     return (
         <Container>
