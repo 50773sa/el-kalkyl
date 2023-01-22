@@ -44,6 +44,7 @@ const CreateProject = () => {
         e.preventDefault()
         setValue(newValue);
     }
+
     // Add to list
     const handleAdd = (item) => () => {
         setLoading(true)
@@ -55,7 +56,6 @@ const CreateProject = () => {
         setSelectedProduct(selectedProduct => [...selectedProduct, item])
         setLoading(false)
     }
-
 
     const handleDelete = (selectedItem) => () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
@@ -78,17 +78,14 @@ const CreateProject = () => {
             return 
         }
 
-    
         try {
             setLoading(true)
             setAddToDocProducts(selectedProduct => [...selectedProduct, item])
 
-            console.log('product', addToDocProducts?.map(items => items.product))
             setLoading(false)
 
         } catch(err) {
             setError(err)
-            console.log('err', err)
             setLoading(false)
 
         }
@@ -96,7 +93,6 @@ const CreateProject = () => {
 
 
     const onSubmit = async (inputData) => {
-        console.log('inputData', inputData)
         setError(null)
 
         if (!inputData) {
@@ -120,8 +116,6 @@ const CreateProject = () => {
 
         } catch (err) {
             setError(err)
-            console.log('errors.message', errors.message)
-            console.log('err.message', err.message)
         }
     }
 
@@ -286,7 +280,7 @@ const CreateProject = () => {
             </form>
 
             <LeavePageAlert open={open} setOpen={setOpen}/>        
-             
+
         </div>
     )
 }

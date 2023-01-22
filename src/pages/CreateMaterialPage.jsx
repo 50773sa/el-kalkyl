@@ -77,7 +77,6 @@ const CreateMaterialPage = () => {
 
         } catch (err) {
             setError(err)
-            console.log('err.message', err.message)
         }
     }
 
