@@ -72,6 +72,7 @@ const CreateMaterialPage = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
+            setExtraItems(null)
             reset()
 
         } catch (err) {

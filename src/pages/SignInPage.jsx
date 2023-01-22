@@ -19,7 +19,6 @@ const SignInPage = () => {
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(false)
     const { signin, currentUser, reloadUser } = useAuthContext()
-
     const navigate = useNavigate()
 
 
