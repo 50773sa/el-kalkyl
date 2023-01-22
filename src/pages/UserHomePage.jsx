@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamDoc from '../hooks/useStreamDoc'
-import useStreamCollection from '../hooks/useStreamCollection'
+import useStreamUser from '../hooks/useStreamUser'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 // mui
 import Box from '@mui/material/Box'
@@ -12,20 +11,21 @@ import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Container from '@mui/material/Container'
+import useGetAuthColl from '../hooks/useGetAuthColl'
 
 
 
 const UserHomepage = () => {
 	const [completedProjects, setCompletedProjects] = useState(0)
     const { currentUser, userName } = useAuthContext()
-    const { data, loading } = useStreamDoc('users', currentUser.uid)
-    const { data: projects } = useStreamCollection('projects')
+    const { data, loading } = useStreamUser('users', currentUser.uid)
+    const { data: projects } = useGetAuthColl('projects')
     const navigate = useNavigate()
-
+	
 
     useEffect(() => {
-        let proj = projects?.filter(project => project.completed === true)
-        setCompletedProjects(proj.length)
+        let proj = projects?.filter(project => project?.completed === true)
+        setCompletedProjects(proj?.length)
 
     }, [completedProjects, projects, currentUser])
 
@@ -94,8 +94,8 @@ const UserHomepage = () => {
 					}}
 				>
 					<Typography variant="h7" component="span" textAlign='center' marginBottom='2rem'>
-					<strong>{projects?.length ? projects.length : "0"}</strong>  
-					<br/> Projekt
+						<strong>{projects?.length ? projects.length : "0"}</strong>  
+						<br/> Projekt
 					</Typography>
 
 					<Typography variant="h7" component="span" textAlign='center'>

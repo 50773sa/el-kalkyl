@@ -6,7 +6,7 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
 import LoadingBackdrop from '../LoadingBackdrop'
-import useStreamCollection from '../../hooks/useStreamCollection'
+import useStreamDocument from '../../hooks/useStreamDocument'
 import LeavePageAlert from '../modals/LeavePageAlert'
 
 // mui
@@ -37,7 +37,7 @@ const CreateProject = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
-    const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
+    const { data: material, loading: isStreaming} = useStreamDocument('material', 'Apparater')
 
     const numberRef = useRef()
     const { currentUser } = useAuthContext()
