@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import useStreamDoc from '../../hooks/useStreamDoc'
+import useStreamDoc from '../../hooks/useStreamUser'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import CalculationTable from './CalculationTable';
 import DialogDelete from '../modals/DialogDelete'

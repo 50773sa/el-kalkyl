@@ -49,6 +49,10 @@ svg {
   	cursor: pointer;
 }
 
+a {
+	text-decoration: none !important;
+}
+
 // error text
 .error {
 	color: #ff0000 !important;

@@ -4,8 +4,8 @@ import { db } from '../firebase'
 import { doc, updateDoc, deleteDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 import { useAuthContext } from "../contexts/AuthContextProvider"
+import useGetAuthColl from "../hooks/useGetAuthColl"
 import EditMaterial from '../components/material/EditMaterial'
-import useGetMaterial from '../hooks/useGetMaterial'
 import LeavePageAlert from "../components/modals/LeavePageAlert"
 import { toast } from "react-toastify"
 // mui
@@ -27,7 +27,7 @@ const EditMaterialPage = () => {
 
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors } } = useForm()
-	const { data: material, isLoading } = useGetMaterial()
+    const { data: material, isLoading } = useGetAuthColl('material')
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {

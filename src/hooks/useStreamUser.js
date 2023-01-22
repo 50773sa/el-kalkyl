@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { db } from '../firebase'
 import { doc, onSnapshot } from 'firebase/firestore'
 
-const useStreamDoc = (coll, id) => {
+const useStreamUser = (coll, id) => {
 	const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
 
@@ -28,4 +28,4 @@ const useStreamDoc = (coll, id) => {
 	}
 }
 
-export default useStreamDoc
+export default useStreamUser

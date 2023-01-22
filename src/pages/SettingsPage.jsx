@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { db } from '../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamDoc from '../hooks/useStreamDoc'
+import useStreamDocument from '../hooks/useStreamDocument'
 import Settings from '../components/Settings'
 import LoadingBackdrop from './../components/LoadingBackdrop'
 import { toast } from 'react-toastify'
@@ -22,8 +22,6 @@ const SettingsPage = () => {
     const companyRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
-
-
     const { 
         userEmail, 
         currentUser, 
@@ -32,8 +30,7 @@ const SettingsPage = () => {
         handleUpdateProfile, 
         reloadUser 
     } = useAuthContext()
-
-    const { data: user } = useStreamDoc('users', currentUser.uid)
+	const { data: user } = useStreamDocument('users', currentUser.uid)
 
 
     const handleUpdate = async (e) => {

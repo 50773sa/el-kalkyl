@@ -113,8 +113,8 @@ const SignInPage = () => {
                             Logga in
                         </Button>
 
-                        <Grid container spacing={2}>
-                            <Grid xs={5} spacing={2} display="flex">
+                        <Grid container spacing={2}> 
+                            <Grid xs={5} spacing={2} display="flex"> 
                                 <Link href="/reset-password" variant="body2">
                                     Glömt lösenord?
                                 </Link>
