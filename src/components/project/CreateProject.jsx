@@ -23,12 +23,12 @@ import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { toast } from 'react-toastify'
+import useStreamCollection from '../../hooks/useStreamCollection'
 
 
 
 const CreateProject = () => {
     const [num, setNum] = useState([0])
-    const [qty, setQty] = useState(0)
     
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
@@ -37,15 +37,14 @@ const CreateProject = () => {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
-    const { data: material, loading: isStreaming} = useStreamDocument('material', 'Apparater')
-
     const numberRef = useRef()
+
     const { currentUser } = useAuthContext()
+
+    const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
+
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
-    // const handleQty = (num, item) => {
-	// 	setQty(qty => qty + num)
-	// }
 
     const handleChange = (e, newValue) => {
         e.preventDefault()
@@ -248,8 +247,6 @@ const CreateProject = () => {
                         
                             <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
 
-                                {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
-
                                 <TextField
                                     key={i}
                                     type="number"
@@ -267,7 +264,6 @@ const CreateProject = () => {
                                 
                                 />
 
-                                {/* <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/> */}
                             </Grid>
 
                             <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">

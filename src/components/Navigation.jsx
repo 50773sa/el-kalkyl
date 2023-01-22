@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // mui
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import AppBar from '@mui/material/AppBar'
@@ -24,7 +24,8 @@ const Navigation = () => {
     }
 
     const handleCloseUserMenu = () => {
-        setAnchorElUser(null);
+
+        setAnchorElUser(null)
     }
 
     const handleSignOut = async () => {
@@ -94,12 +95,39 @@ const Navigation = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
-                                <MenuItem onClick={() => navigate(`/user/${currentUser.uid}/settings`) && handleCloseUserMenu} >
-                                    <Typography textAlign="center">Profil</Typography>
+                                <MenuItem 
+                                    sx={{ color: '#000000'}} 
+                                    as={Link} 
+                                    to={`/user/${currentUser.uid}/settings`} 
+                                    onClick={handleCloseUserMenu} 
+                                >
+                                    <Typography textAlign="center">Inställningar</Typography>
                                 </MenuItem>
+
+                                <MenuItem 
+                                    sx={{ color: '#000000'}}  
+                                    as={Link} 
+                                    to={`/user/${currentUser.uid}/projects`} 
+                                    onClick={handleCloseUserMenu}
+                                >
+                                    <Typography textAlign="center">Projekt</Typography>
+                                </MenuItem>
+
+                                <MenuItem 
+                                    sx={{ color: '#000000'}} 
+                                    as={Link} 
+                                    to={`/user/${currentUser.uid}/create-project`} 
+                                    onClick={handleCloseUserMenu}
+                                    focusVisibleClassName="a"
+
+                                >
+                                    <Typography textAlign="center">Skapa projekt</Typography>
+                                </MenuItem>
+
                                 <MenuItem onClick={handleSignOut}>
                                     <Typography textAlign="center">Logga ut</Typography>
                                 </MenuItem>
+
                             </Menu>
                         </>
                     ): ''}
