@@ -3,14 +3,16 @@ import { collection, query, where } from 'firebase/firestore'
 import { useFirestoreQueryData } from '@react-query-firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 
-const useGetUser = () => {
+const useGetAuthColl = (coll) => {
 	const { currentUser } = useAuthContext()
 	
 	// ref to collection
-	const queryRef = query(collection(db, 'users'), where('id', '==', currentUser.uid))
+	const queryRef = query(collection(db, coll), 
+		where('uid', '==', currentUser.uid)
+	)
 
 	// get data
-	const userQuery = useFirestoreQueryData(['users'], queryRef,  {
+	const userQuery = useFirestoreQueryData(coll, queryRef,  {
 		idField: 'id',
 		subscribe: true,
 	})
@@ -18,4 +20,4 @@ const useGetUser = () => {
 	return userQuery
 }
 
-export default useGetUser
+export default useGetAuthColl

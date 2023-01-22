@@ -1,13 +1,13 @@
 import { useParams } from 'react-router-dom'
-import useGetProject from '../hooks/useGetProject'
 import EditProject from '../components/project/EditProject'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Container from '@mui/material/Container'
+import useStreamDocument from '../hooks/useStreamDocument'
 
 
 const EditProjectPage = () => {
 	const { projectId } = useParams()
-	const { data: project, loading } = useGetProject(projectId)
+	const { data: project, loading } = useStreamDocument('projects', projectId)
 
 
     return (

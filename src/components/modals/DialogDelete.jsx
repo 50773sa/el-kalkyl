@@ -5,6 +5,7 @@ import { doc, deleteDoc } from 'firebase/firestore'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { toast } from 'react-toastify'
 // mui
+import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -12,12 +13,13 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from '@mui/icons-material/Close'
+import Typography from '@mui/material/Typography'
 
 
 const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
     const [confirmDelete, setConfirmDelete] = useState(false)
-    const [error, setError] = useState()
+    const [error, setError] = useState(false)
 	const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
@@ -46,7 +48,7 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
 	}
 
     return (
-        <div>
+        <Box>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -54,9 +56,9 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                 aria-describedby="alert-dialog-description"
                 maxWidth='500px'
             >
-                <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <div 
-                        style={{ 
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <Box 
+                        sx={{ 
                             display: 'flex', 
                             flexDirection: 'row',
                             justifyContent: 'center', 
@@ -68,8 +70,8 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                             borderRadius: '50%' 
                         }}
                     >
-                        <div 
-                            style={{ 
+                        <Box
+                            sx={{ 
                                 display: 'flex', 
                                 justifyContent: 'center', 
                                 alignItems: 'center', 
@@ -81,16 +83,16 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                         >
                             <SaveOutlinedIcon 
                                 fontSize='large' 
-                                style={{ color: '#ff5901', }}
+                                sx={{ color: '#ff5901', }}
                             />
 
-                        </div>
-                    </div>
+                        </Box>
+                    </Box>
 
-                    <div style={{margin: '1rem'}} >
+                    <Box sx={{ margin: '1rem' }}>
                         <CloseIcon fontSize='large' onClick={handleClose}/>
-                    </div>
-                </div>
+                    </Box>
+                </Box>
                
                 <DialogTitle id="alert-dialog-title">
                     <strong>Vill du radera detta projekt?</strong>
@@ -102,12 +104,14 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                     </DialogContentText>
                 </DialogContent>
 
-                <DialogActions style={{ display: 'flex', flexDirection: 'column', padding: '1.5rem' }}>
+                {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
+
+                <DialogActions sx={{ display: 'flex', flexDirection: 'column', padding: '1.5rem' }}>
                     <Button  
                         fullWidth
                         variant="contained"
                         onClick={handleClose}
-                        style={{ marginBottom: '1rem'}}
+                        sx={{ marginBottom: '1rem' }}
                     > 
                         Avbryt
                     </Button>
@@ -116,13 +120,13 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                         fullWidth
                         variant="outlined"
                         onClick={handleDeleteProject}
-                        style={{ margin: '0'}}
+                        style={{ marginLeft: '0'}}
                     >
                         Radera projekt
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </Box>
     )
 }
 
