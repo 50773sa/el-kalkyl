@@ -1,4 +1,3 @@
-import React from 'react'
 import { useRef, useState } from 'react'
 import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
@@ -6,9 +5,9 @@ import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import { useForm } from 'react-hook-form';
 import LoadingBackdrop from '../LoadingBackdrop'
-import useStreamDocument from '../../hooks/useStreamDocument'
 import LeavePageAlert from '../modals/LeavePageAlert'
-
+import useStreamCollection from '../../hooks/useStreamCollection'
+import { toast } from 'react-toastify'
 // mui
 import Button from '@mui/material/Button'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
@@ -22,8 +21,6 @@ import { TabList } from '@mui/lab'
 import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { toast } from 'react-toastify'
-import useStreamCollection from '../../hooks/useStreamCollection'
 
 
 
@@ -38,11 +35,8 @@ const CreateProject = () => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
-
     const { currentUser } = useAuthContext()
-
     const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
-
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
 
 
@@ -50,7 +44,7 @@ const CreateProject = () => {
         e.preventDefault()
         setValue(newValue);
     }
-
+    // Add to list
     const handleAdd = (item) => () => {
         setLoading(true)
 
@@ -67,7 +61,7 @@ const CreateProject = () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
-
+    // handle selected items
     const handleClick = (item) => (e) => {
         e.preventDefault()
         setError(null)
@@ -100,8 +94,6 @@ const CreateProject = () => {
         }
     }
 
-    console.log('product', addToDocProducts?.map(items => items.product))
-    console.log('num', num)
 
     const onSubmit = async (inputData) => {
         console.log('inputData', inputData)
@@ -122,7 +114,8 @@ const CreateProject = () => {
             })
             setSuccess(true)
             toast.success('Sparat!')
-            console.log("Success")
+            setAddToDocProducts(null)
+            setSelectedProduct(null)
             reset()
 
         } catch (err) {
@@ -132,7 +125,6 @@ const CreateProject = () => {
         }
     }
 
-    console.log('addToDocProducts', addToDocProducts)
 
     return (
         <div className='wrapper createProject' id='createProjectWrapper'>
@@ -243,7 +235,6 @@ const CreateProject = () => {
                                     {item.product}, {item.quantity}
                                 </ListItem>
                             </Grid>
-
                         
                             <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
 
@@ -261,7 +252,6 @@ const CreateProject = () => {
                                         inputMode: 'numeric', pattern: '[0-9]*',
                                         endAdornment: <InputAdornment position="end">st</InputAdornment>,
                                     }}
-                                
                                 />
 
                             </Grid>
@@ -269,7 +259,6 @@ const CreateProject = () => {
                             <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
                                 <DeleteForeverIcon  onClick={handleDelete(item)} />
                             </Grid>
-
                         </>
                     
                     ))}
@@ -296,8 +285,8 @@ const CreateProject = () => {
 
             </form>
 
-
-            <LeavePageAlert open={open} setOpen={setOpen}/>         
+            <LeavePageAlert open={open} setOpen={setOpen}/>        
+             
         </div>
     )
 }
