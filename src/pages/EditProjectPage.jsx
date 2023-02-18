@@ -8,7 +8,7 @@ import useStreamDocument from '../hooks/useStreamDocument'
 const EditProjectPage = () => {
 	const { projectId } = useParams()
 	const { data: project, loading } = useStreamDocument('projects', projectId)
-
+	console.log('****', project)
 
     return (
 		<Container>

@@ -3,14 +3,14 @@ import { db } from '../firebase'
 import { collection, onSnapshot, query, where } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 
-const useStreamDocument = (coll, id) => {
+const useStreamDocument = (coll) => {
 	const { currentUser } = useAuthContext()
     const [data, setData] = useState([])
 	const [loading, setLoading] = useState(true)
 
     useEffect(() => {
 		const queryRef = query(collection(db, coll), 
-			where('id', '==', id),
+			// where('id', '==', id),
 			where('uid', '==', currentUser.uid),
 		)
 

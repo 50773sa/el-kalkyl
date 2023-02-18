@@ -2,8 +2,8 @@ import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import { useForm } from 'react-hook-form';
-import useStreamDoc from '../../hooks/useStreamUser'
+import { Controller, get, set, useForm } from 'react-hook-form';
+import useStreamUser from '../../hooks/useStreamUser'
 import useStreamCollection from '../../hooks/useStreamDocument'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
@@ -21,11 +21,18 @@ import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import { InputAdornment } from '@mui/material'
+import { useAuthContext } from '../../contexts/AuthContextProvider';
+import useStreamDocument from '../../hooks/useStreamDocument';
 
-import Form from 'react-bootstrap/Form';
 
 
 const EditProject = ({ projectId }) => {
+	const { currentUser } = useAuthContext()
+
+    const { data: material, loading: isStreaming} = useStreamCollection('material')
+    const { data: currentProject } = useStreamUser('projects', projectId)
+    const { data: materials } = useStreamDocument('material',currentUser.uid)
+
     const [num, setNum] = useState([0])    
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
@@ -36,9 +43,8 @@ const EditProject = ({ projectId }) => {
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
 
-    const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
-    const { data: currentProject } = useStreamDoc('projects', projectId)
-    const { handleSubmit, formState: { errors }, reset, register } = useForm()
+    const { handleSubmit, formState: { errors }, reset, register, getValues, control } = useForm()
+    const [defaultValue, setDefaultValue] = useState('')
 
     //! Under contruction! 🔨
 
@@ -67,7 +73,6 @@ const EditProject = ({ projectId }) => {
 
     //Delete object from FS
     const handleDeleteFromFb = (selectedItem) => async () => {
-
         await updateDoc(doc(db, 'projects', projectId), {
             projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== selectedItem.id)
         })
@@ -123,6 +128,7 @@ const EditProject = ({ projectId }) => {
             setSuccess(true)
             toast.success('Sparat!')
             console.log("Success")
+            setSelectedProduct([])
             // reset()
 
         } catch (err) {
@@ -132,14 +138,32 @@ const EditProject = ({ projectId }) => {
     }
 
     useEffect(() => {
+
+        setLoading(true)
+        if (currentProject === undefined && !addToDocProducts.length === 0) {
+            return
+           
+        }
+        setAddToDocProducts(currentProject?.projectMaterial)
+        setLoading(false)
+        return
+       
+    }, [currentProject])
+
+    useEffect(() => {
+        console.log('currentProject', currentProject)
+        console.log('material', materials)
+        console.log('selectedProducts', selectedProduct)
+        console.log('addToDocsProducts', addToDocProducts)
      
-    }, [currentProject, selectedProduct, addToDocProducts, num])
+    }, [selectedProduct,  num, material])
+
 
     return (
         <div className='wrapper' id="editProjectWrapper">
-               {loading && <LoadingBackdrop /> }
 
-           
+            {loading && <LoadingBackdrop /> }
+
             <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem'>
                 <strong>Redigera projekt</strong> 
             </Typography>
@@ -148,41 +172,27 @@ const EditProject = ({ projectId }) => {
                 <Grid container spacing={2}>
      
                     <Grid xs={12} sx={{ marginBottom: '3rem'}}>
-                        <Form.Group className="mb-3" >
-                            <Form.Control
+                        <TextField
                                 // required
-                                type="text"
+                                control={control}
+                                fullWidth
                                 id="projecttName"
                                 name="projectName"
-                                defaultValue={currentProject?.projectName}
+                                autoComplete='projectName'
+                                onChange={(e) => setName(e.target.value)}
+                                // label={currentProject.projectName}
+                                defaultValue={currentProject.projectName}
+
 
                                 {...register("projectName", { 
                                     required: true, 
-                                    minLength: { value: 3, message: 'Obligatoriskt fält'}
+                                    minLength: { value: 1, message: 'Obligatoriskt fält'}
                                 })}
-                            
-                            />
-                            {errors.projectName && <p>{errors.projectName.message}</p>}
-                        </Form.Group>
-
-                        {/* <TextField
-                            required
-                            fullWidth
-                            id="projecttName"
-                            name="projectName"
-                            autoComplete='projectName'
-                            onChange={(e) => setName(e.target.value)}
-                            defaultValue={currentProject?.projectName}
-
-                            {...register("projectName", { 
-                                required: true, 
-                                minLength: { value: 1, message: 'Obligatoriskt fält'}
-                            })}
-                        >
-                        {errors.projectName === 'required' && <p>Obligatoriskt fält</p>}
-                        </TextField>     */}
-
+                            >
+                            {errors.projectName === 'required' && <p>Obligatoriskt fält</p>} 
+                        </TextField>
                     </Grid>
+                
 
                     {/**
                      *  Items from db
@@ -194,7 +204,7 @@ const EditProject = ({ projectId }) => {
                                 <TabList onChange={handleChange} aria-label="tab list" sx={{ marginBottom: '1rem' }}>
                                     <Tab className='tab' label="Apparater" value="Apparater" />
                                     <Tab className='tab' label="Belysning" value="Belysning" />
-                                    <Tab className='tab' label="Tele" value="Tele" />
+                                    <Tab className='tab' label="Data" value="Data" />
                                 </TabList>
                             </Grid>
 
@@ -232,12 +242,12 @@ const EditProject = ({ projectId }) => {
                                 </TabPanel>
 
                             
-                                <TabPanel value="Tele" sx={{ height: '200px', overflowY: 'scroll'}}>
+                                <TabPanel value="Data" sx={{ height: '200px', overflowY: 'scroll'}}>
                                     <List>
-                                        {!isStreaming ? material?.filter(list => list.category === "Tele").map((item, i) => (
+                                        {!isStreaming ? material?.filter(list => list.category === "Data").map((item, i) => (
                                             <ListItem 
                                                 key={i} 
-                                                value={"Tele"}
+                                                value={"Data"}
                                                 onClick={handleAdd(item)}
                                                 disableGutters
                                                 sx={{ cursor: 'pointer'}}
@@ -258,9 +268,9 @@ const EditProject = ({ projectId }) => {
 
                 <Grid container spacing={2} style={{ marginBottom: "6rem"}} >
                     {currentProject?.projectMaterial?.map((item, i) => (
-                        <>
-                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
-                                <ListItem value={item} key={i}> 
+                        <React.Fragment key={i}>
+                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center" key={i}>
+                                <ListItem value={item} > 
                                     {item.product}, {item.quantity}
                                 </ListItem>
                             </Grid>
@@ -296,7 +306,7 @@ const EditProject = ({ projectId }) => {
                                 <DeleteForeverIcon  onClick={handleDeleteFromFb(item)} />
                             </Grid>
 
-                        </>
+                        </React.Fragment>
                     
                     ))}
 
@@ -305,8 +315,8 @@ const EditProject = ({ projectId }) => {
                      */}
 
                     {selectedProduct?.map((item, i) => (
-                        <>
-                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center">
+                        <React.Fragment key={i}>
+                            <Grid xs={6} display="flex" justifyContent="center" alignItems="center" key={i}>
                                 <ListItem value={item.product} key={i}> 
                                     {item?.product}, {item?.quantity}
                                 </ListItem>
@@ -343,7 +353,7 @@ const EditProject = ({ projectId }) => {
                                 <DeleteForeverIcon  onClick={handleDelete(item)} />
                             </Grid>
 
-                        </>
+                        </React.Fragment>
                     
                     ))}
 

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 // mui
 import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import AppBar from '@mui/material/AppBar'
@@ -24,7 +24,6 @@ const Navigation = () => {
     }
 
     const handleCloseUserMenu = () => {
-
         setAnchorElUser(null)
     }
 
@@ -40,7 +39,7 @@ const Navigation = () => {
             <Container maxWidth="xl" >
                 <Toolbar 
                     disableGutters
-                     style={{ 
+                     sx={{ 
                         width: '100%', 
                         display: 'flex', 
                         justifyContent: 'space-between' 
@@ -96,29 +95,30 @@ const Navigation = () => {
                                 onClose={handleCloseUserMenu}
                             >
                                 <MenuItem 
-                                    sx={{ color: '#000000'}} 
+                                    sx={{ color: '#000000' }} 
                                     as={Link} 
                                     to={`/user/${currentUser.uid}/settings`} 
                                     onClick={handleCloseUserMenu} 
+                                    
                                 >
                                     <Typography textAlign="center">Inställningar</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
-                                    sx={{ color: '#000000'}}  
+                                    sx={{ color: '#000000' }}  
                                     as={Link} 
                                     to={`/user/${currentUser.uid}/projects`} 
                                     onClick={handleCloseUserMenu}
+
                                 >
                                     <Typography textAlign="center">Projekt</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
-                                    sx={{ color: '#000000'}} 
+                                    sx={{ color: '#000000' }} 
                                     as={Link} 
                                     to={`/user/${currentUser.uid}/create-project`} 
                                     onClick={handleCloseUserMenu}
-                                    focusVisibleClassName="a"
 
                                 >
                                     <Typography textAlign="center">Skapa projekt</Typography>

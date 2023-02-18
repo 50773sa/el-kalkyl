@@ -8,7 +8,7 @@ import useStreamDocument from '../hooks/useStreamDocument'
 const ProjectPage = () => {
     const { projectId } = useParams()
 	const { data: project, loading } = useStreamDocument('projects', projectId)
-
+    console.log('project page', project)
     return (
         <Container>
             {loading && <LoadingBackdrop /> }

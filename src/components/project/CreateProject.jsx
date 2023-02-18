@@ -123,7 +123,7 @@ const CreateProject = () => {
     return (
         <div className='wrapper createProject' id='createProjectWrapper'>
 
-            {loading ? <LoadingBackdrop /> : ''}
+            {loading && <LoadingBackdrop /> }
 
             <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem'>
                 <strong>Lägg till nytt projekt</strong> 
