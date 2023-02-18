@@ -143,51 +143,23 @@ const EditProject = ({ projectId }) => {
     useEffect(() => {
         setLoading(true)
 
-
-        if (currentProject === undefined && currentProject.length === 0) {
-            return console.log('1')
-        }
-        setAddToDocProducts([currentProject.projectMaterial])
-        console.log('addToDocsProducts', addToDocProducts)
-
-
-        if (!addToDocProducts) {
-            return console.log('2')
-        }
-
-        console.log('currProj', currentProject.projectMaterial)
-
-
-
-    
-
-        setProjectName(currentProject.projectName)
-
-        if (projectName === undefined || projectName === null) {
-
-            console.log('4')
+        if (currentProject === undefined || currentProject.length === 0) {
             return
         }
+        setAddToDocProducts(currentProject.projectMaterial)
         setProjectName(currentProject.projectName)
 
-
-        console.log('projectNamessss', projectName)
-        if (projectName !== null) {
-            setLoading(false)
-
+        if (projectName === undefined ) {
             return
-
         }
 
-       
+        setLoading(false)
+        
+        return
     }, [currentProject, projectName])
 
-    // useEffect(() => {
-    //     console.log('currentProject', currentProject)
-    //     console.log('material', materials)
-    //     console.log('selectedProducts', selectedProduct)
-     
-    // }, [selectedProduct,  num, material])
+    console.log('addToDocsProducts', addToDocProducts)
+    console.log('projectNamessss', projectName)
 
 
     return (
@@ -210,12 +182,11 @@ const EditProject = ({ projectId }) => {
                                     name="projectName"
                                     autoComplete='projectName'
                                     onChange={(e) => (setProjectName(e.target.value)) }
-                                    //  placeholder={}
                                     defaultValue={projectName}
     
     
                                     {...register("projectName", { 
-                                        // required: true, 
+                                        required: true, 
                                         minLength: { value: 1, message: 'Obligatoriskt fält'}
                                     })}
                                 >
