@@ -1,7 +1,6 @@
 
 // Import rules from subsheets
 @import 'CreateProjectPage';
-@import 'bootstrap/scss/bootstrap';
 @import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -60,4 +59,30 @@ a {
 
 .MuiFormHelperText-root {
 	color: #ff0000 !important;
+}
+
+// edit project -> text field (number)
+#editProjectWrapper {
+	.css-whebh7-MuiInputBase-root-MuiInput-root:before,
+	.css-whebh7-MuiInputBase-root-MuiInput-root:after {
+		display: flex !important;
+		// border: none;
+		justify-content: center !important;
+		align-items: center !important;
+	}
+	#num {
+		display: flex;
+		text-align: center;
+		// width: 20% !important;	
+		justify-content: center !important;
+		align-items: center !important;
+	}
+
+	// remove arrows in TextField
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+		-webkit-appearance: none; 
+		margin: 0; 
+	}
+
 }

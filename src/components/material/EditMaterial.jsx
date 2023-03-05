@@ -250,7 +250,7 @@ const EditMaterial = ({
 
                     <MenuItem value={'Apparater'}>Apparater</MenuItem>
                     <MenuItem value={'Belysning'}>Belysning</MenuItem>
-                    <MenuItem value={'Tele'}>Tele</MenuItem>
+                    <MenuItem value={'Data'}>Data</MenuItem>
                 </TextField>
             </Grid>        
         </Grid>    

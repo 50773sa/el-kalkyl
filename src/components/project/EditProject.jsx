@@ -1,8 +1,8 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { db } from '../../firebase'
-import { doc, updateDoc } from 'firebase/firestore'
-import { Controller, get, set, useForm } from 'react-hook-form';
+import { collection, doc, documentId, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { useForm } from 'react-hook-form';
 import useStreamUser from '../../hooks/useStreamUser'
 import useStreamCollection from '../../hooks/useStreamDocument'
 import LoadingBackdrop from '../LoadingBackdrop'
@@ -11,6 +11,7 @@ import { toast } from 'react-toastify'
 // mui
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import Button from '@mui/material/Button'
+import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from '@mui/material/List'
@@ -22,18 +23,31 @@ import { TabList } from '@mui/lab'
 import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { InputAdornment } from '@mui/material'
-import { useAuthContext } from '../../contexts/AuthContextProvider';
-import useStreamDocument from '../../hooks/useStreamDocument';
+
+import { FormControlLabel, InputAdornment } from '@mui/material'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
+import useStreamDocument from '../../hooks/useStreamDocument'
+
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Checkbox from '@mui/material/Checkbox';
 
 
+
+import ButtonGroup from '@mui/material/ButtonGroup'
+import { useNavigate } from 'react-router-dom';
 
 const EditProject = ({ projectId }) => {
 	const { currentUser } = useAuthContext()
+    const [isChecked, setIsChecked] = useState(false)
+    const [selectedItemId, setSelectedItemId] = useState([])
+
 
     const { data: material, loading: isStreaming} = useStreamCollection('material')
     const { data: currentProject } = useStreamUser('projects', projectId)
-    // const { data: materials } = useStreamDocument('material',currentUser.uid)
+
+
 
     const [projectName, setProjectName] = useState(null)
     const [num, setNum] = useState([0])    
@@ -45,27 +59,81 @@ const EditProject = ({ projectId }) => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
+    const navigate = useNavigate()
 
-    const { handleSubmit, formState: { errors }, reset, register, getValues, control } = useForm()
-    const [defaultValue, setDefaultValue] = useState('')
+    const { handleSubmit, formState: { errors }, reset, register, watch, control} = useForm()
+    const [checked, setChecked] = useState([])
 
     //! Under contruction! 🔨
+
 
     // Tabs 
     const handleChange = (e, newValue) => {
         e.preventDefault()
-        setValue(newValue);
+        setValue(newValue)
+    }
+
+
+    // const handleToggle = (item) => {
+    //     const currentIndex = checked.indexOf(item)
+    //     const newChecked = [...checked]
+    
+    //     if (currentIndex === -1) {
+    //       newChecked.push(item)
+    //     } else {
+    //       newChecked.splice(currentIndex, 1)
+    //     }
+    
+    //     setChecked(newChecked);
+    //     console.log('newChecked', newChecked)
+    //     console.log('currentIndex', currentIndex)
+
+    // }
+
+    const toggle = (item) => {
+        if (selectedItemId.includes(item.id)) {
+            setSelectedItemId(selectedItemId.filter(id => id !== item.id))
+        } else {
+            setSelectedItemId([...selectedItemId, item.id])
+        }
+    }
+
+
+
+    const toggleIsCheckedFromFS = async (item) => {
+        setError(null)
+
+        const ref = doc(db, 'material', item.id)
+        console.log('ref', ref)
+        console.log('item', item)
+        try {
+          
+            // const isChecked = ref.docs.data().isChecked
+            // console.log('isChecked*****************', isChecked)
+            await updateDoc(ref, {
+                isChecked: !item.isChecked
+            })
+
+		} catch(err) {
+			setError(err)
+		}	
+
     }
 
     // Add to list
     const handleAdd = (item) => () => {
         setLoading(true)
+        // toggleIsCheckedFromFS(item)
 
-        if (selectedProduct.includes(item)) {
-            return setLoading(false), 
-                console.log('Item already exists')
+        toggle(item)
+
+    
+        if (!selectedProduct.includes(item)) {
+            setSelectedProduct(selectedProduct => [...selectedProduct, item])
+
+        } else {
+            setSelectedProduct(selectedProduct.filter((i) => i?.id !== item.id))   
         }
-        setSelectedProduct(selectedProduct => [...selectedProduct, item])
         setLoading(false)
     }
 
@@ -81,6 +149,12 @@ const EditProject = ({ projectId }) => {
         })
     }
 
+
+    // console.log('checked', checked)
+    console.log('selectedProducts', selectedProduct)
+
+
+
     const handleClick = (item) => (e) => {
         e.preventDefault()
         setError(null)
@@ -88,9 +162,9 @@ const EditProject = ({ projectId }) => {
         if (num === 0) {
             return setLoading(false)
         }
-
         setNum(Number(numberRef.current.value))
         item.quantity = num    
+        console.log('num', num)
         
         
         if (addToDocProducts.includes(item)) {
@@ -113,6 +187,7 @@ const EditProject = ({ projectId }) => {
 
         }
     }
+
     
     const onSubmit = async (inputData) => {
         setError(null)
@@ -130,6 +205,7 @@ const EditProject = ({ projectId }) => {
          
             setSuccess(true)
             toast.success('Sparat!')
+            navigate(`/user/${currentUser.uid}/project/${projectId}`)     
             console.log("Success")
             setSelectedProduct([])
             // reset()
@@ -137,8 +213,9 @@ const EditProject = ({ projectId }) => {
         } catch (err) {
             setError(err)
         }
-            
+
     }
+
 
     useEffect(() => {
         setLoading(true)
@@ -154,12 +231,12 @@ const EditProject = ({ projectId }) => {
         }
 
         setLoading(false)
-        
         return
+
     }, [currentProject, projectName])
 
+
     console.log('addToDocsProducts', addToDocProducts)
-    console.log('projectNamessss', projectName)
 
 
     return (
@@ -177,19 +254,19 @@ const EditProject = ({ projectId }) => {
         
                         <Grid xs={12} sx={{ marginBottom: '3rem'}}>
                             <TextField
-                                    fullWidth
-                                    id="projecttName"
-                                    name="projectName"
-                                    autoComplete='projectName'
-                                    onChange={(e) => (setProjectName(e.target.value)) }
-                                    defaultValue={projectName}
-    
-    
-                                    {...register("projectName", { 
-                                        required: true, 
-                                        minLength: { value: 1, message: 'Obligatoriskt fält'}
-                                    })}
-                                >
+                                fullWidth
+                                id="projecttName"
+                                name="projectName"
+                                autoComplete='projectName'
+                                onChange={(e) => (setProjectName(e.target.value)) }
+                                defaultValue={projectName}
+
+
+                                {...register("projectName", { 
+                                    required: true, 
+                                    minLength: { value: 1, message: 'Obligatoriskt fält'}
+                                })}
+                            >
                                 {errors.projectName === 'required' && <p>Obligatoriskt fält</p>} 
                             </TextField>
                         </Grid>
@@ -209,53 +286,97 @@ const EditProject = ({ projectId }) => {
                                     </TabList>
                                 </Grid>
     
-                                <Grid xs={12} sx={{ border: '1px solid #cacaca'}}>
+                                <Grid xs={12}>
                                     <TabPanel value="Apparater" sx={{ height: '200px', overflowY: 'scroll' }}>
-                                        <List>
-                                            {!isStreaming ? material?.filter(list => list.category === "Apparater").map((item, i) => (
-                                                <ListItem 
-                                                    key={i} 
-                                                    value={"Apparater"}
-                                                    onClick={handleAdd(item)}
-                                                    disableGutters
-                                                    sx={{ cursor: 'pointer'}}
-                                                > 
-                                                    {item.product}
-                                                </ListItem>
-                                            )): ''}
+                                        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+                                            {!isStreaming && material?.filter(list => list.category === "Apparater").map((item) => {
+                                                const isChecked = selectedItemId.includes(item.id)
+
+                                                // const labelId = `checkbox-list-label-${item}`;
+                                                // console.log('item', item)
+                                         
+                                                return (
+                                                    <div sx={{}}>
+                                                        <ListItem 
+                                                            key={item.id} 
+                                                            value={"Apparater"}
+                                                            onClick={handleAdd(item)}
+                                                            disableGutters
+                                                            sx={{ 
+                                                                cursor: 'pointer',  
+                                                                display: 'flex', 
+                                                                justifyContent: 'space-between', 
+                                                                "&:hover": {
+                                                                    backgroundColor: "#f1f1f1" 
+                                                                }
+                                                            }}
+                                                        > 
+                                                            {item.product}
+                                                            {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
+                                                        </ListItem>
+
+                                                    </div>
+                                                )
+                                            })}
                                         </List>
                                     </TabPanel> 
     
                                     <TabPanel value="Belysning" sx={{ height: '200px', overflowY: 'scroll'}}>
                                         <List>
-                                            {!isStreaming ? material?.filter(list => list.category === "Belysning").map((item, i) => (
-                                                <ListItem 
-                                                    key={i} 
-                                                    value={"Belysning"}
-                                                    onClick={handleAdd(item)}
-                                                    disableGutters
-                                                    sx={{ cursor: 'pointer'}}
-                                                > 
-                                                    {item.product}
-                                                </ListItem>
-                                            )): ''}
+                                            {!isStreaming && material?.filter(list => list.category === "Belysning").map((item, i) => {
+                                                const isChecked = selectedItemId.includes(item.id)
+
+                                                return (
+                                                    <ListItem 
+                                                        key={i} 
+                                                        value={"Belysning"}
+                                                        onClick={handleAdd(item)}
+                                                        disableGutters
+                                                        sx={{ 
+                                                            cursor: 'pointer',  
+                                                            display: 'flex', 
+                                                            justifyContent: 'space-between', 
+                                                            "&:hover": {
+                                                                backgroundColor: "#f1f1f1" 
+                                                            }
+                                                        }}
+                                                    > 
+                                                        {item.product}
+                                                        {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
+                                                    </ListItem>
+                                                )
+                                      
+                                            })}
                                         </List>
                                     </TabPanel>
     
                                 
                                     <TabPanel value="Data" sx={{ height: '200px', overflowY: 'scroll'}}>
                                         <List>
-                                            {!isStreaming ? material?.filter(list => list.category === "Data").map((item, i) => (
-                                                <ListItem 
-                                                    key={i} 
-                                                    value={"Data"}
-                                                    onClick={handleAdd(item)}
-                                                    disableGutters
-                                                    sx={{ cursor: 'pointer'}}
-                                                > 
-                                                    {item.product}
-                                                </ListItem>
-                                            )): ''}
+                                            {!isStreaming && material?.filter(list => list.category === "Data").map((item, i) => {
+                                                const isChecked = selectedItemId.includes(item.id)
+
+                                                return (
+                                                    <ListItem 
+                                                        key={i} 
+                                                        value={"Data"}
+                                                        onClick={handleAdd(item)}
+                                                        disableGutters
+                                                        sx={{ 
+                                                            cursor: 'pointer',  
+                                                            display: 'flex', 
+                                                            justifyContent: 'space-between', 
+                                                            "&:hover": {
+                                                                backgroundColor: "#f1f1f1" 
+                                                            }
+                                                        }}
+                                                    > 
+                                                        {item.product}
+                                                        {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
+
+                                                    </ListItem>
+                                                )
+                                            })}
                                         </List>
                                     </TabPanel>
                                 </Grid>
@@ -279,11 +400,12 @@ const EditProject = ({ projectId }) => {
                             
                                 <Grid xs={4} display="flex" justifyContent="end" alignItems="center">
     
-                                    <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/>
+                                    {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
     
                                     <TextField
                                         key={i}
                                         type="number"
+                                        id="num"
                                         variant="outlined"
                                         inputRef={numberRef}
                                         onChange={(e) => (setNum(Number(e.target.value)))}
@@ -300,7 +422,7 @@ const EditProject = ({ projectId }) => {
                                     
                                     />
     
-                                    <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/>
+                                    {/* <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/> */}
                                 </Grid>
     
                                 <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
@@ -326,12 +448,13 @@ const EditProject = ({ projectId }) => {
                             
                                 <Grid xs={4} display="flex" justifyContent="end" alignItems="center">
     
-                                    <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/>
-    
+                                    {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
                                     <TextField
                                         key={i}
-                                        // type="number"
-                                        // variant="outlined"
+                                        type="number"
+                                        id="standard-basic"
+                                        name="inputQty"
+                                        variant="standard"
                                         inputRef={numberRef}
                                         onChange={(e) => (setNum(Number(e.target.value)))}
                                         value={num.i}
@@ -339,15 +462,17 @@ const EditProject = ({ projectId }) => {
                                         size='small'
                                         defaultValue={item.quantity}
                                         
+                                        
                                         InputProps={{
                                             inputProps: {min: 0, max: 100 },
                                             inputMode: 'numeric', pattern: '[0-9]*',
                                             endAdornment: <InputAdornment position="end">st</InputAdornment>,
                                         }}
                                     
-                                    />
-    
-                                    <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/>
+                                    /> 
+                                            
+                                    
+                              
                                 </Grid>
     
                                 <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
@@ -355,18 +480,18 @@ const EditProject = ({ projectId }) => {
                                 </Grid>
     
                             </React.Fragment>
-                        
                         ))}
     
                     </Grid>
     
-                  {/**
-                   *  Buttons
-                   */}
-  
+                    {/**
+                     *  Buttons
+                     */}
+
                     <Grid item xs={12} className="buttonsWrap">
                         <Button 	
                             type="submit"
+                            onClick={onSubmit}
                             fullWidth
                             variant="contained"
                             sx={{ mt: 3, mb: 2 }}
