@@ -7,6 +7,7 @@ import SettingsPage from './pages/SettingsPage'
 import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import UserHomePage from './pages/UserHomePage'
+import UserHomePageCopy from './pages/UserHomePageCopy'
 import CreateProjectPage from './pages/CreateProjectPage'
 import EditProjectPage from './pages/EditProjectPage'
 import CreateMaterialPage from './pages/CreateMaterialPage'
@@ -37,7 +38,8 @@ function App() {
 
 				<Route path="/user/:id" element={
 					<RequireAuth>
-						<UserHomePage />
+						<UserHomePageCopy />
+						{/* <UserHomePage /> */}
 					</RequireAuth>
 				} />
 
