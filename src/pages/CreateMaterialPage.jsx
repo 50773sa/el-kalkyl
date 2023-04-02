@@ -1,5 +1,5 @@
-import { useState, useRef} from "react"
-import { useForm } from "react-hook-form"
+import { useState, useRef, useEffect} from "react"
+import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
@@ -10,10 +10,14 @@ import { toast } from "react-toastify"
 // mui
 import Button from '@mui/material/Button'
 import Container from "@mui/system/Container"
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
+import TableButton from "../components/buttons/TableButton"
 
 
 const CreateMaterialPage = () => {
+    const [isActive, setIsActive] = useState(true)
+
     const [open, setOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
@@ -23,11 +27,9 @@ const CreateMaterialPage = () => {
     const qtyRef = useRef(null)
     const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
-    const { handleSubmit, reset, register, formState: { errors } } = useForm()
-
+    const { handleSubmit, reset, register, formState: { errors }, control } = useForm()
 
     const handleObjectInput = () => {
-
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
             console.log("Obligatiskt fält")
             setInputError(true)
@@ -43,6 +45,7 @@ const CreateMaterialPage = () => {
 
         setExtraItems(extraItems => [...extraItems, items])
         setInputError(false)
+        reset()
     }
 
     const handleDelete = (selectedItem) => () => {
@@ -74,60 +77,78 @@ const CreateMaterialPage = () => {
             toast.success('Sparat!')
             setExtraItems(null)
             reset()
-
         } catch (err) {
             setError(err)
         }
     }
 
-    
+
     return (
         <Container>
             <div className='wrapper' id='addMaterial'>
-
-                <Typography
-                    variant="h6" 
-                    component="div" 
-                    textAlign='start' 
-                    marginBottom='2rem'
-                >
-                <strong>Lägg till nytt material</strong> 
-                </Typography>
-        
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                    {/* Component */}
-                    <CreateMaterial 
-                        handleDelete={handleDelete}
-                        handleObjectInput={handleObjectInput}
-                        errors={errors}
-                        register={register}
-                        fittingsRef={fittingsRef}
-                        qtyRef={qtyRef}
-                        unitRef={unitRef}
-                        extraItems={extraItems}
-                        inputError={inputError}
+                <Grid container spacing={2}>
+                    <TableButton 
+                        title1="Lägg till nytt material"
+                        title2="Översikt"
+                        isActive={isActive}
+                        setIsActive={setIsActive}
                     />
+                    {isActive ? (
+                        <>
+                            {/* <Grid xs={12}>
+                                <Typography
+                                    variant="h6" 
+                                    component="div" 
+                                    textAlign='start' 
+                                    marginBottom='2rem'
+                                >
+                                    <strong>Lägg till nytt material</strong> 
+                                </Typography>
+                            </Grid> */}
 
-                    {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
+                            <Grid xs={12} sx={{ height: "60%", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
+                                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                                    {/* Component */}
+                                    <CreateMaterial 
+                                        handleDelete={handleDelete}
+                                        handleObjectInput={handleObjectInput}
+                                        errors={errors}
+                                        register={register}
+                                        fittingsRef={fittingsRef}
+                                        qtyRef={qtyRef}
+                                        unitRef={unitRef}
+                                        extraItems={extraItems}
+                                        inputError={inputError}
+                                        setInputError={setInputError}
+                                    />
+        
+                                    {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
+        
+                                    <Grid xs={12} display="flex" justifyContent="center" flexDirection="column" alignItems="start" className="buttons">
+                                        <Grid xs={12} lg={3}>
+                                            <Button 	
+                                                type="submit"
+                                                fullWidth
+                                                variant="contained"
+                                                sx={{ mt: 3, mb: 2 }}
+                                            > Spara
+                                            </Button>
+                                            <Button
+                                                fullWidth
+                                                onClick={() => {!success ? setOpen(true) : ''}}
+                                            > Avbryt
+                                            </Button>
+                                        </Grid>
+                                    </Grid>
+        
+                                </form>
+                            </Grid>
+                        </>
+                    ): ''}
 
-                    <div className="buttons">
-                        <Button 	
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        > Spara
-                        </Button>
-                        <Button
-                            fullWidth
-                            onClick={() => {!success ? setOpen(true) : ''}}
-                        > Avbryt
-                        </Button>
-                    </div>
-                </form>
-
-                <LeavePageAlert open={open} setOpen={setOpen} /> 
-                
+                    <LeavePageAlert open={open} setOpen={setOpen} /> 
+                </Grid>
+ 
             </div>
         </Container>
     )

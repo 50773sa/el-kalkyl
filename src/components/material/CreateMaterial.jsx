@@ -1,13 +1,12 @@
+import React, { useEffect } from 'react'
 // mui
-import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import MenuItem from '@mui/material/MenuItem'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
+import { Button } from '@mui/material'
 
 // dropdowns
 const unitsList = [
@@ -29,19 +28,21 @@ const CreateMaterial = ({
     qtyRef, 
     unitRef, 
     extraItems,
-    inputError 
+    inputError,
 }) => {
-   
+
+    console.log('extraItems', extraItems)
 
     return (
 
-        <Grid container spacing={2}>
+        <Grid container spacing={2} xs={12}>
 
             {/**
              *  Product
              */}
 
-            <Grid xs={12}>
+            <Grid xs={12} lg={6}>
+
                 <TextField
                     id="product"
                     label="Produkt"
@@ -56,10 +57,38 @@ const CreateMaterial = ({
             </Grid>
 
             {/**
+             *  Category
+             */}
+
+            <Grid xs={12} lg={6} >
+                <TextField
+                    select
+                    label="Kategori"
+                    fullWidth
+                    name="category"
+                    required
+                    defaultValue=""
+                    helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
+
+                    {...register("category", { required: true })}
+                >
+
+                    <MenuItem value={'Apparater'}>Apparater</MenuItem>
+                    <MenuItem value={'Belysning'}>Belysning</MenuItem>
+                    <MenuItem value={'Data'}>Data</MenuItem>
+                </TextField>
+            </Grid> 
+
+            {/**
+             *  List of selected fittings
+             */}
+
+
+            {/**
              *  Fittings
              */}
 
-            <Grid xs={12} sm={5}>
+            <Grid xs={12} sm={6} >
                 <TextField
                     required
                     id="fittings"
@@ -79,7 +108,7 @@ const CreateMaterial = ({
              *  Quantity
              */}
 
-            <Grid xs={5} sm={3} >
+            <Grid xs={5} sm={2} lg={2} >
                 <TextField
                     select
                     required
@@ -108,7 +137,7 @@ const CreateMaterial = ({
              *  Units
              */}
 
-            <Grid xs={5} sm={3}>
+            <Grid xs={5} sm={2}>
                 <TextField
                     id="unit"
                     select
@@ -138,23 +167,24 @@ const CreateMaterial = ({
 
             <Grid 
                 xs={2} 
-                sm={1}
+                lg={2}
                 display='flex' 
                 alignItems="center" 
-                justifyContent="end" 
-        
+                justifyContent="end"        
             >
-                <AddCircleIcon fontSize="large" onClick={handleObjectInput} />    
+                <Button 
+                    variant="contained" 
+                    sx={{ height: '54px', width: '8rem', borderWidth: 2 }} 
+                    onClick={handleObjectInput}
+                >
+                    Lägg till
+                </Button>
                 
             </Grid> 
 
-            {/**
-             *  List of selected fittings
-             */}
 
-
-            <Grid xs={12} sm={8} md={6} lg={4} mb={10} >
-                <Typography variant="h6">Tillagt material:</Typography>
+            <Grid xs={12} sx={{ marginTop: '2rem', marginBottom: '6rem' }}>
+                {/* <Typography variant="h6">Tillagt material:</Typography> */}
 
                 {inputError &&
                     <Typography sx={{ color: "#ff0000" }}>
@@ -163,15 +193,42 @@ const CreateMaterial = ({
                 }
 
                 {extraItems?.map((item) => (
-                    <List key={item.id} sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                        <ListItem>{item.fittings}</ListItem>
-                        <ListItem>{item.quantity} {item.unit}</ListItem>
-                        <RemoveCircleOutlineIcon onClick={handleDelete(item)} sx={{ color: "#ff0000" }}/>
+                    <List 
+                        key={item.id} 
+                        sx={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center', 
+                            height: '50px', 
+                            width: '100%',
+                            borderBottom: '0.2px solid lightGrey',
+                        }}
+                    >
+
+                        <Grid xs={6}>
+                            <ListItem>{item.fittings}</ListItem>
+                        </Grid>
+                        <Grid xs={2}>
+                            <ListItem>{item.quantity}</ListItem>
+                        </Grid>
+                        <Grid xs={2}>
+                            <ListItem>{item.unit}</ListItem>
+                        </Grid>
+                        <Grid xs={2} paddingRight={0}>
+                            <ListItem sx={{ justifyContent: 'end', paddingRight: 0}}>
+                                <Button 
+                                    variant="contained" 
+                                    sx={{ height: '54px', width: '8rem', backgroundColor: ' #ff0000' }} 
+                                    onClick={handleDelete(item)}
+                                >
+                                X  Ta bort
+                                </Button>
+                            </ListItem>
+                        </Grid>
                     </List>
                 ))}
-            </Grid>
+            </Grid> 
         
-    
             {/**
              *  Estimated time
              */}
@@ -223,29 +280,7 @@ const CreateMaterial = ({
             </Grid>
 
             <br/>
-
-                {/**
-                 *  Category
-                 */}
-
-            <Grid xs={12} >
-                <TextField
-                    select
-                    label="Kategori"
-                    fullWidth
-                    name="category"
-                    required
-                    defaultValue=""
-                    sx={{ marginBottom: '6rem'}}
-                    helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
-
-                    {...register("category", { required: true })}>
-
-                    <MenuItem value={'Apparater'}>Apparater</MenuItem>
-                    <MenuItem value={'Belysning'}>Belysning</MenuItem>
-                    <MenuItem value={'Tele'}>Tele</MenuItem>
-                </TextField>
-            </Grid>        
+       
         </Grid>
     )
 }

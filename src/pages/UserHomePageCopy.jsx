@@ -99,7 +99,9 @@ const UserHomepage = () => {
 
 						<Grid xs={12} sx={{ height: "60vh", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
 							<Grid xs={12} lg={8}>
-								<AllProjectsTable projects={projects} />
+								<AllProjectsTable 
+									projects={projects} 
+								/>
 							</Grid>
 						</Grid>
 					</Grid>
