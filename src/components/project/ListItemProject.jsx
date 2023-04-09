@@ -7,8 +7,15 @@ import ListItem from '@mui/material/ListItem'
 import TabPanel from '@mui/lab/TabPanel'
 
 
-const ListItemProject = ({ value, selectedProduct, handleAdd }) => {
+const ListItemProject = ({ value, selectedProduct, setSelectedProduct }) => {
     const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
+
+    // add to selectedProduct list
+    const handleAdd = (item) => () => {
+        selectedProduct.includes(item)
+            ?   setSelectedProduct(selectedProduct.filter(selected => selected !== item))
+            :   setSelectedProduct(selectedProduct => [...selectedProduct, item])
+    }
 
     return (
         <TabPanel value={value} sx={{ height: '200px', padding: '1rem 0', overflowY: 'scroll', boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)" }}  className='tabPanel'>                        

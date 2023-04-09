@@ -39,12 +39,12 @@ const CreateProject = () => {
         setValue(newValue)
     }
 
-    // add to list
-    const handleAdd = (item) => () => {
-        selectedProduct.includes(item)
-            ?   setSelectedProduct(selectedProduct.filter(selected => selected !== item))
-            :   setSelectedProduct(selectedProduct => [...selectedProduct, item])
-    }
+    // // add to list
+    // const handleAdd = (item) => () => {
+    //     selectedProduct.includes(item)
+    //         ?   setSelectedProduct(selectedProduct.filter(selected => selected !== item))
+    //         :   setSelectedProduct(selectedProduct => [...selectedProduct, item])
+    // }
     
 
     const handleDelete = (selectedItem) => () => {
@@ -159,29 +159,30 @@ const CreateProject = () => {
 
                                 <Grid xs={12} sx={{ paddingLeft: 0, paddingRight: 0 }}>
 
+                                    
                                     <ListItemProject 
                                         value="Apparater" 
                                         selectedProduct={selectedProduct} 
-                                        handleAdd={handleAdd}
+                                        setSelectedProduct={setSelectedProduct}
                                     />
 
                                     <ListItemProject 
                                         value="Belysning" 
                                         selectedProduct={selectedProduct} 
-                                        handleAdd={handleAdd}
+                                        setSelectedProduct={setSelectedProduct}
                                     />
 
 
                                     <ListItemProject 
                                         value="Data" 
                                         selectedProduct={selectedProduct} 
-                                        handleAdd={handleAdd}
+                                        setSelectedProduct={setSelectedProduct}
                                     />
 
                                     <ListItemProject 
                                         value="Ovrigt" 
                                         selectedProduct={selectedProduct} 
-                                        handleAdd={handleAdd}
+                                        setSelectedProduct={setSelectedProduct}
                                     />
 
                                    
