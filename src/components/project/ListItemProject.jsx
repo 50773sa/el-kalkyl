@@ -12,7 +12,7 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct }) => {
 
     // add to selectedProduct list
     const handleAdd = (item) => () => {
-        selectedProduct.includes(item)
+        selectedProduct?.includes(item)
             ?   setSelectedProduct(selectedProduct.filter(selected => selected !== item))
             :   setSelectedProduct(selectedProduct => [...selectedProduct, item])
     }
@@ -31,7 +31,7 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct }) => {
                             sx={{ cursor: 'pointer', padding: '0.75rem' }}
                             className={i % 2 === 0 ? 'even' : ''}
                         > 
-                            {selectedProduct.includes(item) 
+                            {selectedProduct?.includes(item) 
                                 ?   <CheckBoxOutlinedIcon sx={{ pr: 2, fontSize: 30 }} />
                                 :   <CheckBoxOutlineBlankOutlinedIcon sx={{ pr: 2, fontSize: 30 }} />
                             }

@@ -19,7 +19,6 @@ import Typography from '@mui/material/Typography'
 import SelectedProduct from './SelectedProduct'
 
 
-
 const CreateProject = () => {
     const [num, setNum] = useState([0])
     const [value, setValue] = useState('Apparater')
@@ -37,48 +36,6 @@ const CreateProject = () => {
     const handleChange = (e, newValue) => {
         e.preventDefault()
         setValue(newValue)
-    }
-
-    // // add to list
-    // const handleAdd = (item) => () => {
-    //     selectedProduct.includes(item)
-    //         ?   setSelectedProduct(selectedProduct.filter(selected => selected !== item))
-    //         :   setSelectedProduct(selectedProduct => [...selectedProduct, item])
-    // }
-    
-
-    const handleDelete = (selectedItem) => () => {
-        setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
-    }
-
-    // handle selected items
-    const handleClick = (item) => (e) => {
-        e.preventDefault()
-        setError(null)
-
-        if (num === 0) {
-            return setLoading(false), console.log('No products')
-        }
-
-        setNum(Number(numberRef.current.value))
-        item.quantity = num
-
-        if (addToDocProducts.includes(item)) {
-            setLoading(false)
-            return 
-        }
-
-        try {
-            setLoading(true)
-            setAddToDocProducts(selectedProduct => [...selectedProduct, item])
-
-            setLoading(false)
-
-        } catch(err) {
-            setError(err)
-            setLoading(false)
-
-        }
     }
 
 
@@ -102,7 +59,7 @@ const CreateProject = () => {
             toast.success('Sparat!')
             setAddToDocProducts(null)
             setSelectedProduct(null)
-            reset()
+            // reset()
 
         } catch (err) {
             setError(err)
@@ -120,7 +77,7 @@ const CreateProject = () => {
                     <strong>Lägg till nytt projekt</strong> 
                 </Typography>
 
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
                     <Grid container spacing={2}>
                         <Grid xs={12} style={{ marginBottom: '3rem'}} >
                             <TextField
@@ -137,7 +94,7 @@ const CreateProject = () => {
                                     minLength: { value: 1, message: 'Obligatoriskt fält'}
                                 })}
                             >
-                            {errors.projectName === 'required' && <p>Obligatoriskt fält</p>}
+                                {errors.projectName === 'required' && <p>Obligatoriskt fält</p>}
                             </TextField>
 
                         </Grid>
@@ -159,7 +116,6 @@ const CreateProject = () => {
 
                                 <Grid xs={12} sx={{ paddingLeft: 0, paddingRight: 0 }}>
 
-                                    
                                     <ListItemProject 
                                         value="Apparater" 
                                         selectedProduct={selectedProduct} 
@@ -184,7 +140,6 @@ const CreateProject = () => {
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
                                     />
-
                                    
                                 </Grid>
                             </TabContext>
@@ -197,31 +152,38 @@ const CreateProject = () => {
 
                     <SelectedProduct
                         selectedProduct={selectedProduct}
+                        setSelectedProduct={setSelectedProduct}
                         numberRef={numberRef}
                         num={num}
                         setNum={setNum}
-                        handleClick={handleClick}
-                        handleDelete={handleDelete}
+                        setError={setError}
+                        addToDocProducts={addToDocProducts}
+                        setAddToDocProducts={setAddToDocProducts}
+                        setLoading={setLoading}
                     />
-
 
                     {/**
                      *  Buttons
                      */}
 
-                    <Grid xs={12} md={4} className="buttonsWrap">
-                        <Button 	
-                            type="submit"
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        > Spara
-                        </Button>
-                        <Button
-                            fullWidth
-                            onClick={() => {setOpen( open ? false : true)}}
-                        > Avbryt
-                        </Button>
+                    <Grid container>
+                        <Grid xs={12} md={3}>
+                            <Button 	
+                                type="submit"
+                                fullWidth
+                                variant="contained"
+                                sx={{ mt: 3, mb: 2 }}
+                            > Spara
+                            </Button>
+                        </Grid>
+                        <Grid xs={12} md={2} display="flex" alignItems="center">
+                            <Button
+                                fullWidth
+                                disableRipple
+                                onClick={() => {setOpen( open ? false : true)}}
+                            > Avbryt
+                            </Button>
+                        </Grid>
                     </Grid>
 
                 </form>
