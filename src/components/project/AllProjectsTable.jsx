@@ -73,7 +73,7 @@ const AllProjectsTable = ({ projects }) => {
                         
                                 <StyledTableCell align="left">{getDate(row.created)}</StyledTableCell>
                                 <StyledTableCell align="right">{row.completed}</StyledTableCell>
-                                {/* <StyledTableCell align="right">{hours} tim {' '} {minutes} {' '} min</StyledTableCell> */}
+                                {/* <StyledTableCell align="right">{row.hours} tim {' '} {row.minutes} {' '} min</StyledTableCell> */}
                                 <StyledTableCell align="right"> 
                                     {row.completed 
                                         ? <CircleIcon sx={{ color: '#15a715' }}/>

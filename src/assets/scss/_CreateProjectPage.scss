@@ -1,27 +1,44 @@
 #createProjectWrapper {
 
     .tab {
-        background-color: rgb(141, 207, 242) !important;
+        // background-color: rgb(141, 207, 242) !important;
         margin-right: 0.1rem !important;
         border-top-left-radius: 10px !important;
         border-top-right-radius: 10px !important;
-        width: 30% !important;
-        overflow-x: scroll !important;
+        color: black;
+        font-size: 1rem;
+        // width: 25% !important;
     }
     
-    .tab:focus {
-        background-color: rgb(109, 163, 191)!important;
-    }
+    .tabPanel::-webkit-scrollbar {
+        width: 8px !important;
+      }
+      
+      .tabPanel::-webkit-scrollbar-thumb {
+        background-color: #999 !important;
+        border-radius: 5px !important;
+      }
+      
+      .tabPanel::-webkit-scrollbar-track {
+        background-color: #ddd !important;
+        border-radius: 5px !important;
+      }
 
-    .buttonsWrap {
-        display: flex;
-        flex-direction: column;
-        justify-content: end;
-        height: 100%;
-    }
+    // .buttonsWrap {
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: end;
+    //     height: 100%;
+    //     width: 100%;
+    // }
 
     .css-whebh7-MuiInputBase-root-MuiInput-root:before,
     .css-whebh7-MuiInputBase-root-MuiInput-root:after {
         border: none !important;
+    }
+
+    //selected
+    .even {
+        background-color: #8dcff21f;
     }
 }

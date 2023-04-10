@@ -7,16 +7,15 @@ import { useForm } from 'react-hook-form'
 import ListItemProject from './ListItemProject'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
+import SelectedProduct from './SelectedProduct'
+import Tabs from './Tabs'
+import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
 import { toast } from 'react-toastify'
 // mui
-import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
-import TabList  from '@mui/lab/TabList'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import SelectedProduct from './SelectedProduct'
 
 
 const CreateProject = () => {
@@ -73,7 +72,7 @@ const CreateProject = () => {
             {loading && <LoadingBackdrop /> }
             <Grid xs={12} sx={{ height: "60%", margin: '8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px", padding: '1rem'}}>
 
-                <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem'>
+                <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem' sx={{ cursor: "default" }}>
                     <strong>Lägg till nytt projekt</strong> 
                 </Typography>
 
@@ -106,12 +105,8 @@ const CreateProject = () => {
                         <Grid xs={12}>
                             <TabContext value={value} padding={0}>
                                 <Grid xs={12} padding={0}>
-                                    <TabList onChange={handleChange} aria-label="tab list" style={{ display: 'flex', overflowX: 'scroll' }}>
-                                        <Tab className='tab' label="Apparater" value="Apparater" />
-                                        <Tab className='tab' label="Belysning" value="Belysning" />
-                                        <Tab className='tab' label="Data" value="Data" />
-                                        <Tab className='tab' label="Övrigt" value="Ovrigt" />
-                                    </TabList>
+                                    {/* Tabs */}
+                                    <Tabs handleChange={handleChange} />
                                 </Grid>
 
                                 <Grid xs={12} sx={{ paddingLeft: 0, paddingRight: 0 }}>
@@ -166,25 +161,7 @@ const CreateProject = () => {
                      *  Buttons
                      */}
 
-                    <Grid container>
-                        <Grid xs={12} md={3}>
-                            <Button 	
-                                type="submit"
-                                fullWidth
-                                variant="contained"
-                                sx={{ mt: 3, mb: 2 }}
-                            > Spara
-                            </Button>
-                        </Grid>
-                        <Grid xs={12} md={2} display="flex" alignItems="center">
-                            <Button
-                                fullWidth
-                                disableRipple
-                                onClick={() => {setOpen( open ? false : true)}}
-                            > Avbryt
-                            </Button>
-                        </Grid>
-                    </Grid>
+                    <SaveOrCancelButtons setOpen={setOpen} />
 
                 </form>
 

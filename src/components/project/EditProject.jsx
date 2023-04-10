@@ -1,54 +1,28 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { db } from '../../firebase'
-import { collection, doc, documentId, getDoc, getDocs, query, updateDoc, where } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form';
 import useStreamUser from '../../hooks/useStreamUser'
-import useStreamCollection from '../../hooks/useStreamDocument'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
+import Tabs from './Tabs'
+import ListItemProject from './ListItemProject'
+import SelectedAndCurrentProducts from './SelectedAndCurrentProducts'
 import { toast } from 'react-toastify'
 // mui
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import Button from '@mui/material/Button'
-import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
-import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
-import { TabList } from '@mui/lab'
-import TabPanel from '@mui/lab/TabPanel'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
-import { FormControlLabel, InputAdornment } from '@mui/material'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
-import useStreamDocument from '../../hooks/useStreamDocument'
-
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import Checkbox from '@mui/material/Checkbox';
-
-
-
-import ButtonGroup from '@mui/material/ButtonGroup'
 import { useNavigate } from 'react-router-dom';
+import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons';
+
 
 const EditProject = ({ projectId }) => {
 	const { currentUser } = useAuthContext()
-    const [isChecked, setIsChecked] = useState(false)
     const [selectedItemId, setSelectedItemId] = useState([])
-
-
-    const { data: material, loading: isStreaming} = useStreamCollection('material')
-    const { data: currentProject } = useStreamUser('projects', projectId)
-
-
-
     const [projectName, setProjectName] = useState(null)
     const [num, setNum] = useState([0])    
     const [value, setValue] = useState('Apparater')
@@ -58,11 +32,12 @@ const EditProject = ({ projectId }) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
+    const { data: currentProject } = useStreamUser('projects', projectId)
+
     const numberRef = useRef()
     const navigate = useNavigate()
 
     const { handleSubmit, formState: { errors }, reset, register, watch, control} = useForm()
-    const [checked, setChecked] = useState([])
 
     //! Under contruction! 🔨
 
@@ -137,56 +112,6 @@ const EditProject = ({ projectId }) => {
         setLoading(false)
     }
 
-    // Delete added products from list
-    const handleDelete = (selectedItem) => () => {
-        setSelectedProduct((items) => items.filter((item) => item?.id !== selectedItem.id))
-    }
-
-    //Delete object from FS
-    const handleDeleteFromFb = (selectedItem) => async () => {
-        await updateDoc(doc(db, 'projects', projectId), {
-            projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== selectedItem.id)
-        })
-    }
-
-
-    // console.log('checked', checked)
-    console.log('selectedProducts', selectedProduct)
-
-
-
-    const handleClick = (item) => (e) => {
-        e.preventDefault()
-        setError(null)
-
-        if (num === 0) {
-            return setLoading(false)
-        }
-        setNum(Number(numberRef.current.value))
-        item.quantity = num    
-        console.log('num', num)
-        
-        
-        if (addToDocProducts.includes(item)) {
-            return (
-                setLoading(false), 
-                console.log('Item already exists')
-            ) 
-        }
-
-        try {
-            setLoading(true)
-            setAddToDocProducts(selectedProduct => [...selectedProduct, item])
-            console.log('addToDocProducts', addToDocProducts)
-            setLoading(false)
-
-        } catch(err) {
-            setError(err)
-            console.log('err', error.message)
-            setLoading(false)
-
-        }
-    }
 
     
     const onSubmit = async (inputData) => {
@@ -243,15 +168,15 @@ const EditProject = ({ projectId }) => {
         <div className='wrapper' id="editProjectWrapper">
 
             {loading && <LoadingBackdrop /> }
+            <Grid xs={12} sx={{ height: "60%", margin: '8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px", padding: '1rem'}}>
 
-            <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem'>
+            <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem' sx={{ cursor: "default" }} >
                 <strong>Redigera projekt</strong> 
             </Typography>
 
             {!loading &&
-                <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
                     <Grid container spacing={2}>
-        
                         <Grid xs={12} sx={{ marginBottom: '3rem'}}>
                             <TextField
                                 fullWidth
@@ -279,106 +204,37 @@ const EditProject = ({ projectId }) => {
                         <Grid xs={12}>
                             <TabContext value={value}>
                                 <Grid xs={12}>
-                                    <TabList onChange={handleChange} aria-label="tab list" sx={{ marginBottom: '1rem' }}>
-                                        <Tab className='tab' label="Apparater" value="Apparater" />
-                                        <Tab className='tab' label="Belysning" value="Belysning" />
-                                        <Tab className='tab' label="Data" value="Data" />
-                                    </TabList>
+                                     {/* Tabs */}
+                                    <Tabs handleChange={handleChange} />
                                 </Grid>
     
                                 <Grid xs={12}>
-                                    <TabPanel value="Apparater" sx={{ height: '200px', overflowY: 'scroll' }}>
-                                        <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
-                                            {!isStreaming && material?.filter(list => list.category === "Apparater").map((item) => {
-                                                const isChecked = selectedItemId.includes(item.id)
+  
+                                    <ListItemProject
+                                        value="Apparater" 
+                                        selectedProduct={selectedProduct} 
+                                        setSelectedProduct={setSelectedProduct}
+                                    />
 
-                                                // const labelId = `checkbox-list-label-${item}`;
-                                                // console.log('item', item)
-                                         
-                                                return (
-                                                    <div sx={{}}>
-                                                        <ListItem 
-                                                            key={item.id} 
-                                                            value={"Apparater"}
-                                                            onClick={handleAdd(item)}
-                                                            disableGutters
-                                                            sx={{ 
-                                                                cursor: 'pointer',  
-                                                                display: 'flex', 
-                                                                justifyContent: 'space-between', 
-                                                                "&:hover": {
-                                                                    backgroundColor: "#f1f1f1" 
-                                                                }
-                                                            }}
-                                                        > 
-                                                            {item.product}
-                                                            {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
-                                                        </ListItem>
+                                    <ListItemProject 
+                                        value="Belysning" 
+                                        selectedProduct={selectedProduct} 
+                                        setSelectedProduct={setSelectedProduct}
+                                    />
 
-                                                    </div>
-                                                )
-                                            })}
-                                        </List>
-                                    </TabPanel> 
-    
-                                    <TabPanel value="Belysning" sx={{ height: '200px', overflowY: 'scroll'}}>
-                                        <List>
-                                            {!isStreaming && material?.filter(list => list.category === "Belysning").map((item, i) => {
-                                                const isChecked = selectedItemId.includes(item.id)
 
-                                                return (
-                                                    <ListItem 
-                                                        key={i} 
-                                                        value={"Belysning"}
-                                                        onClick={handleAdd(item)}
-                                                        disableGutters
-                                                        sx={{ 
-                                                            cursor: 'pointer',  
-                                                            display: 'flex', 
-                                                            justifyContent: 'space-between', 
-                                                            "&:hover": {
-                                                                backgroundColor: "#f1f1f1" 
-                                                            }
-                                                        }}
-                                                    > 
-                                                        {item.product}
-                                                        {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
-                                                    </ListItem>
-                                                )
-                                      
-                                            })}
-                                        </List>
-                                    </TabPanel>
-    
-                                
-                                    <TabPanel value="Data" sx={{ height: '200px', overflowY: 'scroll'}}>
-                                        <List>
-                                            {!isStreaming && material?.filter(list => list.category === "Data").map((item, i) => {
-                                                const isChecked = selectedItemId.includes(item.id)
+                                    <ListItemProject 
+                                        value="Data" 
+                                        selectedProduct={selectedProduct} 
+                                        setSelectedProduct={setSelectedProduct}
+                                    />
 
-                                                return (
-                                                    <ListItem 
-                                                        key={i} 
-                                                        value={"Data"}
-                                                        onClick={handleAdd(item)}
-                                                        disableGutters
-                                                        sx={{ 
-                                                            cursor: 'pointer',  
-                                                            display: 'flex', 
-                                                            justifyContent: 'space-between', 
-                                                            "&:hover": {
-                                                                backgroundColor: "#f1f1f1" 
-                                                            }
-                                                        }}
-                                                    > 
-                                                        {item.product}
-                                                        {isChecked && <CheckCircleIcon sx={{ color: '#15a715' }} />}
+                                    <ListItemProject 
+                                        value="Ovrigt" 
+                                        selectedProduct={selectedProduct} 
+                                        setSelectedProduct={setSelectedProduct}
+                                    />
 
-                                                    </ListItem>
-                                                )
-                                            })}
-                                        </List>
-                                    </TabPanel>
                                 </Grid>
                             </TabContext>
                         </Grid>
@@ -387,126 +243,32 @@ const EditProject = ({ projectId }) => {
                     {/**
                      *  Update products
                      */}
-    
-                    <Grid container spacing={2} style={{ marginBottom: "6rem"}} >
-                        {currentProject?.projectMaterial?.map((item, i) => (
-                            <React.Fragment key={i}>
-                                <Grid xs={6} display="flex" justifyContent="center" alignItems="center" key={i}>
-                                    <ListItem value={item} > 
-                                        {item.product}, {item.quantity}
-                                    </ListItem>
-                                </Grid>
-    
-                            
-                                <Grid xs={4} display="flex" justifyContent="end" alignItems="center">
-    
-                                    {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
-    
-                                    <TextField
-                                        key={i}
-                                        type="number"
-                                        id="num"
-                                        variant="outlined"
-                                        inputRef={numberRef}
-                                        onChange={(e) => (setNum(Number(e.target.value)))}
-                                        value={num.i}
-                                        onClick={handleClick(item)}
-                                        size='small'
-                                        defaultValue={item.quantity}
-                                        
-                                        InputProps={{
-                                            inputProps: {min: 0, max: 100 },
-                                            inputMode: 'numeric', pattern: '[0-9]*',
-                                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
-                                        }}
-                                    
-                                    />
-    
-                                    {/* <AddCircleOutlineIcon  onClick={() => handleQty(+1, item.quantity)}/> */}
-                                </Grid>
-    
-                                <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
-                                    <DeleteForeverIcon  onClick={handleDeleteFromFb(item)} />
-                                </Grid>
-    
-                            </React.Fragment>
-                        
-                        ))}
-    
-                        {/**
-                         *  Add new products
-                         */}
-    
-                        {selectedProduct?.map((item, i) => (
-                            <React.Fragment key={i}>
-                                <Grid xs={6} display="flex" justifyContent="center" alignItems="center" key={i}>
-                                    <ListItem value={item.product} key={i}> 
-                                        {item?.product}, {item?.quantity}
-                                    </ListItem>
-                                </Grid>
-    
-                            
-                                <Grid xs={4} display="flex" justifyContent="end" alignItems="center">
-    
-                                    {/* <RemoveCircleOutlineIcon onClick={() => handleQty(-1, item.quantity)}/> */}
-                                    <TextField
-                                        key={i}
-                                        type="number"
-                                        id="standard-basic"
-                                        name="inputQty"
-                                        variant="standard"
-                                        inputRef={numberRef}
-                                        onChange={(e) => (setNum(Number(e.target.value)))}
-                                        value={num.i}
-                                        onClick={handleClick(item)}
-                                        size='small'
-                                        defaultValue={item.quantity}
-                                        
-                                        
-                                        InputProps={{
-                                            inputProps: {min: 0, max: 100 },
-                                            inputMode: 'numeric', pattern: '[0-9]*',
-                                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
-                                        }}
-                                    
-                                    /> 
-                                            
-                                    
-                              
-                                </Grid>
-    
-                                <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
-                                    <DeleteForeverIcon  onClick={handleDelete(item)} />
-                                </Grid>
-    
-                            </React.Fragment>
-                        ))}
-    
-                    </Grid>
+
+                    <SelectedAndCurrentProducts 
+                        currentProject={currentProject}
+                        projectId={projectId}
+                        selectedProduct={selectedProduct}
+                        setSelectedProduct={setSelectedProduct}
+                        numberRef={numberRef}
+                        num={num}
+                        setNum={setNum}
+                        setError={setError}
+                        addToDocProducts={addToDocProducts}
+                        setAddToDocProducts={setAddToDocProducts}
+                        setLoading={setLoading}
+                    />
+
     
                     {/**
                      *  Buttons
                      */}
 
-                    <Grid item xs={12} className="buttonsWrap">
-                        <Button 	
-                            type="submit"
-                            onClick={onSubmit}
-                            fullWidth
-                            variant="contained"
-                            sx={{ mt: 3, mb: 2 }}
-                        > Spara
-                        </Button>
-                        <Button
-                            fullWidth
-                            onClick={() => {setOpen( open ? false : true)}}
-                        > Avbryt
-                        </Button>
-                    </Grid>
-              </form>
+                    <SaveOrCancelButtons setOpen={setOpen} />
+                </form>
   
             }
-            <LeavePageAlert open={open} setOpen={setOpen}/> 
+                <LeavePageAlert open={open} setOpen={setOpen}/> 
+            </Grid>
 
         </div>
     )

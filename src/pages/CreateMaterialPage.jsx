@@ -45,7 +45,6 @@ const CreateMaterialPage = () => {
 
         setExtraItems(extraItems => [...extraItems, items])
         setInputError(false)
-        reset()
     }
 
     const handleDelete = (selectedItem) => () => {

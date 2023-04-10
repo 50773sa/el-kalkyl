@@ -6,6 +6,7 @@ const CreateProjectPage = () => {
  
     return (
         <Container>
+
             <CreateProject />
         </Container>
     )

@@ -76,6 +76,7 @@ const CreateMaterial = ({
                     <MenuItem value={'Apparater'}>Apparater</MenuItem>
                     <MenuItem value={'Belysning'}>Belysning</MenuItem>
                     <MenuItem value={'Data'}>Data</MenuItem>
+                    <MenuItem value={'Ovrigt'}>Data</MenuItem>
                 </TextField>
             </Grid> 
 
@@ -169,12 +170,12 @@ const CreateMaterial = ({
                 xs={2} 
                 lg={2}
                 display='flex' 
-                alignItems="center" 
+                // alignItems="center" 
                 justifyContent="end"        
             >
                 <Button 
                     variant="contained" 
-                    sx={{ height: '54px', width: '8rem', borderWidth: 2 }} 
+                    sx={{ height: '56px', width: '8rem', borderWidth: 2 }} 
                     onClick={handleObjectInput}
                 >
                     Lägg till

@@ -9,11 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emotion/react": "^11.10.5",
-    "@emotion/styled": "^11.10.5",
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.0",
     "@mui/lab": "^5.0.0-alpha.113",
-    "@mui/material": "^5.11.1",
+    "@mui/material": "^5.11.16",
+    "@mui/x-data-grid": "^6.0.4",
     "@react-query-firebase/firestore": "^1.0.0-dev.7",
     "bootstrap": "^5.2.3",
     "firebase": "^9.15.0",
