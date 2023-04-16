@@ -1,6 +1,5 @@
 
 // Import rules from subsheets
-@import 'CreateProjectPage';
 @import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -16,11 +15,8 @@ body {
 	max-width: 1570px !important;
 }
 
-
 // outer container
 .container {
-	// display: flex;
-	// flex-direction: column;
 	width: 100vw;
 	height: 100vh;
 	box-sizing: border-box;
@@ -28,8 +24,6 @@ body {
 
 // inner container
 .wrapper {
-	// display: flex;
-	// flex-direction: column;
 	min-height: 100%;
 	margin-bottom: 4rem;
 	margin-top: 2rem;
@@ -66,6 +60,25 @@ a {
 	color: #ff0000 !important;
 }
 
+.tabPanel::-webkit-scrollbar {
+	width: 8px !important;
+}
+  
+.tabPanel::-webkit-scrollbar-thumb {
+	background-color: #999 !important;
+	border-radius: 5px !important;
+}
+
+.tabPanel::-webkit-scrollbar-track {
+	background-color: #ddd !important;
+	border-radius: 5px !important;
+}
+
+.css-whebh7-MuiInputBase-root-MuiInput-root:before,
+.css-whebh7-MuiInputBase-root-MuiInput-root:after {
+	border: none !important;
+}
+
 // edit project -> text field (number)
 #editProjectWrapper {
 	.css-whebh7-MuiInputBase-root-MuiInput-root:before,
@@ -88,11 +101,10 @@ a {
 	input[type=number]::-webkit-outer-spin-button { 
 		-webkit-appearance: none !important; 
 		margin: 0; 
-
 	}
-
 }
-   //selected
-   .even {
+
+// zebra striped list
+.even {
 	background-color: #8dcff21f;
 }

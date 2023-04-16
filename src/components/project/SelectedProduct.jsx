@@ -43,7 +43,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
 
         }
     }
-    console.log('addToDocProducts', addToDocProducts)
+
     return (
         <Grid container spacing={2} xs={12} style={{ marginBottom: "6rem" }} >
 
@@ -60,7 +60,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
             </Box>
 
             {selectedProduct?.map((item, i) => (
-                <Grid xs={12} display="flex" padding={0} ml={1} mr={1} height={1}>
+                <Grid xs={12} display="flex" padding={0} ml={1} mr={1} height={1} key={item.id}>
                     <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
                         <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
                             {item.product}, {item.quantity}
@@ -71,7 +71,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
                         <TextField
                             key={i.id}
                             type="text"
-                            variant="standard"
+                            variant="outlined"
                             onBlur={handleClick(item)}
                             onInput={(e) => setNum(Number(e.target.value))}
                             size='small'

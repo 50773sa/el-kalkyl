@@ -19,7 +19,7 @@ import Typography from '@mui/material/Typography'
 
 
 const CreateProject = () => {
-    const [num, setNum] = useState([0])
+    const [num, setNum] = useState(1)
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
     const [addToDocProducts, setAddToDocProducts] = useState([])
@@ -115,12 +115,16 @@ const CreateProject = () => {
                                         value="Apparater" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
                                     <ListItemProject 
                                         value="Belysning" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
 
@@ -128,12 +132,16 @@ const CreateProject = () => {
                                         value="Data" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
                                     <ListItemProject 
                                         value="Ovrigt" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
                                    
                                 </Grid>

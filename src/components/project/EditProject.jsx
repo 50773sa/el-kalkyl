@@ -1,30 +1,28 @@
 import React from 'react'
 import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import { useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
 import useStreamUser from '../../hooks/useStreamUser'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
 import Tabs from './Tabs'
 import ListItemProject from './ListItemProject'
 import SelectedAndCurrentProducts from './SelectedAndCurrentProducts'
+import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
 import { toast } from 'react-toastify'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import TabContext from '@mui/lab/TabContext'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { useAuthContext } from '../../contexts/AuthContextProvider'
-import { useNavigate } from 'react-router-dom';
-import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons';
-
 
 const EditProject = ({ projectId }) => {
 	const { currentUser } = useAuthContext()
-    const [selectedItemId, setSelectedItemId] = useState([])
     const [projectName, setProjectName] = useState(null)
-    const [num, setNum] = useState([0])    
+    const [num, setNum] = useState(1)    
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
     const [addToDocProducts, setAddToDocProducts] = useState([])
@@ -32,15 +30,10 @@ const EditProject = ({ projectId }) => {
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
-    const { data: currentProject } = useStreamUser('projects', projectId)
-
     const numberRef = useRef()
+    const { data: currentProject } = useStreamUser('projects', projectId)
+    const { handleSubmit, formState: { errors }, reset, register } = useForm()
     const navigate = useNavigate()
-
-    const { handleSubmit, formState: { errors }, reset, register, watch, control} = useForm()
-
-    //! Under contruction! 🔨
-
 
     // Tabs 
     const handleChange = (e, newValue) => {
@@ -48,72 +41,6 @@ const EditProject = ({ projectId }) => {
         setValue(newValue)
     }
 
-
-    // const handleToggle = (item) => {
-    //     const currentIndex = checked.indexOf(item)
-    //     const newChecked = [...checked]
-    
-    //     if (currentIndex === -1) {
-    //       newChecked.push(item)
-    //     } else {
-    //       newChecked.splice(currentIndex, 1)
-    //     }
-    
-    //     setChecked(newChecked);
-    //     console.log('newChecked', newChecked)
-    //     console.log('currentIndex', currentIndex)
-
-    // }
-
-    const toggle = (item) => {
-        if (selectedItemId.includes(item.id)) {
-            setSelectedItemId(selectedItemId.filter(id => id !== item.id))
-        } else {
-            setSelectedItemId([...selectedItemId, item.id])
-        }
-    }
-
-
-
-    const toggleIsCheckedFromFS = async (item) => {
-        setError(null)
-
-        const ref = doc(db, 'material', item.id)
-        console.log('ref', ref)
-        console.log('item', item)
-        try {
-          
-            // const isChecked = ref.docs.data().isChecked
-            // console.log('isChecked*****************', isChecked)
-            await updateDoc(ref, {
-                isChecked: !item.isChecked
-            })
-
-		} catch(err) {
-			setError(err)
-		}	
-
-    }
-
-    // Add to list
-    const handleAdd = (item) => () => {
-        setLoading(true)
-        // toggleIsCheckedFromFS(item)
-
-        toggle(item)
-
-    
-        if (!selectedProduct.includes(item)) {
-            setSelectedProduct(selectedProduct => [...selectedProduct, item])
-
-        } else {
-            setSelectedProduct(selectedProduct.filter((i) => i?.id !== item.id))   
-        }
-        setLoading(false)
-    }
-
-
-    
     const onSubmit = async (inputData) => {
         setError(null)
 
@@ -127,11 +54,10 @@ const EditProject = ({ projectId }) => {
                 projectMaterial: addToDocProducts 
             })
 
-         
+    
             setSuccess(true)
             toast.success('Sparat!')
             navigate(`/user/${currentUser.uid}/project/${projectId}`)     
-            console.log("Success")
             setSelectedProduct([])
             // reset()
 
@@ -140,7 +66,7 @@ const EditProject = ({ projectId }) => {
         }
 
     }
-
+console.log('num', num)
 
     useEffect(() => {
         setLoading(true)
@@ -161,8 +87,6 @@ const EditProject = ({ projectId }) => {
     }, [currentProject, projectName])
 
 
-    console.log('addToDocsProducts', addToDocProducts)
-
 
     return (
         <div className='wrapper' id="editProjectWrapper">
@@ -177,6 +101,11 @@ const EditProject = ({ projectId }) => {
             {!loading &&
                 <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
                     <Grid container spacing={2}>
+
+                        {/**
+                         *  Project name
+                         */}
+
                         <Grid xs={12} sx={{ marginBottom: '3rem'}}>
                             <TextField
                                 fullWidth
@@ -195,7 +124,6 @@ const EditProject = ({ projectId }) => {
                                 {errors.projectName === 'required' && <p>Obligatoriskt fält</p>} 
                             </TextField>
                         </Grid>
-                  
   
                         {/**
                          *  Items from db
@@ -209,17 +137,23 @@ const EditProject = ({ projectId }) => {
                                 </Grid>
     
                                 <Grid xs={12}>
-  
+
                                     <ListItemProject
                                         value="Apparater" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
+                                        projectId={projectId}
+                                        currentProject={currentProject}
                                     />
 
                                     <ListItemProject 
                                         value="Belysning" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
 
@@ -227,12 +161,16 @@ const EditProject = ({ projectId }) => {
                                         value="Data" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
                                     <ListItemProject 
                                         value="Ovrigt" 
                                         selectedProduct={selectedProduct} 
                                         setSelectedProduct={setSelectedProduct}
+                                        addToDocProducts={addToDocProducts}
+                                        setAddToDocProducts={setAddToDocProducts}
                                     />
 
                                 </Grid>

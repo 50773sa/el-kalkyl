@@ -11,7 +11,6 @@ import Typography from '@mui/material/Typography'
 import { InputAdornment } from '@mui/material'
 
 
-
 const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct, setSelectedProduct, num, setNum, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
 
     // Delete added products from list
@@ -20,7 +19,7 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
         setAddToDocProducts((items) => items.filter((item) => item.id !== selectedItem.id))
     }
 
-    //Delete object from FS
+    //Delete object from Firestore
     const handleDeleteFromFb = (selectedItem) => async () => {
         await updateDoc(doc(db, 'projects', projectId), {
             projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== selectedItem.id)
@@ -54,6 +53,8 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
 
         }
     }
+    console.log('addToDocProducts', addToDocProducts)
+
     return (
         <Grid container spacing={2} xs={12} style={{ marginBottom: "6rem" }} >
             <Box sx={{ p: '16px', marginTop: '2rem', cursor: 'default'}}>
@@ -63,7 +64,7 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
             </Box>
 
             {currentProject?.projectMaterial?.map((item, i) => (
-                <Grid xs={12} display="flex" padding={0} ml={1} mr={1} height={1}>
+                <Grid xs={12} key={item.id} display="flex" padding={0} ml={1} mr={1} height={1}>
                     <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
                         <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
                             {item.product}, {item.quantity}
@@ -72,9 +73,9 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
                 
                     <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
                         <TextField
-                            key={i.id}
+                            key={item.id}
                             type="text"
-                            variant="standard"
+                            variant="outlined"
                             onBlur={handleClick(item)}
                             onInput={(e) => setNum(Number(e.target.value))}
                             size='small'
@@ -95,7 +96,7 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
             ))}
 
             {selectedProduct?.map((item, i) => (
-                <Grid xs={12} display="flex" padding={0} ml={1} mr={1} height={1}>
+                <Grid xs={12} key={item.id} display="flex" padding={0} ml={1} mr={1} height={1}>
                     <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
                         <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
                             {item.product}, {item.quantity}
@@ -104,15 +105,15 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
                 
                     <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
                         <TextField
-                            key={i.id}
+                            key={item.id}
                             type="text"
-                            variant="standard"
+                            variant="outlined"
                             onBlur={handleClick(item)}
                             onInput={(e) => setNum(Number(e.target.value))}
                             size='small'
-                            defaultValue={1}
+                            defaultValue="1"
                             InputProps={{
-                                inputProps: {min: 0, max: 100},
+                                inputProps: {min: 1, max: 100},
                                 inputMode: 'numeric', 
                                 endAdornment: <InputAdornment position="end">st</InputAdornment>,
                             }}
