@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // mui
+import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
 
 // dropdowns
 const unitsList = [
@@ -70,20 +70,16 @@ const CreateMaterial = ({
                     defaultValue=""
                     helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
-                    {...register("category", { required: true })}
+                    {...register("category", { required: true }) }
                 >
-
                     <MenuItem value={'Apparater'}>Apparater</MenuItem>
                     <MenuItem value={'Belysning'}>Belysning</MenuItem>
                     <MenuItem value={'Data'}>Data</MenuItem>
-                    <MenuItem value={'Ovrigt'}>Data</MenuItem>
+                    <MenuItem value={'Ovrigt'}>Övrigt</MenuItem>
                 </TextField>
             </Grid> 
 
-            {/**
-             *  List of selected fittings
-             */}
-
+      
 
             {/**
              *  Fittings

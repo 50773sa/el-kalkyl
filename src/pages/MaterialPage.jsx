@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect} from "react"
-import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form"
+import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
@@ -13,11 +13,10 @@ import Container from "@mui/system/Container"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import TableButton from "../components/buttons/TableButton"
-import { reload } from "firebase/auth";
-import EditMaterialPage from "./EditMaterialPage";
+import AllMaterial from "../components/material/AllMaterial";
 
 
-const CreateMaterialPage = () => {
+const MaterialPage = () => {
     const [isActive, setIsActive] = useState(true)
 
     const [open, setOpen] = useState(false)
@@ -87,25 +86,17 @@ const CreateMaterialPage = () => {
     return (
         <Container>
             <div className='wrapper' id='addMaterial'>
+           
                 <Grid container spacing={2}>
                     <TableButton 
                         title1="Lägg till nytt material"
-                        title2="Översikt"
+                        title2="Överblick"
                         isActive={isActive}
                         setIsActive={setIsActive}
                     />
+
                     {isActive ? (
                         <>
-                            {/* <Grid xs={12}>
-                                <Typography
-                                    variant="h6" 
-                                    component="div" 
-                                    textAlign='start' 
-                                    marginBottom='2rem'
-                                >
-                                    <strong>Lägg till nytt material</strong> 
-                                </Typography>
-                            </Grid> */}
 
                             <Grid xs={12} sx={{ height: "60%", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
                                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -145,7 +136,7 @@ const CreateMaterialPage = () => {
                                 </form>
                             </Grid>
                         </>
-                    ): <EditMaterialPage />}
+                    ): <AllMaterial />}
 
                     <LeavePageAlert open={open} setOpen={setOpen} /> 
                 </Grid>
@@ -155,4 +146,4 @@ const CreateMaterialPage = () => {
     )
 }
 
-export default CreateMaterialPage
+export default MaterialPage

@@ -31,9 +31,6 @@ const UserHomepage = () => {
     const { data: projects } = useGetAuthColl('projects')
     const navigate = useNavigate()
 
-	
-	
-	console.log('loading', loading)
 
     useEffect(() => {
 
@@ -79,7 +76,7 @@ const UserHomepage = () => {
 
 						<Grid xs={12} sm={6} lg={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/settings/edit-material`)}					
+								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
 								title='Material'
 								subtitle="Redigera material"
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: '5em', color: '#CBC309' }}/>}
@@ -89,7 +86,7 @@ const UserHomepage = () => {
 
 						<Grid xs={12} sm={6} lg={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`)}					
+								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
 								title='Nytt Material'
 								subtitle="Lägg till nytt material"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: '5em', color: '#DC822F' }}/>}

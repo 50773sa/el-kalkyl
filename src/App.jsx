@@ -10,8 +10,7 @@ import UserHomePage from './pages/UserHomePage'
 import UserHomePageCopy from './pages/UserHomePageCopy'
 import CreateProjectPage from './pages/CreateProjectPage'
 import EditProjectPage from './pages/EditProjectPage'
-import CreateMaterialPage from './pages/CreateMaterialPage'
-import EditMaterialPage from './pages/EditMaterialPage'
+import MaterialPage from './pages/MaterialPage'
 import ProjectPage from './pages/ProjectPage'
 import AllProjectsPage from './pages/AllProjectsPage'
 import ForgotPasswordPage from './pages/ForgotPasswordPage'
@@ -49,15 +48,9 @@ function App() {
 					</RequireAuth>
 				} /> 
 
-				<Route path="/user/:id/settings/create-material" element={
+				<Route path="/user/:id/material" element={
 					<RequireAuth>
-						<CreateMaterialPage />
-					</RequireAuth>
-				} />
-
-				<Route path="/user/:id/settings/edit-material" element={
-					<RequireAuth>
-						<EditMaterialPage />
+						<MaterialPage />
 					</RequireAuth>
 				} />
 
