@@ -95,7 +95,7 @@ const MaterialPage = () => {
                         setIsActive={setIsActive}
                     />
 
-                    {isActive ? (
+                    {!isActive ? (
                         <>
 
                             <Grid xs={12} sx={{ height: "60%", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>

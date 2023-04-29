@@ -15,11 +15,11 @@ const TableButton = ({ title1, title2, isActive, setIsActive }) => {
 
                 <Button
                     onClick={handleClick} 
-                    variant={isActive ? "contained" : "outlined"} 
+                    variant={!isActive ? "contained" : "outlined"} 
                     size="large" 
                     sx={{ 
                         width: '100%', 
-                        height: '60px',
+                        height: '50px',
                         borderRadius: '10px 10px 0  0'
                     }}
                 >
@@ -27,11 +27,11 @@ const TableButton = ({ title1, title2, isActive, setIsActive }) => {
                 </Button>
                 <Button 
                     onClick={handleClick} 
-                    variant={!isActive ? "contained" : "outlined"} 
+                    variant={isActive ? "contained" : "outlined"} 
                     size="large" 
                     sx={{ 
                         width: '100%', 
-                        height: '60px',
+                        height: '50px',
                         borderRadius: '10px 10px 0  0'
                     }}
                 >

@@ -3,15 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamUser from '../hooks/useStreamUser'
 import LoadingBackdrop from '../components/LoadingBackdrop'
+import Cards from '../components/Cards'
 // mui
 import Box from '@mui/material/Box'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent'
+import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
 import SettingsIcon from '@mui/icons-material/Settings'
 import Container from '@mui/material/Container'
 import useGetAuthColl from '../hooks/useGetAuthColl'
+
+
+import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
+import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined'
+import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined';
+import HomeTable from '../components/project/HomeTable'
+
 
 
 
@@ -21,12 +30,16 @@ const UserHomepage = () => {
     const { data, loading } = useStreamUser('users', currentUser.uid)
     const { data: projects } = useGetAuthColl('projects')
     const navigate = useNavigate()
-	
+
 
     useEffect(() => {
+
+		if (loading) {
+			return
+		}
         let proj = projects?.filter(project => project?.completed === true)
         setCompletedProjects(proj?.length)
-
+	
     }, [completedProjects, projects, currentUser])
 
 
@@ -34,170 +47,63 @@ const UserHomepage = () => {
 		<Container>
 			<div className='wrapper' id='home'>
 
-				{loading && <LoadingBackdrop />}
+				{loading  && <LoadingBackdrop />}
 
-				{/** 
-				 * Profile button and name
-				 */}
+				{projects && (
 
-				<Card 
-					onClick={() => navigate(`/user/${currentUser.uid}/settings`)} 
-					sx={{ 
-						display: 'flex',
-						padding: '24px',
-						marginBottom: '2rem',
-						position: 'relative',
-						backgroundColor: '#7ACFFF'
-					}}
-				>
+					<Grid container spacing={2}>
+						<Grid xs={12} sm={6} lg={3}>
+							<Cards 
+								onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
+								title='Projekt'
+								subtitle={projects?.length ? projects.length + " stycken" : "0 stycken"}
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: '5em', color: '#68A5EC' }}/>}
+								color="#68A5EC"
+							/>
+						</Grid>
 
-					<CardContent 
-						sx={{ 
-							display: 'flex', 
-							flexDirection: 'column', 
-							justifyContent: 'center', 
-							width: '100%', 
-							cursor: 'pointer'
-						}}
-					>
-						{!loading && (
-							<Typography variant="h6" component="div" textAlign='center' >
-								{data?.company ? data?.company : "Inställningar"}
-							</Typography>
-						)}
 
-						<SettingsIcon sx={{ position: 'absolute', right: '1rem', bottom: '1rem'}}/>
-					</CardContent>
-				</Card>
+						<Grid xs={12} sm={6} lg={3}>
+							<Cards 
+								onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
+								title='Nytt Projekt'
+								subtitle="Skapa ny beräkning"
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: '5rem', color: '#68C37C' }}/>}
+								color="#68C37C"
+							/>
+						</Grid>
 
-				<Typography 
-					variant="h7" 
-					component="div" 
-					textAlign='center' 
-					marginBottom='3rem'
-				> 
-					<em>{userName}</em>
-				</Typography>
 
-				<br/>
+						<Grid xs={12} sm={6} lg={3}>
+							<Cards 
+								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
+								title='Material'
+								subtitle="Redigera material"
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: '5em', color: '#CBC309' }}/>}
+								color="#CBC309"
+							/>
+						</Grid>
 
-				{/** 
-				 *  Number of projects
-				 */}
+						<Grid xs={12} sm={6} lg={3}>
+							<Cards 
+								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
+								title='Nytt Material'
+								subtitle="Lägg till nytt material"
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: '5em', color: '#DC822F' }}/>}
+								color="#DC822F"
+							/>
+						</Grid>
 
-				<Box 
-					sx={{ 
-						display: 'flex', 
-						justifyContent: 'space-between', 
-						paddingLeft: '1rem', 
-						paddingRight: '1rem'
-					}}
-				>
-					<Typography variant="h7" component="span" textAlign='center' marginBottom='2rem'>
-						<strong>{projects?.length ? projects.length : "0"}</strong>  
-						<br/> Projekt
-					</Typography>
-
-					<Typography variant="h7" component="span" textAlign='center'>
-						<strong>{completedProjects}</strong>  
-						<br/> Aktiva projekt
-					</Typography>
-				</Box>
-
-				{/** 
-				 *  Navigation buttons 
-				 */}
-
-				<Box 
-					sx={{ 
-						display: 'flex', 
-						flexDirection: 'row', 
-						justifyContent: 'space-between', 
-						gap: '1rem', 
-						marginBottom: '1rem',
-						cursor: 'pointer'
-					}}
-				>
-					<Card 
-						onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
-						sx={{ 
-							width: '80%',
-							height: '100px', 
-							padding: '1.5rem',
-							backgroundColor: '#DC822F',
-						}}
-					>
-						<CardContent>
-							<Typography variant="h8" component="div" textAlign='center'>
-								Projekt
-							</Typography>
-						</CardContent>
-					</Card>
-
-					<Card 
-						onClick={() => console.log('Under uppbyggnad')} 
-						sx={{
-							width: '20%',
-							height: '100px', 
-							padding: '1.5rem',
-							backgroundColor: '#CBC309',
-							cursor: 'auto',
-						}}
-					>
-						<CardContent>
-							<Typography variant="h8" component="div" textAlign='center'>
-								-
-							</Typography>
-						</CardContent>
-					</Card>
-				</Box>
-
-				<Box
-					sx={{ 
-						display: 'flex', 
-						flexDirection: 'row', 
-						justifyContent: 'space-between', 
-						gap: '1rem',
-					}}
-				>
-					<Card 
-						onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`)} 
-						sx={{ 
-							width: '20%', 
-							height: '100px', 
-							padding: '1.5rem', 
-							display:' flex', 
-							justifyContent: 'center', 
-							alignItems: 'center', 
-							backgroundColor: '#68A5EC',
-							cursor: 'pointer', 
-						}}
-					>
-						<CardContent className='center'>
-							<AddCircleOutlineIcon />
-						</CardContent>
-
-					</Card>
-
-					<Card 
-						onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
-						sx={{
-							width: '80%', 
-							height: '100px', 
-							padding: '1.5rem', 
-							backgroundColor: '#68C37C',
-							cursor: 'pointer',
-						}}
-					>
-						<CardContent>
-							<Typography variant="h8" component="div" textAlign='center'>
-								Ny beräkning
-							</Typography>
-						</CardContent>
-
-					</Card>
-				</Box>
-			</div>     
+						<Grid xs={12} sx={{ height: "60vh", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
+							<Grid xs={12}>
+								<HomeTable 
+									projects={projects} 
+								/>
+							</Grid>
+						</Grid>
+					</Grid>
+				)}
+			</div>
 		</Container>
 	)
 }

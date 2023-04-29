@@ -11,6 +11,7 @@ body {
 	box-sizing: border-box;
 }
 
+
 .css-1oqqzyl-MuiContainer-root {
 	max-width: 1570px !important;
 }
@@ -26,8 +27,10 @@ body {
 .wrapper {
 	min-height: 100%;
 	margin-bottom: 4rem;
+	margin: auto;
 	margin-top: 2rem;
 	padding: 1rem;
+	max-width: 1440px;
 	box-sizing: border-box;
 }
 
@@ -107,4 +110,9 @@ a {
 // zebra striped list
 .even {
 	background-color: #8dcff21f;
+}
+
+// table
+.css-1ex1afd-MuiTableCell-root {
+	border-bottom: none !important;
 }

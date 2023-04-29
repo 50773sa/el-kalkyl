@@ -13,7 +13,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
-const AllProjectsTable = ({ projects }) => {
+const HomeTable = ({ projects }) => {
     const { currentUser } = useAuthContext()
     const navigate = useNavigate()
 
@@ -56,7 +56,6 @@ const AllProjectsTable = ({ projects }) => {
                 </TableHead>
                 <TableBody>
                     {projects && projects?.map((row, i) => {
-
                         let { hours, minutes } = calculateWorkHours(row)
                         console.log('minutes', minutes)
                         console.log('row', row.projectMaterial.map(row => row.estimatedTime))
@@ -89,4 +88,4 @@ const AllProjectsTable = ({ projects }) => {
     )
 }
 
-export default AllProjectsTable
+export default HomeTable

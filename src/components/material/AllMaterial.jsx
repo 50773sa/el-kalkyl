@@ -1,17 +1,18 @@
+import React, { useState } from 'react'
 import { useEffect } from 'react'
 import { db } from '../../firebase'
 import { doc, deleteDoc } from 'firebase/firestore'
-import useStreamCollection from '../../hooks/useStreamCollection'
 import useGetAuthColl from '../../hooks/useGetAuthColl'
 import LoadingBackdrop from '../LoadingBackdrop'
-
+import { toast } from 'react-toastify'
 
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined'
 import Table from '@mui/material/Table'
@@ -21,35 +22,51 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 
 
 const AllMaterial = () => {
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState(false)
+
+    const [loading, setLoading] = useState(false)
     const [openRows, setOpenRows] = useState([])
     const [product, setProduct] = useState([])
-    // const { data: material, loading: isStreaming} = useStreamCollection('material')
     const { data: material, isLoading: isStreaming } = useGetAuthColl('material')
 
-    // const handleDeleteFromFb = (selectedItem) => async () => {
-    //     await updateDoc(doc(db, 'projects', projectId), {
-    //         projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== selectedItem.id)
-    //     })
-    // }
 
     const handleDeleteFromFb = (selectedItem) => async () => {
+        setLoading(true)
+     
         const ref = doc(db, 'material', selectedItem.id)
-        console.log('ref', ref)
-        console.log('selectedItem', selectedItem)
-		await deleteDoc(ref)  
+
+		setError(null)
+
+        if (loading) {
+            return
+        }
+		setConfirmDelete(true)
+
+		try {
+			await deleteDoc(ref)
+			toast.success('Raderat!')
+			setOpen(false)
+			setLoading(false)
+			
+		} catch(err){
+			setError(err)
+			setLoading(false)
+		}
     }
 
-    console.log('material', material)
 
     useEffect(() => {
-        const prod = material?.map((m => m.product))
-        setProduct([...prod])
-
+        if (isStreaming) {
+            return
+        }
+        const prod = material?.map((m => m?.product))
+        return setProduct([...prod])
     }, [])
 
     return (
@@ -66,22 +83,22 @@ const AllMaterial = () => {
                     <Table aria-label="collapsible table">
                         <TableHead sx={{ marginTop: '2rem'}}>
                             <TableRow >
-                                <TableCell />
-                                <TableCell sx={{ fontWeight: 'bold' }}>Produkt</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Kategori</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Estimerad tid</TableCell>
-                                <TableCell align="right"></TableCell>
-                                <TableCell align="right"></TableCell>
+                                    <TableCell />
+                                    <TableCell sx={{ fontWeight: 'bold' }}>Produkt</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }} align="right">Kategori</TableCell>
+                                    <TableCell sx={{ fontWeight: 'bold' }} align="right">Estimerad tid</TableCell>
+
+                               
                         
                             </TableRow> 
                         </TableHead>
 
                         <TableBody>
                             <>
-                                {material?.map((item) => (
+                                {!isStreaming && material?.map((item) => (
                                     <React.Fragment key={item.id}>
 
-                                        <TableRow sx={{ border: '1px solid #e0e0e0',  '& > *': { borderBottom: 'unset' }  }} >
+                                        <TableRow sx={{ border: '1px solid #e0e0e0', bgcolor: 'white',  '& > *': { borderBottom: 'unset' }  }} >
                                             <TableCell sx={{ cursor: 'pointer' }}>
                                                 <IconButton
                                                     aria-label="expand row"
@@ -134,17 +151,17 @@ const AllMaterial = () => {
                                                 <IconButton sx={{ marginRight: 3}} onClick={() => ''} >
                                                     <ModeEditOutlineOutlinedIcon/>
                                                 </IconButton>
-                                                <IconButton  onClick={handleDeleteFromFb(item)} >
+                                                <IconButton onClick={() => setOpen(true)} >
                                                     <RemoveCircleOutlineOutlinedIcon />
                                                 </IconButton>
                                             </TableCell>
-                                            
+                                        
                                         </TableRow>
 
-                                        <TableRow>
-                                            <TableCell style={{ paddingBottom: 5, paddingTop: 0 }} colSpan={6}>
-                                                <Collapse  in={openRows.includes(item.id)} timeout="auto" unmountOnExit>
-                                                    <Box sx={{ margin: 1 }}>
+                                        <TableRow >
+                                            <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
+                                                <Collapse in={openRows.includes(item.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
+                                                    <Box sx={{ p: 2 }} >
                                                         <Typography variant="h6" gutterBottom component="div">
                                                             Tillhörande produkter
                                                         </Typography>
@@ -180,6 +197,15 @@ const AllMaterial = () => {
                                             </TableCell>
                                         
                                         </TableRow>
+
+                                        {open && (
+                                            <DialogDeleteMaterial 
+                                                open={open} 
+                                                setOpen={setOpen} 
+                                                setLoading={setLoading}
+                                                handleDeleteFromFb={handleDeleteFromFb(item)}
+                                            />
+                                        )}
                                     </React.Fragment>
                                 ))}
                             </>
