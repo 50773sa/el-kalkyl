@@ -81,7 +81,7 @@ const Navigation = () => {
                                 noWrap
                                 onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}/projects` : '/')} 
                                 sx={{
-                                    mr: 10,
+                                    mr: 5,
                                     display: { xs: 'none', sm: 'flex' },
                                     fontFamily: 'arial',
                                     fontWeight: 300,

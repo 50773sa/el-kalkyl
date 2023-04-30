@@ -89,8 +89,8 @@ const MaterialPage = () => {
            
                 <Grid container spacing={2}>
                     <TableButton 
-                        title1="Lägg till nytt material"
-                        title2="Överblick"
+                        title1="Material"
+                        title2="Nytt material"
                         isActive={isActive}
                         setIsActive={setIsActive}
                     />
@@ -122,7 +122,7 @@ const MaterialPage = () => {
                                                 type="submit"
                                                 fullWidth
                                                 variant="contained"
-                                                sx={{ mt: 3, mb: 2 }}
+                                                sx={{ mt: 3, mb: 2, p: 1 }}
                                             > Spara
                                             </Button>
                                             <Button

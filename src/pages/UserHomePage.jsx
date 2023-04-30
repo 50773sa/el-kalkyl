@@ -5,23 +5,12 @@ import useStreamUser from '../hooks/useStreamUser'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/Cards'
 // mui
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import Typography from '@mui/material/Typography'
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import SettingsIcon from '@mui/icons-material/Settings'
 import Container from '@mui/material/Container'
 import useGetAuthColl from '../hooks/useGetAuthColl'
-
-
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
-import LibraryAddOutlinedIcon from '@mui/icons-material/LibraryAddOutlined'
 import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined';
-import HomeTable from '../components/project/HomeTable'
-
-
+import HomeTable from '../components/HomeTable'
 
 
 const UserHomepage = () => {

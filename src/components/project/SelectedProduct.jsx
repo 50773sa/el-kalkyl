@@ -2,7 +2,7 @@
 import Box from '@mui/material/Box'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import { InputAdornment } from '@mui/material'
+import { Divider, InputAdornment } from '@mui/material'
 import ListItem from '@mui/material/ListItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
@@ -51,23 +51,26 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
                 <Typography  variant="p" sx={{ fontSize: '1.2rem', marginBottom: '2rem', cursor: 'default'}}>
                     Produkter <br/>
                 </Typography>   
+                <Divider />
 
                 {selectedProduct?.length === 0 && 
                     <Typography sx={{ fontSize: '1rem', marginTop: '1em'}}>
                         <em>Inga tillagda produkter</em>
                     </Typography>
                 }
+
             </Box>
 
             {selectedProduct?.map((item, i) => (
-                <Grid xs={12} display="flex" padding={0} ml={1} mr={1} height={1} key={item.id}>
-                    <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
+                <Grid xs={12} sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'start'}}} key={item.id}>
+
+                    <Grid xs={6} md={2} display="flex" pl={0} justifyContent="center" alignItems="center">
                         <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
                             {item.product}, {item.quantity}
                         </ListItem>
                     </Grid>
                 
-                    <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
+                    <Grid xs={4} md={2} display="flex" justifyContent="end" alignItems="center" >
                         <TextField
                             key={i.id}
                             type="text"
@@ -83,7 +86,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
                         />
                     </Grid>
 
-                    <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
+                    <Grid xs={2} md={1}display="flex" justifyContent="end" alignItems="center" color="red">
                         <DeleteForeverIcon  onClick={handleDelete(item)} />
                     </Grid>
                 </Grid>

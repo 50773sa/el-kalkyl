@@ -115,6 +115,10 @@ const Project = ({ projectId }) => {
 					<CalculationTable project={project} projectId={projectId}/>
 				</Grid>
 
+				{/**
+				 * 	 Edit and delete buttons only visible on small devices
+				 */}
+
 				<Grid
 					xs={12}
 					md={6}

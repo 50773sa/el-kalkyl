@@ -70,7 +70,7 @@ const CreateProject = () => {
         <div className='wrapper createProject' id='createProjectWrapper'>
 
             {loading && <LoadingBackdrop /> }
-            <Grid xs={12} sx={{ height: "60%", margin: '8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px", padding: '1rem'}}>
+            <Grid xs={12} sx={{ height: "60%", margin: '8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px", p: '3rem' }}>
 
                 <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem' sx={{ cursor: "default" }}>
                     <strong>Lägg till nytt projekt</strong> 
@@ -78,7 +78,7 @@ const CreateProject = () => {
 
                 <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
                     <Grid container spacing={2}>
-                        <Grid xs={12} style={{ marginBottom: '3rem'}} >
+                        <Grid xs={12} md={6} style={{ marginBottom: '3rem'}} >
                             <TextField
                                 required
                                 fullWidth

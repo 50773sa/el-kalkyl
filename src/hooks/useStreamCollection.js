@@ -30,7 +30,6 @@ const useStreamCollection = (coll) => {
 		return unsubscribe
 
 	}, [])
-	// console.log('data', data)
 
     return {
         data, 

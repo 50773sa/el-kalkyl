@@ -22,7 +22,6 @@ import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import { Button } from '@mui/material'
 
 
 const AllProjects = ({ projects }) => {
@@ -32,7 +31,7 @@ const AllProjects = ({ projects }) => {
     const navigate = useNavigate()
 
     return (
-        <div className='wrapper' id='allProjectsWrapper'>
+        <div className='wrapper'>
 			<Grid container spacing={2}>
 
 				{/**
@@ -43,32 +42,31 @@ const AllProjects = ({ projects }) => {
                     <Table aria-label="collapsible table">
      
                         <TableBody>
-                            <TableRow  >
-                                <TableCell sx={{ color: 'grey'}}>Aktiv</TableCell>
-                                <TableCell sx={{ color: 'grey'}}>Projekt</TableCell>                             
-                                <TableCell sx={{ color: 'grey'}}>Datum</TableCell>
-                                <TableCell align='right'>
-                                    <Button 
-                                        sx={{ p: 1.5 }}
-                                        variant="contained" 
-                                        onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
-                                    >
-                                        <AddIcon />
-                                         Nytt projekt  
-                                </Button>
-                                </TableCell> 
+                            <TableRow>
+                                <TableCell />
+                                <TableCell sx={{ fontWeight: 'bold' }}>Projekt</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold' }} align="left">Skapad</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Aktiv</TableCell>
+
                             </TableRow>
                             <>
                                 {projects?.map((list) => (
                                     <React.Fragment key={list.id}>
-                                        <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white' }} >
-                                           
-                                        <TableCell onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} >
-                                            {list.completed 
-                                                ? <CircleIcon sx={{ color: '#15a715', cursor: 'default' }}/>
-                                                : <CircleIcon sx={{ color: '#ff7000', cursor: 'default' }}/>
-                                            }
-                                        </TableCell>
+                                        <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
+
+                                            <TableCell sx={{ cursor: 'pointer' }}>
+                                                <IconButton
+                                                    aria-label="expand row"
+                                                    size="small" 
+                                                    onClick={() => setOpenRows(openRows.includes(list.id) 
+                                                        ? openRows.filter(id => id !== list.id) 
+                                                        : [...openRows, list.id]
+                                                    )}
+                                                >
+                                                    {openRows.includes(list.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                </IconButton>
+                                            </TableCell>
+                                     
                                             <TableCell 
                                                 sx={{ cursor: 'pointer' }}
                                                 onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} 
@@ -86,19 +84,14 @@ const AllProjects = ({ projects }) => {
                                                 <em>{getDate(list.created)}</em>
                                             </TableCell>
 
-                                          
-
-                                             <TableCell align='right' sx={{ cursor: 'pointer' }}>
-                                                <IconButton
-                                                    aria-label="expand row"
-                                                    size="small" 
-                                                    onClick={() => setOpenRows(openRows.includes(list.id) 
-                                                        ? openRows.filter(id => id !== list.id) 
-                                                        : [...openRows, list.id]
-                                                    )}
-                                                >
-                                                    {openRows.includes(list.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
+                                            <TableCell 
+                                                align='right'
+                                                onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)}
+                                            >
+                                                {list.completed 
+                                                    ? <CircleIcon sx={{ color: '#15a715', cursor: 'default' }}/>
+                                                    : <CircleIcon sx={{ color: '#ff7000', cursor: 'default' }}/>
+                                                }
                                             </TableCell>
                                         
                                         </TableRow>
@@ -115,7 +108,7 @@ const AllProjects = ({ projects }) => {
                                                             <Table size="small" aria-label="fittings">
                                                                 <TableHead>
                                                                     <TableRow>                                                          
-                                                                        <TableCell sx={{ fontSize: '16px'}}>Produkt</TableCell>
+                                                                        <TableCell sx={{ fontSize: '16px'}}>Produkter</TableCell>
                                                                         <TableCell align="right" sx={{ fontSize: '16px'}}>Antal</TableCell>
                                                                     </TableRow>
                                                                 </TableHead>
@@ -129,11 +122,9 @@ const AllProjects = ({ projects }) => {
                                                                     ))}  
                                                                     
                                                                 </TableBody>
+                                                                
                                                             </Table>
                                                         </Grid>
-                                                  
-                                                    
-
                                                     </Box>
                                                 </Collapse>
                                             </TableCell>
@@ -148,28 +139,6 @@ const AllProjects = ({ projects }) => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-
-                {/* {projects ? projects?.map((list) => (
-                    <Grid 
-                        container
-                        xs={12}
-                        key={list.id} 
-                        display="flex"
-                        alignItems="center"
-                        sx={{ borderBottom: '1px solid #d5caca', margin: '0', cursor: 'pointer'}}
-                        onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} 
-                    >
-                        <Grid xs={7}>{list.projectName}</Grid>
-                        <Grid xs={3} sx={{ color: '#5a5454'}}><em>{getDate(list.created)}</em></Grid>
-
-                        <Grid xs={2} display="flex" justifyContent="end" alignItems="center">
-                            {list.completed 
-                                ? <CircleIcon sx={{ color: '#15a715' }}/>
-                                : <CircleIcon sx={{ color: '#ff7000' }}/>
-                            }
-                        </Grid>
-                    </Grid>
-                )): ''} */}
 			</Grid>
         </div>
     )

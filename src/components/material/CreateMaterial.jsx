@@ -7,6 +7,7 @@ import ListItem from "@mui/material/ListItem"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import { Select } from '@mui/material'
 
 // dropdowns
 const unitsList = [
@@ -170,8 +171,8 @@ const CreateMaterial = ({
                 justifyContent="end"        
             >
                 <Button 
-                    variant="contained" 
-                    sx={{ height: '56px', width: '8rem', borderWidth: 2 }} 
+                    variant="outlined" 
+                    sx={{ width: '8rem', p: 1 }} 
                     onClick={handleObjectInput}
                 >
                     Lägg till
@@ -214,8 +215,8 @@ const CreateMaterial = ({
                         <Grid xs={2} paddingRight={0}>
                             <ListItem sx={{ justifyContent: 'end', paddingRight: 0}}>
                                 <Button 
-                                    variant="contained" 
-                                    sx={{ height: '54px', width: '8rem', backgroundColor: ' #ff0000' }} 
+                                    variant="outlined" 
+                                    sx={{ p: 1, width: '8rem', borderColor: ' #ff0000', color: '#ff0000' }} 
                                     onClick={handleDelete(item)}
                                 >
                                 X  Ta bort
@@ -243,6 +244,13 @@ const CreateMaterial = ({
                     fullWidth
                     required
                     defaultValue=""
+                    slotProps={{
+                        listbox: {
+                            sx: {
+                                maxHeight: '300px',
+                            },
+                        },
+                    }}
                     helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
                     {...register("hours", { required: true })}
@@ -264,6 +272,14 @@ const CreateMaterial = ({
                     fullWidth
                     required
                     defaultValue=""
+                    slotProps={{
+                        listbox: {
+                            sx: {
+                                maxHeight: '300px',
+                            },
+                        },
+                    }}
+                  
                     helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
                     {...register("minutes", { required: true })}
@@ -272,7 +288,7 @@ const CreateMaterial = ({
                         <MenuItem key={option.minutes} value={Number(option.minutes)}>
                             {option.value}
                         </MenuItem>
-                    ))}
+                    ))}                
                 </TextField>
             </Grid>
 

@@ -12,9 +12,11 @@ const useGetAuthColl = (coll) => {
 	)
 
 	// get data
-	const userQuery = useFirestoreQueryData(coll, queryRef,  {
+	const userQuery = useFirestoreQueryData([coll], queryRef,  {
 		idField: 'id',
 		subscribe: true,
+	}, {
+		refetchOnMount: 'always'
 	})
 
 	return userQuery

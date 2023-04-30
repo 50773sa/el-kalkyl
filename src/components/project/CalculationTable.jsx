@@ -141,7 +141,7 @@ const CalculationTable = ({ project }) => {
 
 						{products?.map((item) => (
 							<TableRow key={item.id} colSpan={3}>
-								<TableCell style={{ borderBottom: 'none'}}></TableCell>
+								<TableCell sx={{ display: {xs: 'none', md:'flex'}, borderBottom: 'none' }} ></TableCell>
 								<TableCell align='left'>{item.product}</TableCell>
 								<TableCell align='right'>{item.quantity} {item.unit}</TableCell>
 							</TableRow>
@@ -149,7 +149,7 @@ const CalculationTable = ({ project }) => {
 		
 						{!loading && reducedResult?.map((i) => (
 							<TableRow key={i.item} colSpan={3}>
-								<TableCell style={{ borderBottom: 'none'}}></TableCell>
+								<TableCell sx={{ display: {xs: 'none', md:'flex'}, borderBottom: 'none' }} ></TableCell>
 								<TableCell align='left'>{i.item}</TableCell>
 								<TableCell align='right'>{i.value}</TableCell>
 							</TableRow> 

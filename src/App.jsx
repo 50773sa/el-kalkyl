@@ -7,7 +7,6 @@ import SettingsPage from './pages/SettingsPage'
 import SignUpPage from './pages/SignUpPage'
 import SignInPage from './pages/SignInPage'
 import UserHomePage from './pages/UserHomePage'
-import CreateProjectPage from './pages/CreateProjectPage'
 import EditProjectPage from './pages/EditProjectPage'
 import MaterialPage from './pages/MaterialPage'
 import ProjectPage from './pages/ProjectPage'
@@ -49,12 +48,6 @@ function App() {
 				<Route path="/user/:id/material" element={
 					<RequireAuth>
 						<MaterialPage />
-					</RequireAuth>
-				} />
-
-				<Route path="/user/:id/create-project" element={
-					<RequireAuth>
-						<CreateProjectPage />
 					</RequireAuth>
 				} />
 

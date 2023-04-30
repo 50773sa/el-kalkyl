@@ -83,13 +83,10 @@ const AllMaterial = () => {
                     <Table aria-label="collapsible table">
                         <TableHead sx={{ marginTop: '2rem'}}>
                             <TableRow >
-                                    <TableCell />
-                                    <TableCell sx={{ fontWeight: 'bold' }}>Produkt</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold' }} align="right">Kategori</TableCell>
-                                    <TableCell sx={{ fontWeight: 'bold' }} align="right">Estimerad tid</TableCell>
-
-                               
-                        
+                                <TableCell />
+                                <TableCell sx={{ fontWeight: 'bold' }}>Produkt</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Kategori</TableCell>
+                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Estimerad tid</TableCell>
                             </TableRow> 
                         </TableHead>
 

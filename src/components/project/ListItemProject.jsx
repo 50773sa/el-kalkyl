@@ -71,7 +71,7 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocP
 
 
     return (
-        <TabPanel value={value} sx={{ height: '200px', padding: '1rem 0', overflowY: 'scroll', boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)" }}  className='tabPanel'>                        
+        <TabPanel value={value} sx={{ height: '300px', padding: '1rem 0', overflowY: 'scroll', boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.05)" }}  className='tabPanel'>                        
             <List sx={{ overflowY: 'scroll'}}>
                 {!isStreaming ? material?.filter(list => list.category === value).map((item, i) => {
                     return (

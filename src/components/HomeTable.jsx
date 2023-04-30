@@ -48,8 +48,8 @@ const HomeTable = ({ projects }) => {
                 <TableHead sx={{ cursor: 'default'}}>
                     <TableRow>
                         <StyledTableCell>Pågående projekt</StyledTableCell>
-                        <StyledTableCell align="left">Skapad</StyledTableCell>
-                        <StyledTableCell align="right">Estimerad tid</StyledTableCell>
+                        <StyledTableCell align="right">Skapad</StyledTableCell>
+                        <StyledTableCell align="right">Arbetstid</StyledTableCell>
                         <StyledTableCell align="right">Aktiv</StyledTableCell>
 
                     </TableRow>
@@ -64,11 +64,11 @@ const HomeTable = ({ projects }) => {
                                 sx={{ cursor: 'pointer' }}
                                 onClick={() => navigate(`/user/${currentUser.uid}/project/${row.id}`)} 
                             >
-                                <StyledTableCell component="th" scope="row" sx={{ width: '25rem'}}>
+                                <StyledTableCell component="th" scope="row" sx={{ width: '25rem' }}>
                                     {row.projectName}
                                 </StyledTableCell>
                         
-                                <StyledTableCell align="left">{getDate(row.created)}</StyledTableCell>
+                                <StyledTableCell align="right">{getDate(row.created)}</StyledTableCell>
                                 <StyledTableCell align="right">{hours} tim {' '} {minutes} {' '} min</StyledTableCell>
 
                                 <StyledTableCell align="right"> 
