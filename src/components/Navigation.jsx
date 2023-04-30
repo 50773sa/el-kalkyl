@@ -12,6 +12,7 @@ import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem';
+import { Box } from '@mui/material';
 
 
 const Navigation = () => {
@@ -50,33 +51,65 @@ const Navigation = () => {
                      *  Logo
                      */}  
 
-                    <Tooltip>
-                        <Typography
-                            variant="h6"
-                            noWrap
-                            onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/')} 
-                            sx={{
-                                mr: 2,
-                                display: { xs: 'flex' },
-                                fontFamily: 'arial',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                                cursor: 'pointer'
-                            }}
-                        > Kalkyl<KeyboardDoubleArrowUpIcon fontSize='large'/>
-                        </Typography>
-                    </Tooltip>
-                        
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}` : '/')} 
+                        sx={{
+                            mr: 2,
+                            display: { xs: 'flex' },
+                            fontFamily: 'arial',
+                            fontWeight: 700,
+                            letterSpacing: '.3rem',
+                            color: 'inherit',
+                            textDecoration: 'none',
+                            cursor: 'pointer'
+                        }}
+                    > Kalkyl<KeyboardDoubleArrowUpIcon fontSize='large'/>
+                    </Typography> 
 
                     {/**
-                     *  Avatar
+                     *  Links and avatar
                      */}    
                      
                     
                     {currentUser ? (
-                        <>
+                        <Box sx={{ display: 'flex', alignItems: 'center'}}>
+
+                            <Typography
+                                variant="p"
+                                noWrap
+                                onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}/projects` : '/')} 
+                                sx={{
+                                    mr: 10,
+                                    display: { xs: 'none', sm: 'flex' },
+                                    fontFamily: 'arial',
+                                    fontWeight: 300,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            > Projekt
+                            </Typography>
+
+                            <Typography
+                                variant="p"
+                                noWrap
+                                onClick={() => navigate(currentUser ? `/user/${currentUser?.uid}/material` : '/')} 
+                                sx={{
+                                    mr: 10,
+                                    display: { xs: 'none', sm: 'flex' },
+                                    fontFamily: 'arial',
+                                    fontWeight: 300,
+                                    letterSpacing: '.3rem',
+                                    color: 'inherit',
+                                    textDecoration: 'none',
+                                    cursor: 'pointer'
+                                }}
+                            > Material
+                            </Typography>
+
                             <Tooltip title="Settings">
                                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                     <Avatar alt="Remy Sharp">
@@ -84,6 +117,7 @@ const Navigation = () => {
                                     </Avatar>
                                 </IconButton>
                             </Tooltip>
+                            
                             <Menu
                                 sx={{ mt: '45px' }}
                                 id="menu-appbar"
@@ -94,18 +128,9 @@ const Navigation = () => {
                                 open={Boolean(anchorElUser)}
                                 onClose={handleCloseUserMenu}
                             >
+                            
                                 <MenuItem 
-                                    sx={{ color: '#000000' }} 
-                                    as={Link} 
-                                    to={`/user/${currentUser.uid}/settings`} 
-                                    onClick={handleCloseUserMenu} 
-                                    
-                                >
-                                    <Typography textAlign="center">Inställningar</Typography>
-                                </MenuItem>
-
-                                <MenuItem 
-                                    sx={{ color: '#000000' }}  
+                                    sx={{ color: '#000000', pr: 6 }}  
                                     as={Link} 
                                     to={`/user/${currentUser.uid}/projects`} 
                                     onClick={handleCloseUserMenu}
@@ -115,21 +140,34 @@ const Navigation = () => {
                                 </MenuItem>
 
                                 <MenuItem 
-                                    sx={{ color: '#000000' }} 
+                                    sx={{ color: '#000000', pr: 6 }}  
                                     as={Link} 
-                                    to={`/user/${currentUser.uid}/create-project`} 
+                                    to={`/user/${currentUser.uid}/material`} 
                                     onClick={handleCloseUserMenu}
 
                                 >
-                                    <Typography textAlign="center">Skapa projekt</Typography>
+                                    <Typography textAlign="center">Material</Typography>
                                 </MenuItem>
 
-                                <MenuItem onClick={handleSignOut}>
+                                <MenuItem 
+                                    sx={{ color: '#000000', pr: 6 }} 
+                                    as={Link} 
+                                    to={`/user/${currentUser.uid}/settings`} 
+                                    onClick={handleCloseUserMenu} 
+                                    
+                                >
+                                    <Typography textAlign="center">Inställningar</Typography>
+                                </MenuItem>
+
+                                <MenuItem 
+                                    sx={{ color: '#000000', pr: 6 }}
+                                    onClick={handleSignOut}
+                                >
                                     <Typography textAlign="center">Logga ut</Typography>
                                 </MenuItem>
 
                             </Menu>
-                        </>
+                        </Box>                    
                     ): ''}
                 </Toolbar>
             </Container>
