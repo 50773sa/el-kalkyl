@@ -34,7 +34,6 @@ const CreateMaterial = ({
 
 
     return (
-
         <Grid container xs={12} >
 
             <Grid xs={12}>
@@ -43,7 +42,6 @@ const CreateMaterial = ({
                 </Typography>    
             </Grid>
     
-
             {/**
              *  Product
              */}

@@ -73,8 +73,8 @@ const Project = ({ projectId }) => {
 				>
 					<span onClick={toggleProject}>
 						{project.completed 
-							? 	<ToggleOnIcon sx={{ color: '#15a715' }}/>  	
-							:	<ToggleOffIcon  sx={{ color: '#808080' }}/>	
+							? 	<ToggleOnIcon sx={{ color: '#15a715', fontSize: '2.5rem' }}/>  	
+							:	<ToggleOffIcon  sx={{ color: '#808080', fontSize: '2.5rem' }}/>	
 						}
 					</span>
 				</Grid>

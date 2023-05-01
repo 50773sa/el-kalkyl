@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react'
+import { useForm } from "react-hook-form"
+
 import { db } from '../../firebase'
 import { doc, deleteDoc } from 'firebase/firestore'
 import useGetAuthColl from '../../hooks/useGetAuthColl'
@@ -23,18 +25,31 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+import EditNestedMaterial from './EditNestedMaterial'
+import EditMaterial from './EditMaterial'
 
 
 const AllMaterial = () => {
     const [open, setOpen] = useState(false)
     const [error, setError] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
+    const [editMode, setEditMode] = useState(false)
 
     const [loading, setLoading] = useState(false)
     const [openRows, setOpenRows] = useState([])
     const [product, setProduct] = useState([])
-    const { data: material, isLoading: isStreaming } = useGetAuthColl('material')
+    const { data: material, isLoading } = useGetAuthColl('material')
+    const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
 
+
+    const handleEditIcon = (items) => () => {
+        setEditMode((prev) => !prev)
+
+        setOpenRows(openRows.includes(items.id) 
+            ? openRows.filter(id => id !== items.id) 
+            : [...openRows, items.id]
+        )
+    }
 
     const handleDeleteFromFb = (selectedItem) => async () => {
         setLoading(true)
@@ -60,9 +75,13 @@ const AllMaterial = () => {
 		}
     }
 
+    const onUpdateSubmit = () => {
+
+    }
+
 
     useEffect(() => {
-        if (isStreaming) {
+        if (isLoading) {
             return
         }
         const prod = material?.map((m => m?.product))
@@ -72,11 +91,12 @@ const AllMaterial = () => {
     return (
         <Grid xs={12}>
 
-            {isStreaming && <LoadingBackdrop />}
+            {isLoading && <LoadingBackdrop />}
 
             {/**
              *  List of saved products
              */}
+            <form onSubmit={handleSubmit(onUpdateSubmit)} noValidate>
 
                 <TableContainer >
                     <Table aria-label="collapsible table">
@@ -91,61 +111,61 @@ const AllMaterial = () => {
                         </TableHead>
 
                         <TableBody>
-                            {!isStreaming && material?.map((item) => (
-                                <React.Fragment key={item.id}>
+                            {material && material?.map((items) => (
+                                <React.Fragment key={items.id}>
 
                                     <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
                                         <TableCell sx={{ cursor: 'pointer' }}>
                                             <IconButton
                                                 aria-label="expand row"
                                                 size="small" 
-                                                onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                    ? openRows.filter(id => id !== item.id) 
-                                                    : [...openRows, item.id]
+                                                onClick={() => setOpenRows(openRows.includes(items.id) 
+                                                    ? openRows.filter(id => id !== items.id) 
+                                                    : [...openRows, items.id]
                                                 )}
                                             >
-                                                {openRows.includes(item.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                {openRows.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                             </IconButton>
                                         </TableCell>
                                         <TableCell 
                                             component="th" 
                                             scope="row"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                ? openRows.filter(id => id !== item.id) 
-                                                : [...openRows, item.id]
+                                            onClick={() => setOpenRows(openRows.includes(items.id) 
+                                                ? openRows.filter(id => id !== items.id) 
+                                                : [...openRows, items.id]
                                             )}
                                         >
-                                            {item.product}
+                                            {items.product}
                                         </TableCell>
 
                                         <TableCell 
                                             align="right"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                ? openRows.filter(id => id !== item.id) 
-                                                : [...openRows, item.id]
+                                            onClick={() => setOpenRows(openRows.includes(items.id) 
+                                                ? openRows.filter(id => id !== items.id) 
+                                                : [...openRows, items.id]
                                             )}
                                         >
-                                            {item.category}
+                                            {items.category}
                                         </TableCell>
 
                                         <TableCell 
                                             align="right"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                ? openRows.filter(id => id !== item.id) 
-                                                : [...openRows, item.id]
+                                            onClick={() => setOpenRows(openRows.includes(items.id) 
+                                                ? openRows.filter(id => id !== items.id) 
+                                                : [...openRows, items.id]
                                             )}
                                         >
-                                            {item.estimatedTime.hours} tim {item.estimatedTime.minutes}
+                                            {items.estimatedTime.hours} tim {items.estimatedTime.minutes}
                                         </TableCell>
 
                                         <TableCell></TableCell>
 
                                         <TableCell align="right">
-                                            <IconButton sx={{ marginRight: 3}} onClick={() => ''} >
-                                                <ModeEditOutlineOutlinedIcon/>
+                                            <IconButton sx={{ marginRight: 3, display: { xs: 'none', md: 'inline-flex'} }} onClick={handleEditIcon(items)} >
+                                                <ModeEditOutlineOutlinedIcon />
                                             </IconButton>
                                             <IconButton onClick={() => setOpen(true)} >
                                                 <RemoveCircleOutlineOutlinedIcon />
@@ -153,52 +173,61 @@ const AllMaterial = () => {
                                         </TableCell>
                                     
                                     </TableRow>
-
                                     <TableRow >
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
-                                            <Collapse in={openRows.includes(item.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
+                                            <Collapse in={openRows.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 <Box sx={{ p: 2 }} >
-                                                    <Typography variant="h6" gutterBottom component="div">
-                                                        Tillhörande produkter
+                                                    <Typography variant="h6" gutterBottom component="div" pb={1} pl={2}>
+                                                        {!editMode ? 'Tillhörande produkter' : 'Redigera'}
                                                     </Typography>
 
                                                     <Table size="small" aria-label="fittings">
-                                                        <TableHead>
-                                                            <TableRow>
-                                                                <TableCell>Tillbehör</TableCell>
-                                                                <TableCell>Antal</TableCell>
-                                                                <TableCell align="right">Enhet</TableCell>
-                                                                <TableCell align="right">Id</TableCell>
-                                                            </TableRow>
-                                                        </TableHead>
+                                                        {!editMode &&  
+                                                            <TableHead>
+                                                                <TableRow>
+                                                                    <TableCell>Tillbehör</TableCell>
+                                                                    <TableCell>Antal</TableCell>
+                                                                    <TableCell align="left">Enhet</TableCell>
+                                                                    <TableCell align="right">Id</TableCell>
+                                                                </TableRow>
+                                                            </TableHead>
+                                                        }
 
                                                         <TableBody >
-                                                            {item.extraItems.map((item) => {
+                                                            {editMode && <EditMaterial items={items}/>}
+                                                        
+                                                            {items.extraItems.map((item) => {
                                                                 return (
-                                                                    <TableRow key={item.id} >
-                                                                        <TableCell component="th" scope="row">
-                                                                            {item.fittings}
-                                                                        </TableCell>
-                                                                        <TableCell>{item.quantity}</TableCell>
-                                                                        <TableCell align="right">{item.unit}</TableCell>
-                                                                        <TableCell align="right">{item.id}</TableCell>
-                                                                    </TableRow>
-                                                                )
-                                                            })}    
-                                                        </TableBody>
+                                                                    !editMode 
+                                                                        ?   <TableRow key={item.id} >
+                                                                                <TableCell component="th" scope="row">
+                                                                                    {item.fittings}
+                                                                                </TableCell>
+                                                                                <TableCell>{item.quantity}</TableCell>
+                                                                                <TableCell align="left">{item.unit}</TableCell>
+                                                                                <TableCell align="right">{item.id}</TableCell>
+                                                                            </TableRow>
+                                                                    
+                                                                    
+                                                                        :    <EditNestedMaterial items={items} item={item}/>
+
+                                                                    
+                                                                ) 
+                                                            })}                                                      
+                                                    </TableBody>
 
                                                     </Table>
                                                 </Box>
                                             </Collapse>
                                         </TableCell>                             
                                     </TableRow>
-
+ 
                                     {open && (
                                         <DialogDeleteMaterial 
                                             open={open} 
                                             setOpen={setOpen} 
                                             setLoading={setLoading}
-                                            handleDeleteFromFb={handleDeleteFromFb(item)}
+                                            handleDeleteFromFb={handleDeleteFromFb(items)}
                                         />
                                     )}
                                 </React.Fragment>
@@ -207,6 +236,7 @@ const AllMaterial = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
+            </form>
         </Grid>    
     )
 }
