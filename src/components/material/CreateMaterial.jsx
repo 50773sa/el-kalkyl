@@ -32,11 +32,17 @@ const CreateMaterial = ({
     inputError,
 }) => {
 
-    console.log('extraItems', extraItems)
 
     return (
 
-        <Grid container spacing={2} xs={12}>
+        <Grid container xs={12} >
+
+            <Grid xs={12}>
+                <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem' sx={{ cursor: "default" }}>
+                    <strong>Lägg till nytt material</strong> 
+                </Typography>    
+            </Grid>
+    
 
             {/**
              *  Product

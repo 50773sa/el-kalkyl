@@ -41,44 +41,44 @@ const UserHomepage = () => {
 				{projects && (
 
 					<Grid container spacing={2}>
-						<Grid xs={12} sm={6} lg={3}>
+						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
 								title='Projekt'
 								subtitle={projects?.length ? projects.length + " stycken" : "0 stycken"}
-								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: '5em', color: '#68A5EC' }}/>}
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68A5EC' }}/>}
 								color="#68A5EC"
 							/>
 						</Grid>
 
 
-						<Grid xs={12} sm={6} lg={3}>
+						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
 								title='Nytt Projekt'
 								subtitle="Skapa ny beräkning"
-								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: '5rem', color: '#68C37C' }}/>}
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}
 								color="#68C37C"
 							/>
 						</Grid>
 
 
-						<Grid xs={12} sm={6} lg={3}>
+						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
 								title='Material'
 								subtitle="Redigera material"
-								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: '5em', color: '#CBC309' }}/>}
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#CBC309' }}/>}
 								color="#CBC309"
 							/>
 						</Grid>
 
-						<Grid xs={12} sm={6} lg={3}>
+						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
 								title='Nytt Material'
 								subtitle="Lägg till nytt material"
-								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: '5em', color: '#DC822F' }}/>}
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#DC822F' }}/>}
 								color="#DC822F"
 							/>
 						</Grid>

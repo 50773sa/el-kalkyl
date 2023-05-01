@@ -12,7 +12,7 @@ import Button from '@mui/material/Button'
 import Container from "@mui/system/Container"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
-import TableButton from "../components/buttons/TableButton"
+import TabsLarge from "../components/buttons/TabsLarge"
 import AllMaterial from "../components/material/AllMaterial";
 
 
@@ -85,20 +85,19 @@ const MaterialPage = () => {
 
     return (
         <Container>
-            <div className='wrapper' id='addMaterial'>
+            <div className='wrapper'>
            
                 <Grid container spacing={2}>
-                    <TableButton 
+                    <TabsLarge 
                         title1="Material"
                         title2="Nytt material"
                         isActive={isActive}
                         setIsActive={setIsActive}
                     />
 
-                    {!isActive ? (
-                        <>
-
-                            <Grid xs={12} sx={{ height: "60%", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
+                    <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
+                        {!isActive ? (
+                            <>
                                 <form onSubmit={handleSubmit(onSubmit)} noValidate>
                                     {/* Component */}
                                     <CreateMaterial 
@@ -134,9 +133,10 @@ const MaterialPage = () => {
                                     </Grid>
         
                                 </form>
-                            </Grid>
-                        </>
-                    ): <AllMaterial />}
+                            </>
+                        ): <AllMaterial />}
+                    </Grid>
+
 
                     <LeavePageAlert open={open} setOpen={setOpen} /> 
                 </Grid>

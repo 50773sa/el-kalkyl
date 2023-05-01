@@ -70,7 +70,7 @@ const AllMaterial = () => {
     }, [])
 
     return (
-        <Grid container spacing={2} xs={12}>
+        <Grid xs={12}>
 
             {isStreaming && <LoadingBackdrop />}
 
@@ -78,9 +78,9 @@ const AllMaterial = () => {
              *  List of saved products
              */}
 
-            <React.Fragment>
                 <TableContainer >
                     <Table aria-label="collapsible table">
+
                         <TableHead sx={{ marginTop: '2rem'}}>
                             <TableRow >
                                 <TableCell />
@@ -91,126 +91,122 @@ const AllMaterial = () => {
                         </TableHead>
 
                         <TableBody>
-                            <>
-                                {!isStreaming && material?.map((item) => (
-                                    <React.Fragment key={item.id}>
+                            {!isStreaming && material?.map((item) => (
+                                <React.Fragment key={item.id}>
 
-                                        <TableRow sx={{ border: '1px solid #e0e0e0', bgcolor: 'white',  '& > *': { borderBottom: 'unset' }  }} >
-                                            <TableCell sx={{ cursor: 'pointer' }}>
-                                                <IconButton
-                                                    aria-label="expand row"
-                                                    size="small" 
-                                                    onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                        ? openRows.filter(id => id !== item.id) 
-                                                        : [...openRows, item.id]
-                                                    )}
-                                                >
-                                                    {openRows.includes(item.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell 
-                                                component="th" 
-                                                scope="row"
-                                                sx={{ cursor: 'pointer' }}
+                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
+                                        <TableCell sx={{ cursor: 'pointer' }}>
+                                            <IconButton
+                                                aria-label="expand row"
+                                                size="small" 
                                                 onClick={() => setOpenRows(openRows.includes(item.id) 
                                                     ? openRows.filter(id => id !== item.id) 
                                                     : [...openRows, item.id]
                                                 )}
                                             >
-                                                {item.product}
-                                            </TableCell>
+                                                {openRows.includes(item.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                            </IconButton>
+                                        </TableCell>
+                                        <TableCell 
+                                            component="th" 
+                                            scope="row"
+                                            sx={{ cursor: 'pointer' }}
+                                            onClick={() => setOpenRows(openRows.includes(item.id) 
+                                                ? openRows.filter(id => id !== item.id) 
+                                                : [...openRows, item.id]
+                                            )}
+                                        >
+                                            {item.product}
+                                        </TableCell>
 
-                                            <TableCell 
-                                                align="right"
-                                                sx={{ cursor: 'pointer' }}
-                                                onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                    ? openRows.filter(id => id !== item.id) 
-                                                    : [...openRows, item.id]
-                                                )}
-                                            >
-                                                {item.category}
-                                            </TableCell>
+                                        <TableCell 
+                                            align="right"
+                                            sx={{ cursor: 'pointer' }}
+                                            onClick={() => setOpenRows(openRows.includes(item.id) 
+                                                ? openRows.filter(id => id !== item.id) 
+                                                : [...openRows, item.id]
+                                            )}
+                                        >
+                                            {item.category}
+                                        </TableCell>
 
-                                            <TableCell 
-                                                align="right"
-                                                sx={{ cursor: 'pointer' }}
-                                                onClick={() => setOpenRows(openRows.includes(item.id) 
-                                                    ? openRows.filter(id => id !== item.id) 
-                                                    : [...openRows, item.id]
-                                                )}
-                                            >
-                                                {item.estimatedTime.hours} tim {item.estimatedTime.minutes}
-                                            </TableCell>
+                                        <TableCell 
+                                            align="right"
+                                            sx={{ cursor: 'pointer' }}
+                                            onClick={() => setOpenRows(openRows.includes(item.id) 
+                                                ? openRows.filter(id => id !== item.id) 
+                                                : [...openRows, item.id]
+                                            )}
+                                        >
+                                            {item.estimatedTime.hours} tim {item.estimatedTime.minutes}
+                                        </TableCell>
 
-                                            <TableCell></TableCell>
+                                        <TableCell></TableCell>
 
-                                            <TableCell align="right">
-                                                <IconButton sx={{ marginRight: 3}} onClick={() => ''} >
-                                                    <ModeEditOutlineOutlinedIcon/>
-                                                </IconButton>
-                                                <IconButton onClick={() => setOpen(true)} >
-                                                    <RemoveCircleOutlineOutlinedIcon />
-                                                </IconButton>
-                                            </TableCell>
-                                        
-                                        </TableRow>
+                                        <TableCell align="right">
+                                            <IconButton sx={{ marginRight: 3}} onClick={() => ''} >
+                                                <ModeEditOutlineOutlinedIcon/>
+                                            </IconButton>
+                                            <IconButton onClick={() => setOpen(true)} >
+                                                <RemoveCircleOutlineOutlinedIcon />
+                                            </IconButton>
+                                        </TableCell>
+                                    
+                                    </TableRow>
 
-                                        <TableRow >
-                                            <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
-                                                <Collapse in={openRows.includes(item.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
-                                                    <Box sx={{ p: 2 }} >
-                                                        <Typography variant="h6" gutterBottom component="div">
-                                                            Tillhörande produkter
-                                                        </Typography>
+                                    <TableRow >
+                                        <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
+                                            <Collapse in={openRows.includes(item.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
+                                                <Box sx={{ p: 2 }} >
+                                                    <Typography variant="h6" gutterBottom component="div">
+                                                        Tillhörande produkter
+                                                    </Typography>
 
-                                                        <Table size="small" aria-label="fittings">
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell>Tillbehör</TableCell>
-                                                                    <TableCell>Antal</TableCell>
-                                                                    <TableCell align="right">Enhet</TableCell>
-                                                                    <TableCell align="right">Id</TableCell>
-                                                                </TableRow>
-                                                            </TableHead>
+                                                    <Table size="small" aria-label="fittings">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell>Tillbehör</TableCell>
+                                                                <TableCell>Antal</TableCell>
+                                                                <TableCell align="right">Enhet</TableCell>
+                                                                <TableCell align="right">Id</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
 
-                                                            <TableBody >
-                                                                {item.extraItems.map((item) => {
-                                                                    return (
-                                                                        <TableRow key={item.id} >
-                                                                            <TableCell component="th" scope="row">
-                                                                                {item.fittings}
-                                                                            </TableCell>
-                                                                            <TableCell>{item.quantity}</TableCell>
-                                                                            <TableCell align="right">{item.unit}</TableCell>
-                                                                            <TableCell align="right">{item.id}</TableCell>
-                                                                        </TableRow>
-                                                                    )
-                                                                })}    
-                                                            </TableBody>
+                                                        <TableBody >
+                                                            {item.extraItems.map((item) => {
+                                                                return (
+                                                                    <TableRow key={item.id} >
+                                                                        <TableCell component="th" scope="row">
+                                                                            {item.fittings}
+                                                                        </TableCell>
+                                                                        <TableCell>{item.quantity}</TableCell>
+                                                                        <TableCell align="right">{item.unit}</TableCell>
+                                                                        <TableCell align="right">{item.id}</TableCell>
+                                                                    </TableRow>
+                                                                )
+                                                            })}    
+                                                        </TableBody>
 
-                                                        </Table>
-                                                    </Box>
-                                                </Collapse>
-                                            </TableCell>
-                                        
-                                        </TableRow>
+                                                    </Table>
+                                                </Box>
+                                            </Collapse>
+                                        </TableCell>                             
+                                    </TableRow>
 
-                                        {open && (
-                                            <DialogDeleteMaterial 
-                                                open={open} 
-                                                setOpen={setOpen} 
-                                                setLoading={setLoading}
-                                                handleDeleteFromFb={handleDeleteFromFb(item)}
-                                            />
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                            </>
+                                    {open && (
+                                        <DialogDeleteMaterial 
+                                            open={open} 
+                                            setOpen={setOpen} 
+                                            setLoading={setLoading}
+                                            handleDeleteFromFb={handleDeleteFromFb(item)}
+                                        />
+                                    )}
+                                </React.Fragment>
+                            ))}
                        
                         </TableBody>
                     </Table>
                 </TableContainer>
-            </React.Fragment>
         </Grid>    
     )
 }

@@ -18,15 +18,15 @@ const Cards = ({ onClick, title, subtitle, cardIcon, color }) => {
 		>
 			<Box sx={{ display: 'flex', flexDirection: 'row' }}>
 				<CardContent sx={{ flex: '1 0 auto' }}>
-					<Typography component="div" variant="h5">
+					<Typography sx={{ fontSize: { xs: '1rem', md: '1.2rem'} }}>
 						{title}
 					</Typography>
-					<Typography variant="subtitle1" color="text.secondary" component="div">
+					<Typography variant="subtitle1" color="text.secondary" sx={{ fontSize: { xs: '0.7rem', md: '1.2rem'} }} >
             			{subtitle}{' '}
           			</Typography>
 				</CardContent>
 			</Box>
-			<Box sx={{ display: 'flex', alignItems: 'center'}}>
+			<Box sx={{ display: 'flex', alignItems: { xs: 'start', lg: 'center'}, p: 1 }}>
 				{cardIcon}
 			</Box>
       </Card>
