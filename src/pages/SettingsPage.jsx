@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 import { db } from '../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamDocument from '../hooks/useStreamDocument'
+import useStreamCollection from '../hooks/useStreamCollection'
 import Settings from '../components/Settings'
 import LoadingBackdrop from './../components/LoadingBackdrop'
 import { toast } from 'react-toastify'
@@ -30,7 +30,7 @@ const SettingsPage = () => {
         handleUpdateProfile, 
         reloadUser 
     } = useAuthContext()
-	const { data: user } = useStreamDocument('users', currentUser.uid)
+	const { data: user } = useStreamCollection('users', currentUser.uid)
 
 
     const handleUpdate = async (e) => {

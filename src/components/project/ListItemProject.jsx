@@ -1,6 +1,5 @@
 import { db } from '../../firebase'
 import { doc,  updateDoc } from 'firebase/firestore'
-import useStreamUser from '../../hooks/useStreamUser'
 import useStreamCollection from '../../hooks/useStreamCollection'
 // mui
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'
@@ -14,7 +13,7 @@ import { useEffect, useState } from 'react'
 const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocProducts, setAddToDocProducts, projectId, currentProject }) => {
     const [loading, setLoading] = useState(true)
 
-    const { data: material, loading: isStreaming} = useStreamCollection('material', 'Apparater')
+    const { data: material, loading: isStreaming} = useStreamCollection('material')
 
   
     // console.log('currentProject', currentProject)

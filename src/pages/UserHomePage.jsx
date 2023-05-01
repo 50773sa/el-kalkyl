@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useStreamUser from '../hooks/useStreamUser'
+import useStreamDoc from '../hooks/useStreamDoc'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/Cards'
 // mui
@@ -16,7 +16,7 @@ import HomeTable from '../components/HomeTable'
 const UserHomepage = () => {
 	const [completedProjects, setCompletedProjects] = useState(0)
     const { currentUser, userName } = useAuthContext()
-    const { data, loading } = useStreamUser('users', currentUser.uid)
+    const { data, loading } = useStreamDoc('users', currentUser.uid)
     const { data: projects } = useGetAuthColl('projects')
     const navigate = useNavigate()
 

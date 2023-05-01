@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import useStreamDoc from '../../hooks/useStreamUser'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import CalculationTable from './CalculationTable';
 import DialogDelete from '../modals/DialogDelete'
@@ -16,12 +15,11 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 import ToggleOffIcon from '@mui/icons-material/ToggleOff'
 
-const Project = ({ projectId }) => {
+const Project = ({ projectId, project }) => {
 	const [loading, setLoading] = useState(false)
 	const [open, setOpen] = useState(false)
     const [error, setError] = useState(null)
 	const { currentUser } = useAuthContext()
-	const { data: project } = useStreamDoc('projects', projectId)
 	const navigate = useNavigate()
 
 	// open delete modal

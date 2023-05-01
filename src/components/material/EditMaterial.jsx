@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from "react-hook-form";
 
 // mui
@@ -15,6 +15,10 @@ const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value
 
 
 const EditMaterial = ({ items, register, errors }) => {
+
+    useEffect(() => {
+
+    }, [items])
 
     return (
         <TableRow>

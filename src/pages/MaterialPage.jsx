@@ -14,11 +14,12 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import TabsLarge from "../components/buttons/TabsLarge"
 import AllMaterial from "../components/material/AllMaterial";
+import useStreamCollection from "../hooks/useStreamCollection";
+import LoadingBackdrop from "../components/LoadingBackdrop";
 
 
 const MaterialPage = () => {
     const [isActive, setIsActive] = useState(true)
-
     const [open, setOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
@@ -29,6 +30,9 @@ const MaterialPage = () => {
     const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
+    const { data: material, loading  } = useStreamCollection('material')
+
+    console.log('material', material)
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -86,6 +90,10 @@ const MaterialPage = () => {
     return (
         <Container>
             <div className='wrapper'>
+
+                {loading && <LoadingBackdrop />}
+                
+
            
                 <Grid container spacing={2}>
                     <TabsLarge 
@@ -95,49 +103,51 @@ const MaterialPage = () => {
                         setIsActive={setIsActive}
                     />
 
-                    <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
-                        {!isActive ? (
-                            <>
-                                <form onSubmit={handleSubmit(onSubmit)} noValidate>
-                                    {/* Component */}
-                                    <CreateMaterial 
-                                        handleDelete={handleDelete}
-                                        handleObjectInput={handleObjectInput}
-                                        errors={errors}
-                                        register={register}
-                                        fittingsRef={fittingsRef}
-                                        qtyRef={qtyRef}
-                                        unitRef={unitRef}
-                                        extraItems={extraItems}
-                                        inputError={inputError}
-                                        setInputError={setInputError}
-                                    />
-        
-                                    {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
-        
-                                    <Grid xs={12} display="flex" justifyContent="center" flexDirection="column" alignItems="start" className="buttons">
-                                        <Grid xs={12} lg={3}>
-                                            <Button 	
-                                                type="submit"
-                                                fullWidth
-                                                variant="contained"
-                                                sx={{ mt: 3, mb: 2, p: 1 }}
-                                            > Spara
-                                            </Button>
-                                            <Button
-                                                fullWidth
-                                                onClick={() => {!success ? setOpen(true) : ''}}
-                                            > Avbryt
-                                            </Button>
+                    {!loading && material && (
+                        <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
+                            {!isActive ? (
+                                <>
+                                    <form onSubmit={handleSubmit(onSubmit)} noValidate>
+                                        {/* Component */}
+                                        <CreateMaterial 
+                                            handleDelete={handleDelete}
+                                            handleObjectInput={handleObjectInput}
+                                            errors={errors}
+                                            register={register}
+                                            fittingsRef={fittingsRef}
+                                            qtyRef={qtyRef}
+                                            unitRef={unitRef}
+                                            extraItems={extraItems}
+                                            inputError={inputError}
+                                            setInputError={setInputError}
+                                        />
+            
+                                        {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
+            
+                                        <Grid xs={12} display="flex" justifyContent="center" flexDirection="column" alignItems="start" className="buttons">
+                                            <Grid xs={12} lg={3}>
+                                                <Button 	
+                                                    type="submit"
+                                                    fullWidth
+                                                    variant="contained"
+                                                    sx={{ mt: 3, mb: 2, p: 1 }}
+                                                > Spara
+                                                </Button>
+                                                <Button
+                                                    fullWidth
+                                                    onClick={() => {!success ? setOpen(true) : ''}}
+                                                > Avbryt
+                                                </Button>
+                                            </Grid>
                                         </Grid>
-                                    </Grid>
-        
-                                </form>
-                            </>
-                            
-                        ):  <AllMaterial />}
-                    </Grid>
-
+            
+                                    </form>
+                                </>
+                                
+                            ):  material && <AllMaterial material={material} />}
+                        </Grid>
+                    )}
+                    
 
                     <LeavePageAlert open={open} setOpen={setOpen} /> 
                 </Grid>

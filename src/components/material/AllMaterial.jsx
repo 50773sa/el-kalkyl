@@ -29,16 +29,14 @@ import EditNestedMaterial from './EditNestedMaterial'
 import EditMaterial from './EditMaterial'
 
 
-const AllMaterial = () => {
+const AllMaterial = ({ material }) => {
     const [open, setOpen] = useState(false)
     const [error, setError] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [editMode, setEditMode] = useState(false)
-
     const [loading, setLoading] = useState(false)
     const [openRows, setOpenRows] = useState([])
     const [product, setProduct] = useState([])
-    const { data: material, isLoading } = useGetAuthColl('material')
     const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
 
 
@@ -81,17 +79,15 @@ const AllMaterial = () => {
 
 
     useEffect(() => {
-        if (isLoading) {
-            return
-        }
+       
         const prod = material?.map((m => m?.product))
-        return setProduct([...prod])
-    }, [])
+        setProduct([...prod])
+
+    }, [material])
 
     return (
         <Grid xs={12}>
 
-            {isLoading && <LoadingBackdrop />}
 
             {/**
              *  List of saved products
@@ -176,7 +172,7 @@ const AllMaterial = () => {
                                     <TableRow >
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
                                             <Collapse in={openRows.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
-                                                <Box sx={{ p: 2 }} >
+                                                <Box>
                                                     <Typography variant="h6" gutterBottom component="div" pb={1} pl={3}>
                                                         {!editMode ? 'Tillhörande produkter' : 'Redigera'}
                                                     </Typography>
@@ -203,6 +199,7 @@ const AllMaterial = () => {
                                                             )}
                                                         
                                                             {items.extraItems.map((item) => {
+                                                                // console.log('item.fittings', item.fittings)
                                                                 return (
                                                                     !editMode 
                                                                         ?   <TableRow key={item.id} >

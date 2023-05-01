@@ -22,13 +22,14 @@ const AllProjectsPage = () => {
     const [isActive, setIsActive] = useState(true)
     const { data: projects, isLoading, isError } = useGetAuthColl('projects')
     const { data: material, loading} = useStreamCollection('material')
+    // const { data: projects } = useStreamCollection('projects')
 
     return (
         <Container>
             <div className='wrapper'>
 
-                    {isLoading || loading  && <LoadingBackdrop /> }
-                    {isError && <p>An error occoured...</p>}
+                    {/* {isLoading || loading  && <LoadingBackdrop /> } */}
+                    {/* {isError && <p>An error occoured...</p>} */}
 
 
                     {/* <TabsLarge 
@@ -52,7 +53,7 @@ const AllProjectsPage = () => {
                     />
                     
                     <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px" }}>
-                        {!isLoading && projects && !loading && material && (
+                        {projects && !loading && material && (
                             isActive 
                                 ?   <AllProjects projects={projects}/>
                                 :   <CreateProject material={material}/>

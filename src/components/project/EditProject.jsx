@@ -5,7 +5,7 @@ import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
-import useStreamUser from '../../hooks/useStreamUser'
+import useStreamDoc from '../../hooks/useStreamDoc'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
 import Tabs from './Tabs'
@@ -31,7 +31,7 @@ const EditProject = ({ projectId }) => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
-    const { data: currentProject } = useStreamUser('projects', projectId)
+    const { data: currentProject } = useStreamDoc('projects', projectId)
     const { handleSubmit, formState: { errors }, reset, register } = useForm()
     const navigate = useNavigate()
 
