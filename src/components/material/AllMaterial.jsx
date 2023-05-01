@@ -158,7 +158,7 @@ const AllMaterial = () => {
                                                 : [...openRows, items.id]
                                             )}
                                         >
-                                            {items.estimatedTime.hours} tim {items.estimatedTime.minutes}
+                                            {items.estimatedTime.hours} tim {items.estimatedTime.minutes} min
                                         </TableCell>
 
                                         <TableCell></TableCell>
@@ -177,7 +177,7 @@ const AllMaterial = () => {
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
                                             <Collapse in={openRows.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 <Box sx={{ p: 2 }} >
-                                                    <Typography variant="h6" gutterBottom component="div" pb={1} pl={2}>
+                                                    <Typography variant="h6" gutterBottom component="div" pb={1} pl={3}>
                                                         {!editMode ? 'Tillhörande produkter' : 'Redigera'}
                                                     </Typography>
 
@@ -194,7 +194,13 @@ const AllMaterial = () => {
                                                         }
 
                                                         <TableBody >
-                                                            {editMode && <EditMaterial items={items}/>}
+                                                            {editMode && (
+                                                                <EditMaterial 
+                                                                    items={items}
+                                                                    register={register}
+                                                                    errors={errors}
+                                                                />
+                                                            )}
                                                         
                                                             {items.extraItems.map((item) => {
                                                                 return (
@@ -209,7 +215,12 @@ const AllMaterial = () => {
                                                                             </TableRow>
                                                                     
                                                                     
-                                                                        :    <EditNestedMaterial items={items} item={item}/>
+                                                                        :   <EditNestedMaterial 
+                                                                                key={item.id}
+                                                                                item={item}
+                                                                                register={register}
+                                                                                errors={errors}
+                                                                            />
 
                                                                     
                                                                 ) 

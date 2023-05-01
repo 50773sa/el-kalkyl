@@ -54,7 +54,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/create-project`)} 
+								onClick={() => navigate(`/user/${currentUser.uid}/projects`)} 
 								title='Nytt Projekt'
 								subtitle="Skapa ny beräkning"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}

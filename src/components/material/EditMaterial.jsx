@@ -1,6 +1,4 @@
 import React from 'react'
-import { useState, useRef, useEffect} from "react"
-
 import { useForm } from "react-hook-form";
 
 // mui
@@ -16,38 +14,9 @@ const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, valu
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
 
 
-const EditMaterial = ({ items , item}) => {
-    const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
-
-    const onSubmit = async (inputData) => {
-        setError(null)
-
-        if (!inputData) {
-            return
-        }
-
-        try {
-            await updateDoc(doc(db, 'projects', projectId), {
-                projectName: inputData.projectName,
-                projectMaterial: addToDocProducts 
-            })
-
-    
-            setSuccess(true)
-            toast.success('Sparat!')
-            navigate(`/user/${currentUser.uid}/project/${projectId}`)     
-            setSelectedProduct([])
-            // reset()
-
-        } catch (err) {
-            setError(err)
-        }
-
-    }   
-
+const EditMaterial = ({ items, register, errors }) => {
 
     return (
-  
         <TableRow>
 
             {/**
