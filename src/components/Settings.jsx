@@ -23,14 +23,7 @@ const Settings = () => {
              *  Links
              */}
 
-            <Typography 
-                variant="h6" 
-                component="div" 
-                textAlign='start' 
-                marginBottom='0.5rem'
-            >
-                <strong>Inställningar</strong>
-            </Typography>
+       
 
             <List>
                 <ListItem disablePadding onClick={() => navigate(`/user/${currentUser.uid}/settings/create-material`) }>
