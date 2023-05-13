@@ -43,7 +43,7 @@ const HomeTable = ({ projects }) => {
 
 
     return (
-        <TableContainer sx={{ mt: '2rem', boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.25)"}}>
+        <TableContainer sx={{ mt: '2rem', boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)"}}>
             <Table aria-label="table">
                 <TableHead sx={{ cursor: 'default'}}>
                     <TableRow>

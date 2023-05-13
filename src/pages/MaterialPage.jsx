@@ -32,7 +32,6 @@ const MaterialPage = () => {
     const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
     const { data: material, loading  } = useStreamCollection('material')
 
-    console.log('material', material)
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -66,7 +65,7 @@ const MaterialPage = () => {
 
         try {
             await addDoc(collection(db, 'material'), {
-                id: uuidv4(),
+                // id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
                 quantity: 0,
@@ -144,7 +143,7 @@ const MaterialPage = () => {
                                     </form>
                                 </>
                                 
-                            ):  material && <AllMaterial material={material} />}
+                            ):  <AllMaterial material={material} />}
                         </Grid>
                     )}
                     

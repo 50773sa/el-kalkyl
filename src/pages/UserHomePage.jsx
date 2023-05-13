@@ -22,7 +22,6 @@ const UserHomepage = () => {
 
 
     useEffect(() => {
-
 		if (loading) {
 			return
 		}
@@ -38,7 +37,7 @@ const UserHomepage = () => {
 
 				{loading  && <LoadingBackdrop />}
 
-				{projects && (
+				{!loading && projects && (
 
 					<Grid container spacing={2}>
 						<Grid xs={6} md={3}>
