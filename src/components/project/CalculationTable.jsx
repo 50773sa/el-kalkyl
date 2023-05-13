@@ -19,6 +19,7 @@ const CalculationTable = ({ project }) => {
 	let products = []
 	let qty = []
 	let items = []
+	let allProducts = [...products, ...reducedResult]
 
 	let hours;
 	let minutes;
@@ -79,7 +80,7 @@ const CalculationTable = ({ project }) => {
 		setLoading(false)
 
 	}, [objArr])
-
+console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1))
 
 	return (
 		<>
@@ -88,6 +89,7 @@ const CalculationTable = ({ project }) => {
 					<TableHead>
 						<TableRow sx={{ backgroundColor: "#579eea"}} >
 							<TableCell><strong>Material</strong></TableCell>
+							{/* <TableCell /> */}
 							<TableCell align="center"><strong>Antal</strong></TableCell>
 							<TableCell align="right"><strong>Tid</strong></TableCell>
 						</TableRow>
@@ -107,8 +109,9 @@ const CalculationTable = ({ project }) => {
 						
 							return (
 								<>
-									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: "#cccccc"}}>
+									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
 										<TableCell>{item.product}</TableCell>
+										{/* <TableCell /> */}
 										<TableCell align='center'>{item.quantity}</TableCell>
 										<TableCell align='right'>{workHours} min</TableCell>
 									</TableRow>
@@ -120,6 +123,7 @@ const CalculationTable = ({ project }) => {
 										return (
 											<TableRow key={i.id} colSpan={3} >
 												<TableCell align='left' style={{ borderBottom: 'none' }}> - {items.fittings}</TableCell> 
+												{/* <TableCell /> */}
 												<TableCell align='center' style={{ borderBottom: 'none'}} >{items.quantity * item.quantity} {items.unit}</TableCell>
 											</TableRow>
 										)
@@ -127,31 +131,33 @@ const CalculationTable = ({ project }) => {
 								</>
 							)
 						})}
+					</TableBody>
 
 						{/**
 						 *	Reduced list of items 
 						 */}
 
-			
+
+					<TableBody>
 						<TableRow colSpan={2} style={{ borderTop: '2px solid #848484cf', borderBottom: '2px solid #848484cf' }} >
 							<TableCell align='left'><strong>Sammanställning</strong></TableCell>
 							<TableCell align='left'>Arbetstimmar</TableCell>
 							<TableCell align="right">{hours} tim {minutes} min</TableCell>				
 						</TableRow>
-
-						{products?.map((item) => (
-							<TableRow key={item.id} colSpan={3}>
-								<TableCell sx={{ display: {xs: 'none', md:'flex'}, borderBottom: 'none' }} ></TableCell>
-								<TableCell align='left'>{item.product}</TableCell>
-								<TableCell align='right'>{item.quantity} {item.unit}</TableCell>
+					
+						{products?.sort((a,b) => a.product > b.product ? 1 : -1).map((item) => (
+							<TableRow key={item.id} colSpan={3} sx={{ fontWeight: '700'}}>
+								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} ></TableCell>
+								<TableCell align='left' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.product}</TableCell>
+								<TableCell align='right' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.quantity} {item.unit}</TableCell>
 							</TableRow>
 						))}
 		
-						{!loading && reducedResult?.map((i) => (
-							<TableRow key={i.item} colSpan={3}>
-								<TableCell sx={{ display: {xs: 'none', md:'flex'}, borderBottom: 'none' }} ></TableCell>
-								<TableCell align='left'>{i.item}</TableCell>
-								<TableCell align='right'>{i.value}</TableCell>
+						{!loading && reducedResult?.sort((a,b) => a.item > b.item ? 1 : -1).map((i) => (
+							<TableRow key={i.item} >
+								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} />
+								<TableCell align='left' sx={{ borderBottom: 'none' }} >{i.item}</TableCell>
+								<TableCell align='right' sx={{ borderBottom: 'none' }} >{i.value}</TableCell>
 							</TableRow> 
 						))} 
 
