@@ -50,6 +50,11 @@ function App() {
 						<MaterialPage />
 					</RequireAuth>
 				} />
+				<Route path="/user/:id/material/:materialId" element={
+					<RequireAuth>
+						<MaterialPage />
+					</RequireAuth>
+				} />
 
 				<Route path="/user/:id/project/:projectId" element={
 					<RequireAuth>

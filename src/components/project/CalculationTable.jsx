@@ -12,74 +12,74 @@ const CalculationTable = ({ project }) => {
 	const [loading, setLoading] = useState(true)
 	const [objArr, setObjArr] = useState([])
 	const [reducedResult, setReducedResult] = useState([])
-
+	console.log('reducedResult', reducedResult)
 	let workingHours;
 	let work = []
 	let fittings = []
 	let products = []
 	let qty = []
 	let items = []
-	let allProducts = [...products, ...reducedResult]
+	let unit = ''
+	let allProducts = []
 
 	let hours;
 	let minutes;
 
 	const findDuplicates = () => {
 		// Remove items if more than one, but keep the values
-		const groupByItem = objArr?.reduce((acc, curr) => {
+		const groupByItem = allProducts?.reduce((acc, curr) => {
 			if (acc[curr.item]) {
 			  acc[curr.item].value += curr.value
 			} else {
-			  acc[curr.item] = { item: curr?.item, value: curr?.value }
+			  acc[curr.item] = { item: curr?.item, value: curr?.value, unit: curr?.unit}
 			}
 			return acc
 		}, {})
 
 		setReducedResult([...Object?.values(groupByItem)])
 	}
+	// const convertToObj = (a, b) => {
+	// 	// Checking if the array lengths are same and none of the array is empty
+	// 	if (a.length != b.length || a.length == 0 || b.length == 0) {
+	// 		return null
+	// 	}
 
-	const convertToObj = (a, b) => {
-		// Checking if the array lengths are same and none of the array is empty
-		if (a.length != b.length || a.length == 0 || b.length == 0) {
-			return null
-		}
+	// 	// Merge the arrays into one array of objects
+	// 	let object = a.reduce(( arr, element, index) => {
+	// 		return [ ...arr, {item: element , value: b[index] } ]
+	// 	},'')
 
-		// Merge the arrays into one array of objects
-		let object = a.reduce(( arr, element, index) => {
-			return [ ...arr, {item: element , value: b[index]} ]
-		},'')
+	// 	setObjArr(object)
+	// }	
 
-		setObjArr(object)
-	}	
+	// useEffect(() => {
 
-	useEffect(() => {
+	// 	if (!project) {
+	// 		console.log('Waiting for project...')
+	// 		return 
+	// 	}
 
-		if (!project) {
-			console.log('Waiting for project...')
-			return 
-		}
+	// 	if(fittings.length === 0) {
+	// 		console.log('No fittings')
+	// 		return 
+	// 	}
 
-		if(fittings.length === 0) {
-			console.log('No fittings')
-			return 
-		}
+	// 	convertToObj(fittings, qty, unit)
 
-		convertToObj(fittings, qty)
-
-	}, [project])
+	// }, [project])
  
 
 	useEffect(() => {
 		setLoading(true)
 
-		if (objArr.length === 0) {
-			console.log('ObjArr is empty')
+		if (allProducts.length === 0) {
+			console.log('allProducts is empty')
 			return
 		}
 		findDuplicates()
 		setLoading(false)
 
-	}, [objArr])
+	}, [project])
 console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1))
 
 	return (
@@ -112,14 +112,20 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
 										<TableCell>{item.product}</TableCell>
 										{/* <TableCell /> */}
-										<TableCell align='center'>{item.quantity}</TableCell>
+										<TableCell align='center'>{item.quantity} st </TableCell>
 										<TableCell align='right'>{workHours} min</TableCell>
 									</TableRow>
 
 									{item.extraItems.map((items) => {
-										qty = [...qty, items.quantity * item.quantity]
-										fittings = [...fittings, items.fittings]
-										
+										// qty = [...qty, items.quantity * item.quantity]
+										// fittings = [...fittings, items.fittings]
+										// unit = [...unit, items.unit]
+										allProducts = [...allProducts, {product: item.product, item: items.fittings, value: items.quantity * item.quantity, unit: items.unit}]
+
+										const prevProduct = allProducts.filter((_event, index) => index === i - 1)[0]?.fittings || ''
+										const nextProduct = item.extraItems.filter((_event, index) => index === i + 1)[0]?.product || ''
+										console.log('nextProduct !== prevProduct', items.fittings !== prevProduct)
+
 										return (
 											<TableRow key={i.id} colSpan={3} >
 												<TableCell align='left' style={{ borderBottom: 'none' }}> - {items.fittings}</TableCell> 
@@ -149,7 +155,7 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 							<TableRow key={item.id} colSpan={3} sx={{ fontWeight: '700'}}>
 								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} ></TableCell>
 								<TableCell align='left' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.product}</TableCell>
-								<TableCell align='right' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.quantity} {item.unit}</TableCell>
+								<TableCell align='right' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.quantity} st</TableCell>
 							</TableRow>
 						))}
 		
@@ -157,7 +163,7 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 							<TableRow key={i.item} >
 								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} />
 								<TableCell align='left' sx={{ borderBottom: 'none' }} >{i.item}</TableCell>
-								<TableCell align='right' sx={{ borderBottom: 'none' }} >{i.value}</TableCell>
+								<TableCell align='right' sx={{ borderBottom: 'none' }} >{i.value} {i.unit}</TableCell>
 							</TableRow> 
 						))} 
 

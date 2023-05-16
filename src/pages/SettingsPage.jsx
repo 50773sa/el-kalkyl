@@ -3,7 +3,6 @@ import { db } from '../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamCollection from '../hooks/useStreamCollection'
-import Settings from '../components/Settings'
 import LoadingBackdrop from './../components/LoadingBackdrop'
 import { toast } from 'react-toastify'
 // mui
@@ -77,7 +76,15 @@ const SettingsPage = () => {
 
             	{loading && <LoadingBackdrop />}
 
-				<Settings />
+				<Typography 
+					variant="h6" 
+					component="div" 
+					textAlign='start' 
+					marginBottom='2rem'
+				>
+					<strong>Inställningar</strong>
+				</Typography>
+
 
 				 {/**
 				 *  User credentials

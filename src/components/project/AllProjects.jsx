@@ -113,7 +113,7 @@ const AllProjects = ({ projects }) => {
                                                                 {list.projectMaterial.map((list) => (                                                                 
                                                                     <TableRow key={list.id}>   
                                                                         <TableCell>{list.product}</TableCell>
-                                                                        <TableCell align="right" >{list.quantity}</TableCell>                                                                           
+                                                                        <TableCell align="right" >{list.quantity}</TableCell>   
                                                                     </TableRow>
                                                                 ))}  
                                                             </TableBody>                                                           

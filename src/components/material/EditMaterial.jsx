@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form";
 
 // mui
@@ -10,16 +10,11 @@ import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
 
 
-const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
-const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
+const hours = [...new Array(13)].map((each, index) => ({ hours: Number(60 * index), value: index }))
+const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index), value: index }))
 
 
-const EditMaterial = ({ items, register, errors }) => {
-
-    useEffect(() => {
-
-    }, [items])
-
+const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) => {
     return (
         <TableRow>
 
@@ -34,15 +29,18 @@ const EditMaterial = ({ items, register, errors }) => {
                         <TextField
                             id="product"
                             size='small'
-                            label="Produkt"
                             name="product"
                             autoComplete="product"
                             fullWidth
-                            required
                             defaultValue={items.product}
+                            // inputRef={register("product")}
+
                             helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
 
-                            {...register("product", {required: true})}
+                            // {...register("product")}
+                            {...register("product", {
+                                required: true, 
+                            })}
                         />
                     </Grid>
 
@@ -57,11 +55,11 @@ const EditMaterial = ({ items, register, errors }) => {
                             label="Kategori"
                             fullWidth
                             name="category"
-                            required
                             defaultValue={items.category}
                             helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
-                            {...register("category", { required: true }) }
+                            {...register("category")}
+                            // {...register("category", { required: true }) }
                         >
                             <MenuItem value={'Apparater'}>Apparater</MenuItem>
                             <MenuItem value={'Belysning'}>Belysning</MenuItem>
@@ -81,11 +79,14 @@ const EditMaterial = ({ items, register, errors }) => {
                             label="Tim"
                             name="hours"
                             fullWidth
-                            required
-                            defaultValue={items.estimatedTime.hours}
+                            defaultValue={items?.estimatedTime?.hours}
                             helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
-                            {...register("hours", { required: true })}
+                            // {...register("estimatedTime.hours"), }
+                            {...register("hours", { 
+                                // required: true ,
+                                setValueAs: val => parseInt(val)
+                            })}
                         >
                             {hours.map((option) => (
                                 <MenuItem key={option.hours} value={option.hours}>
@@ -107,7 +108,10 @@ const EditMaterial = ({ items, register, errors }) => {
                             defaultValue={items.estimatedTime.minutes}
                             helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
-                            {...register("minutes", { required: true })}
+                            {...register("minutes", { 
+                                // required: true,
+                                setValueAs: val => parseInt(val) 
+                            })}
                         >
                             {minutes.map((option) => (
                                 <MenuItem key={option.minutes} value={Number(option.minutes)}>
@@ -125,8 +129,10 @@ const EditMaterial = ({ items, register, errors }) => {
                         <Button 
                             size="small"
                             variant="contained"
-                            sx={{ backgroundColor: "#68C37C"}}
+                            type='submit'
+                            sx={{ backgroundColor: "#68C37C", width: "76px"}}
                             disableElevation
+                            onClick={() => onUpdateSubmit(items)}
                         >   
                             Spara
                         </Button>

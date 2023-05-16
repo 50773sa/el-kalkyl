@@ -7,7 +7,6 @@ import ListItem from "@mui/material/ListItem"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import { Select } from '@mui/material'
 
 // dropdowns
 const unitsList = [

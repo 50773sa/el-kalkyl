@@ -1,5 +1,7 @@
-import React from 'react'
-import { useRef } from "react"
+import React, { useEffect, useState } from 'react'
+import { useForm } from "react-hook-form"
+import { db } from '../../firebase'
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
@@ -17,10 +19,11 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, register, errors, fittings }) => {
-    const fittingsRef = useRef(null)
-    const unitRef = useRef(null)
-    const qtyRef = useRef(null)
+const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdateFittings, register2 }) => {
+    const [error, setError] = useState(false)
+
+    const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
+
 
 
     return (
@@ -34,20 +37,25 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
 
                     <Grid xs={6} py={0}>
                         <TextField
-                            required
+                            // required
                             size="small"
                             id="fittings"
-                            label="Tillbehör"
+                            // placeholder={item.fittings}
+                            defaultValue={item.fittings}
                             name="fittings"
                             autoComplete="fittings"
                             fullWidth
-                            inputRef={fittingsRef}
-                            defaultValue={item.fittings}
+                            // inputRef={fittingsRef}
+
                             helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
 
                             // keep ...register. Otherwise the helper text will not be visible.
-                            {...register("fittings", {required: true})}
-                        />   
+                            {...register("fittings")}
+                            // {...register("fittings", {required: true})}
+                        />  
+
+                
+                    
                     </Grid>
 
                     {/**
@@ -57,7 +65,7 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
                     <Grid xs={3} py={0}>
                         <TextField
                             select
-                            required
+                            // required
                             size="small"
                             id="qty"
                             label="Antal"
@@ -67,7 +75,7 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
                             defaultValue={item.quantity}
                             helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
 
-                            {...register("qty", {required: true})}
+                            // {...register("qty", {required: true})}
 
                         >
                             {quantity.map((val) => (
@@ -89,7 +97,7 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
                             id="unit"
                             select
                             size="small"
-                            required
+                            // required
                             label="st/m"
                             fullWidth
                             name="unit"
@@ -97,7 +105,7 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
                             defaultValue={item.unit}
                             helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
 
-                            {...register("unit", {required: true})}
+                            // {...register("unit", {required: true})}
                         >
                                 
                             {unitsList.map((option) => (
@@ -116,9 +124,11 @@ const EditNestedMaterial = ({ item, register, errors, fittings }) => {
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
                         <Button 
                             size="small"
+                            type='submit'
                             variant="contained"
-                            sx={{ backgroundColor: "#68C37C" }}
+                            sx={{ backgroundColor: "#68C37C", width: "76px"}}
                             disableElevation
+                            onClick={() => onUpdateFittings(item)}
                         >   
                             Spara
                         </Button>

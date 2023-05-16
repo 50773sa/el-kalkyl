@@ -66,7 +66,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
 
                     <Grid xs={6} md={2} display="flex" pl={0} justifyContent="center" alignItems="center">
                         <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
-                            {item.product}, {item.quantity}
+                            {item.product}
                         </ListItem>
                     </Grid>
                 

@@ -66,7 +66,6 @@ const EditProject = ({ projectId }) => {
         }
 
     }
-console.log('num', num)
 
     useEffect(() => {
         setLoading(true)

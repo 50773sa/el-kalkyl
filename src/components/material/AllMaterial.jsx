@@ -1,22 +1,20 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { useForm } from "react-hook-form"
-
 import { db } from '../../firebase'
-import { doc, deleteDoc } from 'firebase/firestore'
-import useGetAuthColl from '../../hooks/useGetAuthColl'
+import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
+
 import LoadingBackdrop from '../LoadingBackdrop'
 import { toast } from 'react-toastify'
 
 // mui
+import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import Box from '@mui/material/Box'
 import Collapse from '@mui/material/Collapse'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
-import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined'
+
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -35,25 +33,31 @@ const AllMaterial = ({ material }) => {
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [editMode, setEditMode] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [openRows, setOpenRows] = useState([])
+    const [openRow, setOpenRow] = useState([])
     const [product, setProduct] = useState([])
-    const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
+    const [success, setSuccess] = useState(false)
 
+    const fittingsRef = useRef(null)
+    const unitRef = useRef(null)
+    const qtyRef = useRef(null)
+    const productRef = useRef(null)
+    let itemsId = ''
+console.log('openRow', openRow)
+    const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
-    const handleEditIcon = (items) => () => {
-        setEditMode((prev) => !prev)
-
-        setOpenRows(openRows.includes(items.id) 
-            ? openRows.filter(id => id !== items.id) 
-            : [...openRows, items.id]
-        )
+    // open hidden rows
+    const handleRows = (items) => () => {
+        unregister('product')
+        return  openRow.includes(items.id)
+            ? setOpenRow([])
+            : (setOpenRow(items.id),  setEditMode(false))
     }
 
-    const handleDeleteFromFb = (selectedItem) => async () => {
+    const handleDeleteFromFb = (items) => async () => {
+        setOpen(true)
         setLoading(true)
-     
-        const ref = doc(db, 'material', selectedItem.id)
 
+        const ref = doc(db, 'material', openRow)// openRow is the id of the material
 		setError(null)
 
         if (loading) {
@@ -73,7 +77,63 @@ const AllMaterial = ({ material }) => {
 		}
     }
 
-    const onUpdateSubmit = () => {
+        const onUpdateFittings = async (data) => {
+        setError(null)
+        console.log('data', data)
+
+        if (!data) {
+            return
+        }
+
+        try {
+            await updateDoc(doc(db, 'material', openRow), {
+                extraItems: {
+                    fittings: data.fittings,
+                    quantity: data.current.value,
+                    unit: data.current.value,
+                }
+            })
+
+
+            setSuccess(true)
+            toast.success('Sparat!')
+            // reset()
+
+        } catch (err) {
+            setError(err)
+        }
+
+    }
+
+    const onUpdateSubmit = async (data) => {
+        setError(null)
+        console.log('items',data)
+
+        // if (!data) {
+        //     return
+        // }
+        const ref = doc(db, 'material', openRow)
+
+        try {
+            await updateDoc(ref, {
+                product: data.product,
+                estimatedTime: {
+                    hours: data.hours,
+                    minutes: data.minutes,
+                },
+                category: data.category,
+            })
+
+    
+            setSuccess(true)
+            toast.success('Sparat!')
+            // reset()
+
+        } catch (err) {
+            setError(err)
+            console.error(err)
+
+        }
 
     }
 
@@ -82,8 +142,8 @@ const AllMaterial = ({ material }) => {
        
         const prod = material?.map((m => m?.product))
         setProduct([...prod])
-
-    }, [material])
+        console.log('itemsId', itemsId)
+    }, [material, openRow, editMode, itemsId])
 
     return (
         <Grid xs={12}>
@@ -107,7 +167,8 @@ const AllMaterial = ({ material }) => {
                         </TableHead>
 
                         <TableBody>
-                            {material && material?.map((items) => (
+                            {material?.map((items) => (                               
+
                                 <React.Fragment key={items.id}>
 
                                     <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
@@ -115,22 +176,16 @@ const AllMaterial = ({ material }) => {
                                             <IconButton
                                                 aria-label="expand row"
                                                 size="small" 
-                                                onClick={() => setOpenRows(openRows.includes(items.id) 
-                                                    ? openRows.filter(id => id !== items.id) 
-                                                    : [...openRows, items.id]
-                                                )}
+                                                onClick={handleRows(items)}
                                             >
-                                                {openRows.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                {openRow.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                             </IconButton>
                                         </TableCell>
                                         <TableCell 
                                             component="th" 
                                             scope="row"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(items.id) 
-                                                ? openRows.filter(id => id !== items.id) 
-                                                : [...openRows, items.id]
-                                            )}
+                                            onClick={handleRows(items)}
                                         >
                                             {items.product}
                                         </TableCell>
@@ -138,10 +193,7 @@ const AllMaterial = ({ material }) => {
                                         <TableCell 
                                             align="right"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(items.id) 
-                                                ? openRows.filter(id => id !== items.id) 
-                                                : [...openRows, items.id]
-                                            )}
+                                            onClick={handleRows(items)}
                                         >
                                             {items.category}
                                         </TableCell>
@@ -149,33 +201,46 @@ const AllMaterial = ({ material }) => {
                                         <TableCell 
                                             align="right"
                                             sx={{ cursor: 'pointer' }}
-                                            onClick={() => setOpenRows(openRows.includes(items.id) 
-                                                ? openRows.filter(id => id !== items.id) 
-                                                : [...openRows, items.id]
-                                            )}
+                                            onClick={handleRows(items)}
                                         >
-                                            {items.estimatedTime.hours} tim {items.estimatedTime.minutes} min
-                                        </TableCell>
-
-                                        <TableCell></TableCell>
-
-                                        <TableCell align="right">
-                                            <IconButton sx={{ marginRight: 3, display: { xs: 'none', md: 'inline-flex'} }} onClick={handleEditIcon(items)} >
-                                                <ModeEditOutlineOutlinedIcon />
-                                            </IconButton>
-                                            <IconButton onClick={() => setOpen(true)} >
-                                                <RemoveCircleOutlineOutlinedIcon />
-                                            </IconButton>
-                                        </TableCell>
-                                    
+                                            {items.estimatedTime.hours/60} tim {items.estimatedTime.minutes} min
+                                        </TableCell>                                    
                                     </TableRow>
+
                                     <TableRow >
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
-                                            <Collapse in={openRows.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
-                                                <Box>
-                                                    <Typography variant="h6" gutterBottom component="div" pb={1} pl={3}>
-                                                        {!editMode ? 'Tillhörande produkter' : 'Redigera'}
-                                                    </Typography>
+                                            <Collapse in={openRow.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
+                                                
+                                                    <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none'}}>
+                                                        <Typography variant="h6" gutterBottom component="div"  pl={3}>
+                                                            {!editMode ? 'Tillhörande produkter' : 'Redigera'}
+                                                        </Typography>
+
+                                                        <TableCell align="right" sx={{ borderBottom: 'unset'}}>
+                                                            <Button 
+                                                                size="small"
+                                                                type='button'
+                                                                variant="outlined"
+                                                                sx={{ mr: 3, width: '76px' }}
+                                                                disableElevation
+                                                                onClick={() => setEditMode((prev) => !prev)} 
+                                                            >   
+                                                                {editMode ? 'Avbryt' : 'Ändra'}
+                                                            </Button>
+
+                                                            <Button 
+                                                                size="small"
+                                                                type='submit'
+                                                                variant="contained"
+                                                                sx={{ backgroundColor: '#ff0000', mr: 1 }}
+                                                                disableElevation
+                                                                onClick={() => setOpen(true)} 
+                                                            >   
+                                                                Radera
+                                                            </Button>
+                                                        </TableCell>
+                                                    </TableCell>
+                                                   
 
                                                     <Table size="small" aria-label="fittings">
                                                         {!editMode &&  
@@ -192,14 +257,18 @@ const AllMaterial = ({ material }) => {
                                                         <TableBody >
                                                             {editMode && (
                                                                 <EditMaterial 
+                                                                    key={items.id}
                                                                     items={items}
                                                                     register={register}
                                                                     errors={errors}
+                                                                    onUpdateSubmit={onUpdateSubmit}
+                                                                    productRef={productRef}
                                                                 />
                                                             )}
                                                         
-                                                            {items.extraItems.map((item) => {
-                                                                // console.log('item.fittings', item.fittings)
+                                                            {Array.isArray(items?.extraItems) && items?.extraItems?.map((item) => {
+                                                                // save id to be able to update
+                                                                itemsId = items.id
                                                                 return (
                                                                     !editMode 
                                                                         ?   <TableRow key={item.id} >
@@ -217,6 +286,11 @@ const AllMaterial = ({ material }) => {
                                                                                 item={item}
                                                                                 register={register}
                                                                                 errors={errors}
+                                                                                fittingsRef={fittingsRef}
+                                                                                qtyRef={qtyRef}
+                                                                                unitRef={unitRef}
+                                                                                setValue={setValue}
+                                                                                onUpdateFittings={onUpdateFittings}
                                                                             />
 
                                                                     
@@ -225,7 +299,6 @@ const AllMaterial = ({ material }) => {
                                                     </TableBody>
 
                                                     </Table>
-                                                </Box>
                                             </Collapse>
                                         </TableCell>                             
                                     </TableRow>
@@ -239,6 +312,9 @@ const AllMaterial = ({ material }) => {
                                         />
                                     )}
                                 </React.Fragment>
+
+                                
+                         
                             ))}
                        
                         </TableBody>
