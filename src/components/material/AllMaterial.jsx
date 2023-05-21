@@ -87,11 +87,11 @@ console.log('openRow', openRow)
 
         try {
             await updateDoc(doc(db, 'material', openRow), {
-                extraItems: {
-                    fittings: data.fittings,
-                    quantity: data.current.value,
-                    unit: data.current.value,
-                }
+                // extraItems: {
+                    "extraItems.fittings": data.fittings,
+                    // quantity: data.current.value,
+                    // unit: data.current.value,
+                // }
             })
 
 
@@ -122,6 +122,7 @@ console.log('openRow', openRow)
                     minutes: data.minutes,
                 },
                 category: data.category,
+                extraItems: data.extraItems
             })
 
     
@@ -230,6 +231,17 @@ console.log('openRow', openRow)
 
                                                             <Button 
                                                                 size="small"
+                                                                variant="contained"
+                                                                type='submit'
+                                                                sx={{ backgroundColor: "#68C37C", width: "76px"}}
+                                                                disableElevation
+                                                                // onClick={() => onUpdateSubmit(items)}
+                                                            >   
+                                                                Spara
+                                                            </Button>
+
+                                                            <Button 
+                                                                size="small"
                                                                 type='submit'
                                                                 variant="contained"
                                                                 sx={{ backgroundColor: '#ff0000', mr: 1 }}
@@ -266,7 +278,7 @@ console.log('openRow', openRow)
                                                                 />
                                                             )}
                                                         
-                                                            {Array.isArray(items?.extraItems) && items?.extraItems?.map((item) => {
+                                                            {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
                                                                 // save id to be able to update
                                                                 itemsId = items.id
                                                                 return (
@@ -284,6 +296,8 @@ console.log('openRow', openRow)
                                                                         :   <EditNestedMaterial 
                                                                                 key={item.id}
                                                                                 item={item}
+                                                                                itemIndex={i}
+                                                                                items={items}
                                                                                 register={register}
                                                                                 errors={errors}
                                                                                 fittingsRef={fittingsRef}

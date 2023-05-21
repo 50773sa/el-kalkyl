@@ -19,10 +19,10 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdateFittings, register2 }) => {
+const EditNestedMaterial = ({ item, items, fittingsRef, errors, unitRef, qtyRef, onUpdateFittings, register, itemIndex }) => {
     const [error, setError] = useState(false)
 
-    const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
+    // const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
 
 
@@ -37,20 +37,16 @@ const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdat
 
                     <Grid xs={6} py={0}>
                         <TextField
-                            // required
                             size="small"
                             id="fittings"
-                            // placeholder={item.fittings}
                             defaultValue={item.fittings}
-                            name="fittings"
+                            name={`extraItems[${itemIndex}].fittings`}
                             autoComplete="fittings"
                             fullWidth
-                            // inputRef={fittingsRef}
-
-                            helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
+                            // helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
 
                             // keep ...register. Otherwise the helper text will not be visible.
-                            {...register("fittings")}
+                            {...register(`extraItems[${itemIndex}].fittings`)}
                             // {...register("fittings", {required: true})}
                         />  
 
@@ -67,15 +63,14 @@ const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdat
                             select
                             // required
                             size="small"
-                            id="qty"
+                            id="quantity"
                             label="Antal"
-                            name="qty"
+                            name={`extraItems[${itemIndex}].quantity`}
                             fullWidth
-                            inputRef={qtyRef}
                             defaultValue={item.quantity}
                             helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
 
-                            // {...register("qty", {required: true})}
+                            {...register(`extraItems[${itemIndex}].quantity`)}
 
                         >
                             {quantity.map((val) => (
@@ -100,12 +95,11 @@ const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdat
                             // required
                             label="st/m"
                             fullWidth
-                            name="unit"
-                            inputRef={unitRef}
+                            name={`extraItems[${itemIndex}].unit`}
                             defaultValue={item.unit}
                             helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
 
-                            // {...register("unit", {required: true})}
+                            {...register(`extraItems[${itemIndex}].unit`)}
                         >
                                 
                             {unitsList.map((option) => (
@@ -121,7 +115,7 @@ const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdat
                      *  Save button
                      */}
 
-                    <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+                    {/* <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
                         <Button 
                             size="small"
                             type='submit'
@@ -132,7 +126,7 @@ const EditNestedMaterial = ({ item, items, fittingsRef, unitRef, qtyRef, onUpdat
                         >   
                             Spara
                         </Button>
-                    </Grid>
+                    </Grid> */}
 
                 </Grid>
             </TableCell>

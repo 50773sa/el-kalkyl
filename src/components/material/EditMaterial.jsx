@@ -125,7 +125,7 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) =>
                      *  Save button
                      */}
 
-                    <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+                    {/* <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
                         <Button 
                             size="small"
                             variant="contained"
@@ -136,7 +136,7 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) =>
                         >   
                             Spara
                         </Button>
-                    </Grid>
+                    </Grid> */}
 
                 </Grid>
             </TableCell>
