@@ -37,12 +37,10 @@ const AllMaterial = ({ material }) => {
     const [product, setProduct] = useState([])
     const [success, setSuccess] = useState(false)
 
-    const fittingsRef = useRef(null)
-    const unitRef = useRef(null)
-    const qtyRef = useRef(null)
+ 
     const productRef = useRef(null)
     let itemsId = ''
-console.log('openRow', openRow)
+
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
     // open hidden rows
@@ -53,7 +51,7 @@ console.log('openRow', openRow)
             : (setOpenRow(items.id),  setEditMode(false))
     }
 
-    const handleDeleteFromFb = (items) => async () => {
+    const handleDeleteFromFb = () => async () => {
         setOpen(true)
         setLoading(true)
 
@@ -77,41 +75,16 @@ console.log('openRow', openRow)
 		}
     }
 
-        const onUpdateFittings = async (data) => {
-        setError(null)
-        console.log('data', data)
 
-        if (!data) {
-            return
-        }
-
-        try {
-            await updateDoc(doc(db, 'material', openRow), {
-                // extraItems: {
-                    "extraItems.fittings": data.fittings,
-                    // quantity: data.current.value,
-                    // unit: data.current.value,
-                // }
-            })
-
-
-            setSuccess(true)
-            toast.success('Sparat!')
-            // reset()
-
-        } catch (err) {
-            setError(err)
-        }
-
-    }
 
     const onUpdateSubmit = async (data) => {
         setError(null)
         console.log('items',data)
 
-        // if (!data) {
-        //     return
-        // }
+
+        if (!data) {
+            return
+        }
         const ref = doc(db, 'material', openRow)
 
         try {
@@ -244,11 +217,11 @@ console.log('openRow', openRow)
                                                                 size="small"
                                                                 type='submit'
                                                                 variant="contained"
-                                                                sx={{ backgroundColor: '#ff0000', mr: 1 }}
+                                                                sx={{ backgroundColor: '#ff0000', mr: 1, ml: 3 }}
                                                                 disableElevation
                                                                 onClick={() => setOpen(true)} 
                                                             >   
-                                                                Radera
+                                                                Radera materialet
                                                             </Button>
                                                         </TableCell>
                                                     </TableCell>
@@ -296,15 +269,10 @@ console.log('openRow', openRow)
                                                                         :   <EditNestedMaterial 
                                                                                 key={item.id}
                                                                                 item={item}
-                                                                                itemIndex={i}
                                                                                 items={items}
+                                                                                itemIndex={i}
                                                                                 register={register}
-                                                                                errors={errors}
-                                                                                fittingsRef={fittingsRef}
-                                                                                qtyRef={qtyRef}
-                                                                                unitRef={unitRef}
-                                                                                setValue={setValue}
-                                                                                onUpdateFittings={onUpdateFittings}
+                                                                                errors={errors}                                                                                                                                                                                       
                                                                             />
 
                                                                     
@@ -312,7 +280,7 @@ console.log('openRow', openRow)
                                                             })}                                                      
                                                     </TableBody>
 
-                                                    </Table>
+                                                </Table>
                                             </Collapse>
                                         </TableCell>                             
                                     </TableRow>
@@ -325,10 +293,7 @@ console.log('openRow', openRow)
                                             handleDeleteFromFb={handleDeleteFromFb(items)}
                                         />
                                     )}
-                                </React.Fragment>
-
-                                
-                         
+                                 </React.Fragment>                        
                             ))}
                        
                         </TableBody>

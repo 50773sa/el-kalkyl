@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 import { db } from '../../firebase'
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { doc, updateDoc, deleteDoc, arrayRemove } from 'firebase/firestore'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
@@ -9,6 +9,7 @@ import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
+import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 
 // dropdowns
 const unitsList = [
@@ -19,22 +20,29 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, items, fittingsRef, errors, unitRef, qtyRef, onUpdateFittings, register, itemIndex }) => {
-    const [error, setError] = useState(false)
+const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
+    const [open, setOpen] = useState(false)
+    const [confirmDelete, setConfirmDelete] = useState(false)
+    const [loading, setLoading] = useState(false)
 
-    // const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
+    const handleDeleteMaterialObjectFromFb = async (item) => {
+        // setLoading(true)
+        console.log('item', item)
 
-
+            await updateDoc(doc(db, 'material', items.id), {
+                extraItems: items.extraItems.filter(pm => pm.id !== item.id)
+            })
+    
+    }
 
     return (
         <TableRow>
             <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container xs={12}>
+                <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
 
                     {/**
                      *  Fittings
                      */}
-
                     <Grid xs={6} py={0}>
                         <TextField
                             size="small"
@@ -111,22 +119,40 @@ const EditNestedMaterial = ({ item, items, fittingsRef, errors, unitRef, qtyRef,
                         </TextField>            
                     </Grid>
 
+                    {/** This field is hidden and only used to preserve the 'id' of the object */}
+                    <input
+                        type='hidden'
+                        defaultValue={item.id}
+                        id="id"
+                        name={`extraItems[${itemIndex}].id`}
+                        {...register(`extraItems[${itemIndex}].id`)}
+                    /> 
+
                     {/**
                      *  Save button
                      */}
 
-                    {/* <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
-                        <Button 
+                    <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+                         <Button 
                             size="small"
                             type='submit'
-                            variant="contained"
-                            sx={{ backgroundColor: "#68C37C", width: "76px"}}
+                            variant="outlined"
+                            sx={{ color: '#ff0000', borderColor: '#ff0000', mr: 1 }}
                             disableElevation
-                            onClick={() => onUpdateFittings(item)}
+                            onClick={() => setOpen(true)} 
                         >   
-                            Spara
+                            <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
                         </Button>
-                    </Grid> */}
+                    </Grid>
+
+                    {open && (
+                        <DialogDeleteMaterial
+                            open={open} 
+                            setOpen={setOpen} 
+                            setLoading={setLoading}
+                            handleDeleteFromFb={() => handleDeleteMaterialObjectFromFb(item)}
+                        />
+                    )}
 
                 </Grid>
             </TableCell>

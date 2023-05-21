@@ -27,9 +27,7 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocP
             await updateDoc(doc(db, 'projects', projectId), {
                 projectMaterial: currentProject.projectMaterial.filter(pm => pm.id !== item.id)
             })
-
             setAddToDocProducts(addToDocProducts.filter(product => product.id !== item.id))
-
         } 
 
         // setLoading(false)
