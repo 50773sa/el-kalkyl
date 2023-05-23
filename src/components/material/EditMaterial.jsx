@@ -9,12 +9,22 @@ import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
 
-
+// dropdowns
+const unitsList = [
+    {unit: 'st', value: 'st'},
+    {unit: 'm', value: 'm'}
+]
 const hours = [...new Array(13)].map((each, index) => ({ hours: Number(60 * index), value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index), value: index }))
+const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) => {
+const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, fields, setFields}) => {
+
+    const handleAddFields = () => {
+        setFields([...fields, { fittings: '', quantity: 0, unit: '' }])
+    }
+
     return (
         <TableRow>
 
@@ -24,12 +34,13 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) =>
 
             <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
 
-                <Grid container xs={12} mb={1}>
+            <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
                     <Grid xs={3}>
                         <TextField
                             id="product"
                             size='small'
                             name="product"
+                            label="Produkt"
                             autoComplete="product"
                             fullWidth
                             defaultValue={items.product}
@@ -122,21 +133,25 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef}) =>
                     </Grid>
 
                     {/**
-                     *  Save button
+                     *  Add more fields button
                      */}
 
-                    {/* <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+
+
+                    <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
                         <Button 
                             size="small"
                             variant="contained"
-                            type='submit'
-                            sx={{ backgroundColor: "#68C37C", width: "76px"}}
+                            sx={{ width: "76px"}}
                             disableElevation
-                            onClick={() => onUpdateSubmit(items)}
+                            onClick={handleAddFields}
                         >   
-                            Spara
+                            + Fält
                         </Button>
-                    </Grid> */}
+                    </Grid>
+
+           
+          
 
                 </Grid>
             </TableCell>

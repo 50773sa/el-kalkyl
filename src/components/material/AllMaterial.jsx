@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react'
 import { useForm } from "react-hook-form"
 import { db } from '../../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
+import { uuidv4 } from "@firebase/util"
 
 import LoadingBackdrop from '../LoadingBackdrop'
 import { toast } from 'react-toastify'
@@ -25,6 +26,7 @@ import Typography from '@mui/material/Typography'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 import EditNestedMaterial from './EditNestedMaterial'
 import EditMaterial from './EditMaterial'
+import EmptyFields from './EmptyFiels'
 
 
 const AllMaterial = ({ material }) => {
@@ -36,9 +38,9 @@ const AllMaterial = ({ material }) => {
     const [openRow, setOpenRow] = useState([])
     const [product, setProduct] = useState([])
     const [success, setSuccess] = useState(false)
+    const [fields, setFields] = useState([])
 
  
-    const productRef = useRef(null)
     let itemsId = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
@@ -75,10 +77,18 @@ const AllMaterial = ({ material }) => {
 		}
     }
 
+    const handleInputChange = (index, event) => {
+        const values = [...fields]
+        values[index][event.target.name] = event.target.value
+        setFields(values);
+    }
+
 
 
     const onUpdateSubmit = async (data) => {
         setError(null)
+
+        // handleInputChange()
         console.log('items',data)
 
 
@@ -119,6 +129,7 @@ const AllMaterial = ({ material }) => {
         console.log('itemsId', itemsId)
     }, [material, openRow, editMode, itemsId])
 
+    console.log('fields', fields)
     return (
         <Grid xs={12}>
 
@@ -206,14 +217,14 @@ const AllMaterial = ({ material }) => {
                                                                 size="small"
                                                                 variant="contained"
                                                                 type='submit'
-                                                                sx={{ backgroundColor: "#68C37C", width: "76px"}}
+                                                                sx={{ backgroundColor: "#68C37C", width: "76px", mr: 1}}
                                                                 disableElevation
                                                                 // onClick={() => onUpdateSubmit(items)}
                                                             >   
                                                                 Spara
                                                             </Button>
 
-                                                            <Button 
+                                                            {/* <Button 
                                                                 size="small"
                                                                 type='submit'
                                                                 variant="contained"
@@ -222,7 +233,7 @@ const AllMaterial = ({ material }) => {
                                                                 onClick={() => setOpen(true)} 
                                                             >   
                                                                 Radera materialet
-                                                            </Button>
+                                                            </Button> */}
                                                         </TableCell>
                                                     </TableCell>
                                                    
@@ -247,7 +258,9 @@ const AllMaterial = ({ material }) => {
                                                                     register={register}
                                                                     errors={errors}
                                                                     onUpdateSubmit={onUpdateSubmit}
-                                                                    productRef={productRef}
+                                                                    fields={fields}
+                                                                    setFields={setFields}                                                                                                                                                                                  
+
                                                                 />
                                                             )}
                                                         
@@ -272,15 +285,37 @@ const AllMaterial = ({ material }) => {
                                                                                 items={items}
                                                                                 itemIndex={i}
                                                                                 register={register}
-                                                                                errors={errors}                                                                                                                                                                                       
-                                                                            />
-
-                                                                    
+                                                                                errors={errors}  
+                                                                                fields={fields}
+                                                                                setFields={setFields}                                                                                                                                                                                  
+                                                                            />          
                                                                 ) 
-                                                            })}                                                      
-                                                    </TableBody>
+                                                            })}  
 
+                                                            <EmptyFields 
+                                                                items={items}
+                                                                register={register}
+                                                                errors={errors}  
+                                                                fields={fields}
+                                                                setFields={setFields}  
+                                                            />  
+                                                
+                                                    </TableBody>
                                                 </Table>
+                                                <TableRow>
+
+                                                    <TableCell align="right" sx={{ border: 'unset',  pt: 10, pl: 3 }}>
+                                                        <Button 
+                                                            size="small"
+                                                            variant="contained"
+                                                            sx={{ backgroundColor: '#ff0000' }}
+                                                            disableElevation
+                                                            onClick={() => setOpen(true)} 
+                                                        >   
+                                                            Radera produkt
+                                                        </Button>
+                                                    </TableCell>
+                                                </TableRow>
                                             </Collapse>
                                         </TableCell>                             
                                     </TableRow>

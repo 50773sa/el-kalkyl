@@ -10,6 +10,7 @@ import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+import EmptyFields from './EmptyFiels'
 
 // dropdowns
 const unitsList = [
@@ -20,19 +21,15 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
+const EditNestedMaterial = ({ item, items, errors, register, itemIndex, fields, setFields }) => {
     const [open, setOpen] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(false)
 
     const handleDeleteMaterialObjectFromFb = async (item) => {
-        // setLoading(true)
-        console.log('item', item)
-
-            await updateDoc(doc(db, 'material', items.id), {
-                extraItems: items.extraItems.filter(pm => pm.id !== item.id)
-            })
-    
+        await updateDoc(doc(db, 'material', items.id), {
+            extraItems: items.extraItems.filter(pm => pm.id !== item.id)
+        })
     }
 
     return (
@@ -46,20 +43,16 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                     <Grid xs={6} py={0}>
                         <TextField
                             size="small"
+                            label="Tillbehör"
                             id="fittings"
                             defaultValue={item.fittings}
                             name={`extraItems[${itemIndex}].fittings`}
                             autoComplete="fittings"
                             fullWidth
-                            // helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
+                            helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
 
-                            // keep ...register. Otherwise the helper text will not be visible.
                             {...register(`extraItems[${itemIndex}].fittings`)}
-                            // {...register("fittings", {required: true})}
                         />  
-
-                
-                    
                     </Grid>
 
                     {/**
@@ -76,7 +69,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             name={`extraItems[${itemIndex}].quantity`}
                             fullWidth
                             defaultValue={item.quantity}
-                            helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
+                            helperText={errors ? errors.quantity && 'Obligatoriskt fält' : ''}
 
                             {...register(`extraItems[${itemIndex}].quantity`)}
 
@@ -129,7 +122,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                     /> 
 
                     {/**
-                     *  Save button
+                     *  Remove button
                      */}
 
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
@@ -137,13 +130,16 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             size="small"
                             type='submit'
                             variant="outlined"
-                            sx={{ color: '#ff0000', borderColor: '#ff0000', mr: 1 }}
+                            sx={{ color: '#ff0000', borderColor: '#ff0000', width: "76px" }}
                             disableElevation
                             onClick={() => setOpen(true)} 
                         >   
                             <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
                         </Button>
                     </Grid>
+
+
+                 
 
                     {open && (
                         <DialogDeleteMaterial
