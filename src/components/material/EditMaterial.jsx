@@ -24,23 +24,11 @@ const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: 
 
 const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, newFields, setNewFields, setValue}) => {
 
-    const handleAddFields = async (data) => {
-        // register({ fittings: '', quantity: 1, unit: '', id: uuidv4() })
-        // setNewFields([...newFields, { fittings: '', quantity: 1, unit: '', id: uuidv4() }])
-
-        const newFieldId = uuidv4()
-
-        // setNewFields([...newFields, { fittings: '', quantity: 1, unit: '', id: newFieldId }])
-
-        // register("extraItems.fittings")
-
+    const handleAddFields = async (data) => { 
+        // create an object with empty fields thar you can update.  Thsi way, you don't need to think about merging old and new values together when adding more fields.
         await updateDoc(doc(db, 'material', items.id), {
-            extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: newFieldId }]
+            extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: uuidv4()}]
         })
-  
-        // setNewFields([])
-
-
     }
 
     return (

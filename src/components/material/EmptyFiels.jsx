@@ -29,6 +29,7 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
         setNewFields(values)
     }
 
+    // add values than later you later can merge togehter with the other fields.
     const handleInputChange = (index, property, value) => {
         const addedFields = [...newFields]
         addedFields[index][property] = value
@@ -54,7 +55,8 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
                                         fullWidth
                                         
                                         helperText={newFieldsError.fittings ? 'Obligatoriskt fält' : ' '}
-                                        // onChange={(e) => handleInputChange(i, "fittings", e.target.value)} // denna funkar
+                                         // this one works
+                                        // onChange={(e) => handleInputChange(i, "fittings", e.target.value)}
 
                                         // {...register(`newFields[${i}].fittings`, {required: true} )}
                                         // {...register("fittings", {required: true} )}

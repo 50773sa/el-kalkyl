@@ -318,19 +318,6 @@ const AllMaterial = ({ material }) => {
                                                                 ) 
                                                             })}  
 
-                                                            {/* {editMode && (
-                                                                <EmptyFields 
-                                                                    errors={errors}  
-                                                                    newFields={newFields}
-                                                                    setNewFields={setNewFields}  
-                                                                    newFieldsError={newFieldError}
-                                                                    register={register}
-                                                                    setValue={setValue}
-                                                                    itemIndex={itemIndex}
-                                                                /> 
-                                                            )} */}
-                                                         
-                                                
                                                     </TableBody>
                                                 </Table>
                                                 <TableRow>
