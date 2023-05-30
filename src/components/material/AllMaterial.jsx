@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { useForm } from "react-hook-form"
 import { db } from '../../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
-import { uuidv4 } from "@firebase/util"
-
-import LoadingBackdrop from '../LoadingBackdrop'
 import { toast } from 'react-toastify'
 
 // mui
@@ -26,7 +23,6 @@ import Typography from '@mui/material/Typography'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 import EditNestedMaterial from './EditNestedMaterial'
 import EditMaterial from './EditMaterial'
-import EmptyFields from './EmptyFiels'
 
 
 const AllMaterial = ({ material }) => {
@@ -39,18 +35,9 @@ const AllMaterial = ({ material }) => {
     const [product, setProduct] = useState([])
     const [success, setSuccess] = useState(false)
     const [newFields, setNewFields] = useState([])
-    const [extraItems, setExtraItems] = useState([])
     const [inputError, setInputError] = useState(false)
-    const [newFieldError, setNewFieldError] = useState({fittingsErr: false, quantityErr: false, unitErr: false})
 
-
-
-    const fittingsRef = useRef(null)
-    const quantityRef = useRef(null)
-    const unitRef = useRef(null)
- 
     let itemsId = ''
-    let itemIndex = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
@@ -61,12 +48,13 @@ const AllMaterial = ({ material }) => {
             ? setOpenRowId([])
             : (setOpenRowId(items.id),  setEditMode(false))
     }
-
+    
+    // delete a product including extraItems
     const handleDeleteFromFb = () => async () => {
         setOpen(true)
         setLoading(true)
 
-        const ref = doc(db, 'material', openRowId)// openRowId is the id of the material
+        const ref = doc(db, 'material', openRowId)
 		setError(null)
 
         if (loading) {
@@ -92,36 +80,7 @@ const AllMaterial = ({ material }) => {
 
         if(!data) return
 
-        console.log('data', data)
-        // const mergedData = [...data.extraItems, ...newFields]
         const ref = doc(db, 'material', openRowId)
-
-        //1. ingen data & ingen newfield = return
-        //2. Ingen data 
-        // if (newFields.length > 0) {
-        //     const newFieldsValue = newFields.map(field => field)
-        //     console.log('newFieldsValue', newFieldsValue)
-        //     console.log('newFieldsValue.unit ', newFieldsValue.unit )
-
-            
-        //     if (newFieldsValue.fittings === undefined) {
-        //         setError(true) 
-        //         setNewFieldError({ fittingsErr: true })
-        //         return 
-        //     }
-
-        //     if (newFieldsValue.unit === undefined) {
-        //         setError(true) 
-        //         setNewFieldError({ unitErr: true })
-        //         return 
-        //     }
-        //     setError(false)
-        //     setNewFieldError({ fittingsErr: false, unitErr: false })
-
-            
-        // }
-
-     
 
         try {
             await updateDoc(ref, {
@@ -131,15 +90,12 @@ const AllMaterial = ({ material }) => {
                     minutes: data.minutes,
                 },
                 category: data.category,
-                // extraItems: mergedData
                 extraItems: data.extraItems
             })
             setSuccess(true)
             toast.success('Sparat!')
-            setNewFields([])
-            setExtraItems([])
             setEditMode(false)
-            // reset()
+            reset()
 
         } catch (err) {
             setError(err)
@@ -151,9 +107,8 @@ const AllMaterial = ({ material }) => {
         const prod = material?.map((m => m?.product))
         setProduct([...prod])
 
-    }, [material, openRowId, editMode, itemsId, newFields, fittingsRef])
+    }, [material, openRowId, editMode, itemsId])
 
-    console.log('newFields', newFields)
     return (
         <Grid xs={12}>
             {inputError && <p>An error occoured</p>}
@@ -248,17 +203,6 @@ const AllMaterial = ({ material }) => {
                                                             >   
                                                                 Spara
                                                             </Button>
-
-                                                            {/* <Button 
-                                                                size="small"
-                                                                type='submit'
-                                                                variant="contained"
-                                                                sx={{ backgroundColor: '#ff0000', mr: 1, ml: 3 }}
-                                                                disableElevation
-                                                                onClick={() => setOpen(true)} 
-                                                            >   
-                                                                Radera materialet
-                                                            </Button> */}
                                                         </TableCell>
                                                     </TableCell>
                                                    
@@ -294,7 +238,6 @@ const AllMaterial = ({ material }) => {
                                                             {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
                                                                 // save id to be able to update
                                                                 itemsId = items.id
-                                                                itemIndex = i
                                                                 return (
                                                                     !editMode 
                                                                         ?   <TableRow key={item.id} >
@@ -313,7 +256,8 @@ const AllMaterial = ({ material }) => {
                                                                                 items={items}
                                                                                 itemIndex={i}
                                                                                 register={register}
-                                                                                errors={errors}                                                                                                                                                                              
+                                                                                errors={errors}     
+                                                                                reset={reset}                                                                                                                                                                         
                                                                             />          
                                                                 ) 
                                                             })}  

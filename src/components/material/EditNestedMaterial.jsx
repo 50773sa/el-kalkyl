@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from 'react'
-import { useForm } from "react-hook-form"
+import React, { useState } from 'react'
 import { db } from '../../firebase'
-import { doc, updateDoc, deleteDoc, arrayRemove } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
+import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 // mui
+import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
-import { Button } from "@mui/material";
-import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
-import EmptyFields from './EmptyFiels'
 
 // dropdowns
 const unitsList = [
     {unit: 'st', value: 'st'},
     {unit: 'm', value: 'm'}
 ]
+const quantity = [...new Array(101)].map((_each, index) => ({ qty: index, value: index }))
 
-const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
-
-const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
+const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset }) => {
     const [open, setOpen] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -51,7 +48,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             fullWidth
                             helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
 
-                            {...register(`extraItems[${itemIndex}].fittings`)}
+                            {...register(`extraItems[${itemIndex}].fittings`, {required: true} )}
                         />  
                     </Grid>
 
@@ -71,7 +68,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             defaultValue={item.quantity}
                             helperText={errors ? errors.quantity && 'Obligatoriskt fält' : ''}
 
-                            {...register(`extraItems[${itemIndex}].quantity`)}
+                            {...register(`extraItems[${itemIndex}].quantity`, {required: true} )}
 
                         >
                             {quantity.map((val) => (
@@ -100,7 +97,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             defaultValue={item.unit}
                             helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
 
-                            {...register(`extraItems[${itemIndex}].unit`)}
+                            {...register(`extraItems[${itemIndex}].unit`, {required: true} )}
                         >
                                 
                             {unitsList.map((option) => (

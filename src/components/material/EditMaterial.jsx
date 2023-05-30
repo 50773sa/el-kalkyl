@@ -50,8 +50,6 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, new
                             autoComplete="product"
                             fullWidth
                             defaultValue={items.product}
-                            // inputRef={register("product")}
-
                             helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
 
                             // {...register("product")}
