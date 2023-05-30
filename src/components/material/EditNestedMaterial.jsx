@@ -21,7 +21,7 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, items, errors, register, itemIndex, fields, setFields }) => {
+const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
     const [open, setOpen] = useState(false)
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -128,7 +128,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, fields, 
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
                          <Button 
                             size="small"
-                            type='submit'
+                            type='button'
                             variant="outlined"
                             sx={{ color: '#ff0000', borderColor: '#ff0000', width: "76px" }}
                             disableElevation

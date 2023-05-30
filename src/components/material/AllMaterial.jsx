@@ -35,29 +35,38 @@ const AllMaterial = ({ material }) => {
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [editMode, setEditMode] = useState(false)
     const [loading, setLoading] = useState(false)
-    const [openRow, setOpenRow] = useState([])
+    const [openRowId, setOpenRowId] = useState([])
     const [product, setProduct] = useState([])
     const [success, setSuccess] = useState(false)
-    const [fields, setFields] = useState([])
+    const [newFields, setNewFields] = useState([])
+    const [extraItems, setExtraItems] = useState([])
+    const [inputError, setInputError] = useState(false)
+    const [newFieldError, setNewFieldError] = useState({fittingsErr: false, quantityErr: false, unitErr: false})
 
+
+
+    const fittingsRef = useRef(null)
+    const quantityRef = useRef(null)
+    const unitRef = useRef(null)
  
     let itemsId = ''
+    let itemIndex = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
     // open hidden rows
     const handleRows = (items) => () => {
-        unregister('product')
-        return  openRow.includes(items.id)
-            ? setOpenRow([])
-            : (setOpenRow(items.id),  setEditMode(false))
+        unregister('product') // otherwise the same product will end up in the next openRowId
+        return  openRowId.includes(items.id)
+            ? setOpenRowId([])
+            : (setOpenRowId(items.id),  setEditMode(false))
     }
 
     const handleDeleteFromFb = () => async () => {
         setOpen(true)
         setLoading(true)
 
-        const ref = doc(db, 'material', openRow)// openRow is the id of the material
+        const ref = doc(db, 'material', openRowId)// openRowId is the id of the material
 		setError(null)
 
         if (loading) {
@@ -77,25 +86,42 @@ const AllMaterial = ({ material }) => {
 		}
     }
 
-    const handleInputChange = (index, event) => {
-        const values = [...fields]
-        values[index][event.target.name] = event.target.value
-        setFields(values);
-    }
-
-
-
     const onUpdateSubmit = async (data) => {
         setError(null)
+        setInputError(false)
 
-        // handleInputChange()
-        console.log('items',data)
+        if(!data) return
 
+        console.log('data', data)
+        // const mergedData = [...data.extraItems, ...newFields]
+        const ref = doc(db, 'material', openRowId)
 
-        if (!data) {
-            return
-        }
-        const ref = doc(db, 'material', openRow)
+        //1. ingen data & ingen newfield = return
+        //2. Ingen data 
+        // if (newFields.length > 0) {
+        //     const newFieldsValue = newFields.map(field => field)
+        //     console.log('newFieldsValue', newFieldsValue)
+        //     console.log('newFieldsValue.unit ', newFieldsValue.unit )
+
+            
+        //     if (newFieldsValue.fittings === undefined) {
+        //         setError(true) 
+        //         setNewFieldError({ fittingsErr: true })
+        //         return 
+        //     }
+
+        //     if (newFieldsValue.unit === undefined) {
+        //         setError(true) 
+        //         setNewFieldError({ unitErr: true })
+        //         return 
+        //     }
+        //     setError(false)
+        //     setNewFieldError({ fittingsErr: false, unitErr: false })
+
+            
+        // }
+
+     
 
         try {
             await updateDoc(ref, {
@@ -105,38 +131,37 @@ const AllMaterial = ({ material }) => {
                     minutes: data.minutes,
                 },
                 category: data.category,
+                // extraItems: mergedData
                 extraItems: data.extraItems
             })
-
-    
             setSuccess(true)
             toast.success('Sparat!')
+            setNewFields([])
+            setExtraItems([])
+            setEditMode(false)
             // reset()
 
         } catch (err) {
             setError(err)
             console.error(err)
-
         }
-
     }
 
-
     useEffect(() => {
-       
         const prod = material?.map((m => m?.product))
         setProduct([...prod])
-        console.log('itemsId', itemsId)
-    }, [material, openRow, editMode, itemsId])
 
-    console.log('fields', fields)
+    }, [material, openRowId, editMode, itemsId, newFields, fittingsRef])
+
+    console.log('newFields', newFields)
     return (
         <Grid xs={12}>
-
+            {inputError && <p>An error occoured</p>}
 
             {/**
              *  List of saved products
              */}
+
             <form onSubmit={handleSubmit(onUpdateSubmit)} noValidate>
 
                 <TableContainer >
@@ -152,8 +177,8 @@ const AllMaterial = ({ material }) => {
                         </TableHead>
 
                         <TableBody>
-                            {material?.map((items) => (                               
 
+                            {!loading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
 
                                     <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
@@ -163,7 +188,7 @@ const AllMaterial = ({ material }) => {
                                                 size="small" 
                                                 onClick={handleRows(items)}
                                             >
-                                                {openRow.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+                                                {openRowId.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
                                             </IconButton>
                                         </TableCell>
                                         <TableCell 
@@ -194,7 +219,7 @@ const AllMaterial = ({ material }) => {
 
                                     <TableRow >
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
-                                            <Collapse in={openRow.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
+                                            <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 
                                                     <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none'}}>
                                                         <Typography variant="h6" gutterBottom component="div"  pl={3}>
@@ -251,6 +276,7 @@ const AllMaterial = ({ material }) => {
                                                         }
 
                                                         <TableBody >
+
                                                             {editMode && (
                                                                 <EditMaterial 
                                                                     key={items.id}
@@ -258,8 +284,9 @@ const AllMaterial = ({ material }) => {
                                                                     register={register}
                                                                     errors={errors}
                                                                     onUpdateSubmit={onUpdateSubmit}
-                                                                    fields={fields}
-                                                                    setFields={setFields}                                                                                                                                                                                  
+                                                                    newFields={newFields}
+                                                                    setNewFields={setNewFields}         
+                                                                    setValue={setValue}                                                                                                                                                                         
 
                                                                 />
                                                             )}
@@ -267,6 +294,7 @@ const AllMaterial = ({ material }) => {
                                                             {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
                                                                 // save id to be able to update
                                                                 itemsId = items.id
+                                                                itemIndex = i
                                                                 return (
                                                                     !editMode 
                                                                         ?   <TableRow key={item.id} >
@@ -285,20 +313,23 @@ const AllMaterial = ({ material }) => {
                                                                                 items={items}
                                                                                 itemIndex={i}
                                                                                 register={register}
-                                                                                errors={errors}  
-                                                                                fields={fields}
-                                                                                setFields={setFields}                                                                                                                                                                                  
+                                                                                errors={errors}                                                                                                                                                                              
                                                                             />          
                                                                 ) 
                                                             })}  
 
-                                                            <EmptyFields 
-                                                                items={items}
-                                                                register={register}
-                                                                errors={errors}  
-                                                                fields={fields}
-                                                                setFields={setFields}  
-                                                            />  
+                                                            {/* {editMode && (
+                                                                <EmptyFields 
+                                                                    errors={errors}  
+                                                                    newFields={newFields}
+                                                                    setNewFields={setNewFields}  
+                                                                    newFieldsError={newFieldError}
+                                                                    register={register}
+                                                                    setValue={setValue}
+                                                                    itemIndex={itemIndex}
+                                                                /> 
+                                                            )} */}
+                                                         
                                                 
                                                     </TableBody>
                                                 </Table>

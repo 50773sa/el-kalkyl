@@ -65,7 +65,6 @@ const MaterialPage = () => {
 
         try {
             await addDoc(collection(db, 'material'), {
-                // id: uuidv4(),
                 uid: currentUser.uid,
                 product: inputData.product,
                 quantity: 0,

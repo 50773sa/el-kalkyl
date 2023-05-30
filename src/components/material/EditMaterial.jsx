@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from 'react'
-import { useForm } from "react-hook-form";
+import { db } from '../../firebase'
+import { doc, updateDoc, deleteDoc, arrayRemove } from 'firebase/firestore'
+import { uuidv4 } from "@firebase/util"
+
 
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -19,10 +22,25 @@ const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, fields, setFields}) => {
+const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, newFields, setNewFields, setValue}) => {
 
-    const handleAddFields = () => {
-        setFields([...fields, { fittings: '', quantity: 0, unit: '' }])
+    const handleAddFields = async (data) => {
+        // register({ fittings: '', quantity: 1, unit: '', id: uuidv4() })
+        // setNewFields([...newFields, { fittings: '', quantity: 1, unit: '', id: uuidv4() }])
+
+        const newFieldId = uuidv4()
+
+        // setNewFields([...newFields, { fittings: '', quantity: 1, unit: '', id: newFieldId }])
+
+        // register("extraItems.fittings")
+
+        await updateDoc(doc(db, 'material', items.id), {
+            extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: newFieldId }]
+        })
+  
+        // setNewFields([])
+
+
     }
 
     return (
@@ -133,7 +151,7 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, fie
                     </Grid>
 
                     {/**
-                     *  Add more fields button
+                     *  Add more newFields button
                      */}
 
 
@@ -144,7 +162,7 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, fie
                             variant="contained"
                             sx={{ width: "76px"}}
                             disableElevation
-                            onClick={handleAddFields}
+                            onClick={() => handleAddFields(items)}
                         >   
                             + Fält
                         </Button>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from "react-hook-form"
 import { db } from '../../firebase'
 import { uuidv4 } from "@firebase/util"
@@ -21,60 +21,60 @@ const unitsList = [
 const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
 
-const EmptyFields = ({ item, items, errors, register, itemIndex, setOpen, setLoading , fields, setFields}) => {
-    const [indexOfNewFields, setIndexOfNewFields] = useState()
-
+const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register, setValue, }) => {
+ 
     const handleRemoveFields = (index) => {
-        const values = [...fields]
+        const values = [...newFields]
         values.splice(index, 1)
-        setFields(values)
+        setNewFields(values)
     }
 
-    useEffect(() => {
-        setIndexOfNewFields(items.extraItems.length + fields.length)
-
-    }, [indexOfNewFields, items])
+    const handleInputChange = (index, property, value) => {
+        const addedFields = [...newFields]
+        addedFields[index][property] = value
+        setNewFields(addedFields)
+    }
 
     return (
-        <TableRow id="emptyFields">
-            <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
-                    {fields.map((field, i) => {
-                        return (
-                            <>
-                                <Grid xs={6}  py={0} key={i}>
+        <>
+            {newFields.map((field, i) => {
+                return (
+                    <TableRow id="emptyFields"  key={i}>
+                        <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
+                            <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
+                            
+                                <Grid xs={6}  py={0}>
                                     <TextField
                                         size="small"
+                                        error
+                                        required
                                         label="Tillbehör"
-                                        id="fittings"
-                                        defaultValue=""
-                                        name={`extraItems[${indexOfNewFields}].fittings`}
-                                        // name="fittings"
+                                        name={`extraItems[${i}].fittings`}
                                         autoComplete="fittings"
                                         fullWidth
+                                        
+                                        helperText={newFieldsError.fittings ? 'Obligatoriskt fält' : ' '}
+                                        // onChange={(e) => handleInputChange(i, "fittings", e.target.value)} // denna funkar
 
-                                        // onChange={(event) => handleInputChange(i, event)}
-
-                                        helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
-
-                                        {...register(`extraItems[${indexOfNewFields}].fittings`)}
+                                        // {...register(`newFields[${i}].fittings`, {required: true} )}
+                                        // {...register("fittings", {required: true} )}
                                         />  
                                 </Grid>
 
                                 <Grid xs={3} py={0}>
                                     <TextField
                                         select
-                                        // required
+                                        required
                                         size="small"
-                                        id="quantity"
                                         label="Antal"
-                                        name={`extraItems[${indexOfNewFields}].quantity`}
-                                        // name="quantity"
+                                        name="quantity"
                                         fullWidth
                                         defaultValue={1}
-                                        helperText={errors ? errors.quantity && 'Obligatoriskt fält' : ''}
+                                        helperText={newFieldsError.quantityErr ? 'Obligatoriskt fält' : ' '}
+                                        onChange={(e) => handleInputChange(i, "quantity", e.target.value)}
 
-                                        {...register(`extraItems[${indexOfNewFields}].quantity`)}
+
+                                        // {...register("quantity", {required: true} )}
 
                                     >
                                         {quantity.map((val) => (
@@ -89,17 +89,19 @@ const EmptyFields = ({ item, items, errors, register, itemIndex, setOpen, setLoa
 
                                 <Grid xs={2} py={0}>
                                     <TextField
-                                        id="unit"
                                         select
                                         size="small"
-                                        // required
+                                        required
                                         label="st/m"
                                         fullWidth
-                                        name={`extraItems[${indexOfNewFields}].unit`}
                                         defaultValue=""
-                                        helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
+                                        name="unit"
+                                        helperText={newFieldsError.unitErr ? 'Obligatoriskt fält' : ' '}
+                                        onChange={(e) => (handleInputChange(i, "unit", e.target.value), console.log('e', e.target.value))}
 
-                                        {...register(`extraItems[${indexOfNewFields}].unit`, {required:true} )}
+                                        // {...register("unit", {required: true} )}
+
+                                        // {...register(`extraItems[${indexOfNewFields}].unit`, {required:true} )}
                                     >
                                             
                                         {unitsList.map((option) => (
@@ -123,18 +125,13 @@ const EmptyFields = ({ item, items, errors, register, itemIndex, setOpen, setLoa
                                         <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
                                     </Button>
                                 </Grid>
-                            </>
-                        
 
-                    
-
-                        )
-                        
-                    })}
-                
-                </Grid>
-            </TableCell>
-        </TableRow>        
+                            </Grid>
+                        </TableCell>
+                    </TableRow>  
+                )                                  
+            })}
+        </>      
     )
 }
 

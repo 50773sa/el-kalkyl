@@ -120,3 +120,11 @@ a {
 .css-17qj732-MuiTableCell-root {
 	vertical-align: bottom !important;
 }
+
+// empty input field
+#emptyFields {
+	.css-1d3z3hw-MuiOutlinedInput-notchedOutline {
+		border: 1.5px solid rgb(92, 152, 235) !important;
+	}
+
+}
