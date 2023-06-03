@@ -64,7 +64,7 @@ const HomeTable = ({ projects }) => {
                                 sx={{ cursor: 'pointer' }}
                                 onClick={() => navigate(`/user/${currentUser.uid}/project/${row.id}`)} 
                             >
-                                <StyledTableCell component="th" scope="row" s>
+                                <StyledTableCell component="th" scope="row">
                                     {row.projectName}
                                 </StyledTableCell>
                         

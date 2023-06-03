@@ -1,9 +1,6 @@
-import React, { useEffect, useState } from 'react'
 import { db } from '../../firebase'
-import { doc, updateDoc, deleteDoc, arrayRemove } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
-
-
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
@@ -12,17 +9,10 @@ import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
 
-// dropdowns
-const unitsList = [
-    {unit: 'st', value: 'st'},
-    {unit: 'm', value: 'm'}
-]
 const hours = [...new Array(13)].map((each, index) => ({ hours: Number(60 * index), value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index), value: index }))
-const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 
-
-const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, newFields, setNewFields, setValue}) => {
+const EditMaterial = ({ items, register, errors }) => {
 
     const handleAddFields = async (data) => { 
         // create an object with empty fields thar you can update.  Thsi way, you don't need to think about merging old and new values together when adding more fields.
@@ -52,7 +42,6 @@ const EditMaterial = ({ items, register, errors, onUpdateSubmit, productRef, new
                             defaultValue={items.product}
                             helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
 
-                            // {...register("product")}
                             {...register("product", {
                                 required: true, 
                             })}

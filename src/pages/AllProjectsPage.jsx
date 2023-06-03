@@ -7,7 +7,7 @@ import LoadingBackdrop from '../components/LoadingBackdrop'
 import TabsLarge from '../components/buttons/TabsLarge'
 import useGetAuthColl from '../hooks/useGetAuthColl'
 import useStreamCollection from "../hooks/useStreamCollection"
-
+import useViewStore from '../store/useViewStore'
 // mui
 import Container from '@mui/material/Container'
 
@@ -23,45 +23,35 @@ const AllProjectsPage = () => {
     const { data: projects, isLoading, isError } = useGetAuthColl('projects')
     const { data: material, loading} = useStreamCollection('material')
     // const { data: projects } = useStreamCollection('projects')
+	const isCurrentView = useViewStore((state) => state.isCurrentView)
+    console.log('isCurrentView', isCurrentView)
+
+ 
 
     return (
         <Container>
             <div className='wrapper'>
 
-                    {/* {isLoading || loading  && <LoadingBackdrop /> } */}
-                    {/* {isError && <p>An error occoured...</p>} */}
+                    {isLoading || loading  && <LoadingBackdrop /> }
+                    {isError && <p>An error occoured...</p>}
 
-
-                    {/* <TabsLarge 
-                        title1='Projekt'
-                        title2="Nytt projekt"
-                        icon1={<SummarizeOutlinedIcon sx={{ fontSize: '2em', color: '#68A5EC' }}/>}
-                        icon2={<DataSaverOnOutlinedIcon sx={{ fontSize: '2rem', color: '#68C37C' }}/>}
-                        color1="#68A5EC"
-                        color2="#68C37C"
-                        isActive={isActive}
-                        setIsActive={setIsActive}
-                   
-                    /> */}
                 <Grid container spacing={2}>
 
                     <TabsLarge 
                         title1="Alla projekt"
                         title2="Nytt projekt"
-                        isActive={isActive}
-                        setIsActive={setIsActive}
                     />
                     
                     <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px" }}>
                         {projects && !loading && material && (
-                            isActive 
-                                ?   <AllProjects projects={projects}/>
-                                :   <CreateProject material={material}/>
-                                
+
+                            isCurrentView.collection 
+                                ?   <AllProjects projects={projects} />
+                                :   <CreateProject material={material} />
+                                                        
                         )}
                     </Grid>
                 </Grid>
-
 
             </div>
             

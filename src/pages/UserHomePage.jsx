@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import useViewStore from '../store/useViewStore'
 import useStreamDoc from '../hooks/useStreamDoc'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/Cards'
+
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Container from '@mui/material/Container'
@@ -18,7 +20,9 @@ const UserHomepage = () => {
     const { currentUser, userName } = useAuthContext()
     const { data, loading } = useStreamDoc('users', currentUser.uid)
     const { data: projects } = useGetAuthColl('projects')
+	const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
     const navigate = useNavigate()
+
 
 
     useEffect(() => {
@@ -42,7 +46,7 @@ const UserHomepage = () => {
 					<Grid container spacing={2}>
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/projects`)}
+								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false }))}
 								title='Projekt'
 								subtitle={projects?.length ? projects.length + " stycken" : "0 stycken"}
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68A5EC' }}/>}
@@ -53,7 +57,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/projects`)} 
+								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: false, createDoc: true } ))} 
 								title='Nytt Projekt'
 								subtitle="Skapa ny beräkning"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}
@@ -64,7 +68,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
+								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true } ))}					
 								title='Material'
 								subtitle="Redigera material"
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#CBC309' }}/>}
@@ -74,7 +78,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => navigate(`/user/${currentUser.uid}/material`)}					
+								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false} ))}					
 								title='Nytt Material'
 								subtitle="Lägg till nytt material"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#DC822F' }}/>}

@@ -21,7 +21,7 @@ const Navigation = () => {
     const navigate = useNavigate()
 
     const handleOpenUserMenu = (event) => {
-        setAnchorElUser(event.currentTarget);
+        setAnchorElUser(event.currentTarget)
     }
 
     const handleCloseUserMenu = () => {
@@ -72,7 +72,6 @@ const Navigation = () => {
                      *  Links and avatar
                      */}    
                      
-                    
                     {currentUser ? (
                         <Box sx={{ display: 'flex', alignItems: 'center'}}>
 
@@ -131,8 +130,8 @@ const Navigation = () => {
                             
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}  
-                                    as={Link} 
-                                    to={`/user/${currentUser.uid}/projects`} 
+                                    // as={Link} 
+                                    // to={`/user/${currentUser.uid}/projects`} 
                                     onClick={handleCloseUserMenu}
 
                                 >
@@ -141,8 +140,8 @@ const Navigation = () => {
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}  
-                                    as={Link} 
-                                    to={`/user/${currentUser.uid}/material`} 
+                                    // as={Link} 
+                                    // to={`/user/${currentUser.uid}/material`} 
                                     onClick={handleCloseUserMenu}
 
                                 >
@@ -151,8 +150,8 @@ const Navigation = () => {
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }} 
-                                    as={Link} 
-                                    to={`/user/${currentUser.uid}/settings`} 
+                                    // as={Link} 
+                                    // to={`/user/${currentUser.uid}/settings`} 
                                     onClick={handleCloseUserMenu} 
                                     
                                 >

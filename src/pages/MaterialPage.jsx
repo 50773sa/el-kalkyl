@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect} from "react"
-import { useForm, useFieldArray, Controller, useWatch } from "react-hook-form";
+import { useState, useRef } from "react"
+import { useForm } from "react-hook-form";
 import { db } from '../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
@@ -7,6 +7,8 @@ import { useAuthContext } from "../contexts/AuthContextProvider"
 import CreateMaterial from "../components/material/CreateMaterial"
 import LeavePageAlert from "../components/modals/LeavePageAlert"
 import { toast } from "react-toastify"
+import useViewStore from '../store/useViewStore'
+
 // mui
 import Button from '@mui/material/Button'
 import Container from "@mui/system/Container"
@@ -31,6 +33,7 @@ const MaterialPage = () => {
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
     const { data: material, loading  } = useStreamCollection('material')
+	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
 
     const handleObjectInput = () => {
@@ -91,19 +94,15 @@ const MaterialPage = () => {
 
                 {loading && <LoadingBackdrop />}
                 
-
-           
                 <Grid container spacing={2}>
                     <TabsLarge 
                         title1="Material"
                         title2="Nytt material"
-                        isActive={isActive}
-                        setIsActive={setIsActive}
                     />
 
                     {!loading && material && (
                         <Grid xs={12} sx={{ height: "80%", pb: 6, backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
-                            {!isActive ? (
+                            {isCurrentView.createDoc ? (
                                 <>
                                     <form onSubmit={handleSubmit(onSubmit)} noValidate>
                                         {/* Component */}
