@@ -4,14 +4,20 @@ import { useForm } from "react-hook-form"
 import { db } from '../../firebase'
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
 import { toast } from 'react-toastify'
+import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+import EditNestedMaterial from './EditNestedMaterial'
+import EditMaterial from './EditMaterial'
 
 // mui
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Collapse from '@mui/material/Collapse'
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -20,9 +26,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
-import EditNestedMaterial from './EditNestedMaterial'
-import EditMaterial from './EditMaterial'
+
 
 
 const AllMaterial = ({ material }) => {
@@ -181,29 +185,23 @@ const AllMaterial = ({ material }) => {
                                                             {!editMode ? 'Tillhörande produkter' : 'Redigera'}
                                                         </Typography>
 
-                                                        <TableCell align="right" sx={{ borderBottom: 'unset'}}>
+                                                        <TableCell align="right" sx={{ borderBottom: 'unset' }}>
                                                             <Button 
                                                                 size="small"
                                                                 type='button'
                                                                 variant="outlined"
-                                                                sx={{ mr: 3, width: '76px' }}
                                                                 disableElevation
+                                                                sx={{ mr: 1 }}
                                                                 onClick={() => setEditMode((prev) => !prev)} 
                                                             >   
-                                                                {editMode ? 'Avbryt' : 'Ändra'}
-                                                            </Button>
-
-                                                            <Button 
-                                                                size="small"
-                                                                variant="contained"
-                                                                type='submit'
-                                                                sx={{ backgroundColor: "#68C37C", width: "76px", mr: 1}}
-                                                                disableElevation
-                                                                // onClick={() => onUpdateSubmit(items)}
-                                                            >   
-                                                                Spara
+                                                                {!editMode && <ModeEditIcon />}
+                                                                {editMode 
+                                                                    ? 'Avbryt' 
+                                                                    : 'Redigera'
+                                                                }
                                                             </Button>
                                                         </TableCell>
+
                                                     </TableCell>
                                                    
 
@@ -264,19 +262,33 @@ const AllMaterial = ({ material }) => {
 
                                                     </TableBody>
                                                 </Table>
-                                                <TableRow>
+                                                <TableRow sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                                                    <TableCell align="right" sx={{ border: 'unset',  pt: 10, pl: 3 }}>
+                                                    <TableCell sx={{ border: 'unset',  pt: 10, pl: 3 }}>
                                                         <Button 
                                                             size="small"
-                                                            variant="contained"
-                                                            sx={{ backgroundColor: '#ff0000' }}
+                                                            variant="outlined"
+                                                            sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
                                                             disableElevation
                                                             onClick={() => setOpen(true)} 
                                                         >   
+                                                            <DeleteForeverIcon  />
                                                             Radera produkt
                                                         </Button>
                                                     </TableCell>
+
+                                                    <TableCell sx={{ border: 'unset',  pt: 10, pl: 3 }}>
+                                                        <Button 
+                                                            size="small"
+                                                            variant="contained"
+                                                            type='submit'
+                                                            sx={{ backgroundColor: "#68C37C", width: "76px", mr: 1}}
+                                                            disableElevation
+                                                        >   
+                                                            Spara
+                                                        </Button>
+                                                    </TableCell>
+
                                                 </TableRow>
                                             </Collapse>
                                         </TableCell>                             

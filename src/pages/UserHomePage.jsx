@@ -57,7 +57,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: false, createDoc: true } ))} 
+								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false } ))} 
 								title='Nytt Projekt'
 								subtitle="Skapa ny beräkning"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}
@@ -68,7 +68,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true } ))}					
+								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false }) )}					
 								title='Material'
 								subtitle="Redigera material"
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#CBC309' }}/>}
@@ -78,7 +78,7 @@ const UserHomepage = () => {
 
 						<Grid xs={6} md={3}>
 							<Cards 
-								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false} ))}					
+								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true }) )}					
 								title='Nytt Material'
 								subtitle="Lägg till nytt material"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#DC822F' }}/>}

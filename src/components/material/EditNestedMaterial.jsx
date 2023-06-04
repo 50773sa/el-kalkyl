@@ -9,6 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
+import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 
 // dropdowns
 const unitsList = [
@@ -127,16 +128,13 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                             size="small"
                             type='button'
                             variant="outlined"
-                            sx={{ color: '#ff0000', borderColor: '#ff0000', width: "76px" }}
+                            sx={{ color: '#ff0000', borderColor: '#ff0000', width: '76px', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
                             disableElevation
                             onClick={() => setOpen(true)} 
                         >   
                             <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
                         </Button>
                     </Grid>
-
-
-                 
 
                     {open && (
                         <DialogDeleteMaterial
