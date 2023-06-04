@@ -8,8 +8,9 @@ import {
     signInWithEmailAndPassword,
     updateProfile, 
     signOut,
+    updatePassword,
+    sendPasswordResetEmail,
 } from 'firebase/auth'
-
 
 
 const AuthContext = createContext()
@@ -17,7 +18,6 @@ const AuthContext = createContext()
 const useAuthContext = () => {
 	return useContext(AuthContext)
 }
-
 
 const AuthContextProvider = ({ children }) => {
 	const [userName, setUserName] = useState(null)
@@ -39,15 +39,15 @@ const AuthContextProvider = ({ children }) => {
         await setDoc(docRef, {
             name,
             email,
+            id: auth.currentUser.uid
         })
     }
 
-    const signIn = (email, password) => {
-        console.log('signIn', email, password)
+    const signin = (email, password) => {
 		return signInWithEmailAndPassword(auth, email, password)
 	}
 
-    const signOut = () => {
+    const signout = () => {
 		return signOut(auth)
 	}
 
@@ -60,27 +60,44 @@ const AuthContextProvider = ({ children }) => {
 		return true
 	}
 
+    const updateUserPassword = (newPassword) => {
+        return updatePassword(auth.currentUser, newPassword)
+    }
+
+    const handleUpdateProfile = (displayName) => {
+        return updateProfile(auth.currentUser, {
+            displayName,
+        })
+    }
+
+    const resetPassword = (email) => {
+        return sendPasswordResetEmail(auth, email)
+    }
+
     useEffect(() => {
 
-        return onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
             setCurrentUser(user)
-            setUserEmail(user?.email.toLowerCase())
+            setUserEmail(user?.email)
             setUserName(user?.displayName)
             setLoading(false)
-            console.log('currentUser', currentUser)
         })
+        return unsubscribe()
 
-    }, [])
+    }, [currentUser])
 
     const contextValues = {
         signUp,
-        signIn,
-        setUserEmail,
+        signin,
+        userEmail,
         currentUser,
-		userEmail,
         userName,
+        setUserName,
         reloadUser,
-        signOut,
+        signout,
+        updateUserPassword,
+        handleUpdateProfile,
+        resetPassword,
 	}
 
     return (
