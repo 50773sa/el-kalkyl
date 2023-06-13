@@ -1,7 +1,6 @@
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
-
 const SelectForm = ({ required, label, name, inputRef, defaultValue, list, helperText, register }) => {
     return (
         <TextField

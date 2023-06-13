@@ -7,17 +7,15 @@ import ListItem from "@mui/material/ListItem"
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import SelectForm from '../forms/SelectForm'
 
-// dropdowns
-const unitsList = [
-    {unit: 'st', value: 'st'},
-    {unit: 'm', value: 'm'}
-]
-
-const quantity = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
+const unitList = [{value: 'st'}, {value: 'm'}]
+const quantityList = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
-
+const catergoryList = [
+    {}
+]
 
 const CreateMaterial = ({ 
     handleDelete, 
@@ -110,28 +108,16 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={5} sm={2} lg={2} >
-                <TextField
-                    select
-                    required
-                    id="qty"
+                <SelectForm 
+                    required={true}
                     label="Antal"
                     name="qty"
-                    fullWidth
                     inputRef={qtyRef}
                     defaultValue=""
+                    list={quantityList}
                     helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
-
-                    {...register("qty", {required: true})}
-
-                >
-                    {quantity.map((val) => (
-                        <MenuItem key={val.qty} value={val.qty}>
-                            {val.value}
-                        </MenuItem>
-
-                    ))}
-
-                </TextField>
+                    register={register("qty", {required: true})}
+                /> 
             </Grid>
 
             {/**
@@ -139,28 +125,19 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={5} sm={2}>
-                <TextField
-                    id="unit"
-                    select
-                    required
+                <SelectForm 
+                    required={true}
                     label="st/m"
-                    fullWidth
                     name="unit"
                     inputRef={unitRef}
                     defaultValue=""
+                    list={unitList}
+                    optionKey="option.value"
                     helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
-
-                    {...register("unit", {required: true})}
-                >
-                        
-                    {unitsList.map((option) => (
-                        <MenuItem key={option.unit} value={option.unit}>
-                            {option.value}
-                        </MenuItem>
-                    ))}
-
-                </TextField>
+                    register={register("unit", {required: true})}
+                /> 
             </Grid>
+
 
             {/**
              *   Add button
