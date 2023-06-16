@@ -13,8 +13,11 @@ const unitList = [{value: 'st'}, {value: 'm'}]
 const quantityList = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
-const catergoryList = [
-    {}
+const categoryList = [
+    {value: 'Apparater'},
+    {value: 'Data'},
+    {value: 'Belysning'},
+    {value: 'Ovrigt'},
 ]
 
 const CreateMaterial = ({ 
@@ -63,22 +66,16 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={12} lg={6} >
-                <TextField
-                    select
+                <SelectForm 
+                    required={true}
                     label="Kategori"
-                    fullWidth
                     name="category"
-                    required
                     defaultValue=""
+                    list={categoryList}
                     helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
 
-                    {...register("category", { required: true }) }
-                >
-                    <MenuItem value={'Apparater'}>Apparater</MenuItem>
-                    <MenuItem value={'Belysning'}>Belysning</MenuItem>
-                    <MenuItem value={'Data'}>Data</MenuItem>
-                    <MenuItem value={'Ovrigt'}>Övrigt</MenuItem>
-                </TextField>
+                    register={register("category", {required: true})}
+                />  
             </Grid> 
 
       
@@ -224,13 +221,6 @@ const CreateMaterial = ({
                     fullWidth
                     required
                     defaultValue=""
-                    slotProps={{
-                        listbox: {
-                            sx: {
-                                maxHeight: '300px',
-                            },
-                        },
-                    }}
                     helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
                     {...register("hours", { required: true })}
@@ -252,14 +242,6 @@ const CreateMaterial = ({
                     fullWidth
                     required
                     defaultValue=""
-                    slotProps={{
-                        listbox: {
-                            sx: {
-                                maxHeight: '300px',
-                            },
-                        },
-                    }}
-                  
                     helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
 
                     {...register("minutes", { required: true })}
