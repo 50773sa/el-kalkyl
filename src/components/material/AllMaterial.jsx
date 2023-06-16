@@ -51,6 +51,7 @@ const AllMaterial = ({ material }) => {
             : (setOpenRowId(items.id),  setIsEditMode(false))
     }
 
+    //! nästa att göra- delete hela produkten
     
     // delete a product including extraItems
     const handleDeleteFromFb = () => async () => {

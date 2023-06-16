@@ -10,6 +10,7 @@ import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import useDeleteDocumentField from '../../hooks/useDeleteDocumentField'
 
 // dropdowns
 const unitsList = [
@@ -20,14 +21,10 @@ const quantity = [...new Array(101)].map((_each, index) => ({ qty: index, value:
 
 
 const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset }) => {
-    const [open, setOpen] = useState(false)
-    const [confirmDelete, setConfirmDelete] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const { deleteDocumentField, isOpen, setIsOpen, setIsLoading } = useDeleteDocumentField('material')
 
     const handleDeleteMaterialObjectFromFb = async (item) => {
-        await updateDoc(doc(db, 'material', items.id), {
-            extraItems: items.extraItems.filter(pm => pm.id !== item.id)
-        })
+        await deleteDocumentField(items, item)
     }
 
     return (
@@ -130,17 +127,17 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                             variant="outlined"
                             sx={{ color: '#ff0000', borderColor: '#ff0000', width: '76px', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
                             disableElevation
-                            onClick={() => setOpen(true)} 
+                            onClick={() => setIsOpen(true)} 
                         >   
                             <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
                         </Button>
                     </Grid>
 
-                    {open && (
+                    {isOpen && (
                         <DialogDeleteMaterial
-                            open={open} 
-                            setOpen={setOpen} 
-                            setLoading={setLoading}
+                            isOpen={isOpen} 
+                            setIsOpen={setIsOpen} 
+                            setIsLoading={setIsLoading}
                             handleDeleteFromFb={() => handleDeleteMaterialObjectFromFb(item)}
                         />
                     )}
