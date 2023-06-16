@@ -26,96 +26,66 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import useUpdateDoc from '../../hooks/useUpdateDoc'
 
 
 
 const AllMaterial = ({ material }) => {
-    const [open, setOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(false)
-    const [confirmDelete, setConfirmDelete] = useState(false)
-    const [editMode, setEditMode] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const [isConfirmDelete, setIsConfirmDelete] = useState(false)
+    const [loading, setIsLoading] = useState(false)
     const [openRowId, setOpenRowId] = useState([])
-    const [product, setProduct] = useState([])
-    const [success, setSuccess] = useState(false)
     const [newFields, setNewFields] = useState([])
-    const [inputError, setInputError] = useState(false)
+    const { updateOnSubmit, isEditMode, setIsEditMode, isInputError } = useUpdateDoc('material')
 
     let itemsId = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
-    // open hidden rows
+    // isOpen hidden rows
     const handleRows = (items) => () => {
         unregister('product') // otherwise the same product will end up in the next openRowId
         return  openRowId.includes(items.id)
             ? setOpenRowId([])
-            : (setOpenRowId(items.id),  setEditMode(false))
+            : (setOpenRowId(items.id),  setIsEditMode(false))
     }
+
     
     // delete a product including extraItems
     const handleDeleteFromFb = () => async () => {
-        setOpen(true)
-        setLoading(true)
+        setIsOpen(true)
+        setIsLoading(true)
 
         const ref = doc(db, 'material', openRowId)
-		setError(null)
+		setIsError(null)
 
         if (loading) {
             return
         }
-		setConfirmDelete(true)
+		setIsConfirmDelete(true)
 
 		try {
 			await deleteDoc(ref)
 			toast.success('Raderat!')
-			setOpen(false)
-			setLoading(false)
+			setIsOpen(false)
+			setIsLoading(false)
 			
 		} catch(err){
-			setError(err)
-			setLoading(false)
+			setIsError(err)
+			setIsLoading(false)
 		}
     }
 
     const onUpdateSubmit = async (data) => {
-        setError(null)
-        setInputError(false)
-
-        if(!data) return
-
-        const ref = doc(db, 'material', openRowId)
-
-        try {
-            await updateDoc(ref, {
-                product: data.product,
-                estimatedTime: {
-                    hours: data.hours,
-                    minutes: data.minutes,
-                },
-                category: data.category,
-                extraItems: data.extraItems
-            })
-            setSuccess(true)
-            toast.success('Sparat!')
-            setEditMode(false)
-            reset()
-
-        } catch (err) {
-            setError(err)
-            console.error(err)
-        }
+        await updateOnSubmit(data, openRowId)
+        reset()
     }
 
-    useEffect(() => {
-        const prod = material?.map((m => m?.product))
-        setProduct([...prod])
-
-    }, [material, openRowId, editMode, itemsId])
-
+  
     return (
         <Grid xs={12}>
-            {inputError && <p>An error occoured</p>}
+            {isInputError && <p>An isError occoured</p>}
 
             {/**
              *  List of saved products
@@ -182,7 +152,7 @@ const AllMaterial = ({ material }) => {
                                                 
                                                     <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none'}}>
                                                         <Typography variant="h6" gutterBottom component="div"  pl={3}>
-                                                            {!editMode ? 'Tillhörande produkter' : 'Redigera'}
+                                                            {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
                                                         </Typography>
 
                                                         <TableCell align="right" sx={{ borderBottom: 'unset' }}>
@@ -192,10 +162,10 @@ const AllMaterial = ({ material }) => {
                                                                 variant="outlined"
                                                                 disableElevation
                                                                 sx={{ mr: 1 }}
-                                                                onClick={() => setEditMode((prev) => !prev)} 
+                                                                onClick={() => setIsEditMode((prev) => !prev)} 
                                                             >   
-                                                                {!editMode && <ModeEditIcon />}
-                                                                {editMode 
+                                                                {!isEditMode && <ModeEditIcon />}
+                                                                {isEditMode 
                                                                     ? 'Avbryt' 
                                                                     : 'Redigera'
                                                                 }
@@ -206,7 +176,7 @@ const AllMaterial = ({ material }) => {
                                                    
 
                                                     <Table size="small" aria-label="fittings">
-                                                        {!editMode &&  
+                                                        {!isEditMode &&  
                                                             <TableHead>
                                                                 <TableRow>
                                                                     <TableCell>Tillbehör</TableCell>
@@ -219,7 +189,7 @@ const AllMaterial = ({ material }) => {
 
                                                         <TableBody >
 
-                                                            {editMode && (
+                                                            {isEditMode && (
                                                                 <EditMaterial 
                                                                     key={items.id}
                                                                     items={items}
@@ -237,7 +207,7 @@ const AllMaterial = ({ material }) => {
                                                                 // save id to be able to update
                                                                 itemsId = items.id
                                                                 return (
-                                                                    !editMode 
+                                                                    !isEditMode 
                                                                         ?   <TableRow key={item.id} >
                                                                                 <TableCell component="th" scope="row">
                                                                                     {item.fittings}
@@ -270,7 +240,7 @@ const AllMaterial = ({ material }) => {
                                                             variant="outlined"
                                                             sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
                                                             disableElevation
-                                                            onClick={() => setOpen(true)} 
+                                                            onClick={() => setIsOpen(true)} 
                                                         >   
                                                             <DeleteForeverIcon  />
                                                             Radera produkt
@@ -294,11 +264,11 @@ const AllMaterial = ({ material }) => {
                                         </TableCell>                             
                                     </TableRow>
  
-                                    {open && (
+                                    {isOpen && (
                                         <DialogDeleteMaterial 
-                                            open={open} 
-                                            setOpen={setOpen} 
-                                            setLoading={setLoading}
+                                            isOpen={isOpen} 
+                                            setIsOpen={setIsOpen} 
+                                            setIsLoading={setIsLoading}
                                             handleDeleteFromFb={handleDeleteFromFb(items)}
                                         />
                                     )}
