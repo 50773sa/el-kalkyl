@@ -1,24 +1,13 @@
 import React from 'react'
+import SelectField from '../reusableComponents/forms/SelectField'
+import TextFields from '../reusableComponents/forms/TextFields'
 // mui
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
-import MenuItem from '@mui/material/MenuItem'
-import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-import SelectForm from '../forms/SelectForm'
-
-const unitList = [{value: 'st'}, {value: 'm'}]
-const quantityList = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
-const hours = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
-const minutes = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
-const categoryList = [
-    {value: 'Apparater'},
-    {value: 'Data'},
-    {value: 'Belysning'},
-    {value: 'Ovrigt'},
-]
+import { TextField } from '@mui/material'
 
 const CreateMaterial = ({ 
     handleDelete, 
@@ -47,17 +36,14 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={12} lg={6}>
-
-                <TextField
-                    id="product"
-                    label="Produkt"
-                    name="product"
-                    autoComplete="product"
-                    fullWidth
-                    required
-                    helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
-
-                    {...register("product", {required: true})}
+                <TextFields
+                     required={true}
+                     label="Produkt"
+                     name="product"
+                     autoComplete="product"
+                     defaultValue=""
+                     helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
+                     register={register("product", {required: true})}
                 />
             </Grid>
 
@@ -66,26 +52,23 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={12} lg={6} >
-                <SelectForm 
+                <SelectField 
                     required={true}
                     label="Kategori"
                     name="category"
                     defaultValue=""
-                    list={categoryList}
+                    list="category"
                     helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
-
                     register={register("category", {required: true})}
                 />  
             </Grid> 
-
-      
 
             {/**
              *  Fittings
              */}
 
             <Grid xs={12} sm={6} >
-                <TextField
+                {/* <TextField
                     required
                     id="fittings"
                     label="Tillbehör"
@@ -94,9 +77,20 @@ const CreateMaterial = ({
                     fullWidth
                     inputRef={fittingsRef}
                     helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
-
                     // keep ...register. Otherwise the helper text will not be visible.
                     {...register("fittings", {required: true})}
+                /> */}
+
+                <TextFields
+                     required={true}
+                     label="Tillbehör"
+                     name="fittings"
+                     inputRef={fittingsRef}
+                     defaultValue=""
+                     autoComplete="fittings"
+                     helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
+ 
+                     register={register("fittings", {required: true})}
                 />
             </Grid> 
 
@@ -105,13 +99,13 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={5} sm={2} lg={2} >
-                <SelectForm 
+                <SelectField 
                     required={true}
                     label="Antal"
                     name="qty"
                     inputRef={qtyRef}
                     defaultValue=""
-                    list={quantityList}
+                    list="quantity"
                     helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
                     register={register("qty", {required: true})}
                 /> 
@@ -122,14 +116,13 @@ const CreateMaterial = ({
              */}
 
             <Grid xs={5} sm={2}>
-                <SelectForm 
+                <SelectField 
                     required={true}
                     label="st/m"
                     name="unit"
                     inputRef={unitRef}
                     defaultValue=""
-                    list={unitList}
-                    optionKey="option.value"
+                    list="unit"
                     helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
                     register={register("unit", {required: true})}
                 /> 
@@ -213,45 +206,29 @@ const CreateMaterial = ({
             </Grid>
 
 
-            <Grid xs={6} sm={3}>
-                <TextField
-                    select
+            <Grid xs={6} sm={3}>          
+                <SelectField 
+                    required={true}
                     label="Tim"
                     name="hours"
-                    fullWidth
-                    required
                     defaultValue=""
+                    list="hours"
                     helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
-
-                    {...register("hours", { required: true })}
-                >
-                    {hours.map((option) => (
-                        <MenuItem key={option.hours} value={option.hours}>
-                            {option.value}
-                        </MenuItem>
-                    ))}
-                </TextField>
+                    register={register("hours", {required: true})}
+                /> 
             </Grid>
 
 
             <Grid xs={6} sm={3}>
-                <TextField
-                    select
+                <SelectField 
+                    required={true}
                     label="Min"
                     name="minutes"
-                    fullWidth
-                    required
                     defaultValue=""
+                    list="minutes"
                     helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
-
-                    {...register("minutes", { required: true })}
-                >
-                    {minutes.map((option) => (
-                        <MenuItem key={option.minutes} value={Number(option.minutes)}>
-                            {option.value}
-                        </MenuItem>
-                    ))}                
-                </TextField>
+                    register={register("minutes", {required: true})}
+                /> 
             </Grid>
 
             <br/>
