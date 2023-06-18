@@ -38,7 +38,7 @@ const SelectField = ({ required, label, name, inputRef, defaultValue, list, help
         >
             {currentListToRender && currentListToRender.map((option, i) => {
                 return (
-                    <MenuItem key={i} value={option.value}>
+                    <MenuItem key={i} value={list === 'hours' ? option.hours : option.value}>
                         {option.value}
                     </MenuItem>
                 )
