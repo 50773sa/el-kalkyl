@@ -1,6 +1,6 @@
 import TextField from '@mui/material/TextField'
 
-const TextFields = ({ required, label, name, inputRef, defaultValue, autoComplete, helperText, register }) => {
+const TextInputField = ({ required, label, name, inputRef, defaultValue, autoComplete, helperText, register }) => {
     return (
         <TextField
             type='text'
@@ -17,4 +17,4 @@ const TextFields = ({ required, label, name, inputRef, defaultValue, autoComplet
     )
 }
 
-export default TextFields
+export default TextInputField
