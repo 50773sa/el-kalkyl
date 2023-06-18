@@ -1,7 +1,8 @@
 import { useState } from 'react'
+import { toast } from 'react-toastify'
+// firestore
 import { db } from '../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
-import { toast } from 'react-toastify'
 
 const useDeleteDocumentField = (document) => {
     const [isOpen, setIsOpen] = useState(false)
@@ -34,19 +35,13 @@ const useDeleteDocumentField = (document) => {
 			setIsLoading(false)
 		}
     }
+
     return {
         deleteDocumentField,
         isOpen,
         setIsOpen,
-        isConfirmDelete,
-        setIsConfirmDelete,
-        isError,
-        setIsError,
-        isLoading,
         setIsLoading, 
     }
-    
-  
 }
 
 export default useDeleteDocumentField

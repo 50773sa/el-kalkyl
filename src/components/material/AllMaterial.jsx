@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
-import { useEffect } from 'react'
 import { useForm } from "react-hook-form"
-import { db } from '../../firebase'
-import { doc, updateDoc, deleteDoc } from 'firebase/firestore'
-import { toast } from 'react-toastify'
+// components
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 import EditNestedMaterial from './EditNestedMaterial'
 import EditMaterial from './EditMaterial'
-
+// hooks
+import useUpdateDoc from '../../hooks/useUpdateDoc'
+import useDeleteDocument from '../../hooks/useDeleteDocument'
 // mui
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -17,8 +16,6 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
-
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
@@ -26,19 +23,17 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-import useUpdateDoc from '../../hooks/useUpdateDoc'
+
 
 
 
 const AllMaterial = ({ material }) => {
     const [isOpen, setIsOpen] = useState(false)
-    const [error, setError] = useState(false)
-    const [isConfirmDelete, setIsConfirmDelete] = useState(false)
-    const [loading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [openRowId, setOpenRowId] = useState([])
     const [newFields, setNewFields] = useState([])
     const { updateOnSubmit, isEditMode, setIsEditMode, isInputError } = useUpdateDoc('material')
-
+    const { deleteDocFromFirestore } = useDeleteDocument('material')
     let itemsId = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
@@ -48,34 +43,13 @@ const AllMaterial = ({ material }) => {
         unregister('product') // otherwise the same product will end up in the next openRowId
         return  openRowId.includes(items.id)
             ? setOpenRowId([])
-            : (setOpenRowId(items.id),  setIsEditMode(false))
+            : (setOpenRowId(items.id), setIsEditMode(false))
     }
-
-    //! nästa att göra- delete hela produkten
     
     // delete a product including extraItems
     const handleDeleteFromFb = () => async () => {
-        setIsOpen(true)
-        setIsLoading(true)
-
-        const ref = doc(db, 'material', openRowId)
-		setIsError(null)
-
-        if (loading) {
-            return
-        }
-		setIsConfirmDelete(true)
-
-		try {
-			await deleteDoc(ref)
-			toast.success('Raderat!')
-			setIsOpen(false)
-			setIsLoading(false)
-			
-		} catch(err){
-			setIsError(err)
-			setIsLoading(false)
-		}
+        await deleteDocFromFirestore(openRowId)
+        setIsOpen(false)
     }
 
     const onUpdateSubmit = async (data) => {
@@ -108,7 +82,7 @@ const AllMaterial = ({ material }) => {
 
                         <TableBody>
 
-                            {!loading && material?.map((items) => (                               
+                            {!isLoading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
 
                                     <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >

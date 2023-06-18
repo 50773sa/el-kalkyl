@@ -257,6 +257,7 @@ const CreateMaterial = () => {
             </Grid>
 
             <SaveOrCancelButtons setOpen={setOpen} succes={success} />
+            
             <LeavePageAlert open={open} setOpen={setOpen} /> 
 
 

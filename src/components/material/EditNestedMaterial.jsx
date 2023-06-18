@@ -1,6 +1,4 @@
-import React, { useState } from 'react'
-import { db } from '../../firebase'
-import { doc, updateDoc } from 'firebase/firestore'
+// hooks
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 // mui
 import Button from "@mui/material/Button"
@@ -9,7 +7,6 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
 import useDeleteDocumentField from '../../hooks/useDeleteDocumentField'
 
 // dropdowns
