@@ -1,4 +1,4 @@
-import { db } from '../../firebase'
+import { db } from '../../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // mui

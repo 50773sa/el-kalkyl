@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 // components
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
-import EditNestedMaterial from './EditNestedMaterial'
-import EditMaterial from './EditMaterial'
+import EditNestedMaterial from './edit/EditNestedMaterial'
+import EditMaterial from './edit/EditMaterial'
 // hooks
 import useUpdateDoc from '../../hooks/useUpdateDoc'
 import useDeleteDocument from '../../hooks/useDeleteDocument'

@@ -1,27 +1,23 @@
 import { useState, useRef } from "react"
-import { useForm } from "react-hook-form";
-import { db } from '../../firebase'
+import { useForm } from "react-hook-form"
+import { toast } from "react-toastify"
+// firebase
+import { db } from '../../../firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
-import { toast } from "react-toastify"
 // components
-import SelectField from '../reusableComponents/forms/SelectField'
-import TextInputField from '../reusableComponents/forms/TextInputField'
+import CreateMaterialListOfExtraItems from "./CreateMaterialListOfExtraItems"
+import SelectField from '../../reusableComponents/forms/SelectField'
+import TextInputField from '../../reusableComponents/forms/TextInputField'
 // hooks
-import { useAuthContext } from "../../contexts/AuthContextProvider"
-import useStreamCollection from "../../hooks/useStreamCollection"
-import useViewStore from '../../store/useViewStore'
-
+import { useAuthContext } from "../../../contexts/AuthContextProvider"
 
 // mui
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import List from "@mui/material/List"
-import ListItem from "@mui/material/ListItem"
 import Typography from '@mui/material/Typography'
-import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
-import LeavePageAlert from "../modals/LeavePageAlert"
-import CreateMaterialListOfExtraItems from "./CreateMaterialListOfExtraItems";
+import SaveOrCancelButtons from "../../buttons/SaveOrCancelButtons"
+import LeavePageAlert from "../../modals/LeavePageAlert"
 
 const CreateMaterial = () => {
     const [open, setOpen] = useState(false)
@@ -34,7 +30,6 @@ const CreateMaterial = () => {
     const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors }, unregister } = useForm()
-    // const { data: material, loading  } = useStreamCollection('material')
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -257,7 +252,7 @@ const CreateMaterial = () => {
             </Grid>
 
             <SaveOrCancelButtons setOpen={setOpen} succes={success} />
-            
+
             <LeavePageAlert open={open} setOpen={setOpen} /> 
 
 

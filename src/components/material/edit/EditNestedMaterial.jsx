@@ -1,5 +1,5 @@
 // hooks
-import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
 // mui
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -7,7 +7,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
-import useDeleteDocumentField from '../../hooks/useDeleteDocumentField'
+import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
 
 // dropdowns
 const unitsList = [
