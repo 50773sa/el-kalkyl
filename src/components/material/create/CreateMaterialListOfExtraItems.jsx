@@ -12,7 +12,7 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
     
     return (
         <>
-            {extraItems?.map((item) => (
+            {extraItems?.map((item, i) => (
                 <List 
                     key={item.id} 
                     sx={{ 
@@ -24,8 +24,10 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
                         borderBottom: '0.2px solid lightGrey',
                     }}
                 >
-
-                    <Grid xs={6}>
+                    <Grid xs={0.5}>
+                        <ListItem>{i + 1 + '.'}</ListItem>
+                    </Grid>
+                    <Grid xs={5.5}>
                         <ListItem>{item.fittings}</ListItem>
                     </Grid>
                     <Grid xs={2}>
