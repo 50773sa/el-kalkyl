@@ -1,5 +1,7 @@
-// hooks
+// components
 import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
+// hooks
+import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
 // mui
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -7,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
-import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
+import RemoveButton from '../../reusableComponents/buttons/RemoveButton'
 
 // dropdowns
 const unitsList = [
@@ -27,7 +29,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
     return (
         <TableRow>
             <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
+                <Grid container spacing={2}  py={1}  xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
 
                     {/**
                      *  Fittings
@@ -118,16 +120,10 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                      */}
 
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
-                         <Button 
-                            size="small"
-                            type='button'
-                            variant="outlined"
-                            sx={{ color: '#ff0000', borderColor: '#ff0000', width: '76px', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
-                            disableElevation
-                            onClick={() => setIsOpen(true)} 
-                        >   
-                            <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
-                        </Button>
+                        <RemoveButton 
+                            size="small" 
+                            onClick={() => setIsOpen(true)}
+                        />
                     </Grid>
 
                     {isOpen && (
