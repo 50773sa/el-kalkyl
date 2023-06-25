@@ -4,6 +4,8 @@ import { useForm } from "react-hook-form"
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 import EditNestedMaterial from './edit/EditNestedMaterial'
 import EditMaterial from './edit/EditMaterial'
+import TableHeader from '../reusableComponents/table/TableHeader'
+import TableCells from '../reusableComponents/table/TableCells'
 // hooks
 import useUpdateDoc from '../../hooks/useUpdateDoc'
 import useDeleteDocument from '../../hooks/useDeleteDocument'
@@ -23,7 +25,6 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
-
 
 
 
@@ -57,35 +58,30 @@ const AllMaterial = ({ material }) => {
         reset()
     }
 
-  
     return (
         <Grid xs={12}>
-            {isInputError && <p>An isError occoured</p>}
+            {isInputError && <p>An error occoured</p>}
 
             {/**
              *  List of saved products
              */}
 
             <form onSubmit={handleSubmit(onUpdateSubmit)} noValidate>
-
                 <TableContainer >
                     <Table aria-label="collapsible table">
-
-                        <TableHead sx={{ marginTop: '2rem'}}>
-                            <TableRow >
-                                <TableCell />
-                                <TableCell sx={{ fontWeight: 'bold' }}>Produkt</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Kategori</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Estimerad tid</TableCell>
-                            </TableRow> 
-                        </TableHead>
+                        <TableHeader>
+                            <TableCells />
+                            <TableCells title="Product" />
+                            <TableCells align="right" title="Kategori" />
+                            <TableCells align="right" title="Estimerad tid" />
+                        </TableHeader>
 
                         <TableBody>
 
                             {!isLoading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
 
-                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
+                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0'}} >
                                         <TableCell sx={{ cursor: 'pointer' }}>
                                             <IconButton
                                                 aria-label="expand row"
