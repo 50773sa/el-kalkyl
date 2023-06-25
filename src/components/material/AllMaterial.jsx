@@ -136,7 +136,6 @@ const AllMaterial = ({ material }) => {
                                                                 type='button'
                                                                 variant="outlined"
                                                                 disableElevation
-                                                                sx={{ mr: 1 }}
                                                                 onClick={() => setIsEditMode((prev) => !prev)} 
                                                             >   
                                                                 {!isEditMode && <ModeEditIcon />}
@@ -209,7 +208,7 @@ const AllMaterial = ({ material }) => {
                                                 </Table>
                                                 <TableRow sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                                                    <TableCell sx={{ border: 'unset',  pt: 10, pl: 3 }}>
+                                                    <TableCell sx={{ border: 'unset', pt: 10 }}>
                                                         <Button 
                                                             size="small"
                                                             variant="outlined"
@@ -227,7 +226,7 @@ const AllMaterial = ({ material }) => {
                                                             size="small"
                                                             variant="contained"
                                                             type='submit'
-                                                            sx={{ backgroundColor: "#68C37C", width: "76px", mr: 1}}
+                                                            sx={{ backgroundColor: "#68C37C", width: "76px" }}
                                                             disableElevation
                                                         >   
                                                             Spara
