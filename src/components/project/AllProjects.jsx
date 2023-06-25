@@ -17,6 +17,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import TableHeader from '../reusableComponents/table/TableHeader'
+import TableCells from '../reusableComponents/table/TableCells'
 
 
 const AllProjects = ({ projects }) => {
@@ -34,15 +36,13 @@ const AllProjects = ({ projects }) => {
 
                 <TableContainer >
                     <Table aria-label="collapsible table">
-     
-                        <TableHead sx={{ marginTop: '2rem'}}>
-                            <TableRow>
-                                <TableCell />
-                                <TableCell sx={{ fontWeight: 'bold' }}>Projekt</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="left">Skapad</TableCell>
-                                <TableCell sx={{ fontWeight: 'bold' }} align="right">Aktiv</TableCell>
-                            </TableRow>
-                        </TableHead>
+    
+                        <TableHeader>
+                            <TableCells />
+                            <TableCells title="Projekt" />
+                            <TableCells align="left" title="Skapad" />
+                            <TableCells align="right" title="Aktiv" />
+                        </TableHeader>
 
                         <TableBody>
                             {projects?.map((list) => (

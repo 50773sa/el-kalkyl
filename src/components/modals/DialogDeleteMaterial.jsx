@@ -11,17 +11,17 @@ import CloseIcon from '@mui/icons-material/Close'
 import Typography from '@mui/material/Typography'
 
 
-const DialogDeleteMaterial = ({ open, setOpen, setLoading, handleDeleteFromFb, error }) => {
+const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFromFb, isError }) => {
 
 	const handleClose = () => {
-		setOpen(false)
-		setLoading(false)
+		setIsOpen(false)
+		setIsLoading(false)
 	}
 
     return (
         <Box>
             <Dialog
-                open={open}
+                open={isOpen}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -75,7 +75,7 @@ const DialogDeleteMaterial = ({ open, setOpen, setLoading, handleDeleteFromFb, e
                     </DialogContentText>
                 </DialogContent>
 
-                {error && <Typography sx={{ color: "#ff0000" }}>{error}</Typography>}
+                {isError && <Typography sx={{ color: "#ff0000" }}>{isError}</Typography>}
 
                 <DialogActions sx={{ display: 'flex', flexDirection: 'column', padding: '1.5rem' }}>
                     <Button  

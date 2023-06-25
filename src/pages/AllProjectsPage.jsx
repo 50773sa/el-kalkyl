@@ -14,8 +14,8 @@ import Container from '@mui/material/Container'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
 import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined';
-import HomeTable from '../components/HomeTable'
-import Cards from "../components/Cards"
+import HomeTable from '../components/userHome/HomeTable'
+import Cards from "../components/userHome/Cards"
 
 
 const AllProjectsPage = () => {

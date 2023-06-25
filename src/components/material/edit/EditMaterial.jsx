@@ -1,4 +1,4 @@
-import { db } from '../../firebase'
+import { db } from '../../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // mui
@@ -30,7 +30,7 @@ const EditMaterial = ({ items, register, errors }) => {
 
             <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
 
-            <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
+                <Grid container spacing={2} py={2} xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
                     <Grid xs={3}>
                         <TextField
                             id="product"
@@ -128,7 +128,6 @@ const EditMaterial = ({ items, register, errors }) => {
                     {/**
                      *  Add more newFields button
                      */}
-
 
 
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">

@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
-import { db } from '../../firebase'
-import { doc, updateDoc } from 'firebase/firestore'
-import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+// components
+import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
+// hooks
+import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
 // mui
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline'
+import RemoveButton from '../../reusableComponents/buttons/RemoveButton'
 
 // dropdowns
 const unitsList = [
@@ -20,20 +20,16 @@ const quantity = [...new Array(101)].map((_each, index) => ({ qty: index, value:
 
 
 const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset }) => {
-    const [open, setOpen] = useState(false)
-    const [confirmDelete, setConfirmDelete] = useState(false)
-    const [loading, setLoading] = useState(false)
+    const { deleteDocumentField, isOpen, setIsOpen, setIsLoading } = useDeleteDocumentField('material')
 
     const handleDeleteMaterialObjectFromFb = async (item) => {
-        await updateDoc(doc(db, 'material', items.id), {
-            extraItems: items.extraItems.filter(pm => pm.id !== item.id)
-        })
+        await deleteDocumentField(items, item)
     }
 
     return (
         <TableRow>
             <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
+                <Grid container spacing={2}  py={1}  xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
 
                     {/**
                      *  Fittings
@@ -124,23 +120,17 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                      */}
 
                     <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
-                         <Button 
-                            size="small"
-                            type='button'
-                            variant="outlined"
-                            sx={{ color: '#ff0000', borderColor: '#ff0000', width: '76px', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
-                            disableElevation
-                            onClick={() => setOpen(true)} 
-                        >   
-                            <span style={{ whiteSpace: 'nowrap' }}>Ta bort</span>
-                        </Button>
+                        <RemoveButton 
+                            size="small" 
+                            onClick={() => setIsOpen(true)}
+                        />
                     </Grid>
 
-                    {open && (
+                    {isOpen && (
                         <DialogDeleteMaterial
-                            open={open} 
-                            setOpen={setOpen} 
-                            setLoading={setLoading}
+                            isOpen={isOpen} 
+                            setIsOpen={setIsOpen} 
+                            setIsLoading={setIsLoading}
                             handleDeleteFromFb={() => handleDeleteMaterialObjectFromFb(item)}
                         />
                     )}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import { useForm } from "react-hook-form"
-import { db } from '../../firebase'
+import { db } from '../../../firebase'
 import { uuidv4 } from "@firebase/util"
 
 // mui
@@ -10,7 +10,7 @@ import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import TextField from '@mui/material/TextField'
 import { Button } from "@mui/material";
-import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
+import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
 
 // dropdowns
 const unitsList = [
