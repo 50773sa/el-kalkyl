@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuthContext } from '../contexts/AuthContextProvider'
-import calculateWorkHours from './helpers/calculateWorkHours'
-import getDate from './helpers/getDate'
+import { useAuthContext } from '../../contexts/AuthContextProvider'
+import calculateWorkHours from '../helpers/calculateWorkHours'
+import getDate from '../helpers/getDate'
 import CircleIcon from '@mui/icons-material/Circle';
 
 import { styled } from '@mui/material/styles'
