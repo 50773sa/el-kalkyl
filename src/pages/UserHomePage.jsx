@@ -4,7 +4,7 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 import useViewStore from '../store/useViewStore'
 import useStreamDoc from '../hooks/useStreamDoc'
 import LoadingBackdrop from '../components/LoadingBackdrop'
-import Cards from '../components/Cards'
+import Cards from '../components/userHome/Cards'
 
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -12,7 +12,7 @@ import Container from '@mui/material/Container'
 import useGetAuthColl from '../hooks/useGetAuthColl'
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
 import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined';
-import HomeTable from '../components/HomeTable'
+import HomeTable from '../components/userHome/HomeTable'
 
 
 const UserHomepage = () => {
