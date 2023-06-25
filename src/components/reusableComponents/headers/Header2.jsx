@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography'
 
 const Header2 = ({ h2 }) => {
     return (
-        <Grid xs={12} sx={{ mt: '1rem', height:'50px', backgroundColor: '#e0e0e0' }}>
+        <Grid xs={12} sx={{ height:'50px', backgroundColor: '#e0e0e0' }}>
             <Typography 
                 component="div" 
                 variant="h2" 
