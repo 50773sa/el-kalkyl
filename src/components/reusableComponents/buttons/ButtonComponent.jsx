@@ -2,7 +2,7 @@
 import Button from '@mui/material/Button'
 import classNames from 'classnames'
 
-const ButtonComponent = ({ type, variant, color, size, isFullWidth, title, onClick }) => {
+const ButtonComponent = ({ type, variant, color, size, isFullWidth, title, width, disabled, onClick }) => {
 
     const buttonColor = classNames({
         '#68A5EC': color === 'blue',
@@ -22,11 +22,11 @@ const ButtonComponent = ({ type, variant, color, size, isFullWidth, title, onCli
                 mt: 3, 
                 mb: 2, 
                 p: 1,
-                width: '150px',
+                width: width?.length ?  width : '250px',
                 whiteSpace: 'nowrap',
                 backgroundColor: buttonColor,
-                textAlign: 'center'
             }}
+            disabled={disabled}
             onClick={onClick && onClick}
         > {title}
         </Button>
