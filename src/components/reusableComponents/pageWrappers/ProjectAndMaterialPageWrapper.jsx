@@ -28,6 +28,7 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
                         width='fit'
                         size="large"
                         isFullWidth={false}
+                        paddingLeft={0}
                         title={<> <ArrowBackIosRoundedIcon />  Tillbaka </> }
                         onClick={() => navigate(-1)}
                     />
