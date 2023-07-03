@@ -7,7 +7,7 @@ const ContentWrapper = ({ h1, children }) => {
         <Grid>
             <Heading h1={h1} />
 
-            <Grid mx={4}>
+            <Grid  sx={{ mx: {xs: 2, md: 4 } }}>
                 {children}
             </Grid>
 

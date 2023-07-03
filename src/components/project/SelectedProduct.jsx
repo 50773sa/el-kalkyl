@@ -1,15 +1,19 @@
+// helpers
+import preventScrollingNumberInput from '../helpers/preventScrollingNumberInput'
 // mui
-import Box from '@mui/material/Box'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import { Divider, InputAdornment } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import Paper from '@mui/material/Paper'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import TextField from '@mui/material/TextField'
+import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
-
-const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
-
+const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, error, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
+ 
     const handleDelete = (selectedItem) => () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
         setAddToDocProducts((items) => items.filter((item) => item.id !== selectedItem.id))
@@ -18,9 +22,10 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
     // handle selected items
     const handleClick = (item) => (e) => {
         e.preventDefault()
+        
         setError(null)
 
-        if (num === 0) {
+        if (num === 0 || num) {
             return setLoading(false), console.log('No products')
         }
 
@@ -43,55 +48,55 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, set
 
         }
     }
+    console.log('selectedProduct', selectedProduct)
 
     return (
-        <Grid container spacing={2} xs={12} style={{ marginBottom: "6rem" }} >
+        <>
+            <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+                <List component="div" role="list">
+                    {selectedProduct?.length > 0 ? 
+                        selectedProduct?.map((item, i) => {
+                            return (
+                                <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                                    <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
-            <Box sx={{ p: '16px', marginTop: '2rem', cursor: 'default'}}>
-                <Typography  variant="p" sx={{ fontSize: '1.2rem', marginBottom: '2rem', cursor: 'default'}}>
-                    Produkter <br/>
-                </Typography>   
-                <Divider />
+                                    <TextField
+                                        key={i.id}
+                                        type="number"
+                                        variant="outlined"
+                                        size='small'
+                                        sx={{ width: 100 }}
+                                        required
+                                        onBlur={handleClick(item)}
+                                        onInput={(e) => setNum(Number(e.target.value))}
+                                        placeholder='Antal'
+                                        defaultValue={1}
+                                        onWheel={(e) => preventScrollingNumberInput(e)}
+                                        InputProps={{
+                                            inputProps: {minLength: 1, maxLength: 3},
+                                            inputMode: 'numeric', 
+                                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
+                                        }}
+                                    />
 
-                {selectedProduct?.length === 0 && 
-                    <Typography sx={{ fontSize: '1rem', marginTop: '1em'}}>
-                        <em>Inga tillagda produkter</em>
-                    </Typography>
-                }
+                                    <IconButton edge="end" aria-label="Remove product from list" >
+                                        <Tooltip title="Remove">
+                                            <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color:'red', pl: 2}} />
+                                        </Tooltip>
+                                    </IconButton>
+                                    
+                                </ListItem>
+                            )
+                        }): (
+                                <Typography sx={{ fontSize: '1rem', m: 2 }}>
+                                    <em>Inga tillagda produkter</em>
+                                </Typography>
+                            )
+                    }      
+                </List>
+            </Paper>
 
-            </Box>
-
-            {selectedProduct?.map((item, i) => (
-                <Grid xs={12} sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'start'}}} key={item.id}>
-
-                    <Grid xs={6} md={2} display="flex" pl={0} justifyContent="center" alignItems="center">
-                        <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
-                            {item.product}
-                        </ListItem>
-                    </Grid>
-                
-                    <Grid xs={4} md={2} display="flex" justifyContent="end" alignItems="center" >
-                        <TextField
-                            key={i.id}
-                            type="text"
-                            variant="outlined"
-                            onBlur={handleClick(item)}
-                            onInput={(e) => setNum(Number(e.target.value))}
-                            size='small'
-                            InputProps={{
-                                inputProps: {min: 0, max: 100},
-                                inputMode: 'numeric', 
-                                endAdornment: <InputAdornment position="end">st</InputAdornment>,
-                            }}
-                        />
-                    </Grid>
-
-                    <Grid xs={2} md={1}display="flex" justifyContent="end" alignItems="center" color="red">
-                        <DeleteForeverIcon  onClick={handleDelete(item)} />
-                    </Grid>
-                </Grid>
-            ))}
-        </Grid>
+        </>
     )
 }
 
