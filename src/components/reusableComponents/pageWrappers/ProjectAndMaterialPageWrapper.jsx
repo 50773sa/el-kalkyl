@@ -24,9 +24,12 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
                     <Button
                         variant="text"
                         size="large"
-                        sx={{ px: 0, py: 3 }}
+                        sx={{ 
+                            px: 0, 
+                            py: 3,
+                            '&:hover': {backgroundColor: 'transparent'}
+                        }}
                         onClick={() => navigate(-1)}
-                        
                     >
                         <ArrowBackIosRoundedIcon />  Tillbaka
                     </Button>
