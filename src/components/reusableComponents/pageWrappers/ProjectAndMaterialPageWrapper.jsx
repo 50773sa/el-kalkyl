@@ -2,9 +2,9 @@ import { useNavigate } from "react-router-dom"
 import TabsLarge from "../../buttons/TabsLarge"
 // mui
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded'
+import Button from "@mui/material/Button"
 import Container from "@mui/system/Container"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
-import ButtonComponent from "../buttons/ButtonComponent"
 
 const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
     const navigate = useNavigate()
@@ -21,17 +21,15 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
                         />
                     </Grid>
 
-                    <ButtonComponent
-                        type="button"
+                    <Button
                         variant="text"
-                        color=""
-                        width='fit'
                         size="large"
-                        isFullWidth={false}
-                        paddingLeft={0}
-                        title={<> <ArrowBackIosRoundedIcon />  Tillbaka </> }
+                        sx={{ px: 0, py: 3 }}
                         onClick={() => navigate(-1)}
-                    />
+                        
+                    >
+                        <ArrowBackIosRoundedIcon />  Tillbaka
+                    </Button>
                   
                     <Grid 
                         xs={12}
