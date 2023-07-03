@@ -8,7 +8,7 @@ import { uuidv4 } from "@firebase/util"
 // components
 import ButtonComponent from "../../reusableComponents/buttons/ButtonComponent"
 import CreateMaterialListOfExtraItems from "./CreateMaterialListOfExtraItems"
-import Header2 from "../../reusableComponents/headers/Header2"
+import Heading from "../../reusableComponents/headers/Heading"
 import LeavePageAlert from "../../modals/LeavePageAlert"
 import SelectField from '../../reusableComponents/forms/SelectField'
 import TextInputField from '../../reusableComponents/forms/TextInputField'
@@ -84,9 +84,9 @@ const CreateMaterial = () => {
 
     return (
         <>
-            <Header2 h2="Lägg till nytt material" />
+            <Heading h2="Lägg till nytt material" />
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
                 <Grid container spacing={2} pt={2}>
             
                     {/**
@@ -208,7 +208,7 @@ const CreateMaterial = () => {
                     </Grid> 
 
                     <Grid xs={12}>
-                        <Header2 h2="Valda tillbehör" />
+                        <Heading h2="Valda tillbehör" />
 
                         <CreateMaterialListOfExtraItems 
                             extraItems={extraItems} 
@@ -228,7 +228,7 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid  xs={12}>
-                        <Header2 h2="Tidsestimering" />
+                        <Heading h2="Tidsestimering" />
                     </Grid>
 
                     <Grid xs={6} sm={3}>          
