@@ -37,7 +37,7 @@ const SaveOrCancelButtons = ({ setOpen, success, isSubmitting }) => {
                         width: {xs: '100%', md: 'fit'},
                         '&:hover': {backgroundColor: 'transparent'},
                     }}
-                    onClick={() => {!success ? setOpen(true) : ''}}
+                    onClick={() => setOpen(true)}
                 >
                     Avbryt
                 </Button>
