@@ -2,27 +2,47 @@
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
-const SaveOrCancelButtons = ({ setOpen, success }) => {
+const SaveOrCancelButtons = ({ setOpen, success, isSubmitting }) => {
     return (
-        <Grid xs={12} display="flex" justifyContent="center" flexDirection="column" alignItems="start" className="buttons">
-            <Grid xs={12} md={3}>
-                <Button 	
-                    type="submit"
-                    fullWidth
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2, p: 1 }}
-                > Spara
-                </Button>
+        <Grid container justifyContent='end'>
+            <Grid xs={12} md={4} lg={2.5} 
+                order={{ xs: 0, md: 1 }} 
+                sx={{ 
+                    textAlign: {xs: 'center', md: 'end'}, 
+                    marginY: {xs: 4, md: 0} 
+                }}
+            >
                 <Button
-                    fullWidth
-                    disableRipple
-                    onClick={() => {!success ? setOpen(true) : ''}}
-                    > Avbryt
+                    type="submit"
+                    variant='contained'
+                    size="large"
+                    disabled={isSubmitting ? true : false}
+                    sx={{
+                        backgroundColor: '#68C37C',
+                        width: {xs: '100%', md: '250px'},
+                        '&:hover': {backgroundColor: '#47B15E'},
+                    }}
+                >
+                    Spara
                 </Button>
             </Grid>
 
+            <Grid xs={12} md="auto">
+                <Button 
+                    type="button"
+                    variant='text'
+                    size="large"    
+                    disabled={isSubmitting ? true : false}
+                    sx={{
+                        width: {xs: '100%', md: 'fit'},
+                        '&:hover': {backgroundColor: 'transparent'},
+                    }}
+                    onClick={() => {!success ? setOpen(true) : ''}}
+                >
+                    Avbryt
+                </Button>
+            </Grid>
         </Grid>
-
     )
 }
 
