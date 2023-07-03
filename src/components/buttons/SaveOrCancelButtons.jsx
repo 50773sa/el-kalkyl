@@ -2,14 +2,14 @@
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
-const SaveOrCancelButtons = ({ setOpen, success, isSubmitting }) => {
+const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
     return (
-        <Grid container justifyContent='end'>
-            <Grid xs={12} md={4} lg={2.5} 
+        <Grid container  alignItems="center" justifyContent='end'>
+            <Grid xs={12} md={4} lg={3} 
                 order={{ xs: 0, md: 1 }} 
                 sx={{ 
                     textAlign: {xs: 'center', md: 'end'}, 
-                    marginY: {xs: 4, md: 0} 
+                    my: 4, 
                 }}
             >
                 <Button
