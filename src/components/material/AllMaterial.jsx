@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from "react-hook-form"
 // components
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
@@ -13,8 +13,6 @@ import useDeleteDocument from '../../hooks/useDeleteDocument'
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Collapse from '@mui/material/Collapse'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import IconButton from '@mui/material/IconButton'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
@@ -27,7 +25,6 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 
 
-
 const AllMaterial = ({ material }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
@@ -35,16 +32,20 @@ const AllMaterial = ({ material }) => {
     const [newFields, setNewFields] = useState([])
     const { updateOnSubmit, isEditMode, setIsEditMode, isInputError } = useUpdateDoc('material')
     const { deleteDocFromFirestore } = useDeleteDocument('material')
-    let itemsId = ''
 
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
     // isOpen hidden rows
     const handleRows = (items) => () => {
         unregister('product') // otherwise the same product will end up in the next openRowId
+        unregister('extraItems') 
+
         return  openRowId.includes(items.id)
             ? setOpenRowId([])
-            : (setOpenRowId(items.id), setIsEditMode(false))
+            : (
+                setOpenRowId(items.id), 
+                setIsEditMode(false)
+            )
     }
     
     // delete a product including extraItems
@@ -57,6 +58,10 @@ const AllMaterial = ({ material }) => {
         await updateOnSubmit(data, openRowId)
         reset()
     }
+
+    useEffect(() => {
+
+    }, [openRowId])
 
     return (
         <Grid xs={12}>
@@ -80,9 +85,8 @@ const AllMaterial = ({ material }) => {
 
                             {!isLoading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
-
-                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0'}} >
-                                        <TableCell sx={{ cursor: 'pointer' }}>
+                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white'}} >
+                                        <TableCell sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}>
                                             <IconButton
                                                 aria-label="expand row"
                                                 size="small" 
@@ -94,7 +98,7 @@ const AllMaterial = ({ material }) => {
                                         <TableCell 
                                             component="th" 
                                             scope="row"
-                                            sx={{ cursor: 'pointer' }}
+                                            sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}
                                             onClick={handleRows(items)}
                                         >
                                             {items.product}
@@ -102,7 +106,7 @@ const AllMaterial = ({ material }) => {
 
                                         <TableCell 
                                             align="right"
-                                            sx={{ cursor: 'pointer' }}
+                                            sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}                                           
                                             onClick={handleRows(items)}
                                         >
                                             {items.category}
@@ -110,19 +114,19 @@ const AllMaterial = ({ material }) => {
 
                                         <TableCell 
                                             align="right"
-                                            sx={{ cursor: 'pointer' }}
+                                            sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}                                            
                                             onClick={handleRows(items)}
                                         >
                                             {items.estimatedTime.hours/60} tim {items.estimatedTime.minutes} min
                                         </TableCell>                                    
                                     </TableRow>
 
-                                    <TableRow >
-                                        <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
+                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white'}} >
+                                        <TableCell sx={{ padding: '0 0 5px ' }} colSpan={6}>
                                             <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 
                                                     <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none'}}>
-                                                        <Typography variant="h6" gutterBottom component="div"  pl={3}>
+                                                        <Typography variant="h6" gutterBottom component="div"  pl={2}>
                                                             {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
                                                         </Typography>
 
@@ -130,11 +134,11 @@ const AllMaterial = ({ material }) => {
                                                             <Button 
                                                                 size="small"
                                                                 type='button'
-                                                                variant="outlined"
+                                                                variant="text"
                                                                 disableElevation
                                                                 onClick={() => setIsEditMode((prev) => !prev)} 
+                                                                sx={{ textDecorationLine: 'underline' }} 
                                                             >   
-                                                                {!isEditMode && <ModeEditIcon />}
                                                                 {isEditMode 
                                                                     ? 'Avbryt' 
                                                                     : 'Redigera'
@@ -174,8 +178,6 @@ const AllMaterial = ({ material }) => {
                                                             )}
                                                         
                                                             {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
-                                                                // save id to be able to update
-                                                                itemsId = items.id
                                                                 return (
                                                                     !isEditMode 
                                                                         ?   <TableRow key={item.id} >
@@ -195,41 +197,42 @@ const AllMaterial = ({ material }) => {
                                                                                 itemIndex={i}
                                                                                 register={register}
                                                                                 errors={errors}     
-                                                                                reset={reset}                                                                                                                                                                         
+                                                                                reset={reset}    
                                                                             />          
                                                                 ) 
                                                             })}  
 
                                                     </TableBody>
                                                 </Table>
-                                                <TableRow sx={{ display: 'flex', justifyContent: 'space-between' }}>
 
-                                                    <TableCell sx={{ border: 'unset', pt: 10 }}>
+                                                <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr'}}>
+                                                    <TableCell sx={{ pt: 10 }}>
                                                         <Button 
                                                             size="small"
                                                             variant="outlined"
-                                                            sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white', backgroundColor: '#ff0000'} }}
+                                                            sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white',  borderColor: '#ff0000', backgroundColor: '#ff0000'} }}
                                                             disableElevation
                                                             onClick={() => setIsOpen(true)} 
                                                         >   
-                                                            <DeleteForeverIcon  />
                                                             Radera produkt
                                                         </Button>
                                                     </TableCell>
 
-                                                    <TableCell sx={{ border: 'unset',  pt: 10, pl: 3 }}>
-                                                        <Button 
-                                                            size="small"
-                                                            variant="contained"
-                                                            type='submit'
-                                                            sx={{ backgroundColor: "#68C37C", width: "76px" }}
-                                                            disableElevation
-                                                        >   
-                                                            Spara
-                                                        </Button>
+                                                    <TableCell sx={{ pt: 10, pl: 3 }} align='right'>
+                                                        {isEditMode && (
+                                                            <Button 
+                                                                 size="small"
+                                                                 variant="contained"
+                                                                 type='submit'
+                                                                 sx={{ backgroundColor: "#68C37C", width: "76px" }}
+                                                                 disableElevation
+                                                             >   
+                                                                 Spara
+                                                             </Button>
+                                                        )}
                                                     </TableCell>
-
                                                 </TableRow>
+
                                             </Collapse>
                                         </TableCell>                             
                                     </TableRow>

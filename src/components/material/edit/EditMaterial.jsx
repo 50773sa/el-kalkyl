@@ -2,6 +2,7 @@ import { db } from '../../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // mui
+import AddIcon from '@mui/icons-material/Add'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
@@ -15,7 +16,7 @@ const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index
 const EditMaterial = ({ items, register, errors }) => {
 
     const handleAddFields = async (data) => { 
-        // create an object with empty fields thar you can update.  Thsi way, you don't need to think about merging old and new values together when adding more fields.
+        // create an object with empty fields thar you can update.  This way, you don't need to think about merging old and new values together when adding more fields.
         await updateDoc(doc(db, 'material', items.id), {
             extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: uuidv4()}]
         })
@@ -101,7 +102,7 @@ const EditMaterial = ({ items, register, errors }) => {
                     </Grid>
 
 
-                    <Grid xs={2}>
+                    <Grid xs={3}>
                         <TextField
                             select
                             size='small'
@@ -130,7 +131,7 @@ const EditMaterial = ({ items, register, errors }) => {
                      */}
 
 
-                    <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+                    <Grid xs={12} display="flex" justifyContent="flex-end" alignItems="center">
                         <Button 
                             size="small"
                             variant="contained"
@@ -138,7 +139,7 @@ const EditMaterial = ({ items, register, errors }) => {
                             disableElevation
                             onClick={() => handleAddFields(items)}
                         >   
-                            + Fält
+                            <AddIcon/>  Fält
                         </Button>
                     </Grid>
 
