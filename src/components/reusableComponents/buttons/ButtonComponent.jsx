@@ -2,35 +2,46 @@
 import Button from '@mui/material/Button'
 import classNames from 'classnames'
 
-const ButtonComponent = ({ type, variant, color, size, isFullWidth, title, width, disabled, onClick }) => {
+const ButtonComponent = ({ type, variant, color, isFullWidth, title, disabled, onClick }) => {
 
-    const buttonColor = classNames({
+    const btnColor = classNames({
         '#68A5EC': color === 'blue',
         '#68C37C' : color === 'green' || color === 'success',
-        '#DC822F': color === 'orange',
-        '#CBC309': color === 'yellow',
-        '#ff0000': color === 'error',
+        '#ff0000': color === 'red' || color === 'error',
+    })
+
+    const onHoverColor = classNames({
+        '#3B8AE6': color === 'blue',
+        '#47B15E' : color === 'green',
+        '#E1341E': color === 'red' || color === 'error',
+        'transparent': color === 'transparent'
     })
 
     return (
-        <Button 	
+        <Button 
             type={type}           
             variant={variant}
-            size={size}
+            size="large"
             fullWidth={isFullWidth}
             sx={{ 
                 mt: 3, 
                 mb: 2, 
-                p: 1,
-                width: width?.length ?  width : '250px',
+                py: 1,
+                width: {xs: '100%', md: '250px' },
                 whiteSpace: 'nowrap',
-                backgroundColor: buttonColor,
+                backgroundColor: btnColor,
+                '&:hover': { backgroundColor: onHoverColor },
             }}
             disabled={disabled}
             onClick={onClick && onClick}
-        > {title}
+        > 
+            <span style={{ display: 'flex', alignItems: 'center' , whiteSpace: 'nowrap' }}>
+                {title}
+            </span>
         </Button>
     )
 }
+
+
 
 export default ButtonComponent
