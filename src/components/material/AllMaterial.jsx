@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 // components
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
@@ -32,20 +32,15 @@ const AllMaterial = ({ material }) => {
     const [newFields, setNewFields] = useState([])
     const { updateOnSubmit, isEditMode, setIsEditMode, isInputError } = useUpdateDoc('material')
     const { deleteDocFromFirestore } = useDeleteDocument('material')
-
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
 
-    // isOpen hidden rows
     const handleRows = (items) => () => {
         unregister('product') // otherwise the same product will end up in the next openRowId
         unregister('extraItems') 
 
-        return  openRowId.includes(items.id)
+        return openRowId.includes(items.id)
             ? setOpenRowId([])
-            : (
-                setOpenRowId(items.id), 
-                setIsEditMode(false)
-            )
+            : (setOpenRowId(items.id), setIsEditMode(false))
     }
     
     // delete a product including extraItems
@@ -59,10 +54,6 @@ const AllMaterial = ({ material }) => {
         reset()
     }
 
-    useEffect(() => {
-
-    }, [openRowId])
-
     return (
         <Grid xs={12}>
             {isInputError && <p>An error occoured</p>}
@@ -72,8 +63,9 @@ const AllMaterial = ({ material }) => {
              */}
 
             <form onSubmit={handleSubmit(onUpdateSubmit)} noValidate>
-                <TableContainer >
+                <TableContainer>
                     <Table aria-label="collapsible table">
+                        
                         <TableHeader>
                             <TableCells />
                             <TableCells title="Product" />
@@ -82,10 +74,9 @@ const AllMaterial = ({ material }) => {
                         </TableHeader>
 
                         <TableBody>
-
                             {!isLoading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
-                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white'}} >
+                                    <TableRow sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
                                         <TableCell sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}>
                                             <IconButton
                                                 aria-label="expand row"
@@ -121,11 +112,13 @@ const AllMaterial = ({ material }) => {
                                         </TableCell>                                    
                                     </TableRow>
 
-                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white'}} >
-                                        <TableCell sx={{ padding: '0 0 5px ' }} colSpan={6}>
+                                    {/* <TableRow sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}> */}
+
+                                    <TableRow sx={{ bgcolor: 'white' }}>
+                                        <TableCell sx={{ padding: '0 0 5px' }} colSpan={6}>
                                             <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 
-                                                    <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none'}}>
+                                                    <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none',  borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
                                                         <Typography variant="h6" gutterBottom component="div"  pl={2}>
                                                             {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
                                                         </Typography>
@@ -153,16 +146,15 @@ const AllMaterial = ({ material }) => {
                                                         {!isEditMode &&  
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <TableCell>Tillbehör</TableCell>
+                                                                    <TableCell sx={{ borderLeft: '1px solid  #e0e0e0' }}>Tillbehör</TableCell>
                                                                     <TableCell>Antal</TableCell>
                                                                     <TableCell align="left">Enhet</TableCell>
-                                                                    <TableCell align="right">Id</TableCell>
+                                                                    <TableCell align="right" sx={{ borderRight: '1px solid  #e0e0e0' }}>Id</TableCell>
                                                                 </TableRow>
                                                             </TableHead>
                                                         }
 
                                                         <TableBody >
-
                                                             {isEditMode && (
                                                                 <EditMaterial 
                                                                     key={items.id}
@@ -173,7 +165,6 @@ const AllMaterial = ({ material }) => {
                                                                     newFields={newFields}
                                                                     setNewFields={setNewFields}         
                                                                     setValue={setValue}                                                                                                                                                                         
-
                                                                 />
                                                             )}
                                                         
@@ -181,12 +172,12 @@ const AllMaterial = ({ material }) => {
                                                                 return (
                                                                     !isEditMode 
                                                                         ?   <TableRow key={item.id} >
-                                                                                <TableCell component="th" scope="row">
+                                                                                <TableCell component="th" scope="row" sx={{ borderLeft: '1px solid #e0e0e0' }}>
                                                                                     {item.fittings}
                                                                                 </TableCell>
                                                                                 <TableCell>{item.quantity}</TableCell>
                                                                                 <TableCell align="left">{item.unit}</TableCell>
-                                                                                <TableCell align="right">{item.id}</TableCell>
+                                                                                <TableCell align="right" sx={{ borderRight: '1px solid #e0e0e0' }}>{item.id}</TableCell>
                                                                             </TableRow>
                                                                     
                                                                     
@@ -205,8 +196,8 @@ const AllMaterial = ({ material }) => {
                                                     </TableBody>
                                                 </Table>
 
-                                                <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr'}}>
-                                                    <TableCell sx={{ pt: 10 }}>
+                                                <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
+                                                    <TableCell sx={{ pt: 10, borderLeft: '1px solid #e0e0e0' }}>
                                                         <Button 
                                                             size="small"
                                                             variant="outlined"
@@ -218,7 +209,7 @@ const AllMaterial = ({ material }) => {
                                                         </Button>
                                                     </TableCell>
 
-                                                    <TableCell sx={{ pt: 10, pl: 3 }} align='right'>
+                                                    <TableCell sx={{ pt: 10, pl: 3, borderRight: '1px solid #e0e0e0' }} align='right'>
                                                         {isEditMode && (
                                                             <Button 
                                                                  size="small"
