@@ -46,8 +46,8 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocP
 
 
     return (
-        <TabPanel value={value} sx={{ px: 0, overflow: 'auto' }} className='tabPanel'>                        
-            <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto' }}>
+        <TabPanel value={value} sx={{ px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
+            <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
                 <List component="div" role="list">
                     {material ? material.filter(list => list.category === value).sort((a, b) => a > b ? 1 : -1).map((item, i) => {
                         return (
