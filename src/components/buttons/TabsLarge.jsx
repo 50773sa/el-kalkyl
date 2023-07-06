@@ -1,7 +1,8 @@
+// mui
 import React from 'react'
-import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import Stack from '@mui/material/Stack'
 //store
 import useViewStore from '../../store/useViewStore'
 
@@ -17,8 +18,8 @@ const TabsLarge = ({ title1, title2 }) => {
     }
 
     return (
-        <Grid2 xs={12} md={4} mb={0} pb={0} pl={0}>
-            <Stack spacing={1} direction="row">
+        <Grid2 xs={12} mb={0} pb={0} pl={0}>
+            <Stack spacing={0.5} direction="row">
 
                 <Button
                     onClick={handleClick} 
