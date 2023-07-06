@@ -137,7 +137,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
                      *  Selected products
                      */}
                     
-                    <Grid xs={12} md={6} sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 9} }}>
+                    <Grid xs={12} md={6} sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}>
                         <SelectedProduct
                             selectedProduct={selectedProduct}
                             setSelectedProduct={setSelectedProduct}
