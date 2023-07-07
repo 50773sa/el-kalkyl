@@ -103,21 +103,21 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                 </TextField>   
             </TableCell>
     
-
-            {/** This field is hidden and only used to preserve the 'id' of the object */}
-            <input
-                type='hidden'
-                defaultValue={item.id}
-                id="id"
-                name={`extraItems[${itemIndex}].id`}
-                {...register(`extraItems[${itemIndex}].id`)}
-            /> 
-
-            {/**
-             *  Remove button
-             */}
-
             <TableCell sx={{ cursor: 'pointer', border: 'none', borderRight: '1px solid #e0e0e0' }}>
+
+                {/** This field is hidden and only used to preserve the 'id' of the object */}
+                <input
+                    type='hidden'
+                    defaultValue={item.id}
+                    id="id"
+                    name={`extraItems[${itemIndex}].id`}
+                    {...register(`extraItems[${itemIndex}].id`)}
+                /> 
+
+                {/**
+                 *  Remove button
+                 */}
+
                 <RemoveButton 
                     size="small" 
                     onClick={() => setIsOpen(true)}

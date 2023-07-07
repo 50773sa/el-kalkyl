@@ -10,6 +10,7 @@ import TableCells from '../reusableComponents/table/TableCells'
 import useUpdateDoc from '../../hooks/useUpdateDoc'
 import useDeleteDocument from '../../hooks/useDeleteDocument'
 // mui
+import Box from '@mui/material/Box'
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Collapse from '@mui/material/Collapse'
@@ -76,7 +77,7 @@ const AllMaterial = ({ material }) => {
                         <TableBody>
                             {!isLoading && material?.map((items) => (                               
                                 <React.Fragment key={items.id}>
-                                    <TableRow sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
+                                    <TableRow key={items.id} sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
                                         <TableCell sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}>
                                             <IconButton
                                                 aria-label="expand row"
@@ -112,117 +113,113 @@ const AllMaterial = ({ material }) => {
                                         </TableCell>                                    
                                     </TableRow>
 
-                                    {/* <TableRow sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}> */}
-
                                     <TableRow sx={{ bgcolor: 'white' }}>
                                         <TableCell sx={{ padding: '0 0 5px' }} colSpan={6}>
                                             <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
                                                 
-                                                    <TableCell sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', px: 0 , borderBottom: 'none',  borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
-                                                        <Typography variant="h6" gutterBottom component="div"  pl={2}>
-                                                            {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
-                                                        </Typography>
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 2, borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
+                                                    <Typography variant="h6" gutterBottom component="div">
+                                                        {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
+                                                    </Typography>
 
-                                                        <TableCell align="right" sx={{ borderBottom: 'unset' }}>
-                                                            <Button 
-                                                                size="small"
-                                                                type='button'
-                                                                variant="text"
-                                                                disableElevation
-                                                                onClick={() => setIsEditMode((prev) => !prev)} 
-                                                                sx={{ textDecorationLine: 'underline' }} 
-                                                            >   
-                                                                {isEditMode 
-                                                                    ? 'Avbryt' 
-                                                                    : 'Redigera'
-                                                                }
-                                                            </Button>
-                                                        </TableCell>
-
-                                                    </TableCell>
-                                                   
-
-                                                    <Table size="small" aria-label="fittings">
-                                                        {!isEditMode &&  
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell sx={{ borderLeft: '1px solid  #e0e0e0' }}>Tillbehör</TableCell>
-                                                                    <TableCell>Antal</TableCell>
-                                                                    <TableCell align="left">Enhet</TableCell>
-                                                                    <TableCell align="right" sx={{ borderRight: '1px solid  #e0e0e0' }}>Id</TableCell>
-                                                                </TableRow>
-                                                            </TableHead>
+                                                    <Button 
+                                                        size="small"
+                                                        type='button'
+                                                        variant="text"
+                                                        disableElevation
+                                                        onClick={() => setIsEditMode((prev) => !prev)} 
+                                                        sx={{ textDecorationLine: 'underline' }} 
+                                                    >   
+                                                        {isEditMode 
+                                                            ? 'Avbryt' 
+                                                            : 'Redigera'
                                                         }
+                                                    </Button>
+                                                </Box>
+                                                   
+                                                <Table size="small" aria-label="fittings">
+                                                    {!isEditMode &&  
+                                                        <TableHead>
+                                                            <TableRow sx={{ '& > *': { fontWeight: 600 }}}>
+                                                                <TableCell sx={{ borderLeft: '1px solid  #e0e0e0' }}>Tillbehör</TableCell>
+                                                                <TableCell>Antal</TableCell>
+                                                                <TableCell align="left">Enhet</TableCell>
+                                                                <TableCell align="right" sx={{ borderRight: '1px solid  #e0e0e0' }}>Id</TableCell>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                    }
 
-                                                        <TableBody >
+                                                    <TableBody >
+                                                        {isEditMode && (
+                                                            <EditMaterial 
+                                                                key={items.id}
+                                                                items={items}
+                                                                register={register}
+                                                                errors={errors}
+                                                                onUpdateSubmit={onUpdateSubmit}
+                                                                newFields={newFields}
+                                                                setNewFields={setNewFields}         
+                                                                setValue={setValue}                                                                                                                                                                         
+                                                            />
+                                                        )}
+                                                    
+                                                        {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
+                                                            return (
+                                                                !isEditMode 
+                                                                    ?   <TableRow key={item.id} >
+                                                                            <TableCell component="th" scope="row" sx={{ borderLeft: '1px solid #e0e0e0' }}>
+                                                                                {item.fittings}
+                                                                            </TableCell>
+                                                                            <TableCell>{item.quantity}</TableCell>
+                                                                            <TableCell align="left">{item.unit}</TableCell>
+                                                                            <TableCell align="right" sx={{ borderRight: '1px solid #e0e0e0' }}>{item.id}</TableCell>
+                                                                        </TableRow>
+                                                                
+                                                                
+                                                                    :   <EditNestedMaterial 
+                                                                            key={item.id}
+                                                                            item={item}
+                                                                            items={items}
+                                                                            itemIndex={i}
+                                                                            register={register}
+                                                                            errors={errors}     
+                                                                            reset={reset}    
+                                                                        />          
+                                                            ) 
+                                                        })}  
+
+
+                                                        <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
+                                                            <TableCell sx={{ pt: 10, borderLeft: '1px solid #e0e0e0', p: '4rem 1rem 2rem' }}>
+                                                                <Button 
+                                                                    size="small"
+                                                                    variant="outlined"
+                                                                    sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white',  borderColor: '#ff0000', backgroundColor: '#ff0000'} }}
+                                                                    disableElevation
+                                                                    onClick={() => setIsOpen(true)} 
+                                                                    
+                                                                >   
+                                                                    Radera produkt
+                                                                </Button>
+                                                            </TableCell>
+
                                                             {isEditMode && (
-                                                                <EditMaterial 
-                                                                    key={items.id}
-                                                                    items={items}
-                                                                    register={register}
-                                                                    errors={errors}
-                                                                    onUpdateSubmit={onUpdateSubmit}
-                                                                    newFields={newFields}
-                                                                    setNewFields={setNewFields}         
-                                                                    setValue={setValue}                                                                                                                                                                         
-                                                                />
+                                                                <TableCell sx={{ pt: 10, pl: 3, borderRight: '1px solid #e0e0e0', p: '4rem 1rem 2rem' }} align='right'>
+                                                                    <Button 
+                                                                        size="small"
+                                                                        variant="contained"
+                                                                        type='submit'
+                                                                        sx={{ backgroundColor: "#68C37C", width: "76px" }}
+                                                                        disableElevation
+                                                                    >   
+                                                                        Spara
+                                                                    </Button>
+                                                                </TableCell>
                                                             )}
-                                                        
-                                                            {Array.isArray(items?.extraItems) && items?.extraItems?.map((item, i) => {
-                                                                return (
-                                                                    !isEditMode 
-                                                                        ?   <TableRow key={item.id} >
-                                                                                <TableCell component="th" scope="row" sx={{ borderLeft: '1px solid #e0e0e0' }}>
-                                                                                    {item.fittings}
-                                                                                </TableCell>
-                                                                                <TableCell>{item.quantity}</TableCell>
-                                                                                <TableCell align="left">{item.unit}</TableCell>
-                                                                                <TableCell align="right" sx={{ borderRight: '1px solid #e0e0e0' }}>{item.id}</TableCell>
-                                                                            </TableRow>
-                                                                    
-                                                                    
-                                                                        :   <EditNestedMaterial 
-                                                                                key={item.id}
-                                                                                item={item}
-                                                                                items={items}
-                                                                                itemIndex={i}
-                                                                                register={register}
-                                                                                errors={errors}     
-                                                                                reset={reset}    
-                                                                            />          
-                                                                ) 
-                                                            })}  
+                                                        </TableRow>
 
                                                     </TableBody>
                                                 </Table>
-
-                                                <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
-                                                    <TableCell sx={{ pt: 10, borderLeft: '1px solid #e0e0e0' }}>
-                                                        <Button 
-                                                            size="small"
-                                                            variant="outlined"
-                                                            sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white',  borderColor: '#ff0000', backgroundColor: '#ff0000'} }}
-                                                            disableElevation
-                                                            onClick={() => setIsOpen(true)} 
-                                                        >   
-                                                            Radera produkt
-                                                        </Button>
-                                                    </TableCell>
-
-                                                    <TableCell sx={{ pt: 10, pl: 3, borderRight: '1px solid #e0e0e0' }} align='right'>
-                                                        {isEditMode && (
-                                                            <Button 
-                                                                 size="small"
-                                                                 variant="contained"
-                                                                 type='submit'
-                                                                 sx={{ backgroundColor: "#68C37C", width: "76px" }}
-                                                                 disableElevation
-                                                             >   
-                                                                 Spara
-                                                             </Button>
-                                                        )}
-                                                    </TableCell>
-                                                </TableRow>
 
                                             </Collapse>
                                         </TableCell>                             
