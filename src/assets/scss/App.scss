@@ -7,10 +7,8 @@ body {
 	font-family: 'Noto Sans', sans-serif;
 	margin: 0 auto;
 	padding: 0;
-	// background-color: #f5f5f5;
 	box-sizing: border-box;
 }
-
 
 .css-1oqqzyl-MuiContainer-root {
 	max-width: 1570px !important;
@@ -62,24 +60,10 @@ a {
 	color: #ff0000 !important;
 }
 
-.tabPanel::-webkit-scrollbar {
-	width: 8px !important;
-}
-  
-.tabPanel::-webkit-scrollbar-thumb {
-	background-color: #999 !important;
-	border-radius: 5px !important;
-}
-
-.tabPanel::-webkit-scrollbar-track {
-	background-color: #ddd !important;
-	border-radius: 5px !important;
-}
-
-.css-whebh7-MuiInputBase-root-MuiInput-root:before,
-.css-whebh7-MuiInputBase-root-MuiInput-root:after {
-	border: none !important;
-}
+// .css-whebh7-MuiInputBase-root-MuiInput-root:before,
+// .css-whebh7-MuiInputBase-root-MuiInput-root:after {
+// 	border: none !important;
+// }
 
 // edit project -> text field (number)
 #editProjectWrapper {
@@ -97,13 +81,13 @@ a {
 		justify-content: center !important;
 		align-items: center !important;
 	}
+}
 
-	// remove arrows in TextField
-	input[type=number]::-webkit-inner-spin-button, 
-	input[type=number]::-webkit-outer-spin-button { 
-		-webkit-appearance: none !important; 
-		margin: 0; 
-	}
+// remove arrows in TextField
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+	-webkit-appearance: none !important; 
+	margin: 0; 
 }
 
 // zebra striped list

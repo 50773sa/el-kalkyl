@@ -2,18 +2,19 @@ import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 // firebase
-import { db } from '../../../firebase'
+import { db } from '../../../src/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // components
-import ButtonComponent from "../../reusableComponents/buttons/ButtonComponent"
-import CreateMaterialListOfExtraItems from "./CreateMaterialListOfExtraItems"
-import Header2 from "../../reusableComponents/headers/Header2"
-import LeavePageAlert from "../../modals/LeavePageAlert"
-import SelectField from '../../reusableComponents/forms/SelectField'
-import TextInputField from '../../reusableComponents/forms/TextInputField'
+import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
+import CreateMaterialListOfExtraItems from "../material/childComponents/CreateMaterialListOfExtraItems"
+import Heading from "../reusableComponents/headings/Heading"
+import LeavePageAlert from "../modals/LeavePageAlert"
+import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
+import SelectField from '../reusableComponents/forms/SelectField'
+import TextInputField from '../reusableComponents/forms/TextInputField'
 // hooks
-import { useAuthContext } from "../../../contexts/AuthContextProvider"
+import { useAuthContext } from "../../contexts/AuthContextProvider"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button'
@@ -83,10 +84,9 @@ const CreateMaterial = () => {
 
 
     return (
-        <>
-            <Header2 h2="Lägg till nytt material" />
+        <CreateWrapper h1="Lägg till nytt material">
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
                 <Grid container spacing={2} pt={2}>
             
                     {/**
@@ -208,7 +208,7 @@ const CreateMaterial = () => {
                     </Grid> 
 
                     <Grid xs={12}>
-                        <Header2 h2="Valda tillbehör" />
+                        <Heading h1="Valda tillbehör" />
 
                         <CreateMaterialListOfExtraItems 
                             extraItems={extraItems} 
@@ -228,7 +228,7 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid  xs={12}>
-                        <Header2 h2="Tidsestimering" />
+                        <Heading h1="Tidsestimering" />
                     </Grid>
 
                     <Grid xs={6} sm={3}>          
@@ -260,8 +260,12 @@ const CreateMaterial = () => {
             
                 </Grid>
 
-                {/* <SaveOrCancelButtons setOpen={setOpen} succes={success} /> */}
-                <ButtonComponent 
+                <SaveOrCancelButtons
+                    setOpen={setOpen} 
+                    succes={success} 
+                    isSubmitting={isSubmitting}
+                />
+                {/* <ButtonComponent 
                     type="submit"
                     variant='contained'
                     size="large"
@@ -269,10 +273,10 @@ const CreateMaterial = () => {
                     isFullWidth={false}
                     title='Spara'
                     disabled={isSubmitting ? true : false}
-                />
+                /> */}
                 <LeavePageAlert open={open} setOpen={setOpen} /> 
             </form>
-        </>
+        </CreateWrapper>
     )
 }
 
