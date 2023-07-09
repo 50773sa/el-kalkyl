@@ -1,5 +1,5 @@
 // helpers
-import preventScrollingNumberInput from '../helpers/preventScrollingNumberInput'
+import preventScrollingNumberInput from '../../helpers/preventScrollingNumberInput'
 // mui
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
@@ -76,9 +76,9 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
                                     }}
                                 />
 
-                                <IconButton edge="end" aria-label="Remove product from list" >
-                                    <Tooltip title="Remove">
-                                        <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color:'red', pl: 2}} />
+                                <IconButton edge="end" aria-label="Remove product from list">
+                                    <Tooltip title="Remove" sx={{ ml: 2 }}>
+                                        <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color:'red'}} />
                                     </Tooltip>
                                 </IconButton>
                                 

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
 // components
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
-import EditNestedMaterial from './edit/EditNestedMaterial'
-import EditMaterial from './edit/EditMaterial'
+import EditNestedMaterial from './childComponents/EditNestedMaterial'
+import EditMaterial from './childComponents/EditMaterial'
 import TableHeader from '../reusableComponents/table/TableHeader'
 import TableCells from '../reusableComponents/table/TableCells'
 // hooks
@@ -24,6 +24,7 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
+import AddMoreFieldsButton from '../buttons/AddMoreFieldsButton'
 
 
 const AllMaterial = ({ material }) => {
@@ -34,6 +35,7 @@ const AllMaterial = ({ material }) => {
     const { updateOnSubmit, isEditMode, setIsEditMode, isInputError } = useUpdateDoc('material')
     const { deleteDocFromFirestore } = useDeleteDocument('material')
     const { handleSubmit, reset, register, setValue, formState: { errors }, unregister } = useForm()
+    let items;
 
     const handleRows = (items) => () => {
         unregister('product') // otherwise the same product will end up in the next openRowId
@@ -75,7 +77,9 @@ const AllMaterial = ({ material }) => {
                         </TableHeader>
 
                         <TableBody>
-                            {!isLoading && material?.map((items) => (                               
+                            {!isLoading && material?.map((items) => {
+                                items = items
+                                return (                               
                                 <React.Fragment key={items.id}>
                                     <TableRow key={items.id} sx={{ bgcolor: 'white', borderLeft: '1px solid  #e0e0e0', borderRight: '1px solid  #e0e0e0' }}>
                                         <TableCell sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}>
@@ -188,9 +192,14 @@ const AllMaterial = ({ material }) => {
                                                             ) 
                                                         })}  
 
+                                                    
 
                                                         <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
                                                             <TableCell sx={{ pt: 10, borderLeft: '1px solid #e0e0e0', p: '4rem 1rem 2rem' }}>
+
+                                                                {isEditMode && (
+                                                                    <AddMoreFieldsButton items={items} />
+                                                                )}
                                                                 <Button 
                                                                     size="small"
                                                                     variant="outlined"
@@ -234,7 +243,7 @@ const AllMaterial = ({ material }) => {
                                         />
                                     )}
                                  </React.Fragment>                        
-                            ))}
+                            )})}
                        
                         </TableBody>
                     </Table>

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
-import CalculationTable from './CalculationTable';
+import CalculationTable from'../project/childComponents/CalculationTable'
 import DialogDelete from '../modals/DialogDelete'
 import LoadingBackdrop from '../LoadingBackdrop'
 // mui

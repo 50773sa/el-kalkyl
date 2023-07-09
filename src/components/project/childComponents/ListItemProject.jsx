@@ -1,4 +1,4 @@
-import { db } from '../../firebase'
+import { db } from '../../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 // mui
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined'

@@ -1,6 +1,6 @@
 // components
 import AllMaterial from "../components/material/AllMaterial"
-import CreateMaterial from "../components/material/create/CreateMaterial"
+import CreateMaterial from "../components/material/CreateMaterial"
 import LoadingBackdrop from "../components/LoadingBackdrop"
 import ProjectAndMaterialPageWrapper from "../components/reusableComponents/pageWrappers/ProjectAndMaterialPageWrapper"
 // hooks

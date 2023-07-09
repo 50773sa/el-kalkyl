@@ -2,19 +2,19 @@ import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "react-toastify"
 // firebase
-import { db } from '../../../firebase'
+import { db } from '../../../src/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // components
-import CreateWrapper from "../../reusableComponents/pageWrappers/CreateWrapper"
-import CreateMaterialListOfExtraItems from "./CreateMaterialListOfExtraItems"
-import Heading from "../../reusableComponents/headings/Heading"
-import LeavePageAlert from "../../modals/LeavePageAlert"
-import SaveOrCancelButtons from "../../buttons/SaveOrCancelButtons"
-import SelectField from '../../reusableComponents/forms/SelectField'
-import TextInputField from '../../reusableComponents/forms/TextInputField'
+import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
+import CreateMaterialListOfExtraItems from "../material/childComponents/CreateMaterialListOfExtraItems"
+import Heading from "../reusableComponents/headings/Heading"
+import LeavePageAlert from "../modals/LeavePageAlert"
+import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
+import SelectField from '../reusableComponents/forms/SelectField'
+import TextInputField from '../reusableComponents/forms/TextInputField'
 // hooks
-import { useAuthContext } from "../../../contexts/AuthContextProvider"
+import { useAuthContext } from "../../contexts/AuthContextProvider"
 // mui
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button'
