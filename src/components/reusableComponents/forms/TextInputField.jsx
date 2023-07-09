@@ -3,6 +3,7 @@ import TextField from '@mui/material/TextField'
 const TextInputField = ({ required, label, name, inputRef, defaultValue, autoComplete, helperText, register }) => {
     return (
         <TextField
+            sx={{ backgroundColor: '#fff'}}
             type='text'
             required={required}
             label={label}

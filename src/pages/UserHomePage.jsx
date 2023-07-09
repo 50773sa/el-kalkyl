@@ -11,7 +11,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Container from '@mui/material/Container'
 import useGetAuthColl from '../hooks/useGetAuthColl'
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
-import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined';
+import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined'
 import HomeTable from '../components/userHome/HomeTable'
 
 

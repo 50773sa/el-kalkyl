@@ -1,5 +1,5 @@
 import React from 'react'
-import { db } from '../../firebase'
+import { db } from '../../../firebase'
 import { doc,  updateDoc } from 'firebase/firestore'
 // mui
 import Box from '@mui/material/Box'

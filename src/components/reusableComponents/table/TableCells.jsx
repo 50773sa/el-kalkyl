@@ -1,12 +1,14 @@
+// mui
 import TableCell from '@mui/material/TableCell'
 
-const TableCells = ({ align, title }) => {
+const TableCells = ({ width, align, title }) => {
     return (
         <TableCell 
             sx={{ 
+                width: {width},
                 fontWeight: 600, 
-                color: '#7b7b7b', 
-                py: 1.5 
+                py: 1.5,
+                color: '#606060', 
             }} 
             align={align}
         > {title}
