@@ -26,7 +26,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
     }
 
     return (
-        <TableRow sx={{ display: 'grid', my: 2, mx: 2 }}>
+        <TableRow sx={{ display: 'grid', m: 2 }}>
             <TableCell sx={{ cursor: 'pointer', border: 'none' }} >
                 <Grid container spacing={2}>
 
@@ -53,7 +53,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                      *  Quantity
                      */}
 
-                    <Grid xs={3} md={2.5} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
+                    <Grid xs={4} md={2.5} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
                         <TextField
                             select
                             // required
@@ -82,7 +82,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                      *  Units
                      */}
 
-                    <Grid xs={3} md={2.5}>
+                    <Grid xs={4} md={2.5}>
                         <TextField
                             id="unit"
                             select
@@ -105,7 +105,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                         </TextField>   
                     </Grid>
             
-                    <Grid xs={3} md={1} display="flex" alignItems="center" justifyContent="center">
+                    <Grid xs={4} md={1} display="flex" alignItems="center" justifyContent="center">
                         {/** This field is hidden and only used to preserve the 'id' of the object */}
                         <input
                             type='hidden'
