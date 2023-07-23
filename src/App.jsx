@@ -1,6 +1,8 @@
 import { Routes, Route } from 'react-router-dom'
 import { ReactQueryDevtools } from 'react-query/devtools'
 import { ToastContainer } from 'react-toastify'
+import { ThemeProvider } from '@mui/material'
+import { theme } from './theme'
 // pages
 import Navigation from './components/Navigation'
 import SettingsPage from './pages/SettingsPage'
@@ -21,65 +23,68 @@ import './assets/scss/App.scss'
 
 function App() {
 	return (
-		<div className="App">
-			<Navigation />
+		<ThemeProvider theme={theme}>
 
-			<Routes>
-				<Route path="/" element={<SignInPage />} /> 
-				<Route path="/sign-up" element={<SignUpPage />} />
-				<Route path="/reset-password" element={<ForgotPasswordPage />} />
+			<div className="App">
+				<Navigation />
 
-				{/**
-				 * 	Protected routes
-				 */}
+				<Routes>
+					<Route path="/" element={<SignInPage />} /> 
+					<Route path="/sign-up" element={<SignUpPage />} />
+					<Route path="/reset-password" element={<ForgotPasswordPage />} />
 
-				<Route path="/user/:id" element={
-					<RequireAuth>
-						<UserHomePage />
-					</RequireAuth>
-				} />
+					{/**
+					 * 	Protected routes
+					 */}
 
-				<Route path="/user/:id/settings" element={
-					<RequireAuth>
-						<SettingsPage />
-					</RequireAuth>
-				} /> 
+					<Route path="/user/:id" element={
+						<RequireAuth>
+							<UserHomePage />
+						</RequireAuth>
+					} />
 
-				<Route path="/user/:id/material" element={
-					<RequireAuth>
-						<MaterialPage />
-					</RequireAuth>
-				} />
-				<Route path="/user/:id/material/:materialId" element={
-					<RequireAuth>
-						<MaterialPage />
-					</RequireAuth>
-				} />
+					<Route path="/user/:id/settings" element={
+						<RequireAuth>
+							<SettingsPage />
+						</RequireAuth>
+					} /> 
 
-				<Route path="/user/:id/project/:projectId" element={
-					<RequireAuth>
-						<ProjectPage />
-					</RequireAuth>
-				} />
+					<Route path="/user/:id/material" element={
+						<RequireAuth>
+							<MaterialPage />
+						</RequireAuth>
+					} />
+					<Route path="/user/:id/material/:materialId" element={
+						<RequireAuth>
+							<MaterialPage />
+						</RequireAuth>
+					} />
 
-				<Route path="/user/:id/project/:projectId/edit" element={
-					<RequireAuth>
-						<EditProjectPage />
-					</RequireAuth>
-				} />
+					<Route path="/user/:id/project/:projectId" element={
+						<RequireAuth>
+							<ProjectPage />
+						</RequireAuth>
+					} />
 
-				<Route path="/user/:id/projects" element={
-					<RequireAuth>
-						<AllProjectsPage />
-					</RequireAuth>
-				} />
+					<Route path="/user/:id/project/:projectId/edit" element={
+						<RequireAuth>
+							<EditProjectPage />
+						</RequireAuth>
+					} />
 
-				<Route path="*" element={<ErrorPage/>} />
-			</Routes>
+					<Route path="/user/:id/projects" element={
+						<RequireAuth>
+							<AllProjectsPage />
+						</RequireAuth>
+					} />
 
-			<ReactQueryDevtools position='bottom-left' />
-			<ToastContainer autoClose={2000} />
-		</div>
+					<Route path="*" element={<ErrorPage/>} />
+				</Routes>
+
+				<ReactQueryDevtools position='bottom-left' />
+				<ToastContainer autoClose={2000} />
+			</div>
+		</ThemeProvider>
 	)
 }
 
