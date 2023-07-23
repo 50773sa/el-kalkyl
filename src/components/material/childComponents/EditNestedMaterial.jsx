@@ -1,3 +1,4 @@
+import { useRef, useEffect } from 'react'
 // components
 import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
 import RemoveButton from '../../reusableComponents/buttons/RemoveButton'
@@ -18,7 +19,18 @@ const unitsList = [
 const quantity = [...new Array(101)].map((_each, index) => ({ qty: index, value: index }))
 
 
-const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset }) => {
+const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
+    const quantityRef = useRef(item.quantity)
+    const unitRef = useRef(item.unit)
+    const idRef = useRef(item.id)
+
+    useEffect(() => {
+        // Set the initial values only once when the component mounts
+        quantityRef.current = item.quantity
+        unitRef.current = item.unit
+        idRef.current = item.id
+    }, [items])
+
     const { deleteDocumentField, isOpen, setIsOpen, setIsLoading } = useDeleteDocumentField('material')
 
     const handleDeleteMaterialObjectFromFb = async (item) => {
@@ -62,10 +74,14 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                             label="Antal"
                             name={`extraItems[${itemIndex}].quantity`}
                             fullWidth
-                            defaultValue={item.quantity}
+                            defaultValue={quantityRef.current}
                             helperText={errors ? errors.quantity && 'Obligatoriskt fält' : ''}
 
-                            {...register(`extraItems[${itemIndex}].quantity`, {required: true} )}
+                            {...register(`extraItems[${itemIndex}].quantity`, {
+                                    required: true,
+                                    setValueAs: val => parseInt(val)
+                                } 
+                            )}
 
                         >
                             {quantity.map((val) => (
@@ -91,7 +107,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                             label="st/m"
                             fullWidth
                             name={`extraItems[${itemIndex}].unit`}
-                            defaultValue={item.unit}
+                            defaultValue={unitRef.current}
                             helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
 
                             {...register(`extraItems[${itemIndex}].unit`, {required: true} )}
@@ -109,7 +125,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex, reset })
                         {/** This field is hidden and only used to preserve the 'id' of the object */}
                         <input
                             type='hidden'
-                            defaultValue={item.id}
+                            defaultValue={idRef.current}
                             id="id"
                             name={`extraItems[${itemIndex}].id`}
                             {...register(`extraItems[${itemIndex}].id`)}
