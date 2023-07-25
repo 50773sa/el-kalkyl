@@ -4,10 +4,12 @@ import { uuidv4 } from "@firebase/util"
 // components
 import ButtonComponent from "../reusableComponents/buttons/BaseButton"
 // mui
+import { useTheme } from '@mui/material'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
 
 
 const AddMoreFieldsButton = ({ items }) => {
+    const theme = useTheme()
 
     const handleAddFields = async (data) => { 
         // create an object with empty fields that you can update
@@ -28,11 +30,11 @@ const AddMoreFieldsButton = ({ items }) => {
             isFullWidth={true}
             sx={{ 
                 paddingY: 0,
-                color: '#808080',
-                border: '2px dashed #bebebe' ,
+                color: theme.palette.color.grey.dark,
+                border: '2px dashed' + theme.palette.color.grey.light,
                 '&:hover': { 
                     backgroundColor: 'transparent' ,
-                    border: '2px dashed #808080',
+                    border: '2px dashed' + theme.palette.color.grey.dark,
                 },
             }}
             onClick={() => handleAddFields(items)}

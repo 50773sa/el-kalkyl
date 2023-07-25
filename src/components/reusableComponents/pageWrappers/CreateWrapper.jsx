@@ -1,4 +1,4 @@
-import Heading from "../headings/Heading"
+import Heading from "../headings/Heading1"
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
@@ -10,7 +10,6 @@ const CreateWrapper = ({ h1, children }) => {
             <Grid mx={2}>
                 {children}
             </Grid>
-
         </Grid>
     )
 }

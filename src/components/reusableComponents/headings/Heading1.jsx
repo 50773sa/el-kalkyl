@@ -2,7 +2,7 @@
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 
-const Heading = ({ h1 }) => {
+const Heading1 = ({ h1 }) => {
     return (
         <Grid xs={12} sx={{ height:'50px', backgroundColor: '#e0e0e0', marginBottom: 4 }}>
             <Typography 
@@ -26,4 +26,4 @@ const Heading = ({ h1 }) => {
     )
 }
 
-export default Heading
+export default Heading1
