@@ -146,11 +146,11 @@ const AllMaterial = ({ material }) => {
                                                     <Table size="small" aria-label="fittings" sx={{ borderBottom: theme.border }}>
                                                         {!isEditMode &&  
                                                             <TableHead>
-                                                                <TableRow sx={{ '& > *': { fontWeight: 700 } }}>
-                                                                    <TableCell>Tillbehör</TableCell>
-                                                                    <TableCell>Antal</TableCell>
-                                                                    <TableCell align="left">Enhet</TableCell>
-                                                                    <TableCell align="right">Id</TableCell>
+                                                                <TableRow sx={{ fontWeight: 'bold'}} >
+                                                                    <TableCell  sx={{ fontWeight: 'bold'}} >Tillbehör</TableCell>
+                                                                    <TableCell  sx={{ fontWeight: 'bold'}} >Antal</TableCell>
+                                                                    <TableCell align="left"  sx={{ fontWeight: 'bold'}} >Enhet</TableCell>
+                                                                    <TableCell align="right"  sx={{ fontWeight: 'bold'}} >Id</TableCell>
                                                                 </TableRow>
                                                             </TableHead>
                                                         }

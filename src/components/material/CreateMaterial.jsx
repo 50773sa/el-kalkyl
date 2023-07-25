@@ -8,7 +8,7 @@ import { uuidv4 } from "@firebase/util"
 // components
 import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
 import CreateMaterialListOfExtraItems from "../material/childComponents/CreateMaterialListOfExtraItems"
-import Heading from "../reusableComponents/headings/Heading"
+import Heading2 from "../reusableComponents/headings/Heading2"
 import LeavePageAlert from "../modals/LeavePageAlert"
 import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
 import SelectField from '../reusableComponents/forms/SelectField'
@@ -16,6 +16,7 @@ import TextInputField from '../reusableComponents/forms/TextInputField'
 // hooks
 import { useAuthContext } from "../../contexts/AuthContextProvider"
 // mui
+import { useTheme } from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -24,6 +25,7 @@ import Tooltip from "@mui/material/Tooltip"
 
 
 const CreateMaterial = () => {
+    const theme = useTheme()
     const [open, setOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
@@ -200,7 +202,7 @@ const CreateMaterial = () => {
                                     display: {xs: 'flex', md: 'none'},
                                     width: '100%',
                                     fontSize: '40px',
-                                    color: '#68C37C'
+                                    color: theme.palette.color.green.main, '&:hover': { color: theme.palette.color.green.hover}
                                 }}
                                 onClick={handleObjectInput}
                             />
@@ -208,7 +210,7 @@ const CreateMaterial = () => {
                     </Grid> 
 
                     <Grid xs={12}>
-                        <Heading h1="Valda tillbehör" />
+                        <Heading2 h2="Valda tillbehör" />
 
                         <CreateMaterialListOfExtraItems 
                             extraItems={extraItems} 
@@ -216,7 +218,7 @@ const CreateMaterial = () => {
                         />
 
                         {inputError &&
-                            <Typography sx={{ color: "#ff0000", ml: 2}}>
+                            <Typography sx={{ color: "#ff0000", ml: 2 }}>
                                 Glöm inte lägga till materialet i listan!
                             </Typography>  
                         }   
@@ -227,8 +229,8 @@ const CreateMaterial = () => {
                      *  Estimated time
                      */}
 
-                    <Grid  xs={12}>
-                        <Heading h1="Tidsestimering" />
+                    <Grid xs={12}>
+                        <Heading2 h2="Tidsestimering" />
                     </Grid>
 
                     <Grid xs={6} sm={3}>          
