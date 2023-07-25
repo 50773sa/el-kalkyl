@@ -103,9 +103,9 @@ const AllProjects = ({ projects }) => {
 
                                                         <Table size="small" aria-label="fittings">
                                                             <TableHead>
-                                                                <TableRow>                                                          
-                                                                    <TableCell sx={{ fontSize: '16px'}}>Produkter</TableCell>
-                                                                    <TableCell align="right" sx={{ fontSize: '16px'}}>Antal</TableCell>
+                                                                <TableRow sx={{ '& > *': { fontWeight: 700 } }}>
+                                                                    <TableCell>Produkter</TableCell>
+                                                                    <TableCell align="right">Antal</TableCell>
                                                                 </TableRow>
                                                             </TableHead>
 
