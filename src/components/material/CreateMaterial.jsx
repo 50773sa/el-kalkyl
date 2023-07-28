@@ -6,13 +6,17 @@ import { db } from '../../../src/firebase'
 import { addDoc, collection } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // components
+import CategoryCreate from "./create/CategoryCreate"
 import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
-import CreateMaterialListOfExtraItems from "../material/childComponents/CreateMaterialListOfExtraItems"
+import CreateMaterialListOfExtraItems from "./create/CreateMaterialListOfExtraItems"
+import FittingsCreate from "./create/FittingsCreate"
 import Heading2 from "../reusableComponents/headings/Heading2"
 import LeavePageAlert from "../modals/LeavePageAlert"
+import ProductCreate from "./create/ProductCreate"
+import QuantityCreate from "./create/QuantityCreate"
 import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
 import SelectField from '../reusableComponents/forms/SelectField'
-import TextInputField from '../reusableComponents/forms/TextInputField'
+import UnitCreate from "./create/UnitCreate"
 // hooks
 import { useAuthContext } from "../../contexts/AuthContextProvider"
 // mui
@@ -22,6 +26,8 @@ import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import Tooltip from "@mui/material/Tooltip"
+import HoursCreate from "./create/HoursCreate"
+import MinutesCreate from "./create/MinutesCreate"
 
 
 const CreateMaterial = () => {
@@ -67,13 +73,13 @@ const CreateMaterial = () => {
             await addDoc(collection(db, 'material'), {
                 uid: currentUser.uid,
                 product: inputData.product,
+                category: inputData.category,
                 quantity: 0,
                 extraItems: extraItems,
                 estimatedTime: {
                     hours: inputData.hours,
                     minutes: inputData.minutes,
                 },
-                category: inputData.category,
             })
             setSuccess(true)
             toast.success('Sparat!')
@@ -96,14 +102,9 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={12} lg={6}>
-                        <TextInputField
-                            required={true}
-                            label="Produkt"
-                            name="product"
-                            autoComplete="product"
-                            defaultValue=""
-                            helperText={errors ? errors.product && 'Obligatoriskt fält' : ''}
-                            register={register("product", {required: true})}
+                        <ProductCreate 
+                            errors={errors} 
+                            register={register} 
                         />
                     </Grid>
 
@@ -112,15 +113,10 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={12} lg={6} >
-                        <SelectField 
-                            required={true}
-                            label="Kategori"
-                            name="category"
-                            defaultValue=""
-                            list="category"
-                            helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
-                            register={register("category", {required: true})}
-                        />  
+                        <CategoryCreate 
+                            errors={error} 
+                            register={register} 
+                        />
                     </Grid> 
 
                     {/**
@@ -128,35 +124,24 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={12} sm={6} >
-                        <TextInputField
-                            required={true}
-                            label="Tillbehör"
-                            name="fittings"
-                            inputRef={fittingsRef}
-                            defaultValue=""
-                            autoComplete="fittings"
-                            helperText={errors ? errors.fittings && 'Obligatoriskt fält' : ''}
-        
-                            register={register("fittings", {required: true})}
+                        <FittingsCreate 
+                            fittingsRef={fittingsRef} 
+                            errors={errors} 
+                            register={register} 
                         />
-                    </Grid> 
+                    </Grid>  
 
                     {/**
                      *  Quantity
                      */}
 
                     <Grid xs={5} sm={2} lg={2} >
-                        <SelectField 
-                            required={true}
-                            label="Antal"
-                            name="qty"
-                            inputRef={qtyRef}
-                            defaultValue=""
-                            list="quantity"
+                        <QuantityCreate
+                            qtyRef={qtyRef} 
                             reset={reset}
-                            helperText={errors ? errors.qty && 'Obligatoriskt fält' : ''}
-                            register={register("qty", {required: true})}
-                        /> 
+                            errors={errors} 
+                            register={register} 
+                        />
                     </Grid>
 
                     {/**
@@ -164,29 +149,18 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={5} sm={2}>
-                        <SelectField 
-                            required={true}
-                            label="st/m"
-                            name="unit"
-                            inputRef={unitRef}
-                            defaultValue=""
-                            list="unit"
-                            helperText={errors ? errors.unit && 'Obligatoriskt fält' : ''}
-                            register={register("unit", {required: true})}
-                        /> 
+                        <UnitCreate
+                            unitRef={unitRef}
+                            errors={errors} 
+                            register={register} 
+                        />
                     </Grid>
 
                     {/**
                      *   Add to list- button
                      */}
 
-                    <Grid 
-                        xs={2} 
-                        lg={2}
-                        display='flex' 
-                        alignItems="center" 
-                        justifyContent="center"        
-                    >
+                    <Grid xs={2} lg={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                         <Button 
                             variant="outlined" 
                             sx={{ width: '8rem', p: 1, display: {xs: 'none', md: 'flex'} }} 
@@ -208,6 +182,10 @@ const CreateMaterial = () => {
                             />
                         </Tooltip>                        
                     </Grid> 
+
+                    {/**
+                     *   List
+                     */}
 
                     <Grid xs={12}>
                         <Heading2 h2="Valda tillbehör" />
@@ -234,32 +212,21 @@ const CreateMaterial = () => {
                     </Grid>
 
                     <Grid xs={6} sm={3}>          
-                        <SelectField 
-                            required={true}
-                            label="Tim"
-                            name="hours"
-                            defaultValue=""
-                            list="hours"
-                            helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
-                            register={register("hours", {required: true})}
-                        /> 
+                        <HoursCreate 
+                            errors={errors} 
+                            register={register} 
+                        />
                     </Grid>
 
 
                     <Grid xs={6} sm={3}>
-                        <SelectField 
-                            required={true}
-                            label="Min"
-                            name="minutes"
-                            defaultValue=""
-                            list="minutes"
-                            helperText={errors ? errors.minutes && 'Obligatoriskt fält' : ''}
-                            register={register("minutes", {required: true})}
-                        /> 
+                        <MinutesCreate
+                            errors={errors} 
+                            register={register} 
+                        />
                     </Grid>
 
                     <br/>
-            
                 </Grid>
 
                 <SaveOrCancelButtons
@@ -267,15 +234,7 @@ const CreateMaterial = () => {
                     succes={success} 
                     isSubmitting={isSubmitting}
                 />
-                {/* <ButtonComponent 
-                    type="submit"
-                    variant='contained'
-                    size="large"
-                    color='green'
-                    isFullWidth={false}
-                    title='Spara'
-                    disabled={isSubmitting ? true : false}
-                /> */}
+          
                 <LeavePageAlert open={open} setOpen={setOpen} /> 
             </form>
         </CreateWrapper>
