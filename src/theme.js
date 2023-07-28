@@ -6,10 +6,12 @@ export const theme = createTheme({
 			main: "#fbfbfb"
 		},
 		success: {
-			main: '#68C37C'
+			main: '#68C37C',
+			hover: '#47B15E',
 		},
 		error: {
-			main: '#ff0000'
+			main: '#ff0000',
+			hover: '#f30000'
 		},
 
 		color: {
