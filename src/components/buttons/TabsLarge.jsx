@@ -6,7 +6,7 @@ import Stack from '@mui/material/Stack'
 //store
 import useViewStore from '../../store/useViewStore'
 
-const TabsLarge = ({ title1, title2, isEditPage }) => {
+const TabsLarge = ({ title1, title2, isEditPage, isProjectPage }) => {
     const isCurrentView = useViewStore((state) => state.isCurrentView)
     const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
     
@@ -20,7 +20,7 @@ const TabsLarge = ({ title1, title2, isEditPage }) => {
     return (
         <Grid2 xs={12} mb={0} pb={0} pl={0}>
 
-            {!isEditPage && (
+            {!isEditPage && !isProjectPage  && (
                 <Stack spacing={0.5} direction="row">
                     <Button
                         onClick={handleClick} 
