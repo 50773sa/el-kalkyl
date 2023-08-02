@@ -23,7 +23,7 @@ body {
 	min-height: 100%;
 	margin-bottom: 4rem;
 	margin: auto;
-	margin-top: 4rem;
+	margin-top: 3rem;
 	max-width: 1440px;
 	box-sizing: border-box;
 }
@@ -48,21 +48,20 @@ a {
 	text-decoration: none !important;
 }
 
-// error text
-.error {
-	color: #ff0000 !important;
-}
+// // error text
+// .error {
+// 	color: #ff0000 !important;
+// }
 
-.MuiFormHelperText-root {
-	color: #ff0000 !important;
-}
+// .MuiFormHelperText-root {
+// 	color: #ff0000 !important;
+// }
 
 // edit project -> text field (number)
 #editProjectWrapper {
 	.css-whebh7-MuiInputBase-root-MuiInput-root:before,
 	.css-whebh7-MuiInputBase-root-MuiInput-root:after {
 		display: flex !important;
-		// border: none;
 		justify-content: center !important;
 		align-items: center !important;
 	}
@@ -73,6 +72,10 @@ a {
 		justify-content: center !important;
 		align-items: center !important;
 	}
+}
+
+#table-margin-left {
+	padding-left: 3rem !important;
 }
 
 // remove arrows in TextField
