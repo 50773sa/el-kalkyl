@@ -1,14 +1,30 @@
 import { useEffect, useState } from 'react'
 // mui
+import { useTheme } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
+import TableCell, { tableCellClasses } from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
+const StyledTableRows = styled(TableRow)(() => ({
+	border: 'none',
+}))
+
+const StyledTableCellProduct = styled(TableCell)(() => ({
+		backgroundColor: '#E6EEF6',
+		border: 'none',
+}))
+
+const StyledTableCell = styled(TableCell)(() => ({
+	border: 'none',
+}))
+
 
 const CalculationTable = ({ project }) => {
+	const theme = useTheme()
 	const [loading, setLoading] = useState(true)
 	const [objArr, setObjArr] = useState([])
 	const [reducedResult, setReducedResult] = useState([])
@@ -80,23 +96,21 @@ const CalculationTable = ({ project }) => {
 		setLoading(false)
 
 	}, [project])
-console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1))
 
 	return (
 		<>
 			<TableContainer>
-				<Table sx={{ minWidth: 300 }} aria-label="spanning table">
+				<Table sx={{ minWidth: 300 }} size='small' aria-label="spanning table" >
 					<TableHead>
-						<TableRow sx={{ backgroundColor: "#579eea"}} >
+						<TableRow >
 							<TableCell><strong>Material</strong></TableCell>
-							{/* <TableCell /> */}
 							<TableCell align="center"><strong>Antal</strong></TableCell>
 							<TableCell align="right"><strong>Tid</strong></TableCell>
 						</TableRow>
 					</TableHead>
 
 					<TableBody>
-						{project?.projectMaterial?.map((item, i) => {
+						{project && project.projectMaterial?.map((item, i) => {
 							items = [...items, item]
 							products = [...products, item]
 
@@ -109,12 +123,11 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 						
 							return (
 								<>
-									<TableRow key={i.id} colSpan={2} sx={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}>
-										<TableCell>{item.product}</TableCell>
-										{/* <TableCell /> */}
-										<TableCell align='center'>{item.quantity} st </TableCell>
-										<TableCell align='right'>{workHours} min</TableCell>
-									</TableRow>
+									<StyledTableRows key={i.id} >
+										<StyledTableCellProduct>{item.product}</StyledTableCellProduct>
+										<StyledTableCellProduct align='center' >{item.quantity} st </StyledTableCellProduct>
+										<StyledTableCellProduct align='right'>{workHours} min</StyledTableCellProduct>
+									</StyledTableRows>
 
 									{item.extraItems.map((items) => {
 										// qty = [...qty, items.quantity * item.quantity]
@@ -122,16 +135,14 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 										// unit = [...unit, items.unit]
 										allProducts = [...allProducts, {product: item.product, item: items.fittings, value: items.quantity * item.quantity, unit: items.unit}]
 
-										const prevProduct = allProducts.filter((_event, index) => index === i - 1)[0]?.fittings || ''
-										const nextProduct = item.extraItems.filter((_event, index) => index === i + 1)[0]?.product || ''
-										console.log('nextProduct !== prevProduct', items.fittings !== prevProduct)
+										const prevProduct = allProducts.filter((_prod, index) => index === i - 1)[0]?.fittings || ''
+										const nextProduct = item.extraItems.filter((_prod, index) => index === i + 1)[0]?.product || ''
 
 										return (
-											<TableRow key={i.id} colSpan={3} >
-												<TableCell align='left' style={{ borderBottom: 'none' }}> - {items.fittings}</TableCell> 
-												{/* <TableCell /> */}
-												<TableCell align='center' style={{ borderBottom: 'none'}} >{items.quantity * item.quantity} {items.unit}</TableCell>
-											</TableRow>
+											<StyledTableRows  key={i.id}>
+												<StyledTableCell id='table-margin-left' > - {items.fittings}</StyledTableCell>
+												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit}</StyledTableCell>
+											</StyledTableRows >
 										)
 									})}
 								</>
@@ -143,30 +154,31 @@ console.log('allProducts', reducedResult.sort((a,b) => a.item > b.item ? 1 : -1)
 						 *	Reduced list of items 
 						 */}
 
-
 					<TableBody>
-						<TableRow colSpan={2} style={{ borderTop: '2px solid #848484cf', borderBottom: '2px solid #848484cf' }} >
-							<TableCell align='left'><strong>Sammanställning</strong></TableCell>
-							<TableCell align='left'>Arbetstimmar</TableCell>
-							<TableCell align="right">{hours} tim {minutes} min</TableCell>				
+						<TableRow  sx={{ borderTop: '1px solid #848484cf', borderBottom: '1px solid #848484cf' }} >
+							<StyledTableCell align='left'><strong>Arbetstimmar</strong></StyledTableCell>			
+							<StyledTableCell />			
+							<StyledTableCell align="right">{hours} tim {minutes} min</StyledTableCell>				
+
 						</TableRow>
-					
+
 						{products?.sort((a,b) => a.product > b.product ? 1 : -1).map((item) => (
-							<TableRow key={item.id} colSpan={3} sx={{ fontWeight: '700'}}>
-								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} ></TableCell>
-								<TableCell align='left' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.product}</TableCell>
-								<TableCell align='right' sx={{ borderBottom: 'none', fontWeight: '700' }} >{item.quantity} st</TableCell>
-							</TableRow>
+							<StyledTableRows key={item.id} sx={{ fontWeight: '700'}}>
+								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
+								<StyledTableCell align='left' sx={{ fontWeight: '700' }}>{item.product}</StyledTableCell>
+								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
+								<StyledTableCell align='right' sx={{ fontWeight: '700' }}>{item.quantity} st</StyledTableCell>
+							</StyledTableRows>
 						))}
 		
 						{!loading && reducedResult?.sort((a,b) => a.item > b.item ? 1 : -1).map((i) => (
-							<TableRow key={i.item} >
-								<TableCell sx={{ display: {xs: 'none', md:'table-cell'}, borderBottom: 'none' }} />
-								<TableCell align='left' sx={{ borderBottom: 'none' }} >{i.item}</TableCell>
-								<TableCell align='right' sx={{ borderBottom: 'none' }} >{i.value} {i.unit}</TableCell>
-							</TableRow> 
+							<StyledTableRows key={i.item} >
+								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
+								<StyledTableCell align='left'>{i.item}</StyledTableCell>
+								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
+								<StyledTableCell align='right'>{i.value} {i.unit}</StyledTableCell>
+							</StyledTableRows> 
 						))} 
-
 					</TableBody>
 				</Table>
 			</TableContainer>

@@ -1,17 +1,20 @@
-import React from 'react'
 import { db } from '../../../firebase'
 import { doc,  updateDoc } from 'firebase/firestore'
 // mui
-import Box from '@mui/material/Box'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import { useTheme } from '@mui/material'
+import IconButton from '@mui/material/IconButton'
+import InputAdornment from '@mui/material/InputAdornment'
+import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
+import ListItemText from '@mui/material/ListItemText'
+import Paper from '@mui/material/Paper'
+import RemoveCircleIcon from '@mui/icons-material/RemoveCircle'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
-import { InputAdornment } from '@mui/material'
+import Tooltip from '@mui/material/Tooltip'
 
 
 const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct, setSelectedProduct, num, setNum, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
+    const theme = useTheme()
 
     // Delete added products from list
     const handleDelete = (selectedItem) => () => {
@@ -53,80 +56,67 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
 
         }
     }
-    console.log('addToDocProducts', addToDocProducts)
 
     return (
-        <Grid container spacing={2} xs={12} style={{ marginBottom: "6rem" }} >
-            <Box sx={{ p: '16px', marginTop: '2rem', cursor: 'default'}}>
-                <Typography  variant="p" sx={{ fontSize: '1.2rem', marginBottom: '2rem', cursor: 'default'}}>
-                    Produkter <br/>
-                </Typography>   
-            </Box>
+       <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+            <List component="div" role="list">
 
             {currentProject?.projectMaterial?.map((item, i) => (
-                <Grid xs={12} key={item.id} display="flex" padding={0} ml={1} mr={1} height={1}>
-                    <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
-                        <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
-                            {item.product}, {item.quantity}
-                        </ListItem>
-                    </Grid>
-                
-                    <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
-                        <TextField
-                            key={item.id}
-                            type="text"
-                            variant="outlined"
-                            onBlur={handleClick(item)}
-                            onInput={(e) => setNum(Number(e.target.value))}
-                            size='small'
-                            defaultValue={item.quantity}
-                            InputProps={{
-                                inputProps: {min: 0, max: 100},
-                                inputMode: 'numeric', 
-                                endAdornment: <InputAdornment position="end">st</InputAdornment>,
-                            }}
-                        />
-                    </Grid>
+                <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                    <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
-                    <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
-                        <DeleteForeverIcon  onClick={handleDeleteFromFb(item)} />
-                    </Grid>
-                </Grid>
+                    <TextField
+                        key={item.id}
+                        type="text"
+                        variant="outlined"
+                        onBlur={handleClick(item)}
+                        onInput={(e) => setNum(Number(e.target.value))}
+                        size='small'
+                        defaultValue={item.quantity}
+                        InputProps={{
+                            inputProps: {min: 0, max: 100},
+                            inputMode: 'numeric', 
+                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
+                        }}
+                    />
 
+                    <IconButton edge="end" aria-label="Remove product from list">
+                        <Tooltip title="Remove" sx={{ ml: 2 }}>
+                            <RemoveCircleIcon onClick={handleDeleteFromFb(item)} sx={{ color: theme.palette.error.main }} />
+                        </Tooltip>
+                    </IconButton>
+
+                </ListItem>
             ))}
 
             {selectedProduct?.map((item, i) => (
-                <Grid xs={12} key={item.id} display="flex" padding={0} ml={1} mr={1} height={1}>
-                    <Grid xs={6} display="flex" pl={0} justifyContent="center" alignItems="center">
-                        <ListItem value={item} key={i.id} pl={0} sx={{ cursor: "default" }}> 
-                            {item.product}, {item.quantity}
-                        </ListItem>
-                    </Grid>
-                
-                    <Grid xs={4} display="flex" justifyContent="end" alignItems="center" >
-                        <TextField
-                            key={item.id}
-                            type="text"
-                            variant="outlined"
-                            onBlur={handleClick(item)}
-                            onInput={(e) => setNum(Number(e.target.value))}
-                            size='small'
-                            defaultValue="1"
-                            InputProps={{
-                                inputProps: {min: 1, max: 100},
-                                inputMode: 'numeric', 
-                                endAdornment: <InputAdornment position="end">st</InputAdornment>,
-                            }}
-                        />
-                    </Grid>
+                <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                    <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
-                    <Grid xs={2} display="flex" justifyContent="end" alignItems="center" color="red">
-                        <DeleteForeverIcon  onClick={handleDelete(item)} />
-                    </Grid>
-                </Grid>
+                    <TextField
+                        key={item.id}
+                        type="text"
+                        variant="outlined"
+                        onBlur={handleClick(item)}
+                        onInput={(e) => setNum(Number(e.target.value))}
+                        size='small'
+                        defaultValue="1"
+                        InputProps={{
+                            inputProps: {min: 1, max: 100},
+                            inputMode: 'numeric', 
+                            endAdornment: <InputAdornment position="end">st</InputAdornment>,
+                        }}
+                    />
+
+                    <IconButton edge="end" aria-label="Remove product from list">
+                        <Tooltip title="Remove" sx={{ ml: 2 }}>
+                            <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color: theme.palette.error.main }} />
+                        </Tooltip>
+                    </IconButton>
+                </ListItem>
             ))}
-        </Grid>
-
+         </List>
+        </Paper>
     )
 }
 

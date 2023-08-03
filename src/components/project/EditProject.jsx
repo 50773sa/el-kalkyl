@@ -1,26 +1,22 @@
-import React from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form'
-import { useAuthContext } from '../../contexts/AuthContextProvider'
-import useStreamDoc from '../../hooks/useStreamDoc'
-import LoadingBackdrop from '../LoadingBackdrop'
+import { toast } from 'react-toastify'
+// components 
+import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import LeavePageAlert from '../modals/LeavePageAlert'
-import Tabs from '../project/childComponents/Tabs'
 import ListItemProject from './childComponents/ListItemProject'
 import SelectedAndCurrentProducts from './childComponents/SelectedAndCurrentProducts'
 import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
-import { toast } from 'react-toastify'
+import Tabs from '../project/childComponents/Tabs'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import TabContext from '@mui/lab/TabContext'
 import TextField from '@mui/material/TextField'
-import Typography from '@mui/material/Typography'
 
-const EditProject = ({ projectId }) => {
-	const { currentUser } = useAuthContext()
+const EditProject = ({ projectId, currentProject, currentUser }) => {
     const [projectName, setProjectName] = useState(null)
     const [num, setNum] = useState(1)    
     const [value, setValue] = useState('Apparater')
@@ -31,8 +27,7 @@ const EditProject = ({ projectId }) => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
-    const { data: currentProject } = useStreamDoc('projects', projectId)
-    const { handleSubmit, formState: { errors }, reset, register } = useForm()
+    const { handleSubmit, formState: { errors, touchedFields }, reset, register } = useForm({mode: 'onTouched'})
     const navigate = useNavigate()
 
     // Tabs 
@@ -54,7 +49,6 @@ const EditProject = ({ projectId }) => {
                 projectMaterial: addToDocProducts 
             })
 
-    
             setSuccess(true)
             toast.success('Sparat!')
             navigate(`/user/${currentUser.uid}/project/${projectId}`)     
@@ -64,150 +58,123 @@ const EditProject = ({ projectId }) => {
         } catch (err) {
             setError(err)
         }
-
     }
 
     useEffect(() => {
-        setLoading(true)
 
-        if (currentProject === undefined || currentProject.length === 0) {
-            return
-        }
         setAddToDocProducts(currentProject.projectMaterial)
-        setProjectName(currentProject.projectName)
-
-        if (projectName === undefined ) {
-            return
-        }
-
-        setLoading(false)
-        return
-
+        
     }, [currentProject, projectName])
 
-
-
     return (
-        <div className='wrapper' id="editProjectWrapper">
+        <CreateWrapper h1='Redigera projekt'>
+            <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
 
-            {loading && <LoadingBackdrop /> }
-            <Grid xs={12} sx={{ height: "60%", margin: '8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px", padding: '1rem'}}>
+                {/**
+                 *  Project name
+                 */}
 
-            <Typography variant="h6" component="div" textAlign='start' marginBottom='2rem' sx={{ cursor: "default" }} >
-                <strong>Redigera projekt</strong> 
-            </Typography>
+                <Grid xs={12} md={6} sx={{ pr: {xs: 0, md: 2}, mb: 6 }}> 
+                    <TextField
+                        fullWidth
+                        id="projecttName"
+                        name="projectName"
+                        autoComplete='projectName'
+                        onChange={(e) => (setProjectName(e.target.value)) }
+                        defaultValue={currentProject.projectName}
 
-            {!loading &&
-                <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
-                    <Grid container spacing={2}>
+                        {...register("projectName", { 
+                            required: true, 
+                            minLength: { value: 1, message: 'Obligatoriskt fält'}
+                        })}
+                    >
+                        {errors.projectName === 'required' && <p>Obligatoriskt fält</p>} 
+                    </TextField>
+                </Grid>
 
-                        {/**
-                         *  Project name
-                         */}
+                {/**
+                 *  Items from db
+                 */}
 
-                        <Grid xs={12} sx={{ marginBottom: '3rem'}}>
-                            <TextField
-                                fullWidth
-                                id="projecttName"
-                                name="projectName"
-                                autoComplete='projectName'
-                                onChange={(e) => (setProjectName(e.target.value)) }
-                                defaultValue={projectName}
+                <Grid container>
+                    <Grid xs={12} md={6} sx={{ paddingRight: {xs: 0, md: 2} }}>
+                        <TabContext value={value}>
 
+                            <Tabs handleChange={handleChange} />
 
-                                {...register("projectName", { 
-                                    required: true, 
-                                    minLength: { value: 1, message: 'Obligatoriskt fält'}
-                                })}
-                            >
-                                {errors.projectName === 'required' && <p>Obligatoriskt fält</p>} 
-                            </TextField>
-                        </Grid>
-  
-                        {/**
-                         *  Items from db
-                         */}
-  
-                        <Grid xs={12}>
-                            <TabContext value={value}>
-                                <Grid xs={12}>
-                                     {/* Tabs */}
-                                    <Tabs handleChange={handleChange} />
-                                </Grid>
-    
-                                <Grid xs={12}>
+                            <ListItemProject
+                                value="Apparater" 
+                                selectedProduct={selectedProduct} 
+                                setSelectedProduct={setSelectedProduct}
+                                addToDocProducts={addToDocProducts}
+                                setAddToDocProducts={setAddToDocProducts}
+                                projectId={projectId}
+                                currentProject={currentProject}
+                            />
 
-                                    <ListItemProject
-                                        value="Apparater" 
-                                        selectedProduct={selectedProduct} 
-                                        setSelectedProduct={setSelectedProduct}
-                                        addToDocProducts={addToDocProducts}
-                                        setAddToDocProducts={setAddToDocProducts}
-                                        projectId={projectId}
-                                        currentProject={currentProject}
-                                    />
+                            <ListItemProject 
+                                value="Belysning" 
+                                selectedProduct={selectedProduct} 
+                                setSelectedProduct={setSelectedProduct}
+                                addToDocProducts={addToDocProducts}
+                                setAddToDocProducts={setAddToDocProducts}
+                            />
 
-                                    <ListItemProject 
-                                        value="Belysning" 
-                                        selectedProduct={selectedProduct} 
-                                        setSelectedProduct={setSelectedProduct}
-                                        addToDocProducts={addToDocProducts}
-                                        setAddToDocProducts={setAddToDocProducts}
-                                    />
+                            <ListItemProject 
+                                value="Data" 
+                                selectedProduct={selectedProduct} 
+                                setSelectedProduct={setSelectedProduct}
+                                addToDocProducts={addToDocProducts}
+                                setAddToDocProducts={setAddToDocProducts}
+                            />
 
+                            <ListItemProject 
+                                value="Ovrigt" 
+                                selectedProduct={selectedProduct} 
+                                setSelectedProduct={setSelectedProduct}
+                                addToDocProducts={addToDocProducts}
+                                setAddToDocProducts={setAddToDocProducts}
+                            />
 
-                                    <ListItemProject 
-                                        value="Data" 
-                                        selectedProduct={selectedProduct} 
-                                        setSelectedProduct={setSelectedProduct}
-                                        addToDocProducts={addToDocProducts}
-                                        setAddToDocProducts={setAddToDocProducts}
-                                    />
-
-                                    <ListItemProject 
-                                        value="Ovrigt" 
-                                        selectedProduct={selectedProduct} 
-                                        setSelectedProduct={setSelectedProduct}
-                                        addToDocProducts={addToDocProducts}
-                                        setAddToDocProducts={setAddToDocProducts}
-                                    />
-
-                                </Grid>
-                            </TabContext>
-                        </Grid>
+                        </TabContext>
                     </Grid>
-  
+
                     {/**
                      *  Update products
                      */}
 
-                    <SelectedAndCurrentProducts 
-                        currentProject={currentProject}
-                        projectId={projectId}
-                        selectedProduct={selectedProduct}
-                        setSelectedProduct={setSelectedProduct}
-                        numberRef={numberRef}
-                        num={num}
-                        setNum={setNum}
-                        setError={setError}
-                        addToDocProducts={addToDocProducts}
-                        setAddToDocProducts={setAddToDocProducts}
-                        setLoading={setLoading}
-                    />
+                    <Grid xs={12} md={6} sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}>
+                        <SelectedAndCurrentProducts 
+                            currentProject={currentProject}
+                            projectId={projectId}
+                            selectedProduct={selectedProduct}
+                            setSelectedProduct={setSelectedProduct}
+                            numberRef={numberRef}
+                            num={num}
+                            setNum={setNum}
+                            setError={setError}
+                            addToDocProducts={addToDocProducts}
+                            setAddToDocProducts={setAddToDocProducts}
+                            setLoading={setLoading}
+                        />
+                    </Grid>
+                </Grid>
 
+                {/**
+                 *  Buttons
+                 */}
+
+                <SaveOrCancelButtons setOpen={setOpen} />
+            </form>
+
+            {/**
+             *   Modal
+             */}
     
-                    {/**
-                     *  Buttons
-                     */}
 
-                    <SaveOrCancelButtons setOpen={setOpen} />
-                </form>
-  
-            }
-                <LeavePageAlert open={open} setOpen={setOpen}/> 
-            </Grid>
+            <LeavePageAlert open={open} setOpen={setOpen}/> 
 
-        </div>
+        </CreateWrapper>
     )
 }
 

@@ -3,9 +3,11 @@ import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
+import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import CalculationTable from'../project/childComponents/CalculationTable'
 import DialogDelete from '../modals/DialogDelete'
 import LoadingBackdrop from '../LoadingBackdrop'
+import EditButton from '../buttons/EditButton'
 // mui
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
@@ -15,9 +17,19 @@ import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 import ToggleOffIcon from '@mui/icons-material/ToggleOff'
 
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+
+import TableCells from '../reusableComponents/table/TableCells'
+import TableHeader from '../reusableComponents/table/TableHeader'
+
 const Project = ({ projectId, project }) => {
 	const [loading, setLoading] = useState(false)
-	const [open, setOpen] = useState(false)
+	const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(null)
 	const { currentUser } = useAuthContext()
 	const navigate = useNavigate()
@@ -25,7 +37,7 @@ const Project = ({ projectId, project }) => {
 	// open delete modal
     const deleteProject = async () => {
 		setLoading(true)
-		setOpen(true)
+		setIsOpen(true)
 	}
 
 	const toggleProject = async () => {
@@ -41,120 +53,69 @@ const Project = ({ projectId, project }) => {
 		}	
 	}
 
+	const icon = (
+		<span style={{ display: 'flex'}} onClick={toggleProject}>
+			{project.completed 
+				? 	<ToggleOnIcon sx={{ color: '#15a715', fontSize: '2.5rem' }}/>  	
+				:	<ToggleOffIcon  sx={{ color: '#808080', fontSize: '2.5rem' }}/>	
+			}
+		</span>
+	)
+
     return (
-      <div className='wrapper' id='projectWrapper'>
+        <CreateWrapper 
+			h1={project.projectName} 
+			icon={icon} 
+			isEditBtn={true} 
+			onclick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} 
+			buttonText='Redigera'
+		>
 
 			{loading && <LoadingBackdrop /> }
 
 			<Grid container spacing={2}>
-				<Grid
-					xs={11} 
-					md={3}
-					display='flex' 
-					alignItems="center" 
-					justifyContent="space-between" 
-					paddingBottom="2rem" 
-					paddingTop='2rem'
-				>
-
-					<Typography variant="h6" component="div">
-						<strong>{project.projectName}</strong> 
-					</Typography>
-				</Grid>
-
-				<Grid 
-					xs={1}
-					md={3}
-					display= 'flex'
-					justifyContent={{ xs: 'end', md: 'start'}}
-					alignItems='center'
-				>
-					<span onClick={toggleProject}>
-						{project.completed 
-							? 	<ToggleOnIcon sx={{ color: '#15a715', fontSize: '2.5rem' }}/>  	
-							:	<ToggleOffIcon  sx={{ color: '#808080', fontSize: '2.5rem' }}/>	
-						}
-					</span>
-				</Grid>
-				
-				<Grid
-					xs={12}
-					md={6}
-					sx={{ display: { xs: 'none ', md: 'flex'} }}
-					alignItems="center"
-					justifyContent="end"
-				>			
-					<Button 
-						sx={{ px: 1, mr: 2, width: '130px' }}
-						variant="outlined" 
-						onClick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} 				
-					>
-						<ModeEditIcon />
-						Redigera 
-					</Button>
-
-					<Button 
-						sx={{ px: 1, width: '130px' }}
-						variant="outlined" 					 
-						onClick={deleteProject} 				
-					>
-						<DeleteForeverIcon  />
-						Radera 
-					</Button>
-			
-
-				</Grid>
 				
 				{/**
 				 * 	Table
 				 */}
+			
 
-				<Grid item xs={12}>
+				<Grid xs={12}>
 					<CalculationTable project={project} projectId={projectId}/>
 				</Grid>
 
 				{/**
-				 * 	 Edit and delete buttons only visible on small devices
+				 * 	 Delete button
 				 */}
 
-				<Grid
-					xs={12}
-					md={6}
-					sx={{ display: { md: 'none '} }}
-					alignItems="center"
-					justifyContent="end"
+				<Grid xs={12} 
+					sx={{ 
+						display: 'flex',
+						justifyContent: 'start',
+						alignItems: 'center'
+					}}
 				>			
 					<Button 
-						sx={{ px: 1, mr: 2, width: '130px' }}
-						size='large'
-						variant="outlined" 
-						onClick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} 				
-					>
-						<ModeEditIcon />
-						Redigera 
-					</Button>
-
-					<Button 
-						sx={{ px: 1, width: '130px' }}
-						size='large'
-						variant="outlined" 					 
-						onClick={deleteProject} 				
-					>
-						<DeleteForeverIcon  />
-						Radera 
+						size="small"
+						variant="outlined"
+						sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white',  borderColor: '#ff0000', backgroundColor: '#ff0000'} }}
+						disableElevation
+						onClick={deleteProject} 
+					>   
+						Radera projekt
 					</Button>
 				</Grid>
 			</Grid>
 
-			{open && (
+			{isOpen && (
 				<DialogDelete 
-					open={open} 
-					setOpen={setOpen} 
+					isOpen={isOpen} 
+					setIsOpen={setIsOpen} 
 					setLoading={setLoading}
 					projectId={projectId}
 				/> 
 			)}
-      	</div>
+      	</CreateWrapper>
     )
 }
 

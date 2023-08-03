@@ -3,6 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import getDate from '../helpers/getDate'
 
+import TableCells from '../reusableComponents/table/TableCells'
+import TableHeader from '../reusableComponents/table/TableHeader'
+
 // mui
 import Grid from '@mui/material/Unstable_Grid2'
 import Box from '@mui/material/Box';
@@ -17,8 +20,6 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import TableHeader from '../reusableComponents/table/TableHeader'
-import TableCells from '../reusableComponents/table/TableCells'
 
 
 const AllProjects = ({ projects }) => {
@@ -48,8 +49,10 @@ const AllProjects = ({ projects }) => {
                             {projects?.map((list) => (
                                 <React.Fragment key={list.id}>
 
-                                    <TableRow sx={{ '& > *': { borderBottom: 'unset'}, bgcolor: 'white', border: '1px solid #e0e0e0',  }} >
-                                        <TableCell sx={{ cursor: 'pointer' }}>
+                                    <TableRow sx={{ bgcolor: 'white' }} >
+                                        <TableCell 
+                                            // sx={{ cursor: 'pointer' }}
+                                        >
                                             <IconButton
                                                 aria-label="expand row"
                                                 size="small" 
@@ -63,7 +66,7 @@ const AllProjects = ({ projects }) => {
                                         </TableCell>
                                     
                                         <TableCell 
-                                            sx={{ cursor: 'pointer' }}
+                                            // sx={{ cursor: 'pointer' }}
                                             onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} 
                                             component="th" 
                                             scope="row"
@@ -72,7 +75,7 @@ const AllProjects = ({ projects }) => {
                                         </TableCell>
 
                                         <TableCell 
-                                            sx={{ cursor: 'pointer' }}
+                                            // sx={{ cursor: 'pointer' }}
                                             align="left"
                                             onClick={() => navigate(`/user/${currentUser.uid}/project/${list.id}`)} 
                                         >
@@ -98,7 +101,7 @@ const AllProjects = ({ projects }) => {
                                     <TableRow>
                                         <TableCell style={{ paddingBottom: 5, paddingTop: 0 , paddingLeft: 0, paddingRight: 0 }} colSpan={6}>
                                             <Collapse in={openRows.includes(list.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white' }}>
-                                                <Box sx={{ p: 2 , display: 'flex', justifyContent: 'end'}} >
+                                                <Box sx={{ p: 2, display: 'flex', justifyContent: 'end'}} >
                                                     <Grid xs={12} lg={8} display="flex">
 
                                                         <Table size="small" aria-label="fittings">

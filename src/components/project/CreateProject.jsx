@@ -5,7 +5,7 @@ import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 // components
-import ContentWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
+import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import ListItemProject from './childComponents/ListItemProject'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
@@ -64,7 +64,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
 
 
     return (
-        <ContentWrapper h1="Skapa nytt projekt">
+        <CreateWrapper h1="Skapa nytt projekt">
 
             {loading && <LoadingBackdrop /> }
 
@@ -167,7 +167,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
 
             <LeavePageAlert open={open} setOpen={setOpen}/>    
 
-        </ContentWrapper>
+        </CreateWrapper>
     )
 }
 

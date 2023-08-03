@@ -3,29 +3,27 @@ import { useForm } from "react-hook-form"
 // components
 import AddMoreFieldsButton from '../buttons/AddMoreFieldsButton'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
-import EditNestedMaterial from './childComponents/EditNestedMaterial'
-import EditMaterial from './childComponents/EditMaterial'
+import EditNestedMaterial from './edit/EditNestedMaterial'
+import EditMaterial from './edit/EditMaterial'
 import TableHeader from '../reusableComponents/table/TableHeader'
 import TableCells from '../reusableComponents/table/TableCells'
+import TableRowItem from './read/TableRowItem'
+import TableRowSubtitle from './read/TableRowSubtitle'
 // hooks
 import useUpdateDoc from '../../hooks/useUpdateDoc'
 import useDeleteDocument from '../../hooks/useDeleteDocument'
 // mui
 import { useTheme } from '@mui/material'
-import Box from '@mui/material/Box'
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Collapse from '@mui/material/Collapse'
-import IconButton from '@mui/material/IconButton'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import Typography from '@mui/material/Typography'
+
 
 const AllMaterial = ({ material }) => {
     const theme = useTheme()
@@ -73,7 +71,7 @@ const AllMaterial = ({ material }) => {
                         
                         <TableHeader>
                             <TableCells />
-                            <TableCells title="Product" />
+                            <TableCells title="Produkt" />
                             <TableCells align="right" title="Kategori" />
                             <TableCells align="right" title="Estimerad tid" />
                         </TableHeader>
@@ -83,72 +81,32 @@ const AllMaterial = ({ material }) => {
                                 items = items
                                 return (                               
                                     <React.Fragment key={items.id}>
-                                        <TableRow key={items.id} sx={{ bgcolor: 'white' }}>
-                                            <TableCell sx={{ cursor: 'pointer', borderLeft: theme.border, borderBottom: openRowId.includes(items.id) && 'none' }}>
-                                                <IconButton
-                                                    aria-label="expand row"
-                                                    size="small" 
-                                                    onClick={handleRows(items)}
-                                                >
-                                                    {openRowId.includes(items.id) ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
-                                                </IconButton>
-                                            </TableCell>
-                                            <TableCell 
-                                                component="th" 
-                                                scope="row"
-                                                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}
-                                                onClick={handleRows(items)}
-                                            >
-                                                {items.product}
-                                            </TableCell>
+                                        
+                                        <TableRowItem 
+                                            items={items} 
+                                            openRowId={openRowId} 
+                                            handleRows={handleRows}
+                                        />
 
-                                            <TableCell 
-                                                align="right"
-                                                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}                                           
-                                                onClick={handleRows(items)}
-                                            >
-                                                {items.category}
-                                            </TableCell>
-
-                                            <TableCell 
-                                                align="right"
-                                                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none', borderRight: theme.border }}                                            
-                                                onClick={handleRows(items)}
-                                            >
-                                                {items.estimatedTime.hours/60} tim {items.estimatedTime.minutes} min
-                                            </TableCell>                                    
-                                        </TableRow>
+                                        {/**
+                                         *  Hidden data
+                                        */}
 
                                         <TableRow sx={{ bgcolor: 'white' }}>
                                             <TableCell sx={{ padding: '0 0 5px' }} colSpan={12}>
-                                                <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white', borderLeft: theme.border, borderRight: theme.border  }}>
+                                                <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white', borderLeft: theme.border, borderRight: theme.border }}>
                                                     
-                                                    <Box sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}>
-                                                        <Typography variant="h6" gutterBottom component="div">
-                                                            {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
-                                                        </Typography>
-
-                                                        <Button 
-                                                            size="small"
-                                                            type='button'
-                                                            variant="text"
-                                                            disableElevation
-                                                            onClick={() => setIsEditMode((prev) => !prev)} 
-                                                            sx={{ textDecorationLine: 'underline' }} 
-                                                        >   
-                                                            {isEditMode 
-                                                                ? 'Avbryt' 
-                                                                : 'Redigera'
-                                                            }
-                                                        </Button>
-                                                    </Box>
+                                                    <TableRowSubtitle 
+                                                        isEditMode={isEditMode} 
+                                                        setIsEditMode={setIsEditMode} 
+                                                    />
                                                     
                                                     <Table size="small" aria-label="fittings" sx={{ borderBottom: theme.border }}>
                                                         {!isEditMode &&  
                                                             <TableHead>
-                                                                <TableRow sx={{ fontWeight: 'bold'}} >
-                                                                    <TableCell  sx={{ fontWeight: 'bold'}} >Tillbehör</TableCell>
-                                                                    <TableCell  sx={{ fontWeight: 'bold'}} >Antal</TableCell>
+                                                                <TableRow>
+                                                                    <TableCell sx={{ fontWeight: 'bold'}}>Tillbehör</TableCell>
+                                                                    <TableCell sx={{ fontWeight: 'bold'}}>Antal</TableCell>
                                                                     <TableCell align="left"  sx={{ fontWeight: 'bold'}} >Enhet</TableCell>
                                                                     <TableCell align="right"  sx={{ fontWeight: 'bold'}} >Id</TableCell>
                                                                 </TableRow>
@@ -208,7 +166,6 @@ const AllMaterial = ({ material }) => {
                                                                 <TableCell sx={{ borderBottom: 'none' }} />
                                                                 <TableCell sx={{ borderBottom: 'none' }} />
                                                             </TableRow>
-
 
                                                             <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
                                                                 <TableCell sx={{ pt: 10, p: '4rem 1rem 2rem', border: 'none' }}>
