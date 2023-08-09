@@ -1,7 +1,7 @@
 // mui
 import Box from '@mui/material/Box'
-import Button from "@mui/material/Button"
 import Typography from '@mui/material/Typography'
+import EditButton from '../../buttons/EditButton'
 
 const TableRowSubtitle = ({ isEditMode, setIsEditMode }) => {
     return (
@@ -11,19 +11,11 @@ const TableRowSubtitle = ({ isEditMode, setIsEditMode }) => {
                 {!isEditMode ? 'Tillhörande produkter' : 'Redigera'}
             </Typography>
 
-            <Button 
-                size="small"
-                type='button'
-                variant="text"
-                disableElevation
+            <EditButton
                 onClick={() => setIsEditMode((prev) => !prev)} 
-                sx={{ textDecorationLine: 'underline' }} 
-            >   
-                {isEditMode 
-                    ? 'Avbryt' 
-                    : 'Redigera'
-                }
-            </Button>
+                buttonText={isEditMode ? 'Avbryt' : 'Redigera'}
+            />
+            
         </Box>
     )
 }
