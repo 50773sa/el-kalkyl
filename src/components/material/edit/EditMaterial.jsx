@@ -67,7 +67,7 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
                             <MenuItem value={'Apparater'}>Apparater</MenuItem>
                             <MenuItem value={'Belysning'}>Belysning</MenuItem>
                             <MenuItem value={'Data'}>Data</MenuItem>
-                            <MenuItem value={'Ovrigt'}>Övrigt</MenuItem>
+                            <MenuItem value={'Övrigt'}>Övrigt</MenuItem>
                         </TextField>                                          
                      
                     </Grid>

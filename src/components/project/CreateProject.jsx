@@ -6,12 +6,12 @@ import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 // components
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
-import ListItemProject from './childComponents/ListItemProject'
+import ListItemProject from './edit/ListItemProject'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
 import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
-import SelectedProduct from './childComponents/SelectedProduct'
-import Tabs from './childComponents/Tabs'
+import SelectedProduct from '../project/create/SelectedProduct'
+import Tabs from './Tabs'
 import TextInputField from '../reusableComponents/forms/TextInputField'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"

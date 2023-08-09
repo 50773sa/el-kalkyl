@@ -2,36 +2,22 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
+// components
 import { useAuthContext } from '../../contexts/AuthContextProvider'
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
-import CalculationTable from'../project/childComponents/CalculationTable'
+import CalculationTable from'./read/CalculationTable'
 import DialogDelete from '../modals/DialogDelete'
 import LoadingBackdrop from '../LoadingBackdrop'
-import EditButton from '../buttons/EditButton'
 // mui
 import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 import ToggleOffIcon from '@mui/icons-material/ToggleOff'
 
-import Table from '@mui/material/Table'
-import TableBody from '@mui/material/TableBody'
-import TableCell from '@mui/material/TableCell'
-import TableContainer from '@mui/material/TableContainer'
-import TableHead from '@mui/material/TableHead'
-import TableRow from '@mui/material/TableRow'
-
-import TableCells from '../reusableComponents/table/TableCells'
-import TableHeader from '../reusableComponents/table/TableHeader'
-
-const Project = ({ projectId, project }) => {
+const Project = ({ projectId, project, currentUser }) => {
 	const [loading, setLoading] = useState(false)
 	const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(null)
-	const { currentUser } = useAuthContext()
 	const navigate = useNavigate()
 
 	// open delete modal
@@ -50,6 +36,7 @@ const Project = ({ projectId, project }) => {
 			})
 		} catch(err) {
 			setError(err)
+			console.log('error', error)
 		}	
 	}
 
