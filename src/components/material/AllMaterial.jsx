@@ -5,7 +5,7 @@ import AddMoreFieldsButton from '../buttons/AddMoreFieldsButton'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
 import EditNestedMaterial from './edit/EditNestedMaterial'
 import EditMaterial from './edit/EditMaterial'
-import TableHeader from '../reusableComponents/table/TableHeader'
+import TableHeadBase from '../reusableComponents/table/TableHeadBase'
 import TableCells from '../reusableComponents/table/TableCells'
 import TableRowItem from './read/TableRowItem'
 import TableRowSubtitle from './read/TableRowSubtitle'
@@ -14,6 +14,7 @@ import useUpdateDoc from '../../hooks/useUpdateDoc'
 import useDeleteDocument from '../../hooks/useDeleteDocument'
 // mui
 import { useTheme } from '@mui/material'
+import { styled } from '@mui/material/styles'
 import Button from "@mui/material/Button"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Collapse from '@mui/material/Collapse'
@@ -23,6 +24,15 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+
+const StyledTableCellBold = styled(TableCell)(() => ({
+	fontWeight: 'bold',
+    cursor: 'default'
+}))
+
+const StyledTableCellCursor = styled(TableCell)(() => ({
+    cursor: 'default'
+}))
 
 
 const AllMaterial = ({ material }) => {
@@ -69,12 +79,12 @@ const AllMaterial = ({ material }) => {
                 <TableContainer>
                     <Table aria-label="collapsible table">
                         
-                        <TableHeader>
+                        <TableHeadBase>
                             <TableCells />
                             <TableCells title="Produkt" />
                             <TableCells align="right" title="Kategori" />
                             <TableCells align="right" title="Estimerad tid" />
-                        </TableHeader>
+                        </TableHeadBase>
 
                         <TableBody>
                             {!isLoading && material?.map((items) => {
@@ -92,9 +102,9 @@ const AllMaterial = ({ material }) => {
                                          *  Hidden data
                                         */}
 
-                                        <TableRow sx={{ bgcolor: 'white' }}>
-                                            <TableCell sx={{ padding: '0 0 5px' }} colSpan={12}>
-                                                <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ bgcolor: 'white', borderLeft: theme.border, borderRight: theme.border }}>
+                                        <TableRow sx={{ '&:not(:last-child)': { borderBottom: theme.border } }}>
+                                            <TableCell sx={{ cursor: 'default', padding: '0 0 5px',  borderBottom: 'none' }} colSpan={6}>
+                                                <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ borderLeft: theme.border, borderRight: theme.border, cursor: 'default', bgcolor: 'white' }}>
                                                     
                                                     <TableRowSubtitle 
                                                         isEditMode={isEditMode} 
@@ -105,10 +115,10 @@ const AllMaterial = ({ material }) => {
                                                         {!isEditMode &&  
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <TableCell sx={{ fontWeight: 'bold'}}>Tillbehör</TableCell>
-                                                                    <TableCell sx={{ fontWeight: 'bold'}}>Antal</TableCell>
-                                                                    <TableCell align="left"  sx={{ fontWeight: 'bold'}} >Enhet</TableCell>
-                                                                    <TableCell align="right"  sx={{ fontWeight: 'bold'}} >Id</TableCell>
+                                                                    <StyledTableCellBold>Tillbehör</StyledTableCellBold>
+                                                                    <StyledTableCellBold>Antal</StyledTableCellBold>
+                                                                    <StyledTableCellBold align="left">Enhet</StyledTableCellBold>
+                                                                    <StyledTableCellBold align="right">Artikelnummer</StyledTableCellBold>
                                                                 </TableRow>
                                                             </TableHead>
                                                         }
@@ -131,12 +141,12 @@ const AllMaterial = ({ material }) => {
                                                                 return (
                                                                     !isEditMode 
                                                                         ?   <TableRow key={item.id}>
-                                                                                <TableCell component="th" scope="row">
+                                                                                <StyledTableCellCursor component="th" scope="row">
                                                                                     {item.fittings}
-                                                                                </TableCell>
-                                                                                <TableCell>{item.quantity}</TableCell>
-                                                                                <TableCell align="left">{item.unit}</TableCell>
-                                                                                <TableCell align="right">{item.id}</TableCell>
+                                                                                </StyledTableCellCursor>
+                                                                                <StyledTableCellCursor>{item.quantity}</StyledTableCellCursor>
+                                                                                <StyledTableCellCursor align="left">{item.unit}</StyledTableCellCursor>
+                                                                                <StyledTableCellCursor align="right">{item.id}</StyledTableCellCursor>
                                                                             </TableRow>
                                                                     
                                                                     
@@ -156,10 +166,14 @@ const AllMaterial = ({ material }) => {
                                                             *  Add more newFields button
                                                             */}
 
-                                                            <TableRow sx={{ display: 'grid', gridTemplateColumns: { xs: 'repeat(12, 1fr)' }, ml: 2.5, mr: 2}}>
-                                                                <TableCell sx={{ borderBottom: 'none', gridColumn: { xs: 'span 3', sm: 'span 6', md: 'span 11' } }}>
+                                                            <TableRow>
+                                                                <TableCell sx={{ cursor: 'pointer', border: 'none' }} >
                                                                     {isEditMode && (
-                                                                        <AddMoreFieldsButton items={items} />
+                                                                        <Grid container spacing={2}>
+                                                                            <Grid xs={8} mx={2}>
+                                                                                <AddMoreFieldsButton items={items} />
+                                                                            </Grid>
+                                                                        </Grid>
                                                                     )}  
                                                                 </TableCell>
                                                                 <TableCell sx={{ borderBottom: 'none' }} />
@@ -167,12 +181,20 @@ const AllMaterial = ({ material }) => {
                                                                 <TableCell sx={{ borderBottom: 'none' }} />
                                                             </TableRow>
 
-                                                            <TableRow sx={{ display: 'grid', gridTemplateColumns: '6fr 6fr' }}>
+                                                            <TableRow sx={{ display: 'flex', justifyContent: 'space-between', cursor: 'default' }}>
                                                                 <TableCell sx={{ pt: 10, p: '4rem 1rem 2rem', border: 'none' }}>
                                                                     <Button 
                                                                         size="small"
                                                                         variant="outlined"
-                                                                        sx={{ color: '#ff0000', borderColor: '#ff0000', '&:hover': {color: 'white',  borderColor: '#ff0000', backgroundColor: '#ff0000'} }}
+                                                                        sx={{ 
+                                                                            color: theme.palette.error.main, 
+                                                                            borderColor: theme.palette.error.main, 
+                                                                            '&:hover': {
+                                                                                color: 'white', 
+                                                                                borderColor: theme.palette.error.main, 
+                                                                                backgroundColor: theme.palette.error.main,
+                                                                            } 
+                                                                        }}
                                                                         disableElevation
                                                                         onClick={() => setIsOpen(true)} 
                                                                         
@@ -182,12 +204,18 @@ const AllMaterial = ({ material }) => {
                                                                 </TableCell>
 
                                                                 {isEditMode && (
-                                                                    <TableCell sx={{ pt: 10, pl: 3, p: '4rem 1rem 2rem' }} align='right'>
+                                                                    <TableCell sx={{ pt: 10, pl: 3, p: '4rem 1rem 2rem', border: 'none' }} align='right'>
                                                                         <Button 
                                                                             size="small"
                                                                             variant="contained"
                                                                             type='submit'
-                                                                            sx={{ backgroundColor: "#68C37C", width: "76px" }}
+                                                                            sx={{ 
+                                                                                backgroundColor: theme.palette.color.green.main, 
+                                                                                width: "76px",
+                                                                                '&:hover': {
+                                                                                    backgroundColor: theme.palette.color.green.hover,
+                                                                                } 
+                                                                            }}
                                                                             disableElevation
                                                                         >   
                                                                             Spara
