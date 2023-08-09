@@ -11,7 +11,7 @@ const TableRowItem = ({ items, openRowId, handleRows }) => {
 
     return (
         <TableRow key={items.id} sx={{ bgcolor: 'white' }}>
-            <TableCell sx={{ cursor: 'pointer', borderLeft: theme.border, borderBottom: openRowId.includes(items.id) && 'none' }}>
+            <TableCell sx={{ borderLeft: theme.border, borderBottom: openRowId.includes(items.id) && 'none' }}>
                 <IconButton
                     aria-label="expand row"
                     size="small" 
@@ -23,7 +23,7 @@ const TableRowItem = ({ items, openRowId, handleRows }) => {
             <TableCell 
                 component="th" 
                 scope="row"
-                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}
+                sx={{ borderBottom: openRowId.includes(items.id) && 'none' }}
                 onClick={handleRows(items)}
             >
                 {items.product}
@@ -31,7 +31,7 @@ const TableRowItem = ({ items, openRowId, handleRows }) => {
 
             <TableCell 
                 align="right"
-                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none' }}                                           
+                sx={{ borderBottom: openRowId.includes(items.id) && 'none' }}                                           
                 onClick={handleRows(items)}
             >
                 {items.category}
@@ -39,7 +39,7 @@ const TableRowItem = ({ items, openRowId, handleRows }) => {
 
             <TableCell 
                 align="right"
-                sx={{ cursor: 'pointer', borderBottom: openRowId.includes(items.id) && 'none', borderRight: theme.border }}                                            
+                sx={{ borderBottom: openRowId.includes(items.id) && 'none', borderRight: theme.border }}                                            
                 onClick={handleRows(items)}
             >
                 {items.estimatedTime.hours/60} tim {items.estimatedTime.minutes} min
