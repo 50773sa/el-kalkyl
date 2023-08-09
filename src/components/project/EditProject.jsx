@@ -7,10 +7,10 @@ import { toast } from 'react-toastify'
 // components 
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import LeavePageAlert from '../modals/LeavePageAlert'
-import ListItemProject from './childComponents/ListItemProject'
-import SelectedAndCurrentProducts from './childComponents/SelectedAndCurrentProducts'
+import ListItemProject from './edit/ListItemProject'
+import SelectedAndCurrentProducts from './edit/SelectedAndCurrentProducts'
 import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
-import Tabs from '../project/childComponents/Tabs'
+import Tabs from './Tabs'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import TabContext from '@mui/lab/TabContext'
