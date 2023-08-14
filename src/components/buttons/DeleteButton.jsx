@@ -36,7 +36,6 @@ const DeleteButton = ({ size, onClick }) => {
                 <RemoveCircleIcon
                     sx={{ 
                         display: {xs: 'flex', md: 'none'},
-                        width: '100%',
                         fontSize: '40px',
                         color: theme.palette.error.main, 
                         '&:hover': {
