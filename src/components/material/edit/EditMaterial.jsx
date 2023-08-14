@@ -29,7 +29,7 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
 
     return (
         <TableRow sx={{ mb: 2 }}>
-            <TableCell sx={{ border: 'none' }}>
+            <TableCell sx={{ border: 'none' }} colSpan={6}>
                 <Grid container spacing={2}>
 
                     {/**
