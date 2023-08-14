@@ -38,15 +38,15 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
     }
 
     return (
-        <TableRow sx={{ display: 'grid', m: 2 }}>
-            <TableCell sx={{ cursor: 'pointer', border: 'none' }} >
-                <Grid container spacing={2}>
+        <TableRow>
+            <TableCell colSpan={6} sx={{ cursor: 'pointer', border: 'none' }}>
+                <Grid container spacing={2} sx={{ ml: 2, mr: { xs: 0, md: 2 }, mt: 0.5}}>
 
                     {/**
                      *  Fittings
                      */}
 
-                    <Grid xs={12} md={6} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' } }}>
+                    <Grid xs={12} md={6} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' }, pr: { xs: 0, md: 1 } }}>
                         <TextField
                             size="small"
                             label="Tillbehör"
@@ -121,7 +121,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                         </TextField>   
                     </Grid>
             
-                    <Grid xs={4} md={1} display="flex" alignItems="center" justifyContent="center">
+                    <Grid xs={4} md={1} sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'center' }}}>
                         {/** This field is hidden and only used to preserve the 'id' of the object */}
                         <input
                             type='hidden'
