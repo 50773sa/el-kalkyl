@@ -163,23 +163,24 @@ const AllMaterial = ({ material }) => {
                                                             })}  
 
                                                             {/**
-                                                            *  Add more newFields button
+                                                            *  Add more fields- button
                                                             */}
 
                                                             <TableRow>
                                                                 <TableCell sx={{ cursor: 'pointer', border: 'none' }} >
                                                                     {isEditMode && (
                                                                         <Grid container spacing={2}>
-                                                                            <Grid xs={8} mx={2}>
+                                                                            <Grid xs={12} sx={{ mx: 2.5, pr: 0, mt: 3 }}>
                                                                                 <AddMoreFieldsButton items={items} />
                                                                             </Grid>
                                                                         </Grid>
                                                                     )}  
                                                                 </TableCell>
-                                                                <TableCell sx={{ borderBottom: 'none' }} />
-                                                                <TableCell sx={{ borderBottom: 'none' }} />
-                                                                <TableCell sx={{ borderBottom: 'none' }} />
                                                             </TableRow>
+
+                                                            {/**
+                                                             *  Delete/save buttons
+                                                             */}
 
                                                             <TableRow sx={{ display: 'flex', justifyContent: 'space-between', cursor: 'default' }}>
                                                                 <TableCell sx={{ pt: 10, p: '4rem 1rem 2rem', border: 'none' }}>
