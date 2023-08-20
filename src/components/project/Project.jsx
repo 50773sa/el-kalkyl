@@ -15,14 +15,14 @@ import ToggleOnIcon from '@mui/icons-material/ToggleOn'
 import ToggleOffIcon from '@mui/icons-material/ToggleOff'
 
 const Project = ({ projectId, project, currentUser }) => {
-	const [loading, setLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(false)
 	const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(null)
 	const navigate = useNavigate()
 
 	// open delete modal
     const deleteProject = async () => {
-		setLoading(true)
+		setIsLoading(true)
 		setIsOpen(true)
 	}
 
@@ -48,6 +48,7 @@ const Project = ({ projectId, project, currentUser }) => {
 			}
 		</span>
 	)
+	console.log('isLoading', isLoading)
 
     return (
         <CreateWrapper 
@@ -58,7 +59,7 @@ const Project = ({ projectId, project, currentUser }) => {
 			buttonText='Redigera'
 		>
 
-			{loading && <LoadingBackdrop /> }
+			{isLoading && <LoadingBackdrop /> }
 
 			<Grid container spacing={2}>
 				
@@ -98,7 +99,7 @@ const Project = ({ projectId, project, currentUser }) => {
 				<DialogDelete 
 					isOpen={isOpen} 
 					setIsOpen={setIsOpen} 
-					setLoading={setLoading}
+					setIsLoading={setIsLoading}
 					projectId={projectId}
 				/> 
 			)}
