@@ -4,7 +4,7 @@ import { doc, onSnapshot } from 'firebase/firestore'
 
 const useStreamDoc = (coll, id) => {
 	const [data, setData] = useState([])
-	const [loading, setLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(true)
 
 	useEffect(() => {
 		const ref = doc(db, coll, id)
@@ -15,7 +15,7 @@ const useStreamDoc = (coll, id) => {
 				id: snapshot.id,
 				...snapshot.data(),
 			})
-			setLoading(false)
+			setIsLoading(false)
 		})
 
 		return unsubscribe
@@ -24,7 +24,7 @@ const useStreamDoc = (coll, id) => {
 
 	return {
 		data,
-		loading,
+		isLoading,
 	}
 }
 

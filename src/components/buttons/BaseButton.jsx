@@ -4,6 +4,7 @@ import Button from '@mui/material/Button'
 const BaseButton = ({ type, variant, size, isFullWidth, sx, disabled, onClick, title }) => {
     return (
         <Button 
+            aria-label='Add one more field'
             type={type}           
             variant={variant}
             size={size}

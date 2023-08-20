@@ -5,13 +5,13 @@ import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 // components
-import ContentWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
-import ListItemProject from './childComponents/ListItemProject'
+import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
+import ListItemProject from './edit/ListItemProject'
 import LoadingBackdrop from '../LoadingBackdrop'
 import LeavePageAlert from '../modals/LeavePageAlert'
 import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
-import SelectedProduct from './childComponents/SelectedProduct'
-import Tabs from './childComponents/Tabs'
+import SelectedProduct from '../project/create/SelectedProduct'
+import Tabs from './Tabs'
 import TextInputField from '../reusableComponents/forms/TextInputField'
 // mui
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -64,7 +64,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
 
 
     return (
-        <ContentWrapper h1="Skapa nytt projekt">
+        <CreateWrapper h1="Skapa nytt projekt">
 
             {loading && <LoadingBackdrop /> }
 
@@ -122,7 +122,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
                             />
 
                             <ListItemProject 
-                                value="Ovrigt" 
+                                value="Övrigt" 
                                 selectedProduct={selectedProduct} 
                                 setSelectedProduct={setSelectedProduct}
                                 addToDocProducts={addToDocProducts}
@@ -167,7 +167,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
 
             <LeavePageAlert open={open} setOpen={setOpen}/>    
 
-        </ContentWrapper>
+        </CreateWrapper>
     )
 }
 

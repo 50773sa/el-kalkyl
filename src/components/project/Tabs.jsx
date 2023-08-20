@@ -1,4 +1,3 @@
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Tab from '@mui/material/Tab'
 import TabList  from '@mui/lab/TabList'
 
@@ -8,7 +7,7 @@ const Tabs = ({ handleChange }) => {
             <Tab className='tab' label="Apparater" value="Apparater" />
             <Tab className='tab' label="Belysning" value="Belysning" />
             <Tab className='tab' label="Data" value="Data" />
-            <Tab className='tab' label="Övrigt" value="Ovrigt" />
+            <Tab className='tab' label="Övrigt" value="Övrigt" />
         </TabList>
     )
 }

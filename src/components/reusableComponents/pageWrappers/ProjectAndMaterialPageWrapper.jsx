@@ -6,7 +6,7 @@ import Button from "@mui/material/Button"
 import Container from "@mui/system/Container"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
-const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
+const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, isEditPage, isProjectPage, children }) => {
     const navigate = useNavigate()
 
     return (
@@ -18,6 +18,8 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
                         <TabsLarge 
                             title1={tabTitle1}
                             title2={tabTitle2}
+                            isEditPage={isEditPage}
+                            isProjectPage={isProjectPage}
                         />
                     </Grid>
 
@@ -26,7 +28,8 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, children }) => {
                         size="large"
                         sx={{ 
                             px: 0, 
-                            py: 3,
+                            pt: !isEditPage && !isProjectPage ? 3 : 0,
+                            pb: 3,
                             '&:hover': {backgroundColor: 'transparent'}
                         }}
                         onClick={() => navigate(-1)}

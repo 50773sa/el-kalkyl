@@ -1,25 +1,32 @@
 import { useParams } from 'react-router-dom'
+// hooks
+import { useAuthContext } from '../contexts/AuthContextProvider'
+import useStreamDoc from '../hooks/useStreamDoc'
+// components
 import EditProject from '../components/project/EditProject'
 import LoadingBackdrop from '../components/LoadingBackdrop'
-import Container from '@mui/material/Container'
-import useStreamCollection from '../hooks/useStreamCollection'
-
+import ProjectAndMaterialPageWrapper from '../components/reusableComponents/pageWrappers/ProjectAndMaterialPageWrapper'
 
 const EditProjectPage = () => {
+	const { currentUser } = useAuthContext()
 	const { projectId } = useParams()
-	const { data: project, loading } = useStreamCollection('projects')
-
+	const { data: currentProject, isLoading } = useStreamDoc('projects', projectId)
 
     return (
-		<Container>
-			{loading && <LoadingBackdrop /> }
+        <ProjectAndMaterialPageWrapper isEditPage={true}>
 
-			{!loading &&
-				<EditProject project={project} projectId={projectId}/>
-			}
+				{isLoading && <LoadingBackdrop /> }
 
-		</Container>
-      
+				{!isLoading && currentProject && currentUser &&
+					<EditProject 
+						currentProject={currentProject} 
+						projectId={projectId}
+						currentUser={currentUser}
+						
+					/>
+				}
+
+		</ProjectAndMaterialPageWrapper>
     )
 }
 
