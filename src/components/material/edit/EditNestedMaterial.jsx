@@ -1,5 +1,6 @@
 import { useRef, useEffect } from 'react'
 // components
+import DeleteButton from '../../buttons/DeleteButton'
 import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
 // hooks
 import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
@@ -9,7 +10,6 @@ import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TextField from '@mui/material/TextField'
 import TableRow from '@mui/material/TableRow'
-import DeleteButton from '../../buttons/DeleteButton'
 
 // dropdowns
 const unitsList = [
@@ -40,7 +40,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
     return (
         <TableRow>
             <TableCell colSpan={6} sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container spacing={2} sx={{ ml: 2, mr: { xs: 0, md: 2 }, mt: 0.5}}>
+                <Grid container spacing={2} sx={{ ml: 1, mr: { xs: 0, md: 1 }, mt: 0.5}}>
 
                     {/**
                      *  Fittings
@@ -65,7 +65,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Quantity
                      */}
 
-                    <Grid xs={4} md={2.5} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
+                    <Grid xs={5} md={2.5} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
                         <TextField
                             select
                             // required
@@ -98,7 +98,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Units
                      */}
 
-                    <Grid xs={4} md={2.5}>
+                    <Grid xs={5} md={2.5}>
                         <TextField
                             id="unit"
                             select
@@ -121,7 +121,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                         </TextField>   
                     </Grid>
             
-                    <Grid xs={4} md={1} sx={{ display: 'flex', justifyContent: { xs: 'start', md: 'center' }}}>
+                    <Grid xs={2} md={1} sx={{ display: 'flex', justifyContent: { xs: 'right', md: 'right', mr: { xs: 2, md: 0}, px: 0  }}}>
                         {/** This field is hidden and only used to preserve the 'id' of the object */}
                         <input
                             type='hidden'
