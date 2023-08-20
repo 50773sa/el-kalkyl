@@ -12,6 +12,6 @@ The app is currently in Swedish but will later be translated into English with S
   <li>Reactjs</li>
   <li>MaterialUI</li>
   <li>Firebase Firestore</li>
-  <li>React Hook Form/li>
+  <li>React Hook Form</li>
   <li>...and a bit of Zustand, etc</li>
 </ul>
