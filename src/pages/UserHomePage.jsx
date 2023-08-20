@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useViewStore from '../store/useViewStore'
 import useStreamDoc from '../hooks/useStreamDoc'
+import { useTranslation } from 'react-i18next'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/userHome/Cards'
 
@@ -23,8 +24,6 @@ const UserHomepage = () => {
 	const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
     const navigate = useNavigate()
 
-
-
     useEffect(() => {
 		if (loading) {
 			return
@@ -41,14 +40,15 @@ const UserHomepage = () => {
 
 				{loading  && <LoadingBackdrop />}
 
-				{!loading && projects && (
+				{!loading && projects && completedProjects && (
 
 					<Grid container spacing={2}>
 						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false }))}
-								title='Projekt'
-								subtitle={projects?.length ? projects.length + " stycken" : "0 stycken"}
+								titleKey='projects'
+								numberOfProjects={projects?.length ? projects.length : '0'}
+								subtitle='projects'
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68A5EC' }}/>}
 								color="#68A5EC"
 							/>
@@ -58,8 +58,8 @@ const UserHomepage = () => {
 						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false } ))} 
-								title='Nytt Projekt'
-								subtitle="Skapa ny beräkning"
+								titleKey='newProject'
+								subtitle="newProject"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}
 								color="#68C37C"
 							/>
@@ -69,8 +69,8 @@ const UserHomepage = () => {
 						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false }) )}					
-								title='Material'
-								subtitle="Redigera material"
+								titleKey='material'
+								subtitle="material"
 								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#CBC309' }}/>}
 								color="#CBC309"
 							/>
@@ -79,8 +79,8 @@ const UserHomepage = () => {
 						<Grid xs={6} md={3}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true }) )}					
-								title='Nytt Material'
-								subtitle="Lägg till nytt material"
+								titleKey='newMaterial'
+								subtitle="newMaterial"
 								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#DC822F' }}/>}
 								color="#DC822F"
 							/>
