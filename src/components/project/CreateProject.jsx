@@ -122,7 +122,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
                             />
 
                             <ListItemProject 
-                                value="Ovrigt" 
+                                value="Övrigt" 
                                 selectedProduct={selectedProduct} 
                                 setSelectedProduct={setSelectedProduct}
                                 addToDocProducts={addToDocProducts}
