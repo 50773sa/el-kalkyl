@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
+// helpers
 import calculateWorkHours from '../helpers/calculateWorkHours'
 import getDate from '../helpers/getDate'
+// mui
+import { styled, useTheme } from '@mui/material/styles'
 import CircleIcon from '@mui/icons-material/Circle';
-
-import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
@@ -14,6 +14,7 @@ import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
 const HomeTable = ({ projects }) => {
+    const theme = useTheme()
     const { currentUser } = useAuthContext()
     const navigate = useNavigate()
 
@@ -55,7 +56,7 @@ const HomeTable = ({ projects }) => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {projects && projects?.map((row, i) => {
+                    {projects && projects?.map((row) => {
                         let { hours, minutes } = calculateWorkHours(row)
                         
                         return (
@@ -73,8 +74,8 @@ const HomeTable = ({ projects }) => {
 
                                 <StyledTableCell align="right"> 
                                     {row.completed 
-                                        ? <CircleIcon sx={{ color: '#15a715' }}/>
-                                        : <CircleIcon sx={{ color: '#ff7000' }}/>
+                                        ? <CircleIcon sx={{ color: theme.palette.color.green.main }}/>
+                                        : <CircleIcon sx={{ color: theme.palette.color.orange.main }}/>
                                     }                        
                                 </StyledTableCell>
                             </StyledTableRows>

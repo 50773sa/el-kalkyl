@@ -11,7 +11,7 @@ import Container from '@mui/material/Container'
 import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem';
+import MenuItem from '@mui/material/MenuItem'
 import { Box } from '@mui/material';
 
 
@@ -24,8 +24,9 @@ const Navigation = () => {
         setAnchorElUser(event.currentTarget)
     }
 
-    const handleCloseUserMenu = () => {
+    const handleCloseUserMenu = (path) => {
         setAnchorElUser(null)
+        navigate(currentUser ? `/user/${currentUser?.uid}/${path}` : '/')
     }
 
     const handleSignOut = async () => {
@@ -37,7 +38,7 @@ const Navigation = () => {
 
     return (
         <AppBar position="static">
-            <Container maxWidth="xl" >
+            <Container maxWidth="lg" >
                 <Toolbar 
                     disableGutters
                      sx={{ 
@@ -65,7 +66,7 @@ const Navigation = () => {
                             textDecoration: 'none',
                             cursor: 'pointer'
                         }}
-                    > Kalkyl<KeyboardDoubleArrowUpIcon fontSize='large'/>
+                    > wPlan+
                     </Typography> 
 
                     {/**
@@ -130,30 +131,21 @@ const Navigation = () => {
                             
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}  
-                                    // as={Link} 
-                                    // to={`/user/${currentUser.uid}/projects`} 
-                                    onClick={handleCloseUserMenu}
-
+                                    onClick={() => handleCloseUserMenu('projects')}
                                 >
                                     <Typography textAlign="center">Projekt</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}  
-                                    // as={Link} 
-                                    // to={`/user/${currentUser.uid}/material`} 
-                                    onClick={handleCloseUserMenu}
-
+                                    onClick={() => handleCloseUserMenu('material')}
                                 >
                                     <Typography textAlign="center">Material</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }} 
-                                    // as={Link} 
-                                    // to={`/user/${currentUser.uid}/settings`} 
-                                    onClick={handleCloseUserMenu} 
-                                    
+                                    onClick={() => handleCloseUserMenu('settings')} 
                                 >
                                     <Typography textAlign="center">Inställningar</Typography>
                                 </MenuItem>

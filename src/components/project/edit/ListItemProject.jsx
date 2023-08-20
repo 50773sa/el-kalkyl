@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography'
 
 const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocProducts, setAddToDocProducts, projectId, currentProject, material }) => {
 
-   //Delete object from Firestore
+   // Delete (toggle) object from Firestore
    const handleDeleteFromFb = async (item) => {
 
         if (addToDocProducts?.some(prod => prod.id === item.id)) {

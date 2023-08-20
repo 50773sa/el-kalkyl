@@ -7,10 +7,10 @@ const quantityList = [...new Array(101)].map((each, index) => ({ qty: index, val
 const hoursList = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
 const minutesList = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))
 const categoryList = [
-    {value: 'Apparater'},
-    {value: 'Data'},
-    {value: 'Belysning'},
-    {value: 'Ovrigt'},
+    {category: 'Apparater', value: 'Apparater'},
+    {category: 'Data', value: 'Data'},
+    {category: 'Belysning', value: 'Belysning'},
+    {category: 'Övrigt', value: 'Övrigt'},
 ]
 
 const SelectField = ({ required, label, name, inputRef, defaultValue, list, helperText, register }) => {

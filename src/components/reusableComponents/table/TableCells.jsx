@@ -1,11 +1,10 @@
 // mui
 import TableCell from '@mui/material/TableCell'
 
-const TableCells = ({ width, align, title }) => {
+const TableCells = ({ align, title }) => {
     return (
         <TableCell 
             sx={{ 
-                width: {width},
                 fontWeight: 600, 
                 py: 1.5,
                 color: '#606060', 

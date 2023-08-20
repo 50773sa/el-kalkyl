@@ -7,25 +7,26 @@ import { toast } from 'react-toastify'
 // mui
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
+import CloseIcon from '@mui/icons-material/Close'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-import CloseIcon from '@mui/icons-material/Close'
 import Typography from '@mui/material/Typography'
 
 
-const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
+const DialogDelete = ({ isOpen, setIsOpen, setIsLoading, projectId }) => {
     const [confirmDelete, setConfirmDelete] = useState(false)
     const [error, setError] = useState(false)
 	const navigate = useNavigate()
     const { currentUser } = useAuthContext()
 
 	const handleClose = () => {
-		setOpen(false)
-		setLoading(false)
+		setIsOpen(false)
+		setIsLoading(false)
 	}
   
     const handleDeleteProject = async () => {
@@ -38,19 +39,19 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
 			await deleteDoc(ref)
 			toast.success('Raderat!')
 			navigate(`/user/${currentUser.uid}/projects`, { replace: true })
-			setOpen(false)
-			setLoading(false)
+			setIsOpen(false)
+			setIsLoading(false)
 			
 		} catch(err){
 			setError(err)
-			setLoading(false)
+			setIsLoading(false)
 		}
 	}
 
     return (
         <Box>
             <Dialog
-                open={open}
+                open={isOpen}
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
@@ -83,15 +84,15 @@ const DialogDelete = ({ open, setOpen, setLoading, projectId }) => {
                         >
                             <SaveOutlinedIcon 
                                 fontSize='large' 
-                                sx={{ color: '#ff5901', }}
+                                sx={{ color: '#ff5901' }}
                             />
 
                         </Box>
                     </Box>
 
-                    <Box sx={{ margin: '1rem' }}>
+                    <IconButton sx={{ display: 'flex', alignItems: 'start', height: '', margin: 1}}>
                         <CloseIcon fontSize='large' onClick={handleClose}/>
-                    </Box>
+                    </IconButton>
                 </Box>
                
                 <DialogTitle id="alert-dialog-title">

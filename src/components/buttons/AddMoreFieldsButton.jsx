@@ -2,7 +2,7 @@ import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { uuidv4 } from "@firebase/util"
 // components
-import ButtonComponent from "../reusableComponents/buttons/BaseButton"
+import BaseButton from "./BaseButton"
 // mui
 import { useTheme } from '@mui/material'
 import AddRoundedIcon from '@mui/icons-material/AddRounded'
@@ -23,7 +23,7 @@ const AddMoreFieldsButton = ({ items }) => {
     }
 
     return (
-        <ButtonComponent 
+        <BaseButton 
             type="button"
             variant="outlined"
             size='small'
