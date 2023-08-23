@@ -1,3 +1,4 @@
+import React from 'react'
 import { useEffect, useState } from 'react'
 // mui
 import { useTheme } from '@mui/material'
@@ -90,7 +91,7 @@ const CalculationTable = ({ project }) => {
 							minutes = workingHours % 60
 						
 							return (
-								<>
+								<React.Fragment key={item.id}>
 									<StyledTableRows key={i.id} >
 										<StyledTableCellProduct>{item.product}</StyledTableCellProduct>
 										<StyledTableCellProduct align='center' >{item.quantity} st </StyledTableCellProduct>
@@ -108,13 +109,13 @@ const CalculationTable = ({ project }) => {
 										]
 
 										return (
-											<StyledTableRows  key={i.id}>
+											<StyledTableRows key={items.id}>
 												<StyledTableCell id='table-margin-left' > - {items.fittings}</StyledTableCell>
 												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit}</StyledTableCell>
 											</StyledTableRows >
 										)
 									})}
-								</>
+								</React.Fragment>
 							)
 						})}
 					</TableBody>

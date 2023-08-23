@@ -1,0 +1,18 @@
+{
+    "headings": {
+        "settings": "Inställningar",
+        "account": "Mitt konto",
+        "password": "Ändra lösenord",
+        "language": "Språk"
+    },
+    "labels": {
+        "name": "Namn",
+        "company": "Företag",
+        "email": "E-mail",
+        "newPassword": "Nytt lösenord",
+        "repeatNewPassword": "Upprepa nytt lösenord"
+    },
+    "button": {
+        "save": "Spara ändringar"
+    }
+}
