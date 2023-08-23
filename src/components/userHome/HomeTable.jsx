@@ -47,7 +47,7 @@ const HomeTable = ({ projects }) => {
 
     // Table head
     const tHeadTitle = (title) => (
-        t(`homepageTable.head.${title}`)
+        t(`homepage.homepageTable.head.${title}`)
     )
 
 
@@ -64,7 +64,7 @@ const HomeTable = ({ projects }) => {
                         ))}
                     </TableRow>
                 </TableHead>
-                
+
                 <TableBody>
                     {projects && projects?.map((row) => {
                         let { hours, minutes } = calculateWorkHours(row)
