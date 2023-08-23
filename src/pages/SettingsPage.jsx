@@ -216,7 +216,7 @@ const SettingsPage = () => {
 										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
 										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
 									}
-									<span>English</span>
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.en`, 'English')}</span>
 								</Typography>
 
 								<Typography component="p" sx={{ display: 'flex'}} onClick={() => handleChangeLanguage('sv')}> 
@@ -224,7 +224,7 @@ const SettingsPage = () => {
 										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
 										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
 									}
-									<span>Swedish</span>
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.sv`, 'Swedish')}</span>
 								</Typography>
 
 
