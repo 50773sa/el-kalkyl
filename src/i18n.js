@@ -1,35 +1,13 @@
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
+import enTranslation from './locales/en.json'
 
 i18next.use(initReactI18next).init({
     debug: true,
     fallbackLng: 'en',
     resources: {
         en: {
-            translation: {
-                homepageCards: {
-                    title: {
-                        projects: 'Projects',
-                        newProject: 'New Project',
-                        material: 'Material',
-                        newMaterial: 'New Material'
-                    }, 
-                    subtitle: {
-                        projects: 'projects',
-                        newProject: 'Create new project',
-                        material: 'Edit material',
-                        newMaterial: 'Create new material'
-                    },
-                }, 
-                homepageTable: {
-                    head: {
-                        projects: 'Projects',
-                        created: 'Created',
-                        workHours: 'Working hours',
-                        active: 'Active'
-                    },
-                },
-            },
+            translation: enTranslation
         },
         sv: {
             translation: {
