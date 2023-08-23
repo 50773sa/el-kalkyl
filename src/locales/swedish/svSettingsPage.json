@@ -12,6 +12,10 @@
         "newPassword": "Nytt lösenord",
         "repeatNewPassword": "Upprepa nytt lösenord"
     },
+    "language": {
+        "en": "Engelska",
+        "sv": "Svenska"
+    },
     "button": {
         "save": "Spara ändringar"
     }

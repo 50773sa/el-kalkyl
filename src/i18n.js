@@ -9,7 +9,7 @@ import svTranslationHomepage from "./locales/swedish/svHomepage.json"
 import svTranslationButtons from "./locales/swedish/svButtons.json"
 import svTranslationSettingsPage from './locales/swedish/svSettingsPage.json'
 
-i18next.use(initReactI18next).init({
+await i18next.use(initReactI18next).init({
     debug: true,
     fallbackLng: "en",
     resources: {

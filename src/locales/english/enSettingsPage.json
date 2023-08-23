@@ -12,6 +12,10 @@
         "newPassword": "New password",
         "repeatNewPassword": "Repeat new password"
     },
+    "language": {
+        "en": "English",
+        "sv": "Swedish"
+    },
     "button": {
         "save": "Save"
     }
