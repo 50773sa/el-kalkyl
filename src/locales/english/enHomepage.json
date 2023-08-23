@@ -1,4 +1,3 @@
-
 {
     "homepageCards": {
         "title": {
@@ -14,7 +13,6 @@
             "newMaterial": "Create new material"
         }
     }, 
-
     "homepageTable": {
         "head": {
             "projects": "Projects",

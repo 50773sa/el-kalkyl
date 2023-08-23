@@ -1,40 +1,30 @@
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
-import enTranslation from './locales/en.json'
+// en
+import enTranslationHomepage from "./locales/english/enHomepage.json"
+import enTranslationButtons from "./locales/english/enButtons.json"
+import enTranslationSettingsPage from './locales/english/enSettingsPage.json'
+// sv
+import svTranslationHomepage from "./locales/swedish/svHomepage.json"
+import svTranslationButtons from "./locales/swedish/svButtons.json"
+import svTranslationSettingsPage from './locales/swedish/svSettingsPage.json'
 
 i18next.use(initReactI18next).init({
     debug: true,
-    fallbackLng: 'en',
+    fallbackLng: "en",
     resources: {
         en: {
-            translation: enTranslation
+            translation: {
+                homepage: enTranslationHomepage,
+                buttons: enTranslationButtons,
+                settingsPage: enTranslationSettingsPage,
+            }
         },
         sv: {
             translation: {
-                homepageCards: {
-                    title: {
-                        projects: 'Projekt',
-                        newProject: 'Nytt projekt',
-                        material: 'Material',
-                        newMaterial: 'Nytt Material'
-
-                    }, 
-                    subtitle: {
-                        projects: 'Projekt',
-                        newProject: 'Skapa nytt projekt',
-                        material: 'Redigera material',
-                        newMaterial: 'Skapa nytt material'
-
-                    },
-                }, 
-                homepageTable: {
-                    head: {
-                        projects: 'Pågående projekt',
-                        created: 'Skapad',
-                        workHours: 'Arbetstimmar',
-                        active: 'Aktiv'
-                    },
-                },         
+                homepage: svTranslationHomepage,
+                buttons: svTranslationButtons, 
+                settingsPage: svTranslationSettingsPage,
             },
         },
     }
