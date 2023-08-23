@@ -3,7 +3,9 @@ import ReactDOM from 'react-dom/client'
 import { QueryClient, QueryClientProvider } from 'react-query'
 import { BrowserRouter } from 'react-router-dom'
 import AuthContextProvider from './contexts/AuthContextProvider'
+import './i18n'
 import App from './App'
+
 
 const queryClient = new QueryClient({
 	defaultOptions: {

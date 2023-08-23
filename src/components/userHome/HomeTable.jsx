@@ -1,7 +1,6 @@
-import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
-import { Trans, useTranslation } from 'react-i18next'
+import { useTranslation } from 'react-i18next'
 // helpers
 import calculateWorkHours from '../helpers/calculateWorkHours'
 import getDate from '../helpers/getDate'
@@ -55,6 +54,7 @@ const HomeTable = ({ projects }) => {
     return (
         <TableContainer sx={{  boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)"}}>
             <Table aria-label="table">
+
                 <TableHead sx={{ cursor: 'default'}}>
                     <TableRow>
                         {title.map((t, i) => (
@@ -62,9 +62,9 @@ const HomeTable = ({ projects }) => {
                                 {tHeadTitle(t)}
                             </StyledTableCell>
                         ))}
-
                     </TableRow>
                 </TableHead>
+                
                 <TableBody>
                     {projects && projects?.map((row) => {
                         let { hours, minutes } = calculateWorkHours(row)
