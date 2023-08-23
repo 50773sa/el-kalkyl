@@ -1,5 +1,7 @@
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../../contexts/AuthContextProvider'
+import { Trans, useTranslation } from 'react-i18next'
 // helpers
 import calculateWorkHours from '../helpers/calculateWorkHours'
 import getDate from '../helpers/getDate'
@@ -13,45 +15,53 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
+const StyledTableCell = styled(TableCell)(() => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: '#E6EEF6',
+        color: '#000000',
+        fontSize: 16,
+        cursor: 'default',
+        whiteSpace: 'noWrap'
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+        whiteSpace: 'noWrap'
+    },
+}))
+
+const StyledTableRows = styled(TableRow)(({ theme }) => ({
+        '&:nth-of-type(even)': {
+        backgroundColor: theme.palette.action.hover,
+    },
+        // hide last border
+        '&:last-child td, &:last-child th': {
+            border: 0,
+    },
+}))
+
 const HomeTable = ({ projects }) => {
+    const { t } = useTranslation()
     const theme = useTheme()
     const { currentUser } = useAuthContext()
     const navigate = useNavigate()
+    const title = ['projects', 'created', 'workHours', 'active']
 
-
-    const StyledTableCell = styled(TableCell)(() => ({
-        [`&.${tableCellClasses.head}`]: {
-            backgroundColor: '#E6EEF6',
-            color: '#000000',
-            fontSize: 20,
-
-        },
-        [`&.${tableCellClasses.body}`]: {
-            fontSize: 16,
-        },
-    }))
-
-      
-    const StyledTableRows = styled(TableRow)(({ theme }) => ({
-            '&:nth-of-type(even)': {
-            backgroundColor: theme.palette.action.hover,
-        },
-            // hide last border
-            '&:last-child td, &:last-child th': {
-                border: 0,
-        },
-    }))
+    // Table head
+    const tHeadTitle = (title) => (
+        t(`homepageTable.head.${title}`)
+    )
 
 
     return (
-        <TableContainer sx={{ mt: '2rem', boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)"}}>
+        <TableContainer sx={{  boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.25)"}}>
             <Table aria-label="table">
                 <TableHead sx={{ cursor: 'default'}}>
                     <TableRow>
-                        <StyledTableCell>Pågående projekt</StyledTableCell>
-                        <StyledTableCell align="right">Skapad</StyledTableCell>
-                        <StyledTableCell align="right">Arbetstid</StyledTableCell>
-                        <StyledTableCell align="right">Aktiv</StyledTableCell>
+                        {title.map((t, i) => (
+                            <StyledTableCell key={i} align={ i === 0 ? 'left' : 'right' }>                          
+                                {tHeadTitle(t)}
+                            </StyledTableCell>
+                        ))}
 
                     </TableRow>
                 </TableHead>
