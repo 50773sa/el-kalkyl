@@ -13,7 +13,7 @@ import svTranslationSettingsPage from './locales/swedish/svSettingsPage.json'
 import svTranslationNavigation from './locales/swedish/svNavigation.json'
 
 
-await i18next.use(initReactI18next).init({
+i18next.use(initReactI18next).init({
     debug: true,
     fallbackLng: "en",
     resources: {
@@ -34,5 +34,4 @@ await i18next.use(initReactI18next).init({
             },
         },
     }
-
 })
