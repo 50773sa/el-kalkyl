@@ -1,10 +1,11 @@
 import { useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 // mui
-import KeyboardDoubleArrowUpIcon from '@mui/icons-material/KeyboardDoubleArrowUp';
 import AppBar from '@mui/material/AppBar'
-import Toolbar from '@mui/material/Toolbar';
+import Box from '@mui/material/Box'
+import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
@@ -12,13 +13,13 @@ import Avatar from '@mui/material/Avatar'
 import Tooltip from '@mui/material/Tooltip'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import { Box } from '@mui/material';
 
 
 const Navigation = () => {
     const [anchorElUser, setAnchorElUser] = useState()
     const { currentUser, signout } = useAuthContext()
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget)
@@ -66,7 +67,8 @@ const Navigation = () => {
                             textDecoration: 'none',
                             cursor: 'pointer'
                         }}
-                    > wPlan+
+                    > 
+                        wPlan+
                     </Typography> 
 
                     {/**
@@ -90,7 +92,8 @@ const Navigation = () => {
                                     textDecoration: 'none',
                                     cursor: 'pointer'
                                 }}
-                            > Projekt
+                            > 
+                                {t(`navigation.projects`, 'Projects')}
                             </Typography>
 
                             <Typography
@@ -107,7 +110,8 @@ const Navigation = () => {
                                     textDecoration: 'none',
                                     cursor: 'pointer'
                                 }}
-                            > Material
+                            >
+                                {t(`navigation.material`, 'Material')}
                             </Typography>
 
                             <Tooltip title="Settings">
@@ -133,28 +137,28 @@ const Navigation = () => {
                                     sx={{ color: '#000000', pr: 6 }}  
                                     onClick={() => handleCloseUserMenu('projects')}
                                 >
-                                    <Typography textAlign="center">Projekt</Typography>
+                                    <Typography textAlign="center">{t(`navigation.projects`, 'Projects')}</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}  
                                     onClick={() => handleCloseUserMenu('material')}
                                 >
-                                    <Typography textAlign="center">Material</Typography>
+                                    <Typography textAlign="center">{t(`navigation.material`, 'Material')}</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }} 
                                     onClick={() => handleCloseUserMenu('settings')} 
                                 >
-                                    <Typography textAlign="center">Inställningar</Typography>
+                                    <Typography textAlign="center">{t(`navigation.settings`, 'Settings')}</Typography>
                                 </MenuItem>
 
                                 <MenuItem 
                                     sx={{ color: '#000000', pr: 6 }}
                                     onClick={handleSignOut}
                                 >
-                                    <Typography textAlign="center">Logga ut</Typography>
+                                    <Typography textAlign="center">{t(`navigation.logOut`, 'Log out')}</Typography>
                                 </MenuItem>
 
                             </Menu>

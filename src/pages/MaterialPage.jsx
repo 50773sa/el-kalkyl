@@ -14,7 +14,7 @@ const MaterialPage = () => {
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
     return (
-        <ProjectAndMaterialPageWrapper tabTitle1="Material" tabTitle2="Nytt material">
+        <ProjectAndMaterialPageWrapper tabsTitleKey1="material" tabsTitleKey2="newMaterial">
 
             {loading && <LoadingBackdrop />}
 
