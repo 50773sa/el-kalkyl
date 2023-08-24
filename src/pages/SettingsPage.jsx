@@ -10,9 +10,10 @@ import { useTranslation } from 'react-i18next'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
 
 const SettingsPage = () => {
     const [loading, setLoading] = useState(false)
@@ -31,8 +32,7 @@ const SettingsPage = () => {
         reloadUser 
     } = useAuthContext()
 	const { data: user } = useStreamCollection('users', currentUser.uid)
-	const { t } = useTranslation()
-
+	const { t, i18n } = useTranslation()
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -71,6 +71,10 @@ const SettingsPage = () => {
             setLoading(false)
         }
     }
+
+	const handleChangeLanguage = (lng) => {
+		i18n.changeLanguage(lng)
+	}
 
  	return (
     	<Container>
@@ -195,22 +199,34 @@ const SettingsPage = () => {
 						<Box
 							className='mb-2'
 							component="div"
-							noValidate
-							autoComplete="off"
+							// sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
 						>
 							<Typography 
 								variant="h7" 
 								component="div" 
 								textAlign='start' 
 								marginBottom='1rem'
-								autoComplete="off"
 							>
 								{t(`settingsPage.headings.language`, 'Language')} {/* second param is backup if something's not working */}
-							</Typography>    
+							</Typography>   
 
-					
+							
+								<Typography component="p" sx={{ display: 'flex', pb: 1}} onClick={() => handleChangeLanguage('en')}> 
+									{i18n.language === 'en'
+										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+									}
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.en`, 'English')}</span>
+								</Typography>
 
-							{error && <Typography sx={{ color: '#ff0000' }}>{error}</Typography>}
+								<Typography component="p" sx={{ display: 'flex'}} onClick={() => handleChangeLanguage('sv')}> 
+									{i18n.language === 'sv'
+										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+									}
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.sv`, 'Swedish')}</span>
+								</Typography>
+
 
 						</Box>
 
