@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+// components
 import TabsLarge from "../../buttons/TabsLarge"
 // mui
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded'
@@ -6,7 +7,7 @@ import Button from "@mui/material/Button"
 import Container from "@mui/system/Container"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
-const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, isEditPage, isProjectPage, children }) => {
+const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage, children }) => {
     const navigate = useNavigate()
 
     return (
@@ -16,8 +17,8 @@ const ProjectAndMaterialPageWrapper = ({ tabTitle1, tabTitle2, isEditPage, isPro
 
                     <Grid xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
                         <TabsLarge 
-                            title1={tabTitle1}
-                            title2={tabTitle2}
+                            tabsTitleKey1={tabsTitleKey1}
+                            tabsTitleKey2={tabsTitleKey2}
                             isEditPage={isEditPage}
                             isProjectPage={isProjectPage}
                         />

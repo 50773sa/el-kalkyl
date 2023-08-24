@@ -1,0 +1,22 @@
+{
+    "headings": {
+        "settings": "Settings",
+        "account": "My account",
+        "password": "Change password",
+        "language": "Language"
+    },
+    "labels": {
+        "name": "Name",
+        "company": "Company",
+        "email": "E-mail",
+        "newPassword": "New password",
+        "repeatNewPassword": "Repeat new password"
+    },
+    "language": {
+        "en": "English",
+        "sv": "Swedish"
+    },
+    "button": {
+        "save": "Save"
+    }
+}

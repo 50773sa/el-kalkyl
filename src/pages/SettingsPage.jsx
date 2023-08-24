@@ -5,13 +5,15 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 import useStreamCollection from '../hooks/useStreamCollection'
 import LoadingBackdrop from './../components/LoadingBackdrop'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
 // mui
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Container from '@mui/material/Container'
+import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked'
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
-
 
 const SettingsPage = () => {
     const [loading, setLoading] = useState(false)
@@ -30,7 +32,7 @@ const SettingsPage = () => {
         reloadUser 
     } = useAuthContext()
 	const { data: user } = useStreamCollection('users', currentUser.uid)
-
+	const { t, i18n } = useTranslation()
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -70,6 +72,10 @@ const SettingsPage = () => {
         }
     }
 
+	const handleChangeLanguage = (lng) => {
+		i18n.changeLanguage(lng)
+	}
+
  	return (
     	<Container>
 			<div className='wrapper'>
@@ -82,7 +88,7 @@ const SettingsPage = () => {
 					textAlign='start' 
 					marginBottom='2rem'
 				>
-					<strong>Inställningar</strong>
+					<strong>{t(`settingsPage.headings.settings`)}</strong>
 				</Typography>
 
 
@@ -98,7 +104,7 @@ const SettingsPage = () => {
 						textAlign='start' 
 						marginBottom='1rem'
 					>
-						<strong>Mina uppgifter</strong>
+						<strong>{t(`settingsPage.headings.account`, 'My account')}</strong>
 					</Typography>
 
 					<Box
@@ -111,7 +117,7 @@ const SettingsPage = () => {
 						<TextField
 							inputRef={userNameRef}
 							id="firstName"
-							label="Förnamn"
+							label={t(`settingsPage.labels.name`, 'Name')}
 							defaultValue={userName}
 							helperText=" "
 							autoComplete="off"
@@ -121,7 +127,7 @@ const SettingsPage = () => {
 						<TextField
 							inputRef={companyRef}
 							id="company"
-							label="Företag"
+							label={t(`settingsPage.labels.company`, 'Company')}
 							helperText=" "
 							autoComplete="off"
 							fullWidth
@@ -129,7 +135,7 @@ const SettingsPage = () => {
 							
 						<TextField
 							id="email"
-							label="E-mail"
+							label={t(`settingsPage.labels.email`, 'E-mail')}
 							defaultValue={userEmail}
 							helperText=" "
 							autoComplete="off"
@@ -155,7 +161,7 @@ const SettingsPage = () => {
 								marginBottom='1rem'
 								autoComplete="off"
 							>
-								Ändra lösenord
+								{t(`settingsPage.headings.password`, 'Change password')}
 							</Typography>     
 
 							<TextField
@@ -163,7 +169,7 @@ const SettingsPage = () => {
 								fullWidth
 								inputRef={passwordRef}
 								name="newPassword"
-								label="Nytt lösenord"
+								label={t(`settingsPage.labels.newPassword`, 'New password')}
 								type="password"
 								id="newPassword"
 								helperText=" "   
@@ -175,7 +181,7 @@ const SettingsPage = () => {
 								fullWidth
 								inputRef={passwordConfirmRef}
 								name="passwordConfirm"
-								label="Upprepa nytt lösenord"
+								label={t(`settingsPage.labels.repeatNewPassword`, 'Repeat new password')}
 								type="password"
 								id="passwordConfirm"
 								autoComplete="off"
@@ -186,7 +192,47 @@ const SettingsPage = () => {
 
 						</Box>
 
-						<Button variant="contained" type='submit' fullWidth >Spara ändringar</Button>
+						{/**
+						 *  Language
+						 */}
+
+						<Box
+							className='mb-2'
+							component="div"
+							// sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}
+						>
+							<Typography 
+								variant="h7" 
+								component="div" 
+								textAlign='start' 
+								marginBottom='1rem'
+							>
+								{t(`settingsPage.headings.language`, 'Language')} {/* second param is backup if something's not working */}
+							</Typography>   
+
+							
+								<Typography component="p" sx={{ display: 'flex', pb: 1}} onClick={() => handleChangeLanguage('en')}> 
+									{i18n.language === 'en'
+										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+									}
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.en`, 'English')}</span>
+								</Typography>
+
+								<Typography component="p" sx={{ display: 'flex'}} onClick={() => handleChangeLanguage('sv')}> 
+									{i18n.language === 'sv'
+										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+									}
+									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.sv`, 'Swedish')}</span>
+								</Typography>
+
+
+						</Box>
+
+						<Button variant="contained" type='submit' fullWidth>
+							{t(`settingsPage.button.save`, 'Save')}
+						</Button>
 					</Box>
 
 				</div>

@@ -1,0 +1,24 @@
+{
+    "homepageCards": {
+        "title": {
+            "projects": "Projects",
+            "newProject": "New Project",
+            "material": "Material",
+            "newMaterial": "New Material"
+        }, 
+        "subtitle": {
+            "projects": "projects",
+            "newProject": "Create new project",
+            "material": "Edit material",
+            "newMaterial": "Create new material"
+        }
+    }, 
+    "homepageTable": {
+        "head": {
+            "projects": "Projects",
+            "created": "Created",
+            "workHours": "Working hours",
+            "active": "Active"
+        }
+    }
+}

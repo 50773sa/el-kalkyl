@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 // mui
 import React from 'react'
 import Button from '@mui/material/Button'
@@ -6,9 +7,11 @@ import Stack from '@mui/material/Stack'
 //store
 import useViewStore from '../../store/useViewStore'
 
-const TabsLarge = ({ title1, title2, isEditPage, isProjectPage }) => {
+const TabsLarge = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage }) => {
     const isCurrentView = useViewStore((state) => state.isCurrentView)
     const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
+    const { t } = useTranslation()
+
     
     const handleClick = () => {
         setIsCurrentView({ 
@@ -32,7 +35,7 @@ const TabsLarge = ({ title1, title2, isEditPage, isProjectPage }) => {
                             borderRadius: '10px 10px 0  0'
                         }}
                     >
-                        {title1}
+                        {t(`buttons.tabsLarge.${tabsTitleKey1}`)}                   
                     </Button>
                     <Button 
                         onClick={handleClick} 
@@ -44,7 +47,7 @@ const TabsLarge = ({ title1, title2, isEditPage, isProjectPage }) => {
                             borderRadius: '10px 10px 0  0'
                         }}
                     >
-                        {title2}
+                        {t(`buttons.tabsLarge.${tabsTitleKey2}`)}                   
                     </Button>
                 </Stack>
             )}

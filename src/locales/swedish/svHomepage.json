@@ -1,0 +1,26 @@
+{
+    "homepageCards": {
+        "title": {
+            "projects": "Projekt",
+            "newProject": "Nytt projekt",
+            "material": "Material",
+            "newMaterial": "Nytt Material"
+
+        }, 
+        "subtitle": {
+            "projects": "Projekt",
+            "newProject": "Skapa nytt projekt",
+            "material": "Redigera material",
+            "newMaterial": "Skapa nytt material"
+
+        }
+    }, 
+    "homepageTable": {
+        "head": {
+            "projects": "Pågående projekt",
+            "created": "Skapad",
+            "workHours": "Arbetstimmar",
+            "active": "Aktiv"
+        }
+    }
+}
