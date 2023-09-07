@@ -5,13 +5,20 @@ import enTranslationHomepage from "./locales/english/enHomepage.json"
 import enTranslationButtons from "./locales/english/enButtons.json"
 import enTranslationSettingsPage from './locales/english/enSettingsPage.json'
 import enTranslationNavigation from './locales/english/enNavigation.json'
+import enTranslationTableHead from './locales/english/enTableHead.json'
+import enTranslationOther from './locales/english/enOther.json'
+import enTranslationProjects from './locales/english/enProjects.json'
+import enTranslationMaterials from './locales/english/enMaterials.json'
 
 // sv
 import svTranslationHomepage from "./locales/swedish/svHomepage.json"
 import svTranslationButtons from "./locales/swedish/svButtons.json"
 import svTranslationSettingsPage from './locales/swedish/svSettingsPage.json'
 import svTranslationNavigation from './locales/swedish/svNavigation.json'
-
+import svTranslationTableHead from './locales/swedish/svTableHead.json'
+import svTranslationOther from './locales/english/enOther.json'
+import svTranslationProjects from './locales/swedish/svProjects.json'
+import svTranslationMaterials from './locales/swedish/svMaterials.json'
 
 i18next.use(initReactI18next).init({
     debug: true,
@@ -22,7 +29,11 @@ i18next.use(initReactI18next).init({
                 homepage: enTranslationHomepage,
                 buttons: enTranslationButtons,
                 settingsPage: enTranslationSettingsPage,
-                navigation: enTranslationNavigation
+                navigation: enTranslationNavigation,
+                tableHead: enTranslationTableHead,
+                projects: enTranslationProjects,
+                materials: enTranslationMaterials,
+                other: enTranslationOther,
             },
         },
         sv: {
@@ -30,7 +41,11 @@ i18next.use(initReactI18next).init({
                 homepage: svTranslationHomepage,
                 buttons: svTranslationButtons, 
                 settingsPage: svTranslationSettingsPage,
-                navigation: svTranslationNavigation
+                navigation: svTranslationNavigation,
+                tableHead: svTranslationTableHead,
+                projects: svTranslationProjects,
+                materials: svTranslationMaterials,
+                other: svTranslationOther,
             },
         },
     }

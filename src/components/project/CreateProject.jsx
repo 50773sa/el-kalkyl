@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { db } from '../../firebase'
 import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
+import { useTranslation } from 'react-i18next'
 // components
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import ListItemProject from './edit/ListItemProject'
@@ -27,6 +28,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(false)
     const numberRef = useRef()
+    const { t } = useTranslation()
     const { handleSubmit, formState: { errors }, reset, register, isSubmitting } = useForm()
 
     // tabs
@@ -64,7 +66,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
 
 
     return (
-        <CreateWrapper h1="Skapa nytt projekt">
+        <CreateWrapper h1={t(`projects.createProject`, 'Create project')}>
 
             {loading && <LoadingBackdrop /> }
 

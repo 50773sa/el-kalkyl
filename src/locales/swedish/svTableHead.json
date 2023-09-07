@@ -1,0 +1,11 @@
+{
+    "project": "Projekt",
+    "created": "Skapad",
+    "active": "Aktic",
+    "product": "Produkt",
+    "quantity": "Antal",
+    "articleNumber": "Artikelnummer",
+    "category": "Kategori",
+    "timeEstimate": "Estimerad tid",
+    "material": "Material"
+}

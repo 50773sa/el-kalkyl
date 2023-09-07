@@ -1,8 +1,10 @@
+import { useTranslation } from 'react-i18next'
 // mui
 import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
 const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
+    const { t } = useTranslation()
     return (
         <Grid container alignItems="center" justifyContent='end'>
             <Grid xs={12} md={4} lg={2.5} alignItems="center"
@@ -24,7 +26,7 @@ const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
                         '&:hover': {backgroundColor: '#47B15E'},
                     }}
                 >
-                    Spara
+                    {t(`buttons.save`, 'Save')}
                 </Button>
             </Grid>
 
@@ -42,7 +44,7 @@ const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
                     }}
                     onClick={() => setOpen(true)}
                 >
-                    Avbryt
+                    {t(`buttons.cancel`, 'Cancel')}
                 </Button>
             </Grid>
         </Grid>

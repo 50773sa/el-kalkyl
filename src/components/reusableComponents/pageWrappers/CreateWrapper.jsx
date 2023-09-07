@@ -10,7 +10,6 @@ const CreateWrapper = ({ h1, icon, isEditBtn, onclick, buttonText, children }) =
                 icon={icon} 
                 isEditBtn={isEditBtn} 
                 onclick={onclick} 
-                buttonText={buttonText}
             />
 
             <Grid mx={2}>

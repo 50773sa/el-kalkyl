@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 // mui
 import { useTheme } from '@mui/material'
 import { styled } from '@mui/material/styles'
@@ -26,6 +27,7 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 const CalculationTable = ({ project }) => {
 	const theme = useTheme()
+	const { t } = useTranslation()
 	const [loading, setLoading] = useState(true)
 	const [objArr, setObjArr] = useState([])
 	const [reducedResult, setReducedResult] = useState([])
@@ -72,9 +74,9 @@ const CalculationTable = ({ project }) => {
 				<Table sx={{ minWidth: 300 }} size='small' aria-label="spanning table" >
 					<TableHead>
 						<TableRow >
-							<TableCell><strong>Material</strong></TableCell>
-							<TableCell align="center"><strong>Antal</strong></TableCell>
-							<TableCell align="right"><strong>Tid</strong></TableCell>
+							<TableCell><strong>{t(`tableHead.material`, 'Material')}</strong></TableCell>
+							<TableCell align="center"><strong>{t(`tableHead.quantity`, 'Quantity')}</strong></TableCell>
+							<TableCell align="right"><strong>{t(`tableHead.timeEstimate`, 'Time estimated')}</strong></TableCell>
 						</TableRow>
 					</TableHead>
 
@@ -126,9 +128,13 @@ const CalculationTable = ({ project }) => {
 
 					<TableBody>
 						<TableRow  sx={{ borderTop: '1px solid #848484cf', borderBottom: '1px solid #848484cf' }} >
-							<StyledTableCell align='left'><strong>Arbetstimmar</strong></StyledTableCell>			
+							<StyledTableCell align='left'><strong>{t(`other.workHours`, 'Working hours')}</strong></StyledTableCell>			
 							<StyledTableCell />			
-							<StyledTableCell align="right">{hours} tim {minutes} min</StyledTableCell>				
+							<StyledTableCell align="right">
+								{hours + t(` other.hours`, 'h')} 
+									{' '}
+								{minutes + t(`other.minutes`, 'min')}
+							</StyledTableCell>				
 
 						</TableRow>
 
