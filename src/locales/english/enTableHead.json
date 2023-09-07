@@ -1,0 +1,11 @@
+{
+    "projects": "Projects",
+    "created": "Created",
+    "active": "Active",
+    "product": "Product",
+    "quantity":"Quantity",
+    "articleNumber": "Article number",
+    "category": "Category",
+    "timeEstimate": "Time estimate",
+    "material": "Material"
+}
