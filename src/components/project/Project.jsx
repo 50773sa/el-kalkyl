@@ -48,7 +48,6 @@ const Project = ({ projectId, project, currentUser }) => {
 			}
 		</span>
 	)
-	console.log('isLoading', isLoading)
 
     return (
         <CreateWrapper 
@@ -56,7 +55,7 @@ const Project = ({ projectId, project, currentUser }) => {
 			icon={icon} 
 			isEditBtn={true} 
 			onclick={() => navigate(`/user/${currentUser.uid}/project/${projectId}/edit`)} 
-			buttonText='Redigera'
+			buttonText='edit'
 		>
 
 			{isLoading && <LoadingBackdrop /> }

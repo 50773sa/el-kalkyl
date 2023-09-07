@@ -4,6 +4,7 @@ import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next';
 // components 
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import LeavePageAlert from '../modals/LeavePageAlert'
@@ -29,6 +30,8 @@ const EditProject = ({ projectId, currentProject, currentUser }) => {
     const numberRef = useRef()
     const { handleSubmit, formState: { errors, touchedFields }, reset, register } = useForm({mode: 'onTouched'})
     const navigate = useNavigate()
+    const { t } = useTranslation()
+
 
     // Tabs 
     const handleChange = (e, newValue) => {
@@ -67,7 +70,7 @@ const EditProject = ({ projectId, currentProject, currentUser }) => {
     }, [currentProject, projectName])
 
     return (
-        <CreateWrapper h1='Redigera projekt'>
+        <CreateWrapper h1={t(`projects.editProject`, 'Edit pro')}>
             <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
 
                 {/**

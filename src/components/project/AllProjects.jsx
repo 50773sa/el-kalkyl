@@ -19,6 +19,7 @@ const AllProjects = ({ projects }) => {
     const [openRowId, setOpenRowId] = useState([])
     const { currentUser } = useAuthContext()
     const theme = useTheme()
+    const { t } = useTranslation()
 
     return (
         <Grid xs={12}>
@@ -32,9 +33,9 @@ const AllProjects = ({ projects }) => {
 
                     <TableHeadBase>
                         <TableCells />
-                        <TableCells title="Projekt" />
-                        <TableCells align="left" title="Skapad" />
-                        <TableCells align="right" title="Aktiv" />
+                        <TableCells title={t(`tableHead.projects`, 'Projects')} />
+                        <TableCells align="left" title={t(`tableHead.created`, 'Created')} />
+                        <TableCells align="right" title={t(`tableHead.timeEstimate`)}/>
                     </TableHeadBase>
 
                     <TableBody>
