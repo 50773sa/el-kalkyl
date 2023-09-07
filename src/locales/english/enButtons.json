@@ -4,5 +4,12 @@
         "newProject": "New Project",
         "material": "Material",
         "newMaterial": "New Material"
-    }
+    },
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "tooltip": "Remove from list",
+    "goBack": "Go back"
+
 }

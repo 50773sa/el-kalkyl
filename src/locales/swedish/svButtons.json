@@ -4,5 +4,12 @@
         "newProject": "Nytt projekt",
         "material": "Material",
         "newMaterial": "Nytt Material"
-    }
+    },
+    "save": "Spara",
+    "cancel": "Avbryt",
+    "delete": "Radera",
+    "edit":"Redigera",
+    "tooltip": "Ta bort från lista",
+    "goBack": "Tillbaka"
+
 }

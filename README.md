@@ -10,6 +10,7 @@ The app is currently in Swedish but will later be translated into English with S
 
 <ul>
   <li>Reactjs</li>
+  <li>React i18next (for translation)</li>
   <li>MaterialUI</li>
   <li>Firebase Firestore</li>
   <li>React Hook Form</li>

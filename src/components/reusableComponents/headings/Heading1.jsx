@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next"
+// components
 import EditButton from "../../buttons/EditButton"
 // mui
-import { useTheme } from "@mui/material"
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 
 const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
+    const { t } = useTranslation()
 
     return (
         <Grid container sx={{ justifyContent: 'space-between', height:'50px', backgroundColor: '#e0e0e0', marginBottom: 2 }}>
@@ -24,7 +26,7 @@ const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
                         cursor: "default" 
                     }}
                 >
-                    {h1} 
+                   {h1}
                 </Typography>  
             </Grid>
 
@@ -32,7 +34,7 @@ const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
                 {icon}
 
                 {isEditBtn && (
-                    <EditButton onClick={onclick} buttonText={buttonText} />
+                    <EditButton onClick={onclick} />
                 )}
             </Grid>  
         </Grid>
