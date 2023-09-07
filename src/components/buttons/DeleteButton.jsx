@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next"
 // mui
 import { useTheme } from "@mui/material"
 import Button from "@mui/material/Button"
@@ -6,6 +7,7 @@ import Tooltip from "@mui/material/Tooltip"
 
 const DeleteButton = ({ size, onClick }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     return (
         <>
@@ -27,12 +29,12 @@ const DeleteButton = ({ size, onClick }) => {
                 onClick={onClick} 
             >   
                 <span style={{ whiteSpace: 'nowrap' }}>
-                    Radera
+                   {t(`buttons.delete`, 'Delete')}
                 </span>
             </Button>
 
             {/* For small devices */}
-            <Tooltip title="Radera tillbehöret från listan">
+            <Tooltip title={t(`buttons.tooltip`, 'Remove from list')}>
                 <RemoveCircleIcon
                     sx={{ 
                         display: {xs: 'flex', md: 'none'},
@@ -47,7 +49,6 @@ const DeleteButton = ({ size, onClick }) => {
             </Tooltip>
         </>
     )
-
 }
 
 export default DeleteButton

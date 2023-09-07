@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import { useTranslation } from "react-i18next"
 // components
 import TabsLarge from "../../buttons/TabsLarge"
 // mui
@@ -9,6 +10,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
 const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage, children }) => {
     const navigate = useNavigate()
+    const { t } = useTranslation()
 
     return (
         <Container>
@@ -35,7 +37,8 @@ const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPag
                         }}
                         onClick={() => navigate(-1)}
                     >
-                        <ArrowBackIosRoundedIcon />  Tillbaka
+                        <ArrowBackIosRoundedIcon />  
+                        {t(`buttons.goBack`, 'Go back')}
                     </Button>
                   
                     <Grid 

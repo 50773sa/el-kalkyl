@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 // helpers
 import preventScrollingNumberInput from '../../helpers/preventScrollingNumberInput'
 // mui
@@ -13,6 +14,7 @@ import Tooltip from '@mui/material/Tooltip'
 import Typography from '@mui/material/Typography'
 
 const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, error, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
+    const { t } = useTranslation()
  
     const handleDelete = (selectedItem) => () => {
         setSelectedProduct((items) => items.filter((item) => item.id !== selectedItem.id))
@@ -86,7 +88,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
                         )
                     }): (
                             <Typography variant="body1" component="p" sx={{ fontSize: '1rem', ml: 4, mt: 2 }}>
-                                <em>Inga tillagda produkter</em>
+                                <em>{t(`projects.listMessage`, 'No products added')}</em>
                             </Typography>
                         )
                 }      

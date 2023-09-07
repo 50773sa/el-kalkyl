@@ -7,6 +7,7 @@ import TableBody from '@mui/material/TableBody'
 import TableCell from '@mui/material/TableCell'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
+import { useTranslation } from "react-i18next"
 
 const StyledTableCellBold = styled(TableCell)(() => ({
 	fontWeight: 'bold',
@@ -20,6 +21,7 @@ const StyledTCellCursorDefault = styled(TableCell)(() => ({
 
 const CollapseTableRowData = ({ openRowId, list }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     return (
         <Collapse 
@@ -36,10 +38,10 @@ const CollapseTableRowData = ({ openRowId, list }) => {
 
                 <TableHead>
                     <TableRow>
-                        <StyledTableCellBold>Produkter</StyledTableCellBold>
-                        <StyledTableCellBold>Antal</StyledTableCellBold>
+                        <StyledTableCellBold>{t(`tableHead.product`, 'Product')}</StyledTableCellBold>
+                        <StyledTableCellBold>{t(`tableHead.quantity`, 'Quantity')}</StyledTableCellBold>
                         <StyledTableCellBold />
-                        <StyledTableCellBold align='right'>Artikelnummer</StyledTableCellBold>
+                        <StyledTableCellBold align='right'>{t(`tableHead.articleNumber`, 'Article number')}</StyledTableCellBold>
                     </TableRow>
                 </TableHead>
 
