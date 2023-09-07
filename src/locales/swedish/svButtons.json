@@ -8,6 +8,7 @@
     "save": "Spara",
     "cancel": "Avbryt",
     "delete": "Radera",
+    "deleteProject": "Radera project",
     "edit":"Redigera",
     "tooltip": "Ta bort från lista",
     "goBack": "Tillbaka"

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 // mui
 import { useTheme } from '@mui/material'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
@@ -8,6 +9,7 @@ import Typography from '@mui/material/Typography'
 
 const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     const handleDelete = (selectedItem) => () => {
         setExtraItems((items) => items.filter((item) => item.id !== selectedItem.id))
@@ -59,7 +61,9 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
                 ))
             ): (
                 <Typography sx={{ height: '50px', pl: 2, mt: 2}}>
-                    <em sx={{ mt: 5 }}>Inga tillbehör</em>
+                    <em sx={{ mt: 5 }}>
+                        - {t(`materials.listMessage`, 'The list is empty')}
+                    </em>
                 </Typography>
             )}
         </>

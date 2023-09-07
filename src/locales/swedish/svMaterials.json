@@ -1,5 +1,21 @@
 {
-    "addNewMaterial": "Lägg till nytt material",
-    "chosenFittings": "Valda tillbehör",
-    "installationTime": "Monteringstid"
+    "headings": {
+        "createNewMaterial": "Lägg till nytt material",
+        "fittings": "Tillbehör",
+        "installationTime": "Monteringstid",
+        "addButton": "Lägg till",
+        "addTooltip": "Lägg till i lista",
+        "listMessage": "Listan är tom",
+        "errorMsg": "Glöm inte lägga tillbehöret i listan!"
+    },
+
+    "placeholders": {
+        "product": "Product",
+        "category": "Category",
+        "fitting": "Fitting",
+        "quantity": "Quantity",
+        "unit": "pcs/m",
+        "hours": "Hours",
+        "minutes": "Minutes"
+    }
 }

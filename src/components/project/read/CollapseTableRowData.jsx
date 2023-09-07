@@ -41,7 +41,7 @@ const CollapseTableRowData = ({ openRowId, list }) => {
                         <StyledTableCellBold>{t(`tableHead.product`, 'Product')}</StyledTableCellBold>
                         <StyledTableCellBold>{t(`tableHead.quantity`, 'Quantity')}</StyledTableCellBold>
                         <StyledTableCellBold />
-                        <StyledTableCellBold align='right'>{t(`tableHead.articleNumber`, 'Article number')}</StyledTableCellBold>
+                        <StyledTableCellBold align='right'>{t(`tableHead.articleNumber`, 'Article id')}</StyledTableCellBold>
                     </TableRow>
                 </TableHead>
 

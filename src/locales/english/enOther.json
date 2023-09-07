@@ -1,6 +1,7 @@
 {
-    "workHours": "Working hours",
+    "workHours": "Installation time",
     "hours": "h",
     "minutes": "min",
-    "quantity": "qty"
+    "quantity": "qty",
+    "pcs": "pcs"
 }

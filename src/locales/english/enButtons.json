@@ -8,6 +8,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
+    "deleteProject": "Delete project",
     "edit": "Edit",
     "tooltip": "Remove from list",
     "goBack": "Go back"

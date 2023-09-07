@@ -4,8 +4,8 @@
     "active": "Active",
     "product": "Product",
     "quantity":"Quantity",
-    "articleNumber": "Article number",
+    "articleNumber": "Article id",
     "category": "Category",
-    "timeEstimate": "Time estimate",
+    "timeEstimate": "Assembly time",
     "material": "Material"
 }
