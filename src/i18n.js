@@ -9,6 +9,7 @@ import enTranslationTableHead from './locales/english/enTableHead.json'
 import enTranslationOther from './locales/english/enOther.json'
 import enTranslationProjects from './locales/english/enProjects.json'
 import enTranslationMaterials from './locales/english/enMaterials.json'
+import enTranslationModals from './locales/english/enModals.json'
 
 // sv
 import svTranslationHomepage from "./locales/swedish/svHomepage.json"
@@ -16,9 +17,10 @@ import svTranslationButtons from "./locales/swedish/svButtons.json"
 import svTranslationSettingsPage from './locales/swedish/svSettingsPage.json'
 import svTranslationNavigation from './locales/swedish/svNavigation.json'
 import svTranslationTableHead from './locales/swedish/svTableHead.json'
-import svTranslationOther from './locales/english/enOther.json'
+import svTranslationOther from './locales/swedish/svOther.json'
 import svTranslationProjects from './locales/swedish/svProjects.json'
 import svTranslationMaterials from './locales/swedish/svMaterials.json'
+import svTranslationModals from './locales/swedish/svModals.json'
 
 i18next.use(initReactI18next).init({
     debug: true,
@@ -33,6 +35,7 @@ i18next.use(initReactI18next).init({
                 tableHead: enTranslationTableHead,
                 projects: enTranslationProjects,
                 materials: enTranslationMaterials,
+                modals: enTranslationModals,
                 other: enTranslationOther,
             },
         },
@@ -45,6 +48,7 @@ i18next.use(initReactI18next).init({
                 tableHead: svTranslationTableHead,
                 projects: svTranslationProjects,
                 materials: svTranslationMaterials,
+                modals: svTranslationModals,
                 other: svTranslationOther,
             },
         },
