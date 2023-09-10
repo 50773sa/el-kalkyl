@@ -96,7 +96,7 @@ const CalculationTable = ({ project }) => {
 								<React.Fragment key={item.id}>
 									<StyledTableRows key={i.id} >
 										<StyledTableCellProduct>{item.product}</StyledTableCellProduct>
-										<StyledTableCellProduct align='center' >{item.quantity} st </StyledTableCellProduct>
+										<StyledTableCellProduct align='center' >{item.quantity} {t(`other.pcs`, 'pcs')} </StyledTableCellProduct>
 										<StyledTableCellProduct align='right'>{workHours} min</StyledTableCellProduct>
 									</StyledTableRows>
 
@@ -113,7 +113,7 @@ const CalculationTable = ({ project }) => {
 										return (
 											<StyledTableRows key={items.id}>
 												<StyledTableCell id='table-margin-left' > - {items.fittings}</StyledTableCell>
-												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit}</StyledTableCell>
+												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit == 'st' ? t(`other.pcs`, 'pcs') : items.unit}</StyledTableCell>
 											</StyledTableRows >
 										)
 									})}
@@ -143,7 +143,7 @@ const CalculationTable = ({ project }) => {
 								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
 								<StyledTableCell align='left' sx={{ fontWeight: '700' }}>{item.product}</StyledTableCell>
 								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
-								<StyledTableCell align='right' sx={{ fontWeight: '700' }}>{item.quantity} st</StyledTableCell>
+								<StyledTableCell align='right' sx={{ fontWeight: '700' }}>{item.quantity} {t(`other.pcs`, 'pcs')}</StyledTableCell>
 							</StyledTableRows>
 						))}
 		
@@ -152,7 +152,7 @@ const CalculationTable = ({ project }) => {
 								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
 								<StyledTableCell align='left'>{i.item}</StyledTableCell>
 								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
-								<StyledTableCell align='right'>{i.value} {i.unit}</StyledTableCell>
+								<StyledTableCell align='right'>{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}</StyledTableCell>
 							</StyledTableRows> 
 						))} 
 					</TableBody>

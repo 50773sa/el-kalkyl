@@ -2,8 +2,8 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { db } from '../../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
+import { useTranslation } from 'react-i18next'
 // components
-import { useAuthContext } from '../../contexts/AuthContextProvider'
 import CreateWrapper from '../reusableComponents/pageWrappers/CreateWrapper'
 import CalculationTable from'./read/CalculationTable'
 import DialogDelete from '../modals/DialogDelete'
@@ -19,6 +19,7 @@ const Project = ({ projectId, project, currentUser }) => {
 	const [isOpen, setIsOpen] = useState(false)
     const [error, setError] = useState(null)
 	const navigate = useNavigate()
+	const { t } = useTranslation()
 
 	// open delete modal
     const deleteProject = async () => {
@@ -89,7 +90,7 @@ const Project = ({ projectId, project, currentUser }) => {
 						disableElevation
 						onClick={deleteProject} 
 					>   
-						Radera projekt
+						{t(`buttons.deleteProject`, 'Delete project')}
 					</Button>
 				</Grid>
 			</Grid>

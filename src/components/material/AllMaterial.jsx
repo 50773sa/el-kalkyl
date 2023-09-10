@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useForm } from "react-hook-form"
+import { useTranslation } from 'react-i18next'
 // components
 import AddMoreFieldsButton from '../buttons/AddMoreFieldsButton'
 import DialogDeleteMaterial from '../modals/DialogDeleteMaterial'
@@ -37,6 +38,7 @@ const StyledTableCellCursor = styled(TableCell)(() => ({
 
 const AllMaterial = ({ material }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [openRowId, setOpenRowId] = useState([])
@@ -81,9 +83,9 @@ const AllMaterial = ({ material }) => {
                         
                         <TableHeadBase>
                             <TableCells />
-                            <TableCells title="Produkt" />
-                            <TableCells align="right" title="Kategori" />
-                            <TableCells align="right" title="Estimerad tid" />
+                            <TableCells title={t(`tableHead.product`,'Product')} />
+                            <TableCells align="right" title={t(`tableHead.category`,'Category')} />
+                            <TableCells align="right" title={t(`tableHead.timeEstimate`,'Assembly time')} />
                         </TableHeadBase>
 
                         <TableBody>
@@ -115,10 +117,10 @@ const AllMaterial = ({ material }) => {
                                                         {!isEditMode &&  
                                                             <TableHead>
                                                                 <TableRow>
-                                                                    <StyledTableCellBold>Tillbehör</StyledTableCellBold>
-                                                                    <StyledTableCellBold>Antal</StyledTableCellBold>
-                                                                    <StyledTableCellBold align="left">Enhet</StyledTableCellBold>
-                                                                    <StyledTableCellBold align="right">Artikelnummer</StyledTableCellBold>
+                                                                    <StyledTableCellBold>{t(`tableHead.fittings`, 'Fittings')}</StyledTableCellBold>
+                                                                    <StyledTableCellBold>{t(`tableHead.quantity`, 'Quantity')}</StyledTableCellBold>
+                                                                    <StyledTableCellBold align="left">{t(`tableHead.unit`, 'Unit')}</StyledTableCellBold>
+                                                                    <StyledTableCellBold align="right">{t(`tableHead.articleNumber`, 'Article id')}</StyledTableCellBold>
                                                                 </TableRow>
                                                             </TableHead>
                                                         }
@@ -145,7 +147,7 @@ const AllMaterial = ({ material }) => {
                                                                                     {item.fittings}
                                                                                 </StyledTableCellCursor>
                                                                                 <StyledTableCellCursor>{item.quantity}</StyledTableCellCursor>
-                                                                                <StyledTableCellCursor align="left">{item.unit}</StyledTableCellCursor>
+                                                                                <StyledTableCellCursor align="left">{item.unit == 'st' ? t(`other.pcs`, 'pcs') : item.unit}</StyledTableCellCursor>
                                                                                 <StyledTableCellCursor align="right">{item.id}</StyledTableCellCursor>
                                                                             </TableRow>
                                                                     
@@ -200,7 +202,7 @@ const AllMaterial = ({ material }) => {
                                                                         onClick={() => setIsOpen(true)} 
                                                                         
                                                                     >   
-                                                                        Radera produkt
+                                                                        {t(`buttons.deleteMaterial`, 'Delete material')}
                                                                     </Button>
                                                                 </TableCell>
 
@@ -219,7 +221,7 @@ const AllMaterial = ({ material }) => {
                                                                             }}
                                                                             disableElevation
                                                                         >   
-                                                                            Spara
+                                                                            {t(`buttons.save`, 'Save')}
                                                                         </Button>
                                                                     </TableCell>
                                                                 )}

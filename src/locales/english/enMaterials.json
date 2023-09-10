@@ -1,5 +1,25 @@
 {
-    "addNewMaterial": "Add new Material",
-    "chosenFittings": "Chosen fittings",
-    "installationTime": "Installation time"
+    "headings": {
+        "createNewMaterial": "Create new Material",
+        "fittings": "Fittings",
+        "installationTime": "Installation time",
+        "addButton": "Add",
+        "addTooltip": "Add to list",
+        "listMessage": "The list is empty",
+        "errorMsg":"Don't forget to add the fitting to the list!",
+        "cancel": "Cancel",
+        "edit": "Edit"
+    },
+    "placeholders": {
+        "product": "Product",
+        "category": "Category",
+        "fitting": "Fitting",
+        "quantity": "Quantity",
+        "unit": "pcs/m",
+        "hours": "Hours",
+        "minutes": "Minutes"
+    }
+
+
+
 }

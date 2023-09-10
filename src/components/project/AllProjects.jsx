@@ -35,7 +35,7 @@ const AllProjects = ({ projects }) => {
                         <TableCells />
                         <TableCells title={t(`tableHead.projects`, 'Projects')} />
                         <TableCells align="left" title={t(`tableHead.created`, 'Created')} />
-                        <TableCells align="right" title={t(`tableHead.timeEstimate`)}/>
+                        <TableCells align="right" title={t(`tableHead.active`, 'Active')}/>
                     </TableHeadBase>
 
                     <TableBody>

@@ -2,5 +2,6 @@
     "workHours": "Arbetstimmar",
     "hours": "tim",
     "minutes": "min",
-    "quantity": "qty"
+    "quantity": "qty",
+    "pcs": "st"
 }

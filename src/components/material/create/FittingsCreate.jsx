@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next"
 import TextInputField from "../../reusableComponents/forms/TextInputField"
 
 const FittingsCreate = ({ fittingsRef, errors, register }) => {
+    const { t } = useTranslation()
     return (
         <TextInputField
             required={true}
-            label="Tillbehör"
+            label={t(`materials.placeholders.fitting`, 'Fitting')}
             name="fittings"
             inputRef={fittingsRef}
             defaultValue=""

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 // mui
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -12,7 +13,7 @@ import Typography from '@mui/material/Typography'
 
 
 const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFromFb, isError }) => {
-
+    const { t } = useTranslation()
 	const handleClose = () => {
 		setIsOpen(false)
 		setIsLoading(false)
@@ -25,7 +26,6 @@ const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFro
                 onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
-                maxWidth='500px'
             >
                 <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}>
                     <Box 
@@ -66,12 +66,12 @@ const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFro
                 </Box>
                
                 <DialogTitle id="alert-dialog-title">
-                    <strong>Vill du radera detta material?</strong>
+                    <strong>{t(`modals.title`)}</strong>
                 </DialogTitle>
 
                 <DialogContent>
                     <DialogContentText id="alert-dialog-description">
-                        Valet går inte att ändra!
+                    {t(`modals.subtitle`)}
                     </DialogContentText>
                 </DialogContent>
 
@@ -84,7 +84,7 @@ const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFro
                         onClick={handleClose}
                         sx={{ marginBottom: '1rem' }}
                     > 
-                        Avbryt
+                        {t(`modals.cancel`, 'Cancel')}
                     </Button>
 
                     <Button 
@@ -93,7 +93,7 @@ const DialogDeleteMaterial = ({ isOpen, setIsOpen, setIsLoading, handleDeleteFro
                         onClick={handleDeleteFromFb}
                         style={{ marginLeft: '0'}}
                     >
-                        Radera material
+                        {t(`modals.deleteMaterial`, 'Delete material')}
                     </Button>
                 </DialogActions>
             </Dialog>

@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 // components
 import DeleteButton from '../../buttons/DeleteButton'
 import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
@@ -13,13 +14,14 @@ import TableRow from '@mui/material/TableRow'
 
 // dropdowns
 const unitsList = [
-    {unit: 'st', value: 'st'},
+    {unit: 'pcs', value: 'pcs'},
     {unit: 'm', value: 'm'}
 ]
 const quantity = [...new Array(101)].map((_each, index) => ({ qty: index, value: index }))
 
 
 const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
+    const { t } = useTranslation()
     const quantityRef = useRef(item.quantity)
     const unitRef = useRef(item.unit)
     const idRef = useRef(item.id)
@@ -49,7 +51,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                     <Grid xs={12} md={6} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' }, pr: { xs: 0, md: 1 } }}>
                         <TextField
                             size="small"
-                            label="Tillbehör"
+                            label={t(`materials.placeholders.fitting`, 'Fitting')}
                             id="fittings"
                             defaultValue={item.fittings}
                             name={`extraItems[${itemIndex}].fittings`}
@@ -71,7 +73,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             // required
                             size="small"
                             id="quantity"
-                            label="Antal"
+                            label={t(`materials.placeholders.quantity`, 'Quantity')}
                             name={`extraItems[${itemIndex}].quantity`}
                             fullWidth
                             defaultValue={quantityRef.current}
@@ -104,7 +106,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                             select
                             size="small"
                             // required
-                            label="st/m"
+                            label={t(`materials.placeholders.unit`, 'pcs/m')}
                             fullWidth
                             name={`extraItems[${itemIndex}].unit`}
                             defaultValue={unitRef.current}

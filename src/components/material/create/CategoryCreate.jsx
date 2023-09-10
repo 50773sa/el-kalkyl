@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next"
 import SelectField from "../../reusableComponents/forms/SelectField"
 
 const CategoryCreate = ({ errors, register }) => {
+    const { t } = useTranslation()
     return (
         <SelectField
             required={true}
-            label="Kategori"
+            label={t(`materials.placeholders.category`, 'Category')}
             name="category"
             defaultValue=""
             list="category"
