@@ -6,16 +6,17 @@
         "addButton": "Lägg till",
         "addTooltip": "Lägg till i lista",
         "listMessage": "Listan är tom",
-        "errorMsg": "Glöm inte lägga tillbehöret i listan!"
+        "errorMsg": "Glöm inte lägga tillbehöret i listan!",
+        "close": "Close",
+        "edit": "Edit"
     },
-
     "placeholders": {
-        "product": "Product",
-        "category": "Category",
-        "fitting": "Fitting",
-        "quantity": "Quantity",
-        "unit": "pcs/m",
-        "hours": "Hours",
-        "minutes": "Minutes"
+        "product": "Produkt",
+        "category": "Kategori",
+        "fitting": "Tillbehör",
+        "quantity": "Antal",
+        "unit": "st/m",
+        "hours": "Timmar",
+        "minutes": "Minuter"
     }
 }

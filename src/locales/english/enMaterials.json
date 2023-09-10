@@ -6,7 +6,9 @@
         "addButton": "Add",
         "addTooltip": "Add to list",
         "listMessage": "The list is empty",
-        "errorMsg":"Don't forget to add the fitting to the list!"
+        "errorMsg":"Don't forget to add the fitting to the list!",
+        "cancel": "Cancel",
+        "edit": "Edit"
     },
     "placeholders": {
         "product": "Product",

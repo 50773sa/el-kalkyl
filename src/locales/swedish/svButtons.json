@@ -9,8 +9,9 @@
     "cancel": "Avbryt",
     "delete": "Radera",
     "deleteProject": "Radera project",
+    "deleteMaterial": "Radera material",
     "edit":"Redigera",
     "tooltip": "Ta bort från lista",
-    "goBack": "Tillbaka"
-
+    "goBack": "Tillbaka",
+    "addField": "Lägg till fält"
 }

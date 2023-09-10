@@ -7,5 +7,6 @@
     "articleNumber": "Artikel id",
     "category": "Kategori",
     "timeEstimate": "Monteringstid",
-    "material": "Material"
+    "material": "Material",
+    "fittings": "Produkt"
 }

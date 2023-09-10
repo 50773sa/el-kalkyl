@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import MenuItem from '@mui/material/MenuItem'
 import TextField from '@mui/material/TextField'
 
-const unitList = [{value: 'st'}, {value: 'm'}]
+const unitList = [{value: 'pcs'}, {value: 'm'}]
 const quantityList = [...new Array(101)].map((each, index) => ({ qty: index, value: index }))
 const hoursList = [...new Array(13)].map((each, index) => ({ hours: 60 * index, value: index }))
 const minutesList = [...new Array(61)].map((each, index) => ({ minutes: index, value: index }))

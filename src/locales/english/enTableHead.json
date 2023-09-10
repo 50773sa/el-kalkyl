@@ -7,5 +7,7 @@
     "articleNumber": "Article id",
     "category": "Category",
     "timeEstimate": "Assembly time",
-    "material": "Material"
+    "material": "Material",
+    "fittings": "Fittings",
+    "unit": "Unit"
 }
