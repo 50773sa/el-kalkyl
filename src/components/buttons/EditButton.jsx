@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next"
 import Button from "@mui/material/Button"
 
-const EditButton = ({ onClick }) => {
+const EditButton = ({ onClick, buttonText }) => {
     const { t } = useTranslation()
     return (
         <Button 
@@ -12,7 +12,10 @@ const EditButton = ({ onClick }) => {
             onClick={onClick} 
             sx={{ textDecorationLine: 'underline' }} 
         >   
-          {t(`buttons.edit`, 'Edit')}
+            {!buttonText
+                ?   t(`buttons.edit`, 'Edit')
+                :   buttonText
+            }
         </Button>  
     )
 }

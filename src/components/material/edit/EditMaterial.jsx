@@ -1,4 +1,5 @@
 import { useRef, useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
 // components
 import TableTextInputField from '../../reusableComponents/forms/TableTextInputField'
 // mui
@@ -12,6 +13,7 @@ const hours = [...new Array(13)].map((each, index) => ({ hours: Number(60 * inde
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index), value: index }))
 
 const EditMaterial = ({ items, register, errors, setValue }) => {
+    const { t } = useTranslation()
 
     // Ref is only used here to make MUI happy. Otherwise it will complain about controlled vs. uncontrolled select fields.
     // Another approach would be to use onChange with setValue(react hook form), with value and not defaultValue.
@@ -38,7 +40,7 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
 
                     <Grid xs={6} md={3}>
                         <TableTextInputField
-                            label="Produkt"
+                            label={t(`materials.placeholders.product`, 'Product')}
                             name="product"
                             defaultValue={items.product}
                             autoComplete="product"
@@ -56,8 +58,9 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
                         <TextField
                             select
                             size='small'
-                            label="Kategori"
+                            label={t(`materials.placeholders.category`, 'Category')}
                             fullWidth
+                            required
                             name="category"
                             defaultValue={categoryRef.current}
                             helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
@@ -80,9 +83,10 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
                         <TextField
                             select
                             size='small'
-                            label="Tim"
+                            label={t(`materials.placeholders.hours`, 'Hours')}
                             name="hours"
                             fullWidth
+                            required
                             defaultValue={hoursRef.current}
                             helperText={errors ? errors.hours && 'Obligatoriskt fält' : ''}
 
@@ -102,7 +106,7 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
                         <TextField
                             select
                             size='small'
-                            label="Min"
+                            label={t(`materials.placeholders.minutes`, 'Minutes')}
                             name="minutes"
                             fullWidth
                             required

@@ -1,0 +1,9 @@
+{
+    "title":"Vill du radera materialet?",
+    "subtitle": "Valet går ej att ångra!",
+    "cancel": "Avbryt",
+    "deleteMaterial": "Radera material",
+    "alert": {
+        "saved": "Sparat!"
+    }
+}

@@ -1,5 +1,6 @@
 import { useState, useRef } from "react"
 import { useForm } from "react-hook-form"
+import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
 // firebase
 import { db } from '../../../src/firebase'
@@ -42,6 +43,7 @@ const CreateMaterial = () => {
     const unitRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors, isSubmitting }, unregister } = useForm()
+    const { t } = useTranslation()
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -92,7 +94,7 @@ const CreateMaterial = () => {
 
 
     return (
-        <CreateWrapper h1="Lägg till nytt material">
+        <CreateWrapper h1={t(`materials.headings.createNewMaterial`, 'Create new material')}>
 
             <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
                 <Grid container spacing={2} pt={2}>
@@ -166,11 +168,11 @@ const CreateMaterial = () => {
                             sx={{ width: '8rem', p: 1, display: {xs: 'none', md: 'flex'} }} 
                             onClick={handleObjectInput}
                         >
-                            Lägg till
+                            {t(`materials.headings.addButton`, 'Add')}
                         </Button>
 
                         {/** show on small devices */}
-                        <Tooltip title="Lägg till i listan">
+                        <Tooltip title={t(`materials.headings.addTooltip`, 'Create new material')}>
                             <AddCircleIcon
                                 sx={{ 
                                     display: {xs: 'flex', md: 'none'},
@@ -188,7 +190,7 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={12}>
-                        <Heading2 h2="Valda tillbehör" />
+                        <Heading2 h2={t(`materials.headings.fittings`, 'Fittings')}/>
 
                         <CreateMaterialListOfExtraItems 
                             extraItems={extraItems} 
@@ -197,7 +199,7 @@ const CreateMaterial = () => {
 
                         {inputError &&
                             <Typography sx={{ color: "#ff0000", ml: 2 }}>
-                                Glöm inte lägga till materialet i listan!
+                                {t(`materials.headings.errorMsg`, 'Don\'t forget to add the fitting to the list!')}
                             </Typography>  
                         }   
 
@@ -208,7 +210,7 @@ const CreateMaterial = () => {
                      */}
 
                     <Grid xs={12}>
-                        <Heading2 h2="Tidsestimering" />
+                        <Heading2 h2={t(`materials.headings.installationTime`, 'Installation time')} />
                     </Grid>
 
                     <Grid xs={6} sm={3}>          

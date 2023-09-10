@@ -29,7 +29,7 @@ const DeleteButton = ({ size, onClick }) => {
                 onClick={onClick} 
             >   
                 <span style={{ whiteSpace: 'nowrap' }}>
-                   {t(`buttons.delete`, 'Delete')}
+                   {t(`buttons.delete`, 'Delete', 'Delete')}
                 </span>
             </Button>
 

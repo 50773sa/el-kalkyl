@@ -1,10 +1,12 @@
+import { useTranslation } from "react-i18next"
 import SelectField from "../../reusableComponents/forms/SelectField"
 
 const HoursCreate = ({ errors, register }) => {
+    const { t } = useTranslation()
     return (
         <SelectField 
             required={true}
-            label="Tim"
+            label={t(`materials.placeholders.hours`, 'Hours')}
             name="hours"
             defaultValue=""
             list="hours"

@@ -5,9 +5,11 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
+import { useTranslation } from 'react-i18next'
 
 const TableRowItem = ({ items, openRowId, handleRows }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
 
     return (
         <TableRow key={items.id} sx={{ bgcolor: 'white' }}>
@@ -42,7 +44,7 @@ const TableRowItem = ({ items, openRowId, handleRows }) => {
                 sx={{ borderBottom: openRowId.includes(items.id) && 'none', borderRight: theme.border }}                                            
                 onClick={handleRows(items)}
             >
-                {items.estimatedTime.hours/60} tim {items.estimatedTime.minutes} min
+                {items.estimatedTime.hours/60 + t(`other.hours`,'h')} {items.estimatedTime.minutes + t(`other.minutes`,' min')}
             </TableCell>                                    
         </TableRow>
     )
