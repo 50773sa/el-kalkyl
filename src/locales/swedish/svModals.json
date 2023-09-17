@@ -5,5 +5,7 @@
     "deleteMaterial": "Radera material",
     "alert": {
         "saved": "Sparat!"
-    }
+    },
+    "createNewCategory": "Skapa ny kategori",
+    "createNewCategoryPlaceholder": "Namn"
 }

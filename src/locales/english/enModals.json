@@ -5,5 +5,8 @@
     "deleteMaterial": "Delete material",
     "alert": {
         "saved": "Saved!"
-    }
+    },
+    "createNewCategory": "Create new category",
+    "createNewCategoryPlaceholder": "Name"
+
 }

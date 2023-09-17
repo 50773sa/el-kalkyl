@@ -7,12 +7,13 @@ import ProjectAndMaterialPageWrapper from "../components/reusableComponents/page
 import { useAuthContext } from "../contexts/AuthContextProvider"
 import useStreamCollection from "../hooks/useStreamCollection"
 import useViewStore from '../store/useViewStore'
+import { useEffect, useState } from "react"
 
 const MaterialPage = () => {
     const { currentUser } = useAuthContext()
     const { data: material, loading } = useStreamCollection('material')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
-
+    
     return (
         <ProjectAndMaterialPageWrapper tabsTitleKey1="material" tabsTitleKey2="newMaterial">
 
@@ -20,8 +21,8 @@ const MaterialPage = () => {
 
             {!loading && material && currentUser && (
                 isCurrentView.createDoc 
-                    ? <CreateMaterial />
-                    : <AllMaterial material={material} />     
+                    ?   <CreateMaterial material={material} />
+                    :   <AllMaterial material={material} />     
             )}
 
         </ProjectAndMaterialPageWrapper>                

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState, useRef, useEffect } from "react"
 import { useForm } from "react-hook-form"
 import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
@@ -12,11 +12,12 @@ import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
 import CreateMaterialListOfExtraItems from "./create/CreateMaterialListOfExtraItems"
 import FittingsCreate from "./create/FittingsCreate"
 import Heading2 from "../reusableComponents/headings/Heading2"
+import HoursCreate from "./create/HoursCreate"
 import LeavePageAlert from "../modals/LeavePageAlert"
+import MinutesCreate from "./create/MinutesCreate"
 import ProductCreate from "./create/ProductCreate"
 import QuantityCreate from "./create/QuantityCreate"
 import SaveOrCancelButtons from "../buttons/SaveOrCancelButtons"
-import SelectField from '../reusableComponents/forms/SelectField'
 import UnitCreate from "./create/UnitCreate"
 // hooks
 import { useAuthContext } from "../../contexts/AuthContextProvider"
@@ -27,23 +28,31 @@ import Button from '@mui/material/Button'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import Tooltip from "@mui/material/Tooltip"
-import HoursCreate from "./create/HoursCreate"
-import MinutesCreate from "./create/MinutesCreate"
 
-
-const CreateMaterial = () => {
+const CreateMaterial = ({ material }) => {
     const theme = useTheme()
+    const { t } = useTranslation()
     const [open, setOpen] = useState(false)
+    const [isCategoryOpen, setIsCategoryOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
     const [inputError, setInputError] = useState(false)
     const [extraItems, setExtraItems] = useState([])
+    const [newCategory, setNewCategory] = useState([])
     const fittingsRef = useRef(null)
     const qtyRef = useRef(null)
     const unitRef = useRef(null)
+    const categoryRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors, isSubmitting }, unregister } = useForm()
-    const { t } = useTranslation()
+
+    const handleNewCategory = () => {
+        setNewCategory([{ value: categoryRef?.current.value}])
+
+        setTimeout(() => (
+            setIsCategoryOpen(false)
+        ), 1250)
+    }
 
     const handleObjectInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
@@ -86,17 +95,22 @@ const CreateMaterial = () => {
             setSuccess(true)
             toast.success('Sparat!')
             reset()
+            // location.reload()
 
         } catch (err) {
             setError(err)
+            console.log('error', error)
         }
     }
-
 
     return (
         <CreateWrapper h1={t(`materials.headings.createNewMaterial`, 'Create new material')}>
 
-            <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >
+            <form 
+                onSubmit={handleSubmit(onSubmit)} 
+                noValidate 
+                onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}
+            >
                 <Grid container spacing={2} pt={2}>
             
                     {/**
@@ -116,8 +130,14 @@ const CreateMaterial = () => {
 
                     <Grid xs={12} lg={6} >
                         <CategoryCreate 
-                            errors={error} 
-                            register={register} 
+                            newCategory={newCategory} 
+                            setNewCategory={setNewCategory}
+                            categoryRef={categoryRef}
+                            register={register}
+                            handleNewCategory={handleNewCategory}
+                            isCategoryOpen={isCategoryOpen}
+                            setIsCategoryOpen={setIsCategoryOpen}
+                            errors={errors} 
                         />
                     </Grid> 
 
