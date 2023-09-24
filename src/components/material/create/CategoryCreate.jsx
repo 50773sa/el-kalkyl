@@ -6,13 +6,13 @@ import { useTheme } from '@mui/material'
 import MenuItem from '@mui/material/MenuItem'
 import TextField  from '@mui/material/TextField'
 
-const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, handleNewCategory, isCategoryOpen, setIsCategoryOpen, errors }) => {
+const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, handleNewCategory, isCategoryOpen, setIsCategoryOpen, errors, materialCategory, onSaveCategory, isErrorCategory, setIsLoading }) => {
     const theme = useTheme()
     const { t } = useTranslation()
 
     const handleClickOpen = () => {
 		setIsCategoryOpen(true),
-        setNewCategory('')
+        setNewCategory([])
 	}
 
     return (
@@ -22,13 +22,13 @@ const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, ha
                 required={true}
                 label={t(`materials.placeholders.category`, 'Category')}
                 name='category'
-                defaultValue=""
+                // defaultValue=""
                 fullWidth
                 helperText={errors ? errors.category && 'Obligatoriskt fält' : ''}
                 {...register("category", {required: true} )}
             >
                 <MenuItem 
-                    aria-label='create new category'
+                    aria-label={t(`materials.createNewCategory`, 'Create new category')}
                     sx={{ 
                         display: 'flex', 
                         justifyContent: 'end', 
@@ -40,16 +40,20 @@ const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, ha
                     }}
                     onClick={handleClickOpen}
                 >
-                    Create new category
+                    {t(`materials.createNewCategory`, 'Create new category')}
                 </MenuItem> 
 
-                {newCategory.length && newCategory?.map((option, i) => {
-                    return (
-                        <MenuItem key={i} value={option.value}>
-                            {option.value}
-                        </MenuItem>
-                    )
-                })}
+                {materialCategory
+                    .sort((a,b) => a.value > b.value ? +1 : -1)
+                    .map((option, i) => {
+                        return (
+                            <MenuItem key={i} value={option.value}>
+                                {option.value.charAt(0).toUpperCase() + option.value.slice(1)}
+                            </MenuItem>
+                        )
+                    })
+                }
+          
             </TextField>
 
             {open && (
@@ -59,6 +63,9 @@ const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, ha
                     newCategory={newCategory} 
                     handleNewCategory={handleNewCategory}
                     categoryRef={categoryRef}
+                    onSaveCategory={onSaveCategory}
+                    isErrorCategory={isErrorCategory}
+                    setIsLoading={setIsLoading}
                 />
             )}
         </>

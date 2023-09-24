@@ -29,13 +29,15 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import Typography from '@mui/material/Typography'
 import Tooltip from "@mui/material/Tooltip"
 
-const CreateMaterial = ({ material }) => {
+const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
     const theme = useTheme()
     const { t } = useTranslation()
+    const [isLoading, setIsLoading] = useState(false)
     const [open, setOpen] = useState(false)
     const [isCategoryOpen, setIsCategoryOpen] = useState(false)
     const [success, setSuccess] = useState(false)
     const [error, setError] = useState(null)
+    const [isErrorCategory, setIsErrorCategory] = useState({ error: false, msg: ''})
     const [inputError, setInputError] = useState(false)
     const [extraItems, setExtraItems] = useState([])
     const [newCategory, setNewCategory] = useState([])
@@ -45,16 +47,44 @@ const CreateMaterial = ({ material }) => {
     const categoryRef = useRef(null)
     const { currentUser } = useAuthContext()
     const { handleSubmit, reset, register, formState: { errors, isSubmitting }, unregister } = useForm()
+    
+    const onSaveCategory = () => {
+        setIsLoading(true)
+
+        if (categoryRef.current.value.trim() === "") {
+            return (
+                setIsErrorCategory({ error: true, msg: t(`modals.errorMsg.required`, 'Required' ) }),
+                setIsLoading(false)
+            )
+        }
+        setNewCategory(newCategory => [...newCategory, {value: categoryRef?.current?.value}])
+    }
+
 
     const handleNewCategory = () => {
-        setNewCategory([{ value: categoryRef?.current.value}])
+        setIsErrorCategory({ error: false, msg:'' })
+        let findDuplicates = materialCategory.some(m => m?.value.toLowerCase() === newCategory[0]?.value.toLowerCase())
+
+        if (findDuplicates) {
+            return (
+                setIsErrorCategory({ error: true, msg: t(`modals.errorMsg.categoryExists`, 'The category already exists...' ) }),
+                setNewCategory([]),
+                setIsLoading(false)
+            )
+        } 
+        
+        setMaterialCategory(materialCategory => [...materialCategory, ...newCategory])
 
         setTimeout(() => (
             setIsCategoryOpen(false)
         ), 1250)
+
+        setIsLoading(false)   
+        setIsErrorCategory({ error: false, msg:'' })
     }
 
-    const handleObjectInput = () => {
+
+    const handleExtraItemsInput = () => {
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
             console.log("Obligatiskt fält")
             setInputError(true)
@@ -103,8 +133,17 @@ const CreateMaterial = ({ material }) => {
         }
     }
 
+    useEffect(() => {
+        if(isLoading) {
+            handleNewCategory()
+        } 
+        return
+    }, [isLoading, materialCategory, isCategoryOpen, newCategory])
+
     return (
         <CreateWrapper h1={t(`materials.headings.createNewMaterial`, 'Create new material')}>
+
+            {/* {isLoading && <LoadingBackdrop />} */}
 
             <form 
                 onSubmit={handleSubmit(onSubmit)} 
@@ -138,6 +177,10 @@ const CreateMaterial = ({ material }) => {
                             isCategoryOpen={isCategoryOpen}
                             setIsCategoryOpen={setIsCategoryOpen}
                             errors={errors} 
+                            materialCategory={materialCategory}
+                            onSaveCategory={onSaveCategory}
+                            isErrorCategory={isErrorCategory}
+                            setIsLoading={setIsLoading}
                         />
                     </Grid> 
 
@@ -186,7 +229,7 @@ const CreateMaterial = ({ material }) => {
                         <Button 
                             variant="outlined" 
                             sx={{ width: '8rem', p: 1, display: {xs: 'none', md: 'flex'} }} 
-                            onClick={handleObjectInput}
+                            onClick={handleExtraItemsInput}
                         >
                             {t(`materials.headings.addButton`, 'Add')}
                         </Button>
@@ -200,7 +243,7 @@ const CreateMaterial = ({ material }) => {
                                     fontSize: '40px',
                                     color: theme.palette.color.green.main, '&:hover': { color: theme.palette.color.green.hover}
                                 }}
-                                onClick={handleObjectInput}
+                                onClick={handleExtraItemsInput}
                             />
                         </Tooltip>                        
                     </Grid> 
@@ -219,7 +262,7 @@ const CreateMaterial = ({ material }) => {
 
                         {inputError &&
                             <Typography sx={{ color: "#ff0000", ml: 2 }}>
-                                {t(`materials.headings.errorMsg`, 'Don\'t forget to add the fitting to the list!')}
+                                {t(`materials.headings.isErrorCategory`, 'Don\'t forget to add the fitting to the list!')}
                             </Typography>  
                         }   
 

@@ -18,8 +18,6 @@
         "unit": "pcs/m",
         "hours": "Hours",
         "minutes": "Minutes"
-    }
-
-
-
+    },
+    "createNewCategory": "Create new category"
 }
