@@ -10,35 +10,35 @@ import useStreamCollection from "../hooks/useStreamCollection"
 import useViewStore from '../store/useViewStore'
 
 const MaterialPage = () => {
-    const [materialCategory, setMaterialCategory] = useState([])
+    const [materialCategory, setMaterialCategory] = useState(null)
     const { currentUser } = useAuthContext()
     const { data: material, loading } = useStreamCollection('material')
+    const { data: materialCategories, loading: isLoadingCategories } = useStreamCollection('categories')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
 
     useEffect(() => {
-        if(loading) {
+        if(isLoadingCategories || loading) {
             return
         }
-        if (material.length === 0) {
+   
+        if (materialCategories.length === 0) {
             return setMaterialCategory([])
         } 
-        // Create a new array with only unique values
-        const category = [...new Set(material.map(c => c.category))]
-        setMaterialCategory(category.map(c => ({ value: c }) ))
+        
+        setMaterialCategory(materialCategories.map(c => ({ value: c.category }) ))
 
     }, [material])
-
 
     return (
         <ProjectAndMaterialPageWrapper tabsTitleKey1="material" tabsTitleKey2="newMaterial">
 
-            {loading && <LoadingBackdrop />}
+            {loading || isLoadingCategories && <LoadingBackdrop />}
 
-            {!loading && material && currentUser && materialCategory !== null && (
+            {!loading && !isLoadingCategories && material && currentUser && materialCategory && (
                 isCurrentView.createDoc 
                     ?   <CreateMaterial material={material} materialCategory={materialCategory} setMaterialCategory={setMaterialCategory} />
-                    :   <AllMaterial material={material} />     
+                    :   <AllMaterial material={material} materialCategory={materialCategory} setMaterialCategory={setMaterialCategory}/>     
             )}
 
         </ProjectAndMaterialPageWrapper>                

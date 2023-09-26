@@ -36,7 +36,7 @@ const StyledTableCellCursor = styled(TableCell)(() => ({
 }))
 
 
-const AllMaterial = ({ material }) => {
+const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
     const theme = useTheme()
     const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
@@ -135,7 +135,8 @@ const AllMaterial = ({ material }) => {
                                                                     onUpdateSubmit={onUpdateSubmit}
                                                                     newFields={newFields}
                                                                     setNewFields={setNewFields}   
-                                                                    setValue={setValue}
+                                                                    materialCategory={materialCategory}
+                                                                    setMaterialCategory={setMaterialCategory}
                                                                 />
                                                             )}
                                                         

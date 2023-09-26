@@ -63,7 +63,6 @@ const CategoryCreateModal = ({ isCategoryOpen, setIsCategoryOpen, newCategory, c
 
 		</Dialog>
     )
-    
 }
 
 export default CategoryCreateModal

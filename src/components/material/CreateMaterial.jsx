@@ -113,7 +113,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
         try {
             await addDoc(collection(db, 'material'), {
                 uid: currentUser.uid,
-                product: inputData.product,
+                product: inputData.product.charAt(0).toUpperCase() + inputData.product.slice(1),
                 category: inputData.category,
                 quantity: 0,
                 extraItems: extraItems,
@@ -121,6 +121,10 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                     hours: inputData.hours,
                     minutes: inputData.minutes,
                 },
+            })
+            await addDoc(collection(db, 'categories'), {
+                uid: currentUser.uid,
+                category: inputData.category.charAt(0).toUpperCase() + inputData.category.slice(1),
             })
             setSuccess(true)
             toast.success('Sparat!')
