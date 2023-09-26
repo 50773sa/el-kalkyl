@@ -38,7 +38,7 @@ const MaterialPage = () => {
             {!loading && !isLoadingCategories && material && currentUser && materialCategory && (
                 isCurrentView.createDoc 
                     ?   <CreateMaterial material={material} materialCategory={materialCategory} setMaterialCategory={setMaterialCategory} />
-                    :   <AllMaterial material={material} materialCategory={materialCategory} setMaterialCategory={setMaterialCategory}/>     
+                    :   <AllMaterial material={material} materialCategory={materialCategory} />     
             )}
 
         </ProjectAndMaterialPageWrapper>                
