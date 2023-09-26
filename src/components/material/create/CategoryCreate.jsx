@@ -61,7 +61,6 @@ const CategoryCreate = ({ register, newCategory, setNewCategory, categoryRef, ha
                     isCategoryOpen={isCategoryOpen} 
                     setIsCategoryOpen={setIsCategoryOpen} 
                     newCategory={newCategory} 
-                    handleNewCategory={handleNewCategory}
                     categoryRef={categoryRef}
                     onSaveCategory={onSaveCategory}
                     isErrorCategory={isErrorCategory}
