@@ -1,13 +1,12 @@
 import Tab from '@mui/material/Tab'
 import TabList  from '@mui/lab/TabList'
 
-const Tabs = ({ handleChange }) => {
+const Tabs = ({ handleChange, category }) => {
     return (
         <TabList onChange={handleChange} aria-label="tab list" sx={{ display: 'flex', overflow: 'auto' }}>
-            <Tab className='tab' label="Apparater" value="Apparater" />
-            <Tab className='tab' label="Belysning" value="Belysning" />
-            <Tab className='tab' label="Data" value="Data" />
-            <Tab className='tab' label="Övrigt" value="Övrigt" />
+            {category?.map((c) => (
+                <Tab key={c.value} className='tab' label={c.value} value={c.value} />
+            ))}
         </TabList>
     )
 }

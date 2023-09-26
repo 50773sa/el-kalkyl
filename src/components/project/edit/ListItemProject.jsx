@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper'
 import TabPanel from '@mui/lab/TabPanel'
 import Typography from '@mui/material/Typography'
 
-const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocProducts, setAddToDocProducts, projectId, currentProject, material }) => {
+const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts, setAddToDocProducts, projectId, currentProject, material, category }) => {
 
    // Delete (toggle) object from Firestore
    const handleDeleteFromFb = async (item) => {
@@ -46,37 +46,46 @@ const ListItemProject = ({ value, selectedProduct, setSelectedProduct, addToDocP
 
 
     return (
-        <TabPanel value={value} sx={{ px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
-            <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
-                <List component="div" role="list">
-                    {material ? material.filter(list => list.category === value).sort((a, b) => a > b ? 1 : -1).map((item, i) => {
-                        return (
-                            <ListItem 
-                                key={item.id} 
-                                value={value.i}
-                                name="project"
-                                onClick={handleAdd(item)}
-                                disableGutters
-                                sx={{ cursor: 'pointer', px: 4, py: 2 }}
-                                className={i % 2 === 0 ? 'even' : ''}
-                            > 
-                                {selectedProduct?.includes(item) || addToDocProducts?.some(prod => prod.id === item.id)
-                                    ?   <CheckBoxOutlinedIcon sx={{ pr: 2 }} />
-                                    :   <CheckBoxOutlineBlankOutlinedIcon sx={{ pr: 2 }} />
+        <>
+            {category?.map((c) => {
+                return (
+                    <TabPanel value={c.value} key={c.value} sx={{ px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
+                        <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+                            <List component="div" role="list">
+                                {material ? material.filter(list => list.category === c.value).sort((a, b) => a > b ? 1 : -1).map((item, i) => {
+                                    return (
+                                        <ListItem 
+                                            key={item.id} 
+                                            value={c.category}
+                                            name="project"
+                                            onClick={handleAdd(item)}
+                                            disableGutters
+                                            sx={{ cursor: 'pointer', px: 4, py: 2 }}
+                                            className={i % 2 === 0 ? 'even' : ''}
+                                        > 
+                                            {selectedProduct?.includes(item) || addToDocProducts?.some(prod => prod.id === item.id)
+                                                ?   <CheckBoxOutlinedIcon sx={{ pr: 2 }} />
+                                                :   <CheckBoxOutlineBlankOutlinedIcon sx={{ pr: 2 }} />
+                                            }
+                                            {item.product}
+                                        </ListItem>
+                                    )
+                                
+                                }): (
+                                        <Typography sx={{ fontSize: '1rem', m: 2 }}>
+                                            <em>Inga sparade produkter</em>
+                                        </Typography>
+                                    )
                                 }
-                                {item.product}
-                            </ListItem>
-                        )
-                    
-                    }): (
-                            <Typography sx={{ fontSize: '1rem', m: 2 }}>
-                                <em>Inga sparade produkter</em>
-                            </Typography>
-                        )
-                    }
-                </List>
-            </Paper>
-        </TabPanel> 
+                            </List>
+                        </Paper>
+                    </TabPanel> 
+                )
+
+            })}
+        
+        </>
+
     )
 }
 

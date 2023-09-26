@@ -5,6 +5,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 
 const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
     const { t } = useTranslation()
+    
     return (
         <Grid container alignItems="center" justifyContent='end'>
             <Grid xs={12} md={4} lg={2.5} alignItems="center"

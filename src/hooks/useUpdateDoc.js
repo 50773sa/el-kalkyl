@@ -20,7 +20,7 @@ const useUpdateDoc = () => {
 
         try {
             await updateDoc(ref, {
-                product: data.product,
+                product: data.product.charAt(0).toUpperCase() + data.product.slice(1),
                 estimatedTime: {
                     hours: data.hours,
                     minutes: data.minutes,
