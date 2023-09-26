@@ -1,5 +1,10 @@
 {
     "editProject": "Redigera projekt",
     "createProject": "Skapa nytt projekt",
-    "listMessage": "Inga tillagda produkter"
+    "listMessage": "Inga tillagda produkter",
+    "placeholder": "Projektnamn",
+    "successMsg": "Sparat!",
+    "errorMsg": {
+        "required": "Obligatoriskt fält"
+    }
 }

@@ -33,7 +33,7 @@ const AllProjects = ({ projects }) => {
 
                     <TableHeadBase>
                         <TableCells />
-                        <TableCells title={t(`tableHead.projects`, 'Projects')} />
+                        <TableCells title={t(`tableHead.project`, 'Projects')} />
                         <TableCells align="left" title={t(`tableHead.created`, 'Created')} />
                         <TableCells align="right" title={t(`tableHead.active`, 'Active')}/>
                     </TableHeadBase>
@@ -51,7 +51,7 @@ const AllProjects = ({ projects }) => {
 
                                 {/**
                                  *  'Hidden' data
-                                */}
+                                 */}
 
                                 <TableRow sx={{ '&:not(:last-child)': { borderBottom: theme.border } }}>
                                     <TableCell sx={{ cursor: 'default', padding: '0 0 5px',  borderBottom: 'none' }} colSpan={6}>
