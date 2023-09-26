@@ -89,7 +89,7 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
                         </TableHeadBase>
 
                         <TableBody>
-                            {!isLoading && material?.map((items) => {
+                            {!isLoading && material.sort((a, b) => a.product > b.product ? +1 : -1).map((items) => {
                                 items = items
                                 return (                               
                                     <React.Fragment key={items.id}>
