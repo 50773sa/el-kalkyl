@@ -12,7 +12,7 @@ import TextField from '@mui/material/TextField'
 const hours = [...new Array(13)].map((each, index) => ({ hours: Number(60 * index), value: index }))
 const minutes = [...new Array(61)].map((each, index) => ({ minutes: Number(index), value: index }))
 
-const EditMaterial = ({ items, register, errors, setValue }) => {
+const EditMaterial = ({ items, register, errors, materialCategory }) => {
     const { t } = useTranslation()
 
     // Ref is only used here to make MUI happy. Otherwise it will complain about controlled vs. uncontrolled select fields.
@@ -67,10 +67,16 @@ const EditMaterial = ({ items, register, errors, setValue }) => {
 
                             {...register("category")}
                         >
-                            <MenuItem value={'Apparater'}>Apparater</MenuItem>
-                            <MenuItem value={'Belysning'}>Belysning</MenuItem>
-                            <MenuItem value={'Data'}>Data</MenuItem>
-                            <MenuItem value={'Övrigt'}>Övrigt</MenuItem>
+                            {materialCategory
+                                .sort((a,b) => a.value > b.value ? +1 : -1)
+                                .map((option, i) => {
+                                    return (
+                                        <MenuItem key={i} value={option.value}>
+                                            {option.value}
+                                        </MenuItem>
+                                    )
+                                })
+                            }
                         </TextField>                                          
                      
                     </Grid>

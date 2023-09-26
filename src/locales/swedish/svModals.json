@@ -1,9 +1,16 @@
 {
-    "title":"Vill du radera materialet?",
-    "subtitle": "Valet går ej att ångra!",
-    "cancel": "Avbryt",
-    "deleteMaterial": "Radera material",
     "alert": {
         "saved": "Sparat!"
-    }
+    },
+    "cancel": "Avbryt",
+    "createNewCategory": "Skapa ny kategori",
+    "createNewCategoryPlaceholder": "Namn",
+    "deleteMaterial": "Radera material",
+    "errorMsg": {
+        "required": "Obligatoriskt fält",
+        "categoryExists": "Kategorin finns redan"
+    },
+    "successMsg": "Sparad till lista",
+    "subtitle": "Valet går ej att ångra!",
+    "title":"Vill du radera materialet?"
 }

@@ -18,7 +18,7 @@ import TextInputField from '../reusableComponents/forms/TextInputField'
 import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import TabContext from '@mui/lab/TabContext'
 
-const CreateProject = ({ material, currentUser, projects }) => {
+const CreateProject = ({ material, currentUser, category}) => {
     const [num, setNum] = useState(1)
     const [value, setValue] = useState('Apparater')
     const [selectedProduct, setSelectedProduct] = useState([])
@@ -54,7 +54,7 @@ const CreateProject = ({ material, currentUser, projects }) => {
                 projectMaterial: addToDocProducts
             })
             setSuccess(true)
-            toast.success('Sparat!')
+            toast.success(t(`projects.successMsg`, 'Saved!'))
             setAddToDocProducts(null)
             setSelectedProduct(null)
             reset()
@@ -74,14 +74,14 @@ const CreateProject = ({ material, currentUser, projects }) => {
                 <Grid xs={12} md={6} sx={{ pr: {xs: 0, md: 2}, mb: 6 }}> 
                     <TextInputField
                         required={true}
-                        label="Projektnamn"
+                        label={t(`projects.placeholder`, 'Project name')}
                         name="projectName"
                         autoComplete="off"
                         defaultValue=""
-                        helperText={errors ? errors.projectName && 'Obligatoriskt fält' : ''}
+                        helperText={errors ? errors.projectName && t(`projects.errorMsg.required`, 'Required') : ''}
                         register={register("projectName", {
                             required: true,
-                            minLength: { value: 1, message: 'Obligatoriskt fält'}
+                            minLength: { value: 1, message: t(`projects.errorMsg.required`, 'Required')}
                         })}
                     />
                 </Grid>
@@ -94,44 +94,17 @@ const CreateProject = ({ material, currentUser, projects }) => {
                     <Grid xs={12} md={6} sx={{ paddingRight: {xs: 0, md: 2} }}>
                         <TabContext value={value}>
                             
-                            <Tabs handleChange={handleChange} />
+                            <Tabs handleChange={handleChange} category={category} />
 
                             <ListItemProject 
-                                value="Apparater" 
                                 selectedProduct={selectedProduct} 
                                 setSelectedProduct={setSelectedProduct}
                                 addToDocProducts={addToDocProducts}
                                 setAddToDocProducts={setAddToDocProducts}
                                 material={material}
+                                category={category}
                             />
 
-                            <ListItemProject 
-                                value="Belysning" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                                material={material}
-                            />
-
-                            <ListItemProject 
-                                value="Data" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                                material={material}
-                            />
-
-                            <ListItemProject 
-                                value="Övrigt" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                                material={material}
-                            />
-                                
                         </TabContext>
                     </Grid>
 

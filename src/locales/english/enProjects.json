@@ -1,5 +1,10 @@
 {
     "editProject": "Edit project",
     "createProject": "Create project",
-    "listMessage": "No products added"
+    "listMessage": "No products added",
+    "placeholder": "Project name",
+    "successMsg": "Saved!",
+    "errorMsg": {
+        "required": "Required"
+    }
 }

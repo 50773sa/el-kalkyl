@@ -36,7 +36,7 @@ const StyledTableCellCursor = styled(TableCell)(() => ({
 }))
 
 
-const AllMaterial = ({ material }) => {
+const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
     const theme = useTheme()
     const { t } = useTranslation()
     const [isOpen, setIsOpen] = useState(false)
@@ -89,7 +89,7 @@ const AllMaterial = ({ material }) => {
                         </TableHeadBase>
 
                         <TableBody>
-                            {!isLoading && material?.map((items) => {
+                            {!isLoading && material.sort((a, b) => a.product > b.product ? +1 : -1).map((items) => {
                                 items = items
                                 return (                               
                                     <React.Fragment key={items.id}>
@@ -135,7 +135,8 @@ const AllMaterial = ({ material }) => {
                                                                     onUpdateSubmit={onUpdateSubmit}
                                                                     newFields={newFields}
                                                                     setNewFields={setNewFields}   
-                                                                    setValue={setValue}
+                                                                    materialCategory={materialCategory}
+                                                                    setMaterialCategory={setMaterialCategory}
                                                                 />
                                                             )}
                                                         

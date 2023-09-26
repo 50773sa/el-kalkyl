@@ -62,7 +62,7 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
             ): (
                 <Typography sx={{ height: '50px', pl: 2, mt: 2}}>
                     <em sx={{ mt: 5 }}>
-                        - {t(`materials.listMessage`, 'The list is empty')}
+                        - {t(`materials.headings.listMessage`, 'The list is empty')}
                     </em>
                 </Typography>
             )}

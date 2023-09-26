@@ -18,5 +18,6 @@
         "unit": "st/m",
         "hours": "Timmar",
         "minutes": "Minuter"
-    }
+    },
+    "createNewCategory": "Skapa ny kategori"
 }
