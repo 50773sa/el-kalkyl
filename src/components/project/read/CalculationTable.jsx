@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 // mui
-import { useTheme } from '@mui/material'
+import { Typography, useTheme } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -40,6 +40,7 @@ const CalculationTable = ({ project }) => {
 
 	let hours;
 	let minutes;
+	console.log('allProducts', allProducts)
 
 	const findDuplicates = () => {
 		// Remove items if more than one, but keep the values
@@ -101,6 +102,7 @@ const CalculationTable = ({ project }) => {
 									</StyledTableRows>
 
 									{item.extraItems.map((items) => {
+										console.log('item', item)
 										allProducts = [
 											...allProducts, {
 												product: item.product, 
@@ -128,8 +130,8 @@ const CalculationTable = ({ project }) => {
 
 					<TableBody>
 						<TableRow  sx={{ borderTop: '1px solid #848484cf', borderBottom: '1px solid #848484cf' }} >
-							<StyledTableCell align='left'><strong>{t(`other.workHours`, 'Working hours')}</strong></StyledTableCell>			
-							<StyledTableCell />			
+							<StyledTableCell align='left'><strong>{t(`other.workHours`, 'Assembly')}</strong></StyledTableCell>			
+							<StyledTableCell />	
 							<StyledTableCell align="right">
 								{hours + t(` other.hours`, 'h')} 
 									{' '}
@@ -140,20 +142,27 @@ const CalculationTable = ({ project }) => {
 
 						{products?.sort((a,b) => a.product > b.product ? 1 : -1).map((item) => (
 							<StyledTableRows key={item.id} sx={{ fontWeight: '700'}}>
-								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
-								<StyledTableCell align='left' sx={{ fontWeight: '700' }}>{item.product}</StyledTableCell>
+								<StyledTableCell  sx={{ display: {xs: 'none', md:'table-cell'} }} />
+								<StyledTableCell align='left' sx={{ fontWeight: '700' }}>
+									<Typography sx={{ paddingLeft: {xs: 'none', md: '70%'} }}>{item.product}</Typography>
+								</StyledTableCell>
+
 								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
 								<StyledTableCell align='right' sx={{ fontWeight: '700' }}>{item.quantity} {t(`other.pcs`, 'pcs')}</StyledTableCell>
 							</StyledTableRows>
 						))}
 		
 						{!loading && reducedResult?.sort((a,b) => a.item > b.item ? 1 : -1).map((i) => (
-							<StyledTableRows key={i.item} >
-								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
-								<StyledTableCell align='left'>{i.item}</StyledTableCell>
-								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
-								<StyledTableCell align='right'>{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}</StyledTableCell>
-							</StyledTableRows> 
+								<StyledTableRows key={i.item} >
+									<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
+									<StyledTableCell align='left'>
+										<Typography sx={{ paddingLeft: {xs: 'none', md: '70%'} }}>{i.item}</Typography>
+									</StyledTableCell>
+									<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
+									<StyledTableCell align='right'>
+										{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}
+									</StyledTableCell>
+								</StyledTableRows> 
 						))} 
 					</TableBody>
 				</Table>
