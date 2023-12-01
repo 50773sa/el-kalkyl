@@ -4,6 +4,7 @@
 
 import i18next from "i18next"
 import { initReactI18next } from "react-i18next"
+import useLanguageStore from "./store/useLanguageStore"
 // en
 import enTranslationHomepage from "./locales/english/enHomepage.json"
 import enTranslationButtons from "./locales/english/enButtons.json"
@@ -28,6 +29,7 @@ import svTranslationModals from './locales/swedish/svModals.json'
 
 i18next.use(initReactI18next).init({
     debug: true,
+    lng:  "en",
     fallbackLng: "en",
     resources: {
         en: {
@@ -57,4 +59,7 @@ i18next.use(initReactI18next).init({
             },
         },
     }
+
 })
+export default i18next
+
