@@ -9,8 +9,7 @@ const useViewStore = create(
 				...state,
 				isCurrentView: { ...state.isCurrentView, ...newState },
 			})),
-		}), 
-		{name: 'views'})
+		}), {name: 'views'})
 	),
 )
 

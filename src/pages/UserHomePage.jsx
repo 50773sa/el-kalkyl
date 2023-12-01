@@ -48,7 +48,7 @@ const UserHomepage = () => {
 								titleKey='projects'
 								numberOfProjects={projects?.length ? projects.length : '0'}
 								subtitleKey='projects'
-								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68A5EC' }}/>}
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '4rem'}, color: '#68A5EC' }}/>}
 								color="#68A5EC"
 							/>
 						</Grid>
@@ -59,7 +59,7 @@ const UserHomepage = () => {
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false } ))} 
 								titleKey='newProject'
 								subtitleKey="newProject"
-								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#68C37C' }}/>}
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '4rem'}, color: '#68C37C' }}/>}
 								color="#68C37C"
 							/>
 						</Grid>
@@ -70,7 +70,7 @@ const UserHomepage = () => {
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false }) )}					
 								titleKey='material'
 								subtitleKey="material"
-								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#CBC309' }}/>}
+								cardIcon={<SummarizeOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '4rem'}, color: '#CBC309' }}/>}
 								color="#CBC309"
 							/>
 						</Grid>
@@ -80,13 +80,13 @@ const UserHomepage = () => {
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true }) )}					
 								titleKey='newMaterial'
 								subtitleKey="newMaterial"
-								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '5rem'}, color: '#DC822F' }}/>}
+								cardIcon={<DataSaverOnOutlinedIcon sx={{ fontSize: { sm: '2.5rem', lg: '4rem'}, color: '#DC822F' }}/>}
 								color="#DC822F"
 							/>
 						</Grid>
 
-						<Grid xs={12} sx={{ height: "60vh", margin: '20px 8px', backgroundColor: "#fbfbfb", borderRadius: "0 0 10px 10px"}}>
-							<Grid xs={12}>
+						<Grid xs={12} sx={{ height: "60vh", borderRadius: "0 0 10px 10px"}}>
+							<Grid xs={12} padding={0}>
 								<HomeTable 
 									projects={projects} 
 								/>

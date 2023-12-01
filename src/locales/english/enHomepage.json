@@ -9,7 +9,7 @@
         "subtitle": {
             "projects": "projects",
             "newProject": "Create new project",
-            "material": "Edit material",
+            "material": "View/Edit material",
             "newMaterial": "Create new material"
         }
     }, 
@@ -17,7 +17,7 @@
         "head": {
             "projects": "Projects",
             "created": "Created",
-            "workHours": "Working hours",
+            "workHours": "Assembly time",
             "active": "Active"
         }
     }
