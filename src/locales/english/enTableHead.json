@@ -6,7 +6,7 @@
     "quantity":"Quantity",
     "articleNumber": "Article id",
     "category": "Category",
-    "timeEstimate": "Assembly time",
+    "timeEstimate": "Assembly",
     "material": "Material",
     "fittings": "Fittings",
     "unit": "Unit"
