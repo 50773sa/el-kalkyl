@@ -16,10 +16,10 @@ const Cards = ({ onClick, titleKey, subtitleKey, numberOfProjects, cardIcon, col
 				justifyContent: 'space-between',
 				borderBottom: `5px solid ${color}`,
 				cursor: 'pointer',
-				borderRadius: '10px 10px 0 0'
+				borderRadius: '10px 10px 0 0',
 			}}
 		>
-			<Box sx={{ display: 'flex', flexDirection: 'row' }}>
+			<Box sx={{ display: 'flex', flexDirection: 'row'}}>
 				<CardContent sx={{ flex: '1 0 auto' }}>
 					<Typography sx={{ fontSize: { xs: '1rem', md: '1.2rem'} }}>
 						{t(`homepage.homepageCards.title.${titleKey}`)} 
@@ -33,7 +33,7 @@ const Cards = ({ onClick, titleKey, subtitleKey, numberOfProjects, cardIcon, col
           			</Typography>
 				</CardContent>
 			</Box>
-			<Box sx={{ display: 'flex', alignItems: { xs: 'start', lg: 'center'}, p: 1, width: '20%' }}>
+			<Box sx={{ display: 'flex', alignItems: { xs: 'start', lg: 'center'}, pr: 1.7, pt: {xs: 1, lg: ''} }}>
 				{cardIcon}
 			</Box>
       </Card>
