@@ -33,7 +33,7 @@ const Cards = ({ onClick, titleKey, subtitleKey, numberOfProjects, cardIcon, col
           			</Typography>
 				</CardContent>
 			</Box>
-			<Box sx={{ display: 'flex', alignItems: { xs: 'start', lg: 'center'}, pr: 1.7, pt: {xs: 1, lg: ''} }}>
+			<Box sx={{ display: 'flex', alignItems: { xs: 'start', lg: 'center'}, pr: 1, pt: {xs: 1, lg: ''} }}>
 				{cardIcon}
 			</Box>
       </Card>
