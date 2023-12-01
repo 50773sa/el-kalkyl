@@ -26,10 +26,8 @@ const StyledTableCell = styled(TableCell)(() => ({
 
 
 const CalculationTable = ({ project }) => {
-	const theme = useTheme()
 	const { t } = useTranslation()
 	const [loading, setLoading] = useState(true)
-	const [objArr, setObjArr] = useState([])
 	const [reducedResult, setReducedResult] = useState([])
 	
 	let workingHours;
@@ -40,7 +38,6 @@ const CalculationTable = ({ project }) => {
 
 	let hours;
 	let minutes;
-	console.log('allProducts', allProducts)
 
 	const findDuplicates = () => {
 		// Remove items if more than one, but keep the values
@@ -102,7 +99,6 @@ const CalculationTable = ({ project }) => {
 									</StyledTableRows>
 
 									{item.extraItems.map((items) => {
-										console.log('item', item)
 										allProducts = [
 											...allProducts, {
 												product: item.product, 
@@ -153,16 +149,16 @@ const CalculationTable = ({ project }) => {
 						))}
 		
 						{!loading && reducedResult?.sort((a,b) => a.item > b.item ? 1 : -1).map((i) => (
-								<StyledTableRows key={i.item} >
-									<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
-									<StyledTableCell align='left'>
-										<Typography sx={{ paddingLeft: {xs: 'none', md: '70%'} }}>{i.item}</Typography>
-									</StyledTableCell>
-									<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
-									<StyledTableCell align='right'>
-										{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}
-									</StyledTableCell>
-								</StyledTableRows> 
+							<StyledTableRows key={i.item} >
+								<StyledTableCell sx={{ display: {xs: 'none', md:'table-cell'} }} />
+								<StyledTableCell align='left'>
+									<Typography sx={{ paddingLeft: {xs: 'none', md: '70%'} }}>{i.item}</Typography>
+								</StyledTableCell>
+								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
+								<StyledTableCell align='right'>
+									{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}
+								</StyledTableCell>
+							</StyledTableRows> 
 						))} 
 					</TableBody>
 				</Table>
