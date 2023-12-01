@@ -1,11 +1,12 @@
 import { useRef, useState } from 'react'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
 import { db } from '../firebase'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import useLanguageStore from '../store/useLanguageStore'
 import useStreamCollection from '../hooks/useStreamCollection'
 import LoadingBackdrop from './../components/LoadingBackdrop'
-import { toast } from 'react-toastify'
-import { useTranslation } from 'react-i18next'
 // mui
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
@@ -33,6 +34,10 @@ const SettingsPage = () => {
     } = useAuthContext()
 	const { data: user } = useStreamCollection('users', currentUser.uid)
 	const { t, i18n } = useTranslation()
+	const setLanguage = useLanguageStore((state) => state.setLanguage)
+
+	const language = useLanguageStore((state) => state.currLanguage)
+	// console.log('language', language)
 
     const handleUpdate = async (e) => {
         e.preventDefault()
@@ -73,7 +78,9 @@ const SettingsPage = () => {
     }
 
 	const handleChangeLanguage = (lng) => {
-		i18n.changeLanguage(lng)
+		// localStorage.setItem("lang", lng)
+		setLanguage({ currLanguage: lng })
+		i18n.changeLanguage(language.currLanguage)
 	}
 
  	return (
@@ -211,23 +218,21 @@ const SettingsPage = () => {
 							</Typography>   
 
 							
-								<Typography component="p" sx={{ display: 'flex', pb: 1}} onClick={() => handleChangeLanguage('en')}> 
-									{i18n.language === 'en'
-										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
-										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
-									}
-									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.en`, 'English')}</span>
-								</Typography>
+							<Typography component="p" sx={{ display: 'flex', pb: 1}} onClick={() => handleChangeLanguage('en')}> 
+								{i18n.language === 'en'
+									?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+									:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+								}
+								<span style={{ cursor: 'default' }}>{t(`settingsPage.language.en`, 'English')}</span>
+							</Typography>
 
-								<Typography component="p" sx={{ display: 'flex'}} onClick={() => handleChangeLanguage('sv')}> 
-									{i18n.language === 'sv'
-										?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
-										:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
-									}
-									<span style={{ cursor: 'default' }}>{t(`settingsPage.language.sv`, 'Swedish')}</span>
-								</Typography>
-
-
+							<Typography component="p" sx={{ display: 'flex'}} onClick={() => handleChangeLanguage('sv')}> 
+								{i18n.language === 'sv'
+									?	<RadioButtonCheckedIcon  sx={{ pr: 1}} />
+									:	<RadioButtonUncheckedIcon sx={{ pr: 1}} /> 
+								}
+								<span style={{ cursor: 'default' }}>{t(`settingsPage.language.sv`, 'Swedish')}</span>
+							</Typography>
 						</Box>
 
 						<Button variant="contained" type='submit' fullWidth>

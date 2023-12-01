@@ -7,8 +7,8 @@
         "addTooltip": "Lägg till i lista",
         "listMessage": "Listan är tom",
         "errorMsg": "Glöm inte lägga tillbehöret i listan!",
-        "close": "Close",
-        "edit": "Edit"
+        "close": "Stäng",
+        "edit": "Redigera"
     },
     "placeholders": {
         "product": "Produkt",

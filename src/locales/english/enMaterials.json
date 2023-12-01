@@ -2,7 +2,7 @@
     "headings": {
         "createNewMaterial": "Create new Material",
         "fittings": "Fittings",
-        "installationTime": "Installation time",
+        "installationTime": "Assembly time",
         "addButton": "Add",
         "addTooltip": "Add to list",
         "listMessage": "The list is empty",
