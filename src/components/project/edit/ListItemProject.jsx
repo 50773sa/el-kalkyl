@@ -11,7 +11,7 @@ import Typography from '@mui/material/Typography'
 
 const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts, setAddToDocProducts, projectId, currentProject, material, category }) => {
 
-   // Delete (toggle) object from Firestore
+    // Delete (toggle) object from Firestore
    const handleDeleteFromFb = async (item) => {
 
         if (addToDocProducts?.some(prod => prod.id === item.id)) {
@@ -47,7 +47,7 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
 
     return (
         <>
-            {category?.map((c) => {
+            {category !== null && category.map((c) => {
                 return (
                     <TabPanel value={c.value} key={c.value} sx={{ px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
                         <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>

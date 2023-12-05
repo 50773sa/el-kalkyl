@@ -17,7 +17,7 @@ import Grid from "@mui/material/Unstable_Grid2/Grid2"
 import TabContext from '@mui/lab/TabContext'
 import TextField from '@mui/material/TextField'
 
-const EditProject = ({ projectId, currentProject, currentUser }) => {
+const EditProject = ({ projectId, currentProject, currentUser, material, category }) => {
     const [projectName, setProjectName] = useState(null)
     const [num, setNum] = useState(1)    
     const [value, setValue] = useState('Apparater')
@@ -31,7 +31,6 @@ const EditProject = ({ projectId, currentProject, currentUser }) => {
     const { handleSubmit, formState: { errors, touchedFields }, reset, register } = useForm({mode: 'onTouched'})
     const navigate = useNavigate()
     const { t } = useTranslation()
-
 
     // Tabs 
     const handleChange = (e, newValue) => {
@@ -103,41 +102,16 @@ const EditProject = ({ projectId, currentProject, currentUser }) => {
                     <Grid xs={12} md={6} sx={{ paddingRight: {xs: 0, md: 2} }}>
                         <TabContext value={value}>
 
-                            <Tabs handleChange={handleChange} />
+                        <Tabs handleChange={handleChange} category={category} />
 
-                            <ListItemProject
-                                value="Apparater" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                                projectId={projectId}
-                                currentProject={currentProject}
-                            />
-
-                            <ListItemProject 
-                                value="Belysning" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                            />
-
-                            <ListItemProject 
-                                value="Data" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                            />
-
-                            <ListItemProject 
-                                value="Ovrigt" 
-                                selectedProduct={selectedProduct} 
-                                setSelectedProduct={setSelectedProduct}
-                                addToDocProducts={addToDocProducts}
-                                setAddToDocProducts={setAddToDocProducts}
-                            />
+                        <ListItemProject 
+                            selectedProduct={selectedProduct} 
+                            setSelectedProduct={setSelectedProduct}
+                            addToDocProducts={addToDocProducts}
+                            setAddToDocProducts={setAddToDocProducts}
+                            material={material}
+                            category={category}
+                        />
 
                         </TabContext>
                     </Grid>
@@ -174,7 +148,6 @@ const EditProject = ({ projectId, currentProject, currentUser }) => {
              *   Modal
              */}
     
-
             <LeavePageAlert open={open} setOpen={setOpen}/> 
 
         </CreateWrapper>

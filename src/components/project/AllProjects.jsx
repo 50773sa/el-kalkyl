@@ -39,7 +39,7 @@ const AllProjects = ({ projects }) => {
                     </TableHeadBase>
 
                     <TableBody>
-                        {projects?.map((list) => (
+                        {projects && projects.map((list) => (
                             <React.Fragment key={list.id}>
 
                                 <TableRowData
