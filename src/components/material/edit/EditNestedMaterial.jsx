@@ -6,7 +6,7 @@ import DialogDeleteMaterial from '../../modals/DialogDeleteMaterial'
 // hooks
 import useDeleteDocumentField from '../../../hooks/useDeleteDocumentField'
 // mui
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
+import Grid from '@mui/material/Grid'
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TextField from '@mui/material/TextField'

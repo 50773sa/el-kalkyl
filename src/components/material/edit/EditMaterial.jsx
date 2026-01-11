@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 // components
 import TableTextInputField from '../../reusableComponents/forms/TableTextInputField'
 // mui
-import Grid from '@mui/material/Unstable_Grid2/Grid2'
+import Grid from '@mui/material/Grid'
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'

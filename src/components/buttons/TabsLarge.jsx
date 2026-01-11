@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 // mui
 import React from 'react'
 import Button from '@mui/material/Button'
-import Grid2 from '@mui/material/Unstable_Grid2/Grid2'
+import Grid from '@mui/material/Grid'
 import Stack from '@mui/material/Stack'
 //store
 import useViewStore from '../../store/useViewStore'
@@ -21,7 +21,7 @@ const TabsLarge = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage }) 
     }
 
     return (
-        <Grid2 xs={12} mb={0} pb={0} pl={0}>
+        <Grid xs={12} mb={0} pb={0} pl={0}>
 
             {!isEditPage && !isProjectPage  && (
                 <Stack spacing={0.5} direction="row">
@@ -51,7 +51,7 @@ const TabsLarge = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage }) 
                     </Button>
                 </Stack>
             )}
-        </Grid2> 
+        </Grid> 
        
     )
 }
