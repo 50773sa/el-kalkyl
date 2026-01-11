@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
@@ -70,7 +70,7 @@ const ForgotPasswordPage = () => {
                     <Box component="form" onSubmit={handleReset} noValidate sx={{ mt: 3, minWidth: '350px', maxWidth: '500px'}}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
 
                                 <TextField
                                     inputRef={emailRef}
@@ -102,7 +102,7 @@ const ForgotPasswordPage = () => {
                 </Box>
             </div>
         </Container>
-    )
+    );
 }
 
 export default ForgotPasswordPage

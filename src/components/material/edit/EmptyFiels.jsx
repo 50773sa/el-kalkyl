@@ -4,7 +4,7 @@ import { db } from '../../../firebase'
 import { uuidv4 } from "@firebase/util"
 
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import MenuItem from '@mui/material/MenuItem'
 import TableCell from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
@@ -42,9 +42,9 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
                 return (
                     <TableRow id="emptyFields"  key={i}>
                         <TableCell sx={{ cursor: 'pointer', border: 'none' }}>
-                            <Grid container xs={12} sx={{ display: 'flex', alignItems: 'center'}}>
+                            <Grid container sx={{ display: 'flex', alignItems: 'center'}} size={12}>
                             
-                                <Grid xs={6}  py={0}>
+                                <Grid py={0}  size={6}>
                                     <TextField
                                         size="small"
                                         error
@@ -63,7 +63,7 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
                                         />  
                                 </Grid>
 
-                                <Grid xs={3} py={0}>
+                                <Grid py={0} size={3}>
                                     <TextField
                                         select
                                         required
@@ -89,7 +89,7 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
                                     </TextField>
                                 </Grid>
 
-                                <Grid xs={2} py={0}>
+                                <Grid py={0} size={2}>
                                     <TextField
                                         select
                                         size="small"
@@ -115,7 +115,7 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
                                     </TextField>            
                                 </Grid>
 
-                                <Grid xs={1} display="flex" justifyContent="flex-end" alignItems="center">
+                                <Grid display="flex" justifyContent="flex-end" alignItems="center" size={1}>
                                     <Button 
                                         size="small"
                                         type='submit'
@@ -130,11 +130,11 @@ const EmptyFields = ({ errors, newFields, setNewFields, newFieldsError, register
 
                             </Grid>
                         </TableCell>
-                    </TableRow>  
-                )                                  
+                    </TableRow>
+                );                                  
             })}
-        </>      
-    )
+        </>
+    );
 }
 
 export default EmptyFields

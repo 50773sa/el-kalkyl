@@ -1,20 +1,25 @@
 import { useTranslation } from 'react-i18next'
 // mui
 import Button from '@mui/material/Button'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 
 const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
     const { t } = useTranslation()
     
     return (
         <Grid container alignItems="center" justifyContent='end'>
-            <Grid xs={12} md={4} lg={2.5} alignItems="center"
-                order={{ xs: 0, md: 1 }} 
+            <Grid
+                alignItems="center"
+                order={{ xs: 0, md: 1 }}
                 sx={{ 
                     textAlign: {xs: 'center', md: 'end'}, 
                     my: 4,
                 }}
-            >
+                size={{
+                    xs: 12,
+                    md: 4,
+                    lg: 2.5
+                }}>
                 <Button
                     type="submit"
                     variant='contained'
@@ -30,8 +35,11 @@ const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
                     {t(`buttons.save`, 'Save')}
                 </Button>
             </Grid>
-
-            <Grid xs={12} md="auto">
+            <Grid
+                size={{
+                    xs: 12,
+                    md: "auto"
+                }}>
                 <Button 
                     type="button"
                     variant='text'
@@ -49,7 +57,7 @@ const SaveOrCancelButtons = ({ setOpen, isSubmitting }) => {
                 </Button>
             </Grid>
         </Grid>
-    )
+    );
 }
 
 export default SaveOrCancelButtons

@@ -15,7 +15,7 @@ import SelectedProduct from '../project/create/SelectedProduct'
 import Tabs from './Tabs'
 import TextInputField from '../reusableComponents/forms/TextInputField'
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import TabContext from '@mui/lab/TabContext'
 
 const CreateProject = ({ material, currentUser, category}) => {
@@ -67,11 +67,14 @@ const CreateProject = ({ material, currentUser, category}) => {
 
     return (
         <CreateWrapper h1={t(`projects.createProject`, 'Create project')}>
-
             {loading && <LoadingBackdrop /> }
-
             <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >            
-                <Grid xs={12} md={6} sx={{ pr: {xs: 0, md: 2}, mb: 6 }}> 
+                <Grid
+                    sx={{ pr: {xs: 0, md: 2}, mb: 6 }}
+                    size={{
+                        xs: 12,
+                        md: 6
+                    }}> 
                     <TextInputField
                         required={true}
                         label={t(`projects.placeholder`, 'Project name')}
@@ -91,7 +94,12 @@ const CreateProject = ({ material, currentUser, category}) => {
                  */}
 
                 <Grid container>
-                    <Grid xs={12} md={6} sx={{ paddingRight: {xs: 0, md: 2} }}>
+                    <Grid
+                        sx={{ paddingRight: {xs: 0, md: 2} }}
+                        size={{
+                            xs: 12,
+                            md: 6
+                        }}>
                         <TabContext value={value}>
                             
                             <Tabs handleChange={handleChange} category={category} />
@@ -112,7 +120,12 @@ const CreateProject = ({ material, currentUser, category}) => {
                      *  Selected products
                      */}
                     
-                    <Grid xs={12} md={6} sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}>
+                    <Grid
+                        sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}
+                        size={{
+                            xs: 12,
+                            md: 6
+                        }}>
                         <SelectedProduct
                             selectedProduct={selectedProduct}
                             setSelectedProduct={setSelectedProduct}
@@ -139,11 +152,9 @@ const CreateProject = ({ material, currentUser, category}) => {
                 />
 
             </form>
-
-            <LeavePageAlert open={open} setOpen={setOpen}/>    
-
+            <LeavePageAlert open={open} setOpen={setOpen}/>
         </CreateWrapper>
-    )
+    );
 }
 
 export default CreateProject

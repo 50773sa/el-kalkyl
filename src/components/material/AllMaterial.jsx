@@ -17,7 +17,7 @@ import useDeleteDocument from '../../hooks/useDeleteDocument'
 import { useTheme } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import Button from "@mui/material/Button"
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Collapse from '@mui/material/Collapse'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
@@ -70,13 +70,11 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
     }
 
     return (
-        <Grid xs={12}>
+        <Grid size={12}>
             {isInputError && <p>An error occoured</p>}
-
             {/**
              *  List of saved products
              */}
-
             <form onSubmit={handleSubmit(onUpdateSubmit)} noValidate>
                 <TableContainer>
                     <Table aria-label="collapsible table">
@@ -91,19 +89,16 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
                         <TableBody>
                             {!isLoading && material.sort((a, b) => a.product > b.product ? +1 : -1).map((items) => {
                                 items = items
-                                return (                               
+                                return (
                                     <React.Fragment key={items.id}>
-                                        
                                         <TableRowItem 
                                             items={items} 
                                             openRowId={openRowId} 
                                             handleRows={handleRows}
                                         />
-
                                         {/**
                                          *  Hidden data
                                         */}
-
                                         <TableRow sx={{ '&:not(:last-child)': { borderBottom: theme.border } }}>
                                             <TableCell sx={{ cursor: 'default', padding: '0 0 5px',  borderBottom: 'none' }} colSpan={6}>
                                                 <Collapse in={openRowId.includes(items.id)} timeout="auto" unmountOnExit sx={{ borderLeft: theme.border, borderRight: theme.border, cursor: 'default', bgcolor: 'white' }}>
@@ -173,7 +168,7 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
                                                                 <TableCell sx={{ cursor: 'pointer', border: 'none' }} >
                                                                     {isEditMode && (
                                                                         <Grid container spacing={2}>
-                                                                            <Grid xs={12} sx={{ mx: 2.5, pr: 0, mt: 3 }}>
+                                                                            <Grid sx={{ mx: 2.5, pr: 0, mt: 3 }} size={12}>
                                                                                 <AddMoreFieldsButton items={items} />
                                                                             </Grid>
                                                                         </Grid>
@@ -234,7 +229,6 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
                                                 </Collapse>
                                             </TableCell>                             
                                         </TableRow>
-    
                                         {isOpen && (
                                             <DialogDeleteMaterial 
                                                 isOpen={isOpen} 
@@ -243,16 +237,16 @@ const AllMaterial = ({ material, materialCategory, setMaterialCategory }) => {
                                                 handleDeleteFromFb={handleDeleteFromFb(items)}
                                             />
                                         )}
-                                    </React.Fragment>   
-                                )                    
+                                    </React.Fragment>
+                                );                    
                             })}
                        
                         </TableBody>
                     </Table>
                 </TableContainer>
             </form>
-        </Grid>    
-    )
+        </Grid>
+    );
 }
 
 export default AllMaterial

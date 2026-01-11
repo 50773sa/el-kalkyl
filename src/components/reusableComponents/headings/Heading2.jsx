@@ -1,10 +1,10 @@
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography'
 
 const Heading2 = ({ h2 }) => {
     return (
-        <Grid xs={12} sx={{ height:'50px', backgroundColor: '#e0e0e0', marginBottom: 4 }}>
+        <Grid sx={{ height:'50px', backgroundColor: '#e0e0e0', marginBottom: 4 }} size={12}>
             <Typography 
                 component="div" 
                 variant="h1" 
@@ -21,9 +21,9 @@ const Heading2 = ({ h2 }) => {
                 }}
             >
                 {h2}
-            </Typography>    
-        </Grid>  
-    )
+            </Typography>
+        </Grid>
+    );
 }
 
 export default Heading2

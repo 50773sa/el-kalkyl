@@ -7,7 +7,7 @@ import Avatar from '@mui/material/Avatar'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Link from '@mui/material/Link'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
@@ -66,7 +66,7 @@ const SignInPage = () => {
                     <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3, minWidth:' 350px', maxWidth: '500px'}}>
                         <Grid container spacing={2}>
 
-                            <Grid item xs={12}>
+                            <Grid size={12}>
                                 <TextField
                                     inputRef={emailRef}
                                     margin="normal"
@@ -113,12 +113,12 @@ const SignInPage = () => {
                         </Button>
 
                         <Grid container spacing={2}> 
-                            <Grid xs={5} spacing={2} display="flex"> 
+                            <Grid spacing={2} display="flex" size={5}> 
                                 <Link href="/reset-password" variant="body2">
                                     Glömt lösenord?
                                 </Link>
                             </Grid>
-                            <Grid xs={7} spacing={2}>
+                            <Grid spacing={2} size={7}>
                                 <Link href="/sign-up" variant="body2" display="flex" justifyContent="flex-end">
                                     {"Inget konto ännu? Registrera dig"}
                                 </Link>
@@ -129,7 +129,7 @@ const SignInPage = () => {
                 </Box>
             </div>
         </Container>
-    )
+    );
 }
 
 export default SignInPage

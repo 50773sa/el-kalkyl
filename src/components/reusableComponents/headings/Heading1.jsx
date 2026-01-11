@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next"
 // components
 import EditButton from "../../buttons/EditButton"
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography'
 
 const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
@@ -10,7 +10,12 @@ const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
 
     return (
         <Grid container sx={{ justifyContent: 'space-between', height:'50px', backgroundColor: '#e0e0e0', marginBottom: 2 }}>
-            <Grid xs={7} sm={8} md={9}>
+            <Grid
+                size={{
+                    xs: 7,
+                    sm: 8,
+                    md: 9
+                }}>
                 <Typography 
                     component="div" 
                     variant="h1" 
@@ -29,17 +34,21 @@ const Heading1 = ({ h1, icon, isEditBtn, onclick, buttonText }) => {
                    {h1}
                 </Typography>  
             </Grid>
-
-            <Grid xs={5} sm={4} md={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 2 }}>
+            <Grid
+                sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', pr: 2 }}
+                size={{
+                    xs: 5,
+                    sm: 4,
+                    md: 2
+                }}>
                 {icon}
 
                 {isEditBtn && (
                     <EditButton onClick={onclick} />
                 )}
-            </Grid>  
+            </Grid>
         </Grid>
-
-    )
+    );
 }
 
 export default Heading1

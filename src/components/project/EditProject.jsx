@@ -13,7 +13,7 @@ import SelectedAndCurrentProducts from './edit/SelectedAndCurrentProducts'
 import SaveOrCancelButtons from '../buttons/SaveOrCancelButtons'
 import Tabs from './Tabs'
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import TabContext from '@mui/lab/TabContext'
 import TextField from '@mui/material/TextField'
 
@@ -76,7 +76,12 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                  *  Project name
                  */}
 
-                <Grid xs={12} md={6} sx={{ pr: {xs: 0, md: 2}, mb: 6 }}> 
+                <Grid
+                    sx={{ pr: {xs: 0, md: 2}, mb: 6 }}
+                    size={{
+                        xs: 12,
+                        md: 6
+                    }}> 
                     <TextField
                         fullWidth
                         id="projecttName"
@@ -99,7 +104,12 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                  */}
 
                 <Grid container>
-                    <Grid xs={12} md={6} sx={{ paddingRight: {xs: 0, md: 2} }}>
+                    <Grid
+                        sx={{ paddingRight: {xs: 0, md: 2} }}
+                        size={{
+                            xs: 12,
+                            md: 6
+                        }}>
                         <TabContext value={value}>
 
                         <Tabs handleChange={handleChange} category={category} />
@@ -120,7 +130,12 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                      *  Update products
                      */}
 
-                    <Grid xs={12} md={6} sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}>
+                    <Grid
+                        sx={{ pl: {xs: 0, md: 2}, marginTop: {xs: 0, md: 6} }}
+                        size={{
+                            xs: 12,
+                            md: 6
+                        }}>
                         <SelectedAndCurrentProducts 
                             currentProject={currentProject}
                             projectId={projectId}
@@ -143,15 +158,12 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
 
                 <SaveOrCancelButtons setOpen={setOpen} />
             </form>
-
             {/**
              *   Modal
              */}
-    
-            <LeavePageAlert open={open} setOpen={setOpen}/> 
-
+            <LeavePageAlert open={open} setOpen={setOpen}/>
         </CreateWrapper>
-    )
+    );
 }
 
 export default EditProject

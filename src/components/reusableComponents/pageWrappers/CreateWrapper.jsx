@@ -1,6 +1,6 @@
 import Heading from "../headings/Heading1"
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 
 const CreateWrapper = ({ h1, icon, isEditBtn, onclick, buttonText, children }) => {
     return (

@@ -25,7 +25,7 @@ import { useAuthContext } from "../../contexts/AuthContextProvider"
 import { useTheme } from "@mui/material"
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import Button from '@mui/material/Button'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Typography from '@mui/material/Typography'
 import Tooltip from "@mui/material/Tooltip"
 
@@ -146,9 +146,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
 
     return (
         <CreateWrapper h1={t(`materials.headings.createNewMaterial`, 'Create new material')}>
-
             {/* {isLoading && <LoadingBackdrop />} */}
-
             <form 
                 onSubmit={handleSubmit(onSubmit)} 
                 noValidate 
@@ -160,7 +158,11 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Product
                      */}
 
-                    <Grid xs={12} lg={6}>
+                    <Grid
+                        size={{
+                            xs: 12,
+                            lg: 6
+                        }}>
                         <ProductCreate 
                             errors={errors} 
                             register={register} 
@@ -171,7 +173,11 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Category
                      */}
 
-                    <Grid xs={12} lg={6} >
+                    <Grid
+                        size={{
+                            xs: 12,
+                            lg: 6
+                        }}>
                         <CategoryCreate 
                             newCategory={newCategory} 
                             setNewCategory={setNewCategory}
@@ -192,7 +198,11 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Fittings
                      */}
 
-                    <Grid xs={12} sm={6} >
+                    <Grid
+                        size={{
+                            xs: 12,
+                            sm: 6
+                        }}>
                         <FittingsCreate 
                             fittingsRef={fittingsRef} 
                             errors={errors} 
@@ -204,7 +214,12 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Quantity
                      */}
 
-                    <Grid xs={5} sm={2} lg={2} >
+                    <Grid
+                        size={{
+                            xs: 5,
+                            sm: 2,
+                            lg: 2
+                        }}>
                         <QuantityCreate
                             qtyRef={qtyRef} 
                             reset={reset}
@@ -217,7 +232,11 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Units
                      */}
 
-                    <Grid xs={5} sm={2}>
+                    <Grid
+                        size={{
+                            xs: 5,
+                            sm: 2
+                        }}>
                         <UnitCreate
                             unitRef={unitRef}
                             errors={errors} 
@@ -229,7 +248,12 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *   Add to list- button
                      */}
 
-                    <Grid xs={2} lg={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <Grid
+                        sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+                        size={{
+                            xs: 2,
+                            lg: 2
+                        }}>
                         <Button 
                             variant="outlined" 
                             sx={{ width: '8rem', p: 1, display: {xs: 'none', md: 'flex'} }} 
@@ -256,7 +280,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *   List
                      */}
 
-                    <Grid xs={12}>
+                    <Grid size={12}>
                         <Heading2 h2={t(`materials.headings.fittings`, 'Fittings')}/>
 
                         <CreateMaterialListOfExtraItems 
@@ -276,11 +300,15 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                      *  Estimated time
                      */}
 
-                    <Grid xs={12}>
+                    <Grid size={12}>
                         <Heading2 h2={t(`materials.headings.installationTime`, 'Installation time')} />
                     </Grid>
 
-                    <Grid xs={6} sm={3}>          
+                    <Grid
+                        size={{
+                            xs: 6,
+                            sm: 3
+                        }}>          
                         <HoursCreate 
                             errors={errors} 
                             register={register} 
@@ -288,7 +316,11 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                     </Grid>
 
 
-                    <Grid xs={6} sm={3}>
+                    <Grid
+                        size={{
+                            xs: 6,
+                            sm: 3
+                        }}>
                         <MinutesCreate
                             errors={errors} 
                             register={register} 
@@ -307,7 +339,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
                 <LeavePageAlert open={open} setOpen={setOpen} /> 
             </form>
         </CreateWrapper>
-    )
+    );
 }
 
 export default CreateMaterial

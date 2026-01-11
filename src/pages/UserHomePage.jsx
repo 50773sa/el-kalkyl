@@ -8,7 +8,7 @@ import Cards from '../components/userHome/Cards'
 import HomeTable from '../components/userHome/HomeTable'
 
 // mui
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import Container from '@mui/material/Container'
 import useGetAuthColl from '../hooks/useGetAuthColl'
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
@@ -34,15 +34,19 @@ const UserHomepage = () => {
 
 
 	return (
-		<Container>
-			<div className='wrapper' id='home'>
+        <Container>
+            <div className='wrapper' id='home'>
 
 				{loading  && <LoadingBackdrop />}
 
 				{!loading && projects && completedProjects && (
 
 					<Grid container spacing={2}>
-						<Grid xs={6} md={3}>
+						<Grid
+                            size={{
+                                xs: 6,
+                                md: 3
+                            }}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false }))}
 								titleKey='projects'
@@ -54,7 +58,11 @@ const UserHomepage = () => {
 						</Grid>
 
 
-						<Grid xs={6} md={3}>
+						<Grid
+                            size={{
+                                xs: 6,
+                                md: 3
+                            }}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false } ))} 
 								titleKey='newProject'
@@ -65,7 +73,11 @@ const UserHomepage = () => {
 						</Grid>
 
 
-						<Grid xs={6} md={3}>
+						<Grid
+                            size={{
+                                xs: 6,
+                                md: 3
+                            }}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false }) )}					
 								titleKey='material'
@@ -75,7 +87,11 @@ const UserHomepage = () => {
 							/>
 						</Grid>
 
-						<Grid xs={6} md={3}>
+						<Grid
+                            size={{
+                                xs: 6,
+                                md: 3
+                            }}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true }) )}					
 								titleKey='newMaterial'
@@ -85,8 +101,8 @@ const UserHomepage = () => {
 							/>
 						</Grid>
 
-						<Grid xs={12} sx={{ height: "60vh", borderRadius: "0 0 10px 10px"}}>
-							<Grid xs={12} padding={0}>
+						<Grid sx={{ height: "60vh", borderRadius: "0 0 10px 10px"}} size={12}>
+							<Grid padding={0} size={12}>
 								<HomeTable 
 									projects={projects} 
 								/>
@@ -95,8 +111,8 @@ const UserHomepage = () => {
 					</Grid>
 				)}
 			</div>
-		</Container>
-	)
+        </Container>
+    );
 }
 
 export default UserHomepage

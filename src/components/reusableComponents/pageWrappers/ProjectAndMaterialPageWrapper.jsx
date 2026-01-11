@@ -6,7 +6,7 @@ import TabsLarge from "../../buttons/TabsLarge"
 import ArrowBackIosRoundedIcon from '@mui/icons-material/ArrowBackIosRounded'
 import Button from "@mui/material/Button"
 import Container from "@mui/system/Container"
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 
 const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage, children }) => {
     const navigate = useNavigate()
@@ -17,7 +17,7 @@ const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPag
             <div className='wrapper'>
                 <Grid container>
 
-                    <Grid xs={12} sx={{ display: 'flex', flexDirection: 'column' }}>
+                    <Grid sx={{ display: 'flex', flexDirection: 'column' }} size={12}>
                         <TabsLarge 
                             tabsTitleKey1={tabsTitleKey1}
                             tabsTitleKey2={tabsTitleKey2}
@@ -42,20 +42,20 @@ const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPag
                     </Button>
                   
                     <Grid 
-                        xs={12}
                         sx={{ 
                             height: "80%", 
                             pb: 6, 
                             backgroundColor: "#fbfbfb", 
                             borderRadius: "0 0 10px 10px"
                         }}
+                        size={12}
                     >
                         { children }
                     </Grid>
                 </Grid>
             </div>
         </Container>
-    )
+    );
 }
 
 export default ProjectAndMaterialPageWrapper

@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 // mui
 import { useTheme } from '@mui/material'
-import Grid from "@mui/material/Unstable_Grid2/Grid2"
+import Grid from "@mui/material/Grid"
 import List from "@mui/material/List"
 import ListItem from "@mui/material/ListItem"
 import DeleteButton from '../../buttons/DeleteButton'
@@ -30,16 +30,16 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
                             borderBottom: '0.2px solid' + theme.palette.color.grey.light,
                         }}
                     >
-                        <Grid xs={0.5}>
+                        <Grid size={0.5}>
                             <ListItem>{i + 1 + '.'}</ListItem>
                         </Grid>
-                        <Grid xs={5.5}>
+                        <Grid size={5.5}>
                             <ListItem>{item.fittings}</ListItem>
                         </Grid>
-                        <Grid xs={2}>
+                        <Grid size={2}>
                             <ListItem>{item.quantity}</ListItem>
                         </Grid>
-                        <Grid xs={2}>
+                        <Grid size={2}>
                             <ListItem>{item.unit}</ListItem>
                         </Grid>
 
@@ -47,7 +47,7 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
                         *   Delete button
                         */}
                         
-                        <Grid xs={2} paddingRight={0}>
+                        <Grid paddingRight={0} size={2}>
                             <ListItem>
                                 <DeleteButton
                                     size="small"
@@ -67,7 +67,7 @@ const CreateMaterialListOfExtraItems = ({ extraItems, setExtraItems }) => {
                 </Typography>
             )}
         </>
-    )
+    );
 }
 
 export default CreateMaterialListOfExtraItems
