@@ -4,8 +4,7 @@ import { useTranslation } from "react-i18next"
 import { toast } from "react-toastify"
 // firebase
 import { db } from '../../../src/firebase'
-import { addDoc, collection } from 'firebase/firestore'
-import { uuidv4 } from "@firebase/util"
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 // components
 import CategoryCreate from "./create/CategoryCreate"
 import CreateWrapper from "../reusableComponents/pageWrappers/CreateWrapper"
@@ -92,7 +91,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
         }
 
         let items = {
-            id: uuidv4(),
+            id: serverTimestamp(),
             fittings: fittingsRef.current.value,
             quantity: qtyRef.current.value,
             unit: unitRef.current.value,

@@ -1,6 +1,5 @@
 import { db } from '../../firebase'
-import { doc, updateDoc } from 'firebase/firestore'
-import { uuidv4 } from "@firebase/util"
+import { doc, serverTimestamp, updateDoc } from 'firebase/firestore'
 // components
 import BaseButton from "./BaseButton"
 // mui
@@ -15,7 +14,7 @@ const AddMoreFieldsButton = ({ items }) => {
         // create an object with empty fields that you can update
         try {
             await updateDoc(doc(db, 'material', items.id), {
-                extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: uuidv4() }]
+                extraItems: [...data.extraItems, { fittings: '', quantity: 1, unit: '', id: serverTimestamp() }]
             })    
         } catch (err) {
             console.log('Error: ', err)

@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
 import { db } from '../../firebase'
-import { uuidv4 } from '@firebase/util'
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore'
 import { useTranslation } from 'react-i18next'
 // components
@@ -47,7 +46,7 @@ const CreateProject = ({ material, currentUser, category}) => {
         try {
             await addDoc(collection(db, 'projects'), {
                 uid: currentUser,
-                id: uuidv4(),
+                id: serverTimestamp(),
                 completed: false,
                 created: serverTimestamp(),
                 projectName: inputData.projectName,
