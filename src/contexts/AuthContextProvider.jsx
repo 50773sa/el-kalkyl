@@ -82,7 +82,7 @@ const AuthContextProvider = ({ children }) => {
             setUserName(user?.displayName)
             setLoading(false)
         })
-        return unsubscribe()
+        return unsubscribe
 
     }, [currentUser])
 
