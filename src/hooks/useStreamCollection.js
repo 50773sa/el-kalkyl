@@ -5,10 +5,21 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 
 const useStreamCollection = (coll) => {
     const [data, setData] = useState([])
-	const [loading, setLoading] = useState(true)
+	const [isLoading, setIsLoading] = useState(true)
+	const [isError, setIsError] = useState(false)	
 	const { currentUser } = useAuthContext()
 
     useEffect(() => {
+
+		// Verify user
+		if (!currentUser?.uid) {
+			setIsLoading(false)
+			return
+		}
+		setIsLoading(true)
+		setIsError(false)
+
+		// reference to collection
 		const queryRef = query(collection(db, coll), 
 			where('uid', '==', currentUser.uid),
 		)
@@ -23,9 +34,14 @@ const useStreamCollection = (coll) => {
 			})
 
 			setData(docs)
-			setLoading(false)
+			setIsLoading(false)
 
-		})
+		},	(error) => {
+				console.error('Firestore snapshot error:', error)
+				setIsError(true)
+				setIsLoading(false)
+			}
+		)
 
 		return unsubscribe
 
@@ -33,7 +49,8 @@ const useStreamCollection = (coll) => {
 
     return {
         data, 
-        loading
+        isLoading,
+		isError,
     }
 }
 
