@@ -1,30 +1,24 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 import useViewStore from '../store/useViewStore'
-import useStreamDoc from '../hooks/useStreamDoc'
+import useStreamCollection from '../hooks/useStreamCollection'
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/userHome/Cards'
 import HomeTable from '../components/userHome/HomeTable'
-
 // mui
 import Grid from "@mui/material/Grid"
 import Container from '@mui/material/Container'
-import useGetAuthColl from '../hooks/useGetAuthColl'
 import SummarizeOutlinedIcon from '@mui/icons-material/SummarizeOutlined'
 import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined'
-
 
 const UserHomepage = () => {
 	const [completedProjects, setCompletedProjects] = useState(0)
     const { currentUser, userName } = useAuthContext()
-    const { data, loading } = useStreamDoc('users', currentUser.uid)
-    const { data: projects } = useGetAuthColl('projects')
+  	const { data: projects, isLoading} = useStreamCollection('projects')
 	const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
-    const navigate = useNavigate()
 
     useEffect(() => {
-		if (loading) {
+		if (isLoading) {
 			return
 		}
         let proj = projects?.filter(project => project?.completed === true)
@@ -37,9 +31,9 @@ const UserHomepage = () => {
         <Container>
             <div className='wrapper' id='home'>
 
-				{loading  && <LoadingBackdrop />}
+				{isLoading && <LoadingBackdrop />}
 
-				{!loading && projects && completedProjects && (
+				{!isLoading && projects && completedProjects && (
 
 					<Grid container spacing={2}>
 						<Grid
@@ -47,7 +41,7 @@ const UserHomepage = () => {
                                 xs: 6,
                                 md: 3
                             }}>
-							<Cards 
+							<Cards
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false }))}
 								titleKey='projects'
 								numberOfProjects={projects?.length ? projects.length : '0'}
