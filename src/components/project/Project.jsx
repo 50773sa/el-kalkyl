@@ -59,7 +59,7 @@ const Project = ({ projectId, project, currentUser }) => {
 			buttonText='edit'
 		>
             {isLoading && <LoadingBackdrop /> }
-            <Grid container spacing={2}>
+            <Grid container sx={{ width: '100%' }} spacing={2}>
 				
 				{/**
 				 * 	Table
@@ -92,6 +92,7 @@ const Project = ({ projectId, project, currentUser }) => {
 					</Button>
 				</Grid>
 			</Grid>
+			
             {isOpen && (
 				<DialogDelete 
 					isOpen={isOpen} 

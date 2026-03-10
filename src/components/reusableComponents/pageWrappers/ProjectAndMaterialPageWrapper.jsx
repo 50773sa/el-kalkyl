@@ -15,7 +15,7 @@ const ProjectAndMaterialPageWrapper = ({ tabsTitleKey1, tabsTitleKey2, isEditPag
     return (
         <Container>
             <div className='wrapper'>
-                <Grid container>
+                <Grid sx={{ width: '100%' }}>
 
                     <Grid sx={{ display: 'flex', flexDirection: 'column' }} size={12}>
                         <TabsLarge 

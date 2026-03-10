@@ -103,7 +103,7 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                  *  Items from db
                  */}
 
-                <Grid container>
+                <Grid sx={{ width: '100%' }}>
                     <Grid
                         sx={{ paddingRight: {xs: 0, md: 2} }}
                         size={{

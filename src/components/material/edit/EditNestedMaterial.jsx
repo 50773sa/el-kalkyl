@@ -48,7 +48,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Fittings
                      */}
 
-                    <Grid xs={12} md={6} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' }, pr: { xs: 0, md: 1 } }}>
+                    <Grid size={{ xs: 12, md: 6 }} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' }, pr: { xs: 0, md: 1 } }}>
                         <TextField
                             size="small"
                             label={t(`materials.placeholders.fitting`, 'Fitting')}
@@ -67,7 +67,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Quantity
                      */}
 
-                    <Grid xs={5} md={2.5} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
+                    <Grid size={{ xs: 5, md: 2.5 }} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
                         <TextField
                             select
                             // required
@@ -100,7 +100,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Units
                      */}
 
-                    <Grid xs={5} md={2.5}>
+                    <Grid size={{ xs: 5, md: 2.5 }}>
                         <TextField
                             id="unit"
                             select
@@ -123,7 +123,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                         </TextField>   
                     </Grid>
             
-                    <Grid xs={2} md={1} sx={{ display: 'flex', justifyContent: { xs: 'right', md: 'right', mr: { xs: 2, md: 0}, px: 0  }}}>
+                    <Grid size={{ xs: 2, md: 1 }} sx={{ display: 'flex', justifyContent: { xs: 'right', md: 'right', mr: { xs: 2, md: 0}, px: 0  }}}>
                         {/** This field is hidden and only used to preserve the 'id' of the object */}
                         <input
                             type='hidden'

@@ -38,7 +38,7 @@ const EditMaterial = ({ items, register, errors, materialCategory }) => {
                      *  Product
                      */}
 
-                    <Grid xs={6} md={3}>
+                    <Grid size={{ xs: 12, md: 3 }}>
                         <TableTextInputField
                             label={t(`materials.placeholders.product`, 'Product')}
                             name="product"
@@ -54,7 +54,7 @@ const EditMaterial = ({ items, register, errors, materialCategory }) => {
                      *  Category
                      */}
 
-                    <Grid xs={6} md={3}>    
+                    <Grid size={{ xs: 6, md: 3 }}>    
                         <TextField
                             select
                             size='small'
@@ -85,7 +85,7 @@ const EditMaterial = ({ items, register, errors, materialCategory }) => {
                      *  Estimated time
                      */}
 
-                    <Grid xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                         <TextField
                             select
                             size='small'
@@ -108,7 +108,7 @@ const EditMaterial = ({ items, register, errors, materialCategory }) => {
                         </TextField>                   
                     </Grid>           
 
-                    <Grid xs={6} md={3}>
+                    <Grid size={{ xs: 6, md: 3 }}>
                         <TextField
                             select
                             size='small'

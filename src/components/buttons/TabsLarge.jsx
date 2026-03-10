@@ -21,7 +21,7 @@ const TabsLarge = ({ tabsTitleKey1, tabsTitleKey2, isEditPage, isProjectPage }) 
     }
 
     return (
-        <Grid xs={12} mb={0} pb={0} pl={0}>
+        <Grid size={12} mb={0} pb={0} pl={0}>
 
             {!isEditPage && !isProjectPage  && (
                 <Stack spacing={0.5} direction="row">
