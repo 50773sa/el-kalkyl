@@ -22,7 +22,7 @@ const AllProjects = ({ projects }) => {
     const { t } = useTranslation()
 
     return (
-        <Grid xs={12}>
+        <Grid size={12}>
 
             {/**
              * 	List of all projects
