@@ -1,25 +1,34 @@
 import { db } from '../firebase'
 import { collection, query, where } from 'firebase/firestore'
-import { useFirestoreQueryData } from '@react-query-firebase/firestore'
+import { useCollectionQuery  } from '@tanstack-query-firebase/react/firestore'
 import { useAuthContext } from '../contexts/AuthContextProvider'
 
 const useGetAuthColl = (coll) => {
 	const { currentUser } = useAuthContext()
 	
 	// ref to collection
-	const queryRef = query(collection(db, coll), 
-		where('uid', '==', currentUser.uid)
-	)
+	const queryRef = currentUser 
+		? 	query(
+				collection(db, coll), 
+				where('uid', '==', currentUser.uid)
+			)
+		: 	null
 
-	// get data
-	const userQuery = useFirestoreQueryData([coll], queryRef,  {
-		idField: 'id',
+    const userQuery = useCollectionQuery(queryRef, {
+		queryKey: [coll, currentUser.uid],
 		subscribe: true,
-	}, {
-		refetchOnMount: 'always'
+		idField: 'id',
 	})
 
-	return userQuery
+	const queryList = userQuery.data?.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    }))
+
+	return {
+    	...userQuery,		
+    	data: queryList,
+	}
 }
 
 export default useGetAuthColl

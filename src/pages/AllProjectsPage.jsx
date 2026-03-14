@@ -1,42 +1,44 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
 // components
 import AllProjects from '../components/project/AllProjects'
 import CreateProject from "../components/project/CreateProject"
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import ProjectAndMaterialPageWrapper from "../components/reusableComponents/pageWrappers/ProjectAndMaterialPageWrapper"
-import useViewStore from '../store/useViewStore'
 // hooks
+import { useAuthContext } from '../contexts/AuthContextProvider'
 import useGetAuthColl from '../hooks/useGetAuthColl'
-import useStreamCollection from "../hooks/useStreamCollection"
+import useViewStore from '../store/useViewStore'
 
 const AllProjectsPage = () => {
-    const { id } = useParams()
+	const { currentUser } = useAuthContext()
     const [category, setCategory] = useState(null)
-    const { data: projects, isLoading, isError } = useGetAuthColl('projects')
-    const { data: material, loading} = useStreamCollection('material')
-    const { data: categories, loading: isLoadingCategories} = useStreamCollection('categories')
+    const { data: projects, isLoading: isLoadingProjects, isError: isErrorProjects } = useGetAuthColl('projects')
+    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useGetAuthColl('material')
+    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetAuthColl('categories')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
+    const isLoading = isLoadingCategories || isLoadingProjects || isLoadingMaterial
+    const isError = isErrorCategories || isErrorProjects || isErrorMaterial
+
+
     useEffect(() => {
-        if(isLoadingCategories ||  isLoading || loading) {
-            return
-        }
+        if (isError) return
+        if (isLoading) return
 
         setCategory(categories.map(c => ({ value: c.category }) ))
-
-    }, [projects, material,categories])
+    }, [])
 
     return (
         <ProjectAndMaterialPageWrapper tabsTitleKey1="projects" tabsTitleKey2="newProject">
 
-            {isLoading || loading  && <LoadingBackdrop /> }
+            {isLoading && <LoadingBackdrop /> }
+
             {isError && <p>An error occoured...</p>}
 
-            {projects && !loading && !isLoading && material && categories !== null && (
+            {projects && !isLoadingProjects && material && categories !== null && (
                 isCurrentView.collection 
                     ?   <AllProjects projects={projects} />
-                    :   <CreateProject material={material} currentUser={id} category={category}/>                               
+                    :   <CreateProject material={material} currentUser={currentUser.uid} category={category}/>                               
             )}
 
         </ProjectAndMaterialPageWrapper>                

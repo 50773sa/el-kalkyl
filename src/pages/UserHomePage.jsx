@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useAuthContext } from '../contexts/AuthContextProvider'
+import useGetAuthColl from '../hooks/useGetAuthColl'
+import { useNavigate } from 'react-router-dom'
 import useViewStore from '../store/useViewStore'
-import useStreamCollection from '../hooks/useStreamCollection'
+// components
 import LoadingBackdrop from '../components/LoadingBackdrop'
 import Cards from '../components/userHome/Cards'
 import HomeTable from '../components/userHome/HomeTable'
@@ -13,14 +15,16 @@ import DataSaverOnOutlinedIcon from '@mui/icons-material/DataSaverOnOutlined'
 
 const UserHomepage = () => {
 	const [completedProjects, setCompletedProjects] = useState(0)
-    const { currentUser, userName } = useAuthContext()
-  	const { data: projects, isLoading} = useStreamCollection('projects')
+    const { currentUser } = useAuthContext()
+	const { data: projects, isLoading, isError } = useGetAuthColl('projects')
+
 	const setIsCurrentView = useViewStore((state) => state.setIsCurrentView)
+	const navigate = useNavigate()
 
     useEffect(() => {
-		if (isLoading) {
-			return
-		}
+		if (isError) return
+		if (isLoading) return
+
         let proj = projects?.filter(project => project?.completed === true)
         setCompletedProjects(proj?.length)
 	
@@ -32,15 +36,12 @@ const UserHomepage = () => {
             <div className='wrapper' id='home'>
 
 				{isLoading && <LoadingBackdrop />}
+				{isError && <p>An error occoured...</p>}
 
 				{!isLoading && projects && completedProjects && (
 
 					<Grid container spacing={2}>
-						<Grid
-                            size={{
-                                xs: 6,
-                                md: 3
-                            }}>
+						<Grid size={{ xs: 6, md: 3}}>
 							<Cards
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false }))}
 								titleKey='projects'
@@ -51,12 +52,7 @@ const UserHomepage = () => {
 							/>
 						</Grid>
 
-
-						<Grid
-                            size={{
-                                xs: 6,
-                                md: 3
-                            }}>
+						<Grid size={{xs: 6, md: 3}}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/projects`), setIsCurrentView({ collection: true, createDoc: false } ))} 
 								titleKey='newProject'
@@ -66,12 +62,7 @@ const UserHomepage = () => {
 							/>
 						</Grid>
 
-
-						<Grid
-                            size={{
-                                xs: 6,
-                                md: 3
-                            }}>
+						<Grid size={{xs: 6, md: 3}}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: true, createDoc: false }) )}					
 								titleKey='material'
@@ -81,11 +72,7 @@ const UserHomepage = () => {
 							/>
 						</Grid>
 
-						<Grid
-                            size={{
-                                xs: 6,
-                                md: 3
-                            }}>
+						<Grid size={{xs: 6, md: 3 }}>
 							<Cards 
 								onClick={() => (navigate(`/user/${currentUser.uid}/material`), setIsCurrentView({ collection: false, createDoc: true }) )}					
 								titleKey='newMaterial'
@@ -106,7 +93,7 @@ const UserHomepage = () => {
 				)}
 			</div>
         </Container>
-    );
+    )
 }
 
 export default UserHomepage
