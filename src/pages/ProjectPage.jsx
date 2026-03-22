@@ -10,15 +10,19 @@ import ProjectAndMaterialPageWrapper from '../components/reusableComponents/page
 const ProjectPage = () => {
     const { currentUser } = useAuthContext()
     const { projectId } = useParams()
-	const { data: project, loading } = useStreamDoc('projects', projectId)
+
+	const { data: project, isLoading, isError } = useStreamDoc('projects', projectId)
 
     return (
         <ProjectAndMaterialPageWrapper isProjectPage={true}>
-            {loading && <LoadingBackdrop /> }
 
-            {!loading && project && (
+            {isLoading && <LoadingBackdrop /> }
+            {isError && <p>An error occurred...</p>}
+
+            {!isLoading && project && (
                 <Project project={project} projectId={projectId} currentUser={currentUser} />
             )}
+            
         </ProjectAndMaterialPageWrapper>
     )
 }

@@ -20,7 +20,6 @@ const AllProjectsPage = () => {
     const isLoading = isLoadingCategories || isLoadingProjects || isLoadingMaterial
     const isError = isErrorCategories || isErrorProjects || isErrorMaterial
 
-
     useEffect(() => {
         if (isError) return
         if (isLoading) return
@@ -32,10 +31,9 @@ const AllProjectsPage = () => {
         <ProjectAndMaterialPageWrapper tabsTitleKey1="projects" tabsTitleKey2="newProject">
 
             {isLoading && <LoadingBackdrop /> }
+            {isError && <p>An error occurred...</p>}
 
-            {isError && <p>An error occoured...</p>}
-
-            {projects && !isLoadingProjects && material && categories !== null && (
+            {!isLoading && projects && material && categories && (
                 isCurrentView.collection 
                     ?   <AllProjects projects={projects} />
                     :   <CreateProject material={material} currentUser={currentUser.uid} category={category}/>                               

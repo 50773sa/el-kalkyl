@@ -5,37 +5,40 @@ import CreateMaterial from "../components/material/CreateMaterial"
 import LoadingBackdrop from "../components/LoadingBackdrop"
 import ProjectAndMaterialPageWrapper from "../components/reusableComponents/pageWrappers/ProjectAndMaterialPageWrapper"
 // hooks
-import { useAuthContext } from "../contexts/AuthContextProvider"
-import useStreamCollection from "../hooks/useStreamCollection"
 import useViewStore from '../store/useViewStore'
+import useGetAuthColl from "../hooks/useGetAuthColl"
 
 const MaterialPage = () => {
+    const [loading, setLoading] = useState(true)
     const [materialCategory, setMaterialCategory] = useState(null)
-    const { currentUser } = useAuthContext()
-    const { data: material, loading } = useStreamCollection('material')
-    const { data: materialCategories, loading: isLoadingCategories } = useStreamCollection('categories')
+    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useGetAuthColl('material')
+    const { data: materialCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetAuthColl('categories')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
+    const isLoading = isLoadingMaterial || isLoadingCategories
+    const isError = isErrorMaterial || isErrorCategories
+    console.log('isLoadingMaterial', isLoadingMaterial)
 
     useEffect(() => {
-        if(isLoadingCategories || loading) {
-            return
-        }
-   
-        if (materialCategories.length === 0) {
+        if (isError) return
+        if (isLoading) return
+
+        if (materialCategories?.length === 0) {
             return setMaterialCategory([])
         } 
-        
-        setMaterialCategory(materialCategories.map(c => ({ value: c.category }) ))
 
-    }, [material])
+        setMaterialCategory(materialCategories.map(c => ({ value: c.category })))
+        setLoading(false)
+
+    }, [isLoading])
 
     return (
         <ProjectAndMaterialPageWrapper tabsTitleKey1="material" tabsTitleKey2="newMaterial">
 
-            {loading || isLoadingCategories && <LoadingBackdrop />}
+            {isLoading && <LoadingBackdrop />}
+            {isError && <p>An error occurred...</p>}
 
-            {!loading && !isLoadingCategories && material && currentUser && materialCategory && (
+            {!isLoading && !loading && (
                 isCurrentView.createDoc 
                     ?   <CreateMaterial material={material} materialCategory={materialCategory} setMaterialCategory={setMaterialCategory} />
                     :   <AllMaterial material={material} materialCategory={materialCategory} />     
