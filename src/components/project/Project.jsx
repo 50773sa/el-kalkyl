@@ -59,13 +59,13 @@ const Project = ({ projectId, project, currentUser }) => {
 			buttonText='edit'
 		>
             {isLoading && <LoadingBackdrop /> }
+
             <Grid container sx={{ width: '100%' }} spacing={2}>
 				
 				{/**
 				 * 	Table
 				 */}
 			
-
 				<Grid size={12}>
 					<CalculationTable project={project} projectId={projectId}/>
 				</Grid>
@@ -74,11 +74,12 @@ const Project = ({ projectId, project, currentUser }) => {
 				 * 	 Delete button
 				 */}
 
-				<Grid sx={{ 
-                    display: 'flex',
-                    justifyContent: 'start',
-                    alignItems: 'center'
-                }} 
+				<Grid 
+					sx={{ 
+						display: 'flex',
+						justifyContent: 'start',
+						alignItems: 'center'
+					}} 
 					size={12}
 				>			
 					<Button 
