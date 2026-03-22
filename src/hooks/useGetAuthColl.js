@@ -5,7 +5,7 @@ import { useAuthContext } from '../contexts/AuthContextProvider'
 
 const useGetAuthColl = (coll) => {
 	const { currentUser } = useAuthContext()
-	
+
 	// ref to collection
 	const queryRef = currentUser 
 		? 	query(
@@ -20,14 +20,14 @@ const useGetAuthColl = (coll) => {
 		idField: 'id',
 	})
 
-	const queryList = userQuery.data?.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    }))
+	const data = userQuery.data?.docs?.map(doc => ({
+		id: doc.id,
+		...doc.data()
+	}))
 
 	return {
-    	...userQuery,		
-    	data: queryList,
+		...userQuery,
+    	data
 	}
 }
 
