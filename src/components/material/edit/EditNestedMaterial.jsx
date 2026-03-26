@@ -42,13 +42,24 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
     return (
         <TableRow>
             <TableCell colSpan={6} sx={{ cursor: 'pointer', border: 'none' }}>
-                <Grid container spacing={2} sx={{ ml: 1, mr: { xs: 0, md: 1 }, mt: 0.5}}>
+                <Grid 
+                    container 
+                    spacing={2} 
+                    sx={{ 
+                        ml: 1, 
+                        mr: { xs: 0, md: 1 }, 
+                        mt: 0.5, 
+                        borderLeft: '5px solid grey', 
+                        borderRadius:  '5px', 
+                        pr: { xs: 0, md: 1 } 
+                    }}
+                >
 
                     {/**
                      *  Fittings
                      */}
 
-                    <Grid size={{ xs: 12, md: 6 }} sx={{ borderLeft: '5px solid grey', borderRadius: { xs: '5px 0', md: '5px' }, pr: { xs: 0, md: 1 } }}>
+                    <Grid size={{ xs: 12, md: 6 }} sx={{ pl: 0.5 }}>
                         <TextField
                             size="small"
                             label={t(`materials.placeholders.fitting`, 'Fitting')}
@@ -67,7 +78,7 @@ const EditNestedMaterial = ({ item, items, errors, register, itemIndex }) => {
                      *  Quantity
                      */}
 
-                    <Grid size={{ xs: 5, md: 2.5 }} sx={{ borderLeft: { xs: '5px solid grey', md: 'none'}, borderRadius: '0 5px' }}>
+                    <Grid size={{ xs: 5, md: 2.5 }} sx={{ pl: {xs: 0.5, md: 0} }}>
                         <TextField
                             select
                             // required
