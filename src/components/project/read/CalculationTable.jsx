@@ -122,7 +122,7 @@ const CalculationTable = ({ project }) => {
 
 					{/**
 					 *	Reduced list of items 
-						*/}
+					 */}
 
 					<TableBody>
 						<TableRow  sx={{ borderTop: '1px solid #848484cf', borderBottom: '1px solid #848484cf' }} >

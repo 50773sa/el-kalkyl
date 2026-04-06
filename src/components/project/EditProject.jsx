@@ -69,7 +69,7 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
     }, [currentProject, projectName])
 
     return (
-        <CreateWrapper h1={t(`projects.editProject`, 'Edit pro')}>
+        <CreateWrapper h1={t(`projects.editProject`, 'Edit project')}>
             <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()}>
 
                 {/**
@@ -81,7 +81,8 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                     size={{
                         xs: 12,
                         md: 6
-                    }}> 
+                    }}
+                > 
                     <TextField
                         fullWidth
                         id="projecttName"
@@ -103,25 +104,25 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                  *  Items from db
                  */}
 
-                <Grid sx={{ width: '100%' }}>
+                <Grid container sx={{ width: '100'}}>
                     <Grid
                         sx={{ paddingRight: {xs: 0, md: 2} }}
                         size={{
                             xs: 12,
                             md: 6
-                        }}>
+                        }}
+                    >
                         <TabContext value={value}>
+                            <Tabs handleChange={handleChange} category={category} />
 
-                        <Tabs handleChange={handleChange} category={category} />
-
-                        <ListItemProject 
-                            selectedProduct={selectedProduct} 
-                            setSelectedProduct={setSelectedProduct}
-                            addToDocProducts={addToDocProducts}
-                            setAddToDocProducts={setAddToDocProducts}
-                            material={material}
-                            category={category}
-                        />
+                            <ListItemProject 
+                                selectedProduct={selectedProduct} 
+                                setSelectedProduct={setSelectedProduct}
+                                addToDocProducts={addToDocProducts}
+                                setAddToDocProducts={setAddToDocProducts}
+                                material={material}
+                                category={category}
+                            />
 
                         </TabContext>
                     </Grid>
@@ -135,7 +136,8 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                         size={{
                             xs: 12,
                             md: 6
-                        }}>
+                        }}
+                    >
                         <SelectedAndCurrentProducts 
                             currentProject={currentProject}
                             projectId={projectId}
@@ -148,6 +150,7 @@ const EditProject = ({ projectId, currentProject, currentUser, material, categor
                             addToDocProducts={addToDocProducts}
                             setAddToDocProducts={setAddToDocProducts}
                             setLoading={setLoading}
+                            t={t}
                         />
                     </Grid>
                 </Grid>

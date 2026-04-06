@@ -48,9 +48,9 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
     return (
         <>
             {category !== null && category.map((c) => {
-                return (
-                    <TabPanel value={c.value} key={c.value} sx={{ px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
-                        <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+                return (     
+                    <TabPanel value={c.value} key={c.value} sx={{width: '100%', px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
+                        <Paper sx={{ height: {xs: 250, md: 350}, overflow: 'auto'}}>
                             <List component="div" role="list">
                                 {material ? material.filter(list => list.category === c.value).sort((a, b) => a > b ? 1 : -1).map((item, i) => {
                                     return (
@@ -60,7 +60,7 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
                                             name="project"
                                             onClick={handleAdd(item)}
                                             disableGutters
-                                            sx={{ cursor: 'pointer', px: 4, py: 2 }}
+                                            sx={{ cursor: 'pointer', px: 4 }}
                                             className={i % 2 === 0 ? 'even' : ''}
                                         > 
                                             {selectedProduct?.includes(item) || addToDocProducts?.some(prod => prod.id === item.id)
@@ -81,11 +81,8 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
                         </Paper>
                     </TabPanel> 
                 )
-
             })}
-        
         </>
-
     )
 }
 

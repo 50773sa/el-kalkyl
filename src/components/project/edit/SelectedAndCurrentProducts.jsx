@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField'
 import Tooltip from '@mui/material/Tooltip'
 
 
-const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct, setSelectedProduct, num, setNum, setError, addToDocProducts, setAddToDocProducts, setLoading }) => {
+const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct, setSelectedProduct, num, setNum, setError, addToDocProducts, setAddToDocProducts, setLoading, t }) => {
     const theme = useTheme()
 
     // Delete added products from list
@@ -58,12 +58,12 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
     }
 
     return (
-       <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+        <Paper sx={{ height: {xs: 250, md: 350}, overflow: 'auto' }}>
             <List component="div" role="list">
 
-            {currentProject?.projectMaterial?.map((item, i) => (
-                <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
-                    <ListItemText primary={i + 1 + '. ' +  item.product } /> 
+                {currentProject?.projectMaterial?.map((item, i) => (
+                    <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                        <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
                         <TextField
                             key={item.id}
@@ -81,18 +81,18 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
                             }}
                         />
 
-                    <IconButton edge="end" aria-label="Remove product from list">
-                        <Tooltip title="Remove" sx={{ ml: 2 }}>
-                            <RemoveCircleIcon onClick={handleDeleteFromFb(item)} sx={{ color: theme.palette.error.main }} />
-                        </Tooltip>
-                    </IconButton>
+                        <IconButton edge="end" aria-label="Remove product from list">
+                            <Tooltip title="Remove" sx={{ ml: 2 }}>
+                                <RemoveCircleIcon onClick={handleDeleteFromFb(item)} sx={{ color: theme.palette.error.main }} />
+                            </Tooltip>
+                        </IconButton>
 
-                </ListItem>
-            ))}
+                    </ListItem>
+                ))}
 
-            {selectedProduct?.map((item, i) => (
-                <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
-                    <ListItemText primary={i + 1 + '. ' +  item.product } /> 
+                {selectedProduct?.map((item, i) => (
+                    <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                        <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
                         <TextField
                             key={item.id}
@@ -110,14 +110,14 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
                             }}
                         />
 
-                    <IconButton edge="end" aria-label="Remove product from list">
-                        <Tooltip title="Remove" sx={{ ml: 2 }}>
-                            <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color: theme.palette.error.main }} />
-                        </Tooltip>
-                    </IconButton>
-                </ListItem>
-            ))}
-         </List>
+                        <IconButton edge="end" aria-label="Remove product from list">
+                            <Tooltip title="Remove" sx={{ ml: 2 }}>
+                                <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color: theme.palette.error.main }} />
+                            </Tooltip>
+                        </IconButton>
+                    </ListItem>
+                ))}
+            </List>
         </Paper>
     )
 }
