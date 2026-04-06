@@ -51,17 +51,16 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
     }
 
     return (
-        <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto'}}>
+        <Paper sx={{ width: '100%', height: {xs: 250, md: 350}, overflow: 'auto' }}>
             <List component="div" role="list">
                 {selectedProduct?.length > 0 ? 
                     selectedProduct?.map((item, i) => {
                         return (
                             <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
-                                <ListItemText primary={i + 1 + '. ' +  item.product } /> 
-
+                                <ListItemText primary={i + 1 + '. ' +  item.product } />
                                 <TextField
                                     key={i.id}
-                                    type="number"
+                                    type="text"
                                     variant="outlined"
                                     size='small'
                                     sx={{ width: 100 }}
@@ -71,31 +70,28 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
                                     placeholder='Antal'
                                     defaultValue={1}
                                     onWheel={(e) => preventScrollingNumberInput(e)}
-                                    InputProps={{
-                                        inputProps: {minLength: 1, maxLength: 3},
-                                        inputMode: 'numeric', 
-                                        endAdornment: <InputAdornment position="end">st</InputAdornment>,
+                                    slotProps={{
+                                        input: {
+                                            htmlInput: {minLength: 1, maxLength: 10},
+                                            endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
+                                        },
                                     }}
                                 />
-
                                 <IconButton edge="end" aria-label="Remove product from list">
                                     <Tooltip title="Remove" sx={{ ml: 2 }}>
                                         <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color:'red'}} />
                                     </Tooltip>
                                 </IconButton>
-                                
                             </ListItem>
                         )
                     }): (
-                            <Typography variant="body1" component="p" sx={{ fontSize: '1rem', ml: 4, mt: 2 }}>
-                                <em>{t(`projects.listMessage`, 'No products added')}</em>
-                            </Typography>
-                        )
+                        <Typography variant="body1" component="p" sx={{ fontSize: '1rem', ml: 4, mt: 2 }}>
+                            <em>{t(`projects.listMessage`, 'No products added')}</em>
+                        </Typography>
+                    )
                 }      
             </List>
         </Paper>
-
-    
     )
 }
 
