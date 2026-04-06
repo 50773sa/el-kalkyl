@@ -7,17 +7,17 @@ import ProjectAndMaterialPageWrapper from "../components/reusableComponents/page
 // hooks
 import useViewStore from '../store/useViewStore'
 import useGetAuthColl from "../hooks/useGetAuthColl"
+import useStreamCollection from '../hooks/useStreamCollection'
 
 const MaterialPage = () => {
     const [loading, setLoading] = useState(true)
     const [materialCategory, setMaterialCategory] = useState(null)
-    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useGetAuthColl('material')
+    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useStreamCollection('material')
     const { data: materialCategories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetAuthColl('categories')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
     const isLoading = isLoadingMaterial || isLoadingCategories
     const isError = isErrorMaterial || isErrorCategories
-    console.log('isLoadingMaterial', isLoadingMaterial)
 
     useEffect(() => {
         if (isError) return
