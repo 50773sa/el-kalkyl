@@ -111,7 +111,7 @@ const CalculationTable = ({ project }) => {
 										return (
 											<StyledTableRows key={items.id}>
 												<StyledTableCell id='table-margin-left' > - {items.fittings}</StyledTableCell>
-												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit == 'st' ? t(`other.pcs`, 'pcs') : items.unit}</StyledTableCell>
+												<StyledTableCell align='center' >{items.quantity * item.quantity} {items.unit == 'st' || items.unit == 'pcs' ? t(`other.pcs`, 'pcs') : items.unit}</StyledTableCell>
 											</StyledTableRows >
 										)
 									})}
@@ -156,7 +156,7 @@ const CalculationTable = ({ project }) => {
 								</StyledTableCell>
 								<StyledTableCell sx={{ display: {xs: 'table-cell', md:'none'} }} />
 								<StyledTableCell align='right'>
-									{i.value} {i.unit == 'st' ? t(`other.pcs`, 'pcs') : i.unit}
+									{i.value} {i.unit == 'st' || i.unit == 'pcs' ? t(`other.pcs`, 'pcs') : i.unit}
 								</StyledTableCell>
 							</StyledTableRows> 
 						))} 
