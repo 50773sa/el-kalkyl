@@ -67,15 +67,16 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
 
                         <TextField
                             key={item.id}
-                            type="text"
+                            type="number"
                             variant="outlined"
                             onBlur={handleClick(item)}
                             onInput={(e) => setNum(Number(e.target.value))}
                             size='small'
                             defaultValue={item.quantity}
+                            inputMode='numeric  '
                             slotProps={{
+                                htmlInput: {minLength: 1, maxLength: 3},
                                 input: {
-                                    htmlInput: {minLength: 1, maxLength: 10},
                                     endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
                                 },
                             }}
@@ -96,15 +97,15 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
 
                         <TextField
                             key={item.id}
-                            type="text"
+                            type="number"
                             variant="outlined"
                             onBlur={handleClick(item)}
                             onInput={(e) => setNum(Number(e.target.value))}
                             size='small'
                             defaultValue={1}
                             slotProps={{
+                                htmlInput: {minLength: 1, maxLength: 3},
                                 input: {
-                                    htmlInput: {minLength: 1, maxLength: 10},
                                     endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
                                 },
                             }}

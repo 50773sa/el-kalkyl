@@ -60,7 +60,7 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
                                 <ListItemText primary={i + 1 + '. ' +  item.product } />
                                 <TextField
                                     key={i.id}
-                                    type="text"
+                                    type="number"
                                     variant="outlined"
                                     size='small'
                                     sx={{ width: 100 }}
@@ -71,8 +71,8 @@ const SelectedProduct = ({ selectedProduct, setSelectedProduct, num, setNum, err
                                     defaultValue={1}
                                     onWheel={(e) => preventScrollingNumberInput(e)}
                                     slotProps={{
+                                        htmlInput: {minLength: 1, maxLength: 3},
                                         input: {
-                                            htmlInput: {minLength: 1, maxLength: 10},
                                             endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
                                         },
                                     }}
