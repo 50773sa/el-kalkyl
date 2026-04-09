@@ -63,5 +63,12 @@ export const theme = createTheme({
 				},
       		},
         },
+        MuiListItem: {
+            styleOverrides: {
+				root: {
+					font: '0.875em "Roboto", sans-serif',
+				},
+      		},
+        },
     }
 })
