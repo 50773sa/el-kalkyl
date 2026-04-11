@@ -129,7 +129,7 @@ const CalculationTable = ({ project }) => {
 							<StyledTableCell align='left'><strong>{t(`other.workHours`, 'Assembly')}</strong></StyledTableCell>			
 							<StyledTableCell />	
 							<StyledTableCell align="right">
-								{hours + t(` other.hours`, 'h')} 
+								{hours + t(`other.hours`, 'h')} 
 									{' '}
 								{minutes + t(`other.minutes`, 'min')}
 							</StyledTableCell>				
