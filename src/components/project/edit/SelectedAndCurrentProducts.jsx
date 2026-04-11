@@ -61,63 +61,69 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
         <Paper sx={{ height: {xs: 250, md: 350}, overflow: 'auto' }}>
             <List component="div" role="list">
 
-                {currentProject?.projectMaterial?.map((item, i) => (
-                    <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
-                        <ListItemText primary={i + 1 + '. ' +  item.product } /> 
+                {currentProject?.projectMaterial?.map((item, i) => {
+                    return (
+                        <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                            <ListItemText primary={i + 1 + '. ' +  item.product } /> 
 
-                        <TextField
-                            key={item.id}
-                            type="number"
-                            variant="outlined"
-                            onBlur={handleClick(item)}
-                            onInput={(e) => setNum(Number(e.target.value))}
-                            size='small'
-                            defaultValue={item.quantity}
-                            inputMode='numeric  '
-                            slotProps={{
-                                htmlInput: {minLength: 1, maxLength: 3},
-                                input: {
-                                    endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
-                                },
-                            }}
-                        />
+                            <TextField
+                                key={item.id}
+                                type="number"
+                                variant="outlined"
+                                onBlur={handleClick(item)}
+                                onInput={(e) => setNum(Number(e.target.value))}
+                                size='small'
+                                defaultValue={item.quantity}
+                                inputMode='numeric  '
+                                slotProps={{
+                                    htmlInput: {minLength: 1, maxLength: 3},
+                                    input: {
+                                        endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
+                                    },
+                                }}
+                            />
 
-                        <IconButton edge="end" aria-label="Remove product from list">
-                            <Tooltip title="Remove" sx={{ ml: 2 }}>
-                                <RemoveCircleIcon onClick={handleDeleteFromFb(item)} sx={{ color: theme.palette.error.main }} />
-                            </Tooltip>
-                        </IconButton>
+                            <IconButton edge="end" aria-label="Remove product from list">
+                                <Tooltip title="Remove" sx={{ ml: 2 }}>
+                                    <RemoveCircleIcon onClick={handleDeleteFromFb(item)} sx={{ color: theme.palette.error.main }} />
+                                </Tooltip>
+                            </IconButton>
 
-                    </ListItem>
-                ))}
+                        </ListItem>
+                    )
+                })}
 
-                {selectedProduct?.map((item, i) => (
-                    <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
-                        <ListItemText primary={i + 1 + '. ' +  item.product } /> 
+                {selectedProduct?.map((item, i) => {
+                    let numberOfMaterial = currentProject.projectMaterial.length
+                    
+                    return (
+                        <ListItem key={item.id} sx={{ cursor: 'default', px: 4 }}>
+                            <ListItemText primary={numberOfMaterial + i + 1 + '. ' + item.product} />
 
-                        <TextField
-                            key={item.id}
-                            type="number"
-                            variant="outlined"
-                            onBlur={handleClick(item)}
-                            onInput={(e) => setNum(Number(e.target.value))}
-                            size='small'
-                            defaultValue={1}
-                            slotProps={{
-                                htmlInput: {minLength: 1, maxLength: 3},
-                                input: {
-                                    endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
-                                },
-                            }}
-                        />
+                            <TextField
+                                key={item.id}
+                                type="number"
+                                variant="outlined"
+                                onBlur={handleClick(item)}
+                                onInput={(e) => setNum(Number(e.target.value))}
+                                size='small'
+                                defaultValue={1}
+                                slotProps={{
+                                    htmlInput: {minLength: 1, maxLength: 3},
+                                    input: {
+                                        endAdornment: <InputAdornment position="end">{t(`other.pcs`, 'pcs')}</InputAdornment>,
+                                    },
+                                }}
+                            />
 
-                        <IconButton edge="end" aria-label="Remove product from list">
-                            <Tooltip title="Remove" sx={{ ml: 2 }}>
-                                <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color: theme.palette.error.main }} />
-                            </Tooltip>
-                        </IconButton>
-                    </ListItem>
-                ))}
+                            <IconButton edge="end" aria-label="Remove product from list">
+                                <Tooltip title="Remove" sx={{ ml: 2 }}>
+                                    <RemoveCircleIcon onClick={handleDelete(item)} sx={{ color: theme.palette.error.main }} />
+                                </Tooltip>
+                            </IconButton>
+                        </ListItem>
+                    )
+                })}
             </List>
         </Paper>
     )
