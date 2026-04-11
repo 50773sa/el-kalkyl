@@ -13,7 +13,7 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
 
     // Delete (toggle) object from Firestore
    const handleDeleteFromFb = async (item) => {
-
+   
         if (addToDocProducts?.some(prod => prod.id === item.id)) {
             try {
                 await updateDoc(doc(db, 'projects', projectId), {
@@ -49,18 +49,18 @@ const ListItemProject = ({ selectedProduct, setSelectedProduct, addToDocProducts
         <>
             {category !== null && category.map((c) => {
                 return (     
-                    <TabPanel value={c.value} key={c.value} sx={{width: '100%', px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>                        
+                    <TabPanel value={c.value} key={c.value} sx={{width: '100%', px: 0, pt: 0, overflow: 'auto' }} className='tabPanel'>
                         <Paper sx={{ height: {xs: 250, md: 350}, overflow: 'auto'}}>
                             <List component="div" role="list">
                                 {material ? material.filter(list => list.category === c.value).sort((a, b) => a > b ? 1 : -1).map((item, i) => {
                                     return (
-                                        <ListItem 
+                                        <ListItem
                                             key={item.id} 
                                             value={c.category}
                                             name="project"
                                             onClick={handleAdd(item)}
                                             disableGutters
-                                            sx={{ cursor: 'pointer', px: 4 }}
+                                            sx={{ cursor: 'pointer', px: 4, py: 2 }}
                                             className={i % 2 === 0 ? 'even' : ''}
                                         > 
                                             {selectedProduct?.includes(item) || addToDocProducts?.some(prod => prod.id === item.id)
