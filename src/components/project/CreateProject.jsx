@@ -92,7 +92,7 @@ const CreateProject = ({ material, currentUser, category}) => {
                  *  Lists
                  */}
 
-                <Grid sx={{ width: '100%' }}>
+                <Grid container sx={{ width: '100%' }}>
                     <Grid
                         sx={{ paddingRight: {xs: 0, md: 2} }}
                         size={{
