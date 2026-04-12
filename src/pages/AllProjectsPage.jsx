@@ -6,15 +6,15 @@ import LoadingBackdrop from '../components/LoadingBackdrop'
 import ProjectAndMaterialPageWrapper from "../components/reusableComponents/pageWrappers/ProjectAndMaterialPageWrapper"
 // hooks
 import { useAuthContext } from '../contexts/AuthContextProvider'
-import useGetAuthColl from '../hooks/useGetAuthColl'
+import useStreamCollection from '../hooks/useStreamCollection'
 import useViewStore from '../store/useViewStore'
 
 const AllProjectsPage = () => {
 	const { currentUser } = useAuthContext()
     const [category, setCategory] = useState(null)
-    const { data: projects, isLoading: isLoadingProjects, isError: isErrorProjects } = useGetAuthColl('projects')
-    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useGetAuthColl('material')
-    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useGetAuthColl('categories')
+    const { data: projects, isLoading: isLoadingProjects, isError: isErrorProjects } = useStreamCollection('projects')
+    const { data: material, isLoading: isLoadingMaterial, isError: isErrorMaterial } = useStreamCollection('material')
+    const { data: categories, isLoading: isLoadingCategories, isError: isErrorCategories } = useStreamCollection('categories')
 	const isCurrentView = useViewStore((state) => state.isCurrentView)
 
     const isLoading = isLoadingCategories || isLoadingProjects || isLoadingMaterial
