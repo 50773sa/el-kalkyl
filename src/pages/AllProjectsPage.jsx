@@ -25,7 +25,7 @@ const AllProjectsPage = () => {
         if (isLoading) return
 
         setCategory(categories.map(c => ({ value: c.category }) ))
-    }, [])
+    }, [material, categories])
 
     return (
         <ProjectAndMaterialPageWrapper tabsTitleKey1="projects" tabsTitleKey2="newProject">
