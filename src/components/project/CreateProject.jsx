@@ -46,7 +46,6 @@ const CreateProject = ({ material, currentUser, category}) => {
         try {
             await addDoc(collection(db, 'projects'), {
                 uid: currentUser,
-                id: serverTimestamp(),
                 completed: false,
                 created: serverTimestamp(),
                 projectName: inputData.projectName,
