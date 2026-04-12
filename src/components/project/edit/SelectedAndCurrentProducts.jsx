@@ -74,7 +74,7 @@ const SelectedAndCurrentProducts = ({ currentProject, projectId, selectedProduct
                                 onInput={(e) => setNum(Number(e.target.value))}
                                 size='small'
                                 defaultValue={item.quantity}
-                                inputMode='numeric  '
+                                inputMode='numeric'
                                 slotProps={{
                                     htmlInput: {minLength: 1, maxLength: 3},
                                     input: {
