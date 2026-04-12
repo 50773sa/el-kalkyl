@@ -84,6 +84,8 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
 
 
     const handleExtraItemsInput = () => {
+        const uniqueId = Date.now().toString() + Math.random().toString(36)
+
         if(fittingsRef?.current.value === "" || qtyRef.current.value === "" || unitRef.current.value === "") {
             console.log("Obligatiskt fält")
             setInputError(true)
@@ -91,7 +93,7 @@ const CreateMaterial = ({ materialCategory, setMaterialCategory }) => {
         }
 
         let items = {
-            id: serverTimestamp(),
+            id: uniqueId,
             fittings: fittingsRef.current.value,
             quantity: qtyRef.current.value,
             unit: unitRef.current.value,
