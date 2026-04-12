@@ -66,14 +66,17 @@ const CreateProject = ({ material, currentUser, category}) => {
 
     return (
         <CreateWrapper h1={t(`projects.createProject`, 'Create project')}>
-            {loading && <LoadingBackdrop /> }
+
+            { loading && <LoadingBackdrop /> }
+
             <form onSubmit={handleSubmit(onSubmit)} noValidate onKeyDown={(e) => e.key === "Enter" && e.preventDefault()} >            
                 <Grid
                     sx={{ pr: {xs: 0, md: 2}, mb: 6 }}
                     size={{
                         xs: 12,
                         md: 6
-                    }}> 
+                    }}
+                > 
                     <TextInputField
                         required={true}
                         label={t(`projects.placeholder`, 'Project name')}
@@ -98,9 +101,9 @@ const CreateProject = ({ material, currentUser, category}) => {
                         size={{
                             xs: 12,
                             md: 6
-                        }}>
+                        }}
+                    >
                         <TabContext value={value}>
-                            
                             <Tabs handleChange={handleChange} category={category} />
 
                             <ListItemProject 
@@ -124,7 +127,8 @@ const CreateProject = ({ material, currentUser, category}) => {
                         size={{
                             xs: 12,
                             md: 6
-                        }}>
+                        }}
+                    >
                         <SelectedProduct
                             selectedProduct={selectedProduct}
                             setSelectedProduct={setSelectedProduct}
@@ -153,7 +157,7 @@ const CreateProject = ({ material, currentUser, category}) => {
             </form>
             <LeavePageAlert open={open} setOpen={setOpen}/>
         </CreateWrapper>
-    );
+    )
 }
 
 export default CreateProject
